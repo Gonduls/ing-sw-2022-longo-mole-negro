@@ -1,0 +1,7 @@
+# Private user files
+private/
+
+# JetBrains related
+.idea/
+out/
+*.iml
