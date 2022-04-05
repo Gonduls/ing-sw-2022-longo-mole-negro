@@ -1,4 +1,4 @@
-package main.java.it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public class Player {
 

@@ -1,4 +1,4 @@
-package main.java.it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public enum TowerColor {
     BLACK, GREY, WHITE
