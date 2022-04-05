@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import javax.print.attribute.standard.DateTimeAtCompleted;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,14 +62,6 @@ public class StudentHolder {
     }
 
     void notifyObserver(){
-
+        for (StudentHolderObserver observer : observers) observer.update();
     }
-    //void moveStudentTo
-
-
-    /*removeStudent(student: Color): void
-~ moveStudentTo(student: Color, holder: StudentHolder
-~ attach(obs: StudentHolderObserver)
-~ detach(obs: StudentHolderObserver)
-~ notify()*/
 }
