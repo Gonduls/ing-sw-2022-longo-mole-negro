@@ -1,5 +1,4 @@
 package it.polimi.ingsw.model;
-
 public class GameManager {
 
     private Board board;
@@ -8,7 +7,7 @@ public class GameManager {
     private CharacterCard[] activeCards;
     private boolean[] usedCards;
     private Player[] players;
-    private Professor professors;
+    private Professors professors;
 
     public Board getBoard() {
         return board;
@@ -34,12 +33,12 @@ public class GameManager {
         return players;
     }
 
-    public Professor getProfessors() {
+    public Professors getProfessors() {
         return professors;
     }
 
     public Island[] getIslands() {
-        return islands;
+        return null;
     }
 
     public void getMotherNature() {
@@ -47,11 +46,11 @@ public class GameManager {
     }
 
     public int getTowerNumber() {
-        return int;
+        return 0;
     }
 
     public TowerColor getTowerColor(Island island) {
-
+        return null;
     }
 
     public void emptyCloudInPlayer() {
