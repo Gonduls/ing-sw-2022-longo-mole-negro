@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import javax.print.attribute.standard.DateTimeAtCompleted;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +26,12 @@ public class StudentHolder {
         this.studentsMaxColor = studentsMaxColor;
     }
 
-    public HashMap<Color, Integer> getStudents() {
+    public HashMap<Color, Integer> getAllStudents() {
         return new HashMap<>(students);
+    }
+
+    public Integer getStudentByColor(Color student){
+        return students.get(student);
     }
 
     void addStudent(Color student) throws NoSpaceForStudentException{
@@ -37,6 +42,7 @@ public class StudentHolder {
             throw new NoSpaceForStudentException("No more students of this color can be added to this holder");
 
         students.put(student, students.get(student) + 1);
+        notifyObserver();
 
     }
 
@@ -45,9 +51,20 @@ public class StudentHolder {
             throw new NoSuchStudentException("No student of this color are present");
 
         students.put(student, students.get(student) - 1);
-
+        notifyObserver();
     }
 
+    void attach(StudentHolderObserver observer){
+        observers.add(observer);
+    }
+
+    boolean detach(StudentHolderObserver observer){
+        return(observers.remove(observer));
+    }
+
+    void notifyObserver(){
+
+    }
     //void moveStudentTo
 
 

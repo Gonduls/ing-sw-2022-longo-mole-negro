@@ -13,19 +13,19 @@ public class School {
         return studentsAtEntrance;
     }
 
-    void removeFromEntrance(Color student) throws noSuchStudentException {
+    void removeFromEntrance(Color student) throws NoSuchStudentException {
         studentsAtEntrance.removeStudent(student);
     }
 
-    void addToEntrance(Color student) throws noSpaceForStudentException {
+    void addToEntrance(Color student) throws NoSpaceForStudentException {
         studentsAtEntrance.addStudent(student);
     }
 
-    void removeFromTables(Color student) throws noSuchStudentException {
+    void removeFromTables(Color student) throws NoSuchStudentException {
         studentsAtTables.removeStudent(student);
     }
 
-    void addToTables(Color student) throws noSpaceForStudentException {
+    void addToTables(Color student) throws NoSpaceForStudentException {
         studentsAtTables.addStudent(student);
     }
 }
