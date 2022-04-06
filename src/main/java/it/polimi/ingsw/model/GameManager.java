@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
+
 public class GameManager {
 
+    private static GameManager singleton;
     private Board board;
     private Cloud[] clouds;
     private Bag bag;
@@ -8,6 +10,15 @@ public class GameManager {
     private boolean[] usedCards;
     private Player[] players;
     private Professors professors;
+
+    private GameManager(){}
+
+    static public GameManager getInstance(){
+        if(singleton == null)
+            singleton = new GameManager();
+
+        return singleton;
+    }
 
     public Board getBoard() {
         return board;
