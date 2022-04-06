@@ -1,33 +1,55 @@
 package it.polimi.ingsw.model;
 
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Bag extends StudentHolder {
+    Random r;
 
     public Bag() {
         super(130, 26);
+        for(Color color : Color.values()){
+            try{
+                for(int i = 0; i< 24; i++)
+                    addStudent(color);
+            }catch (NoSpaceForStudentException e){
+                System.out.println("Errors in the making of bag");
+            }
+        }
+        r = new Random();
+    }
+    public Bag(int studentsNumber){
+        r = new Random();
+        for(Color color : Color.values()) {
+            try {
+                for (int i = 0; i < studentsNumber; i++)
+                    addStudent(color);
+            } catch (NoSpaceForStudentException e) {
+                System.out.println("Errors in the making of bag");
+            }
+        }
     }
 
-    // may be broken idk
     public Color extractRandomStudent() {
-        HashMap<Color, Integer> copy = getAllStudents();
-        int randomNumber = (int) (Math.random() * copy.values().size());
+        EnumMap<Color, Integer> copy = getAllStudents();
+        int total = copy.values().stream().reduce(0, Integer :: sum);
+        int randomNumber = r.nextInt(total);
         int bias = 0;
         Color toReturn = null;
 
-        for (Color c : copy.keySet()) {
-            copy.put(c, copy.get(c) + bias);
-            bias = copy.get(c);
+        for (Color c : Color.values()) {
+            bias += copy.get(c);
             if (randomNumber < bias) {
                 toReturn = c;
+                try{
+                    removeStudent(c);
+                }
+                catch (NoSuchStudentException e){
+                    System.out.println("Bag code is bugged. Either that or random doesn't work");
+                }
                 break;
             }
         }
-
         return toReturn;
 
     }
