@@ -14,12 +14,12 @@ public class GameManager {
 
     public GameManager(Player[] players, boolean expert){
         this.players = players;
-        board = new Board();
+        board = new Board(this);
 
         int size = players.length;
         clouds = new Cloud[size];
         for(int i = 0; i< size; i++){
-            clouds[i] = new Cloud(size == 3 ? 4 : 3);
+            clouds[i] = new Cloud(size == 3 ? 4 : 3, this);
         }
 
         bag = new Bag();
