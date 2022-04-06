@@ -7,6 +7,9 @@ public class Player {
     private TowerColor towerColor;
     private AssistantCard[] deck;
     private int coinsOwned;
+    private School school;
+
+    //todo a constructor
 
     public int getPlayerNumber() {
         return playerNumber;
@@ -33,18 +36,24 @@ public class Player {
     }
 
     public void setTowersNumber(int towers) {
-
+    //todo
     }
 
     public void pickCard(AssistantCard card) {
-
+    //todo
     }
 
     public void addCoin() {
-
+    //todo
     }
 
     public void removeCoins(int coinsNumber) {
-
+    //todo
     }
+
+    public School getSchool(){
+        return school;
+    }
+
+
 }
