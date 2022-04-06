@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public class Island {
+public class Island extends StudentHolder {
 
     private int towerNumber;
     private TowerColor towerColor;
@@ -32,5 +32,19 @@ public class Island {
 
     void removeNoEntry() {
         noEntry--;
+    }
+
+
+    void unify (Island islandToUnifyWith){
+        // magna le torri
+        towerNumber += islandToUnifyWith.getTowerNumber();
+        // magna gli students
+         for (Color c: Color.values()) {
+             try {
+                 islandToUnifyWith.moveStudentTo(c, this);
+             } catch (NoSpaceForStudentException e) {System.out.println("impossibile che succeda 1 ");}
+             catch (NoSuchStudentException e) {System.out.println("impossibile che succeda 2 ");}
+         }
+
     }
 }
