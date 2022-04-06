@@ -1,17 +1,17 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 
 public class StudentHolder {
-    HashMap<Color, Integer> students;
+    EnumMap<Color, Integer> students;
     int studentsMax;
     int studentsMaxColor;
     List<StudentHolderObserver> observers = new ArrayList<>();
 
     public StudentHolder(){
-        students = new HashMap<>();
+        students = new EnumMap<>(Color.class);
         for(Color color : Color.values())
             students.put(color, 0);
         studentsMax = Integer.MAX_VALUE;
@@ -25,8 +25,8 @@ public class StudentHolder {
         this.studentsMaxColor = studentsMaxColor;
     }
 
-    public HashMap<Color, Integer> getAllStudents() {
-        return new HashMap<>(students);
+    public EnumMap<Color, Integer> getAllStudents() {
+        return new EnumMap<>(students);
     }
 
     public Integer getStudentByColor(Color student){

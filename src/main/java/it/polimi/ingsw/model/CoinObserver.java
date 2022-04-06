@@ -1,9 +1,9 @@
 package it.polimi.ingsw.model;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 
 public class CoinObserver implements StudentHolderObserver{
-    private HashMap<Color, Integer> oldStudents;
+    private EnumMap<Color, Integer> oldStudents;
     private final StudentHolder observed;
     private final Player player;
 
@@ -14,7 +14,7 @@ public class CoinObserver implements StudentHolderObserver{
     }
 
     public void update(){
-        HashMap<Color, Integer> newStudents = observed.getAllStudents();
+        EnumMap<Color, Integer> newStudents = observed.getAllStudents();
         for(Color color : Color.values()){
             if(newStudents.get(color) > oldStudents.get(color) && newStudents.get(color) ==0){
                 player.addCoin();
