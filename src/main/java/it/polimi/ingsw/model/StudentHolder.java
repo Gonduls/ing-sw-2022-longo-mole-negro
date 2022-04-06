@@ -64,4 +64,13 @@ public class StudentHolder {
     void notifyObserver(){
         for (StudentHolderObserver observer : observers) observer.update();
     }
+
+    void moveStudentTo(Color student, StudentHolder holder) throws NoSpaceForStudentException, NoSuchStudentException{
+        try{
+            removeStudent(student);
+            holder.addStudent(student);
+        }catch (NoSpaceForStudentException e){
+            addStudent(student);
+        }
+    }
 }
