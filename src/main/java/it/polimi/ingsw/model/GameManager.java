@@ -1,23 +1,40 @@
 package it.polimi.ingsw.model;
 
+import java.util.List;
+
 public class GameManager {
 
-    private static GameManager singleton;
-    private Board board;
-    private Cloud[] clouds;
-    private Bag bag;
+    private final Board board;
+    private final Cloud[] clouds;
+    private final Bag bag;
     private CharacterCard[] activeCards;
     private boolean[] usedCards;
-    private Player[] players;
-    private Professors professors;
+    private final Player[] players;
+    private final Professors professors;
 
-    private GameManager(){}
+    public GameManager(Player[] players, boolean expert){
+        this.players = players;
+        board = new Board();
 
-    static public GameManager getInstance(){
-        if(singleton == null)
-            singleton = new GameManager();
+        int size = players.length;
+        clouds = new Cloud[size];
+        for(int i = 0; i< size; i++){
+            clouds[i] = new Cloud(size == 3 ? 4 : 3);
+        }
 
-        return singleton;
+        bag = new Bag();
+        professors = new Professors();
+
+        if(expert){
+            //todo: instantiate cards
+            usedCards = new boolean[]{false, false, false};
+
+        }
+        else{
+            activeCards = null;
+            usedCards = null;
+
+        }
     }
 
     public Board getBoard() {
@@ -44,24 +61,24 @@ public class GameManager {
         return players;
     }
 
-    public Professors getProfessors() {
+    public List<Island> getIslands() {
+        return board.getIslands();
+    }
+
+    public Professors getProfessors(){
         return professors;
     }
 
-    public Island[] getIslands() {
-        return null;
+    public int getMotherNaturePosition() {
+        return board.getMotherNaturePosition();
     }
 
-    public void getMotherNature() {
-
+    public int getTowerNumber(int islandIndex) {
+        return board.getIslands().get(islandIndex).getTowerNumber();
     }
 
-    public int getTowerNumber() {
-        return 0;
-    }
-
-    public TowerColor getTowerColor(Island island) {
-        return null;
+    public TowerColor getTowerColor(int islandIndex) {
+        return board.getIslands().get(islandIndex).getTower();
     }
 
     public void emptyCloudInPlayer() {
