@@ -5,6 +5,11 @@ public class School {
     private StudentHolder studentsAtTables;
     private StudentHolder studentsAtEntrance;
 
+    //TODO: constructor. Need to know how many players are playing to set correct values in garden
+    public School(boolean threePlayers){
+
+    }
+
     StudentHolder getStudentsAtTables() {
         return studentsAtTables;
     }

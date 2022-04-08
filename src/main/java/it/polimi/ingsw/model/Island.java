@@ -36,15 +36,22 @@ public class Island extends StudentHolder {
 
 
     void unify (Island islandToUnifyWith){
+        //TODO: cancellazione in lista isola unificata
+
         // magna le torri
         towerNumber += islandToUnifyWith.getTowerNumber();
         // magna gli students
          for (Color c: Color.values()) {
-             try {
-                 islandToUnifyWith.moveStudentTo(c, this);
-             } catch (NoSpaceForStudentException e) {System.out.println("impossibile che succeda 1 ");}
-             catch (NoSuchStudentException e) {System.out.println("impossibile che succeda 2 ");}
+             for(int i = islandToUnifyWith.getStudentByColor(c); i>0; i--){
+                 try {
+                     islandToUnifyWith.moveStudentTo(c, this);
+                 } catch (NoSpaceForStudentException e) {
+                     System.out.println("It would seem the island has a maximum capacity");
+                 }
+                 catch (NoSuchStudentException e) {
+                     System.out.println("Grabbed a non-existent student from island to be merged");
+                 }
+             }
          }
-
     }
 }
