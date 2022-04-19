@@ -14,7 +14,7 @@ public class GameManager {
 
     public GameManager(Player[] players, boolean expert){
         this.players = players;
-        board = new Board(this);
+        board = new Board();
 
         int size = players.length;
         clouds = new Cloud[size];
@@ -81,21 +81,39 @@ public class GameManager {
         return board.getIslands().get(islandIndex).getTower();
     }
 
-    public void emptyCloudInPlayer() {
-
+    public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException{
+        clouds[cloudIndex].moveAllStudents(player.getSchool());
     }
 
     public void refillClouds() {
-
+        for(Cloud cloud : clouds){
+            try{
+                cloud.refill();
+            }
+            catch (NoSpaceForStudentException e){
+                System.out.println("Someone called refill clouds without all of them being empty");
+            }
+        }
     }
 
     public void activateCharacterCars() {
-
+        //todo
     }
 
-    public void moveMotherNature() {
+    public void moveMotherNature(int amount) throws IllegalArgumentException{
+        board.moveMotherNature(amount);
+        int position = board.getMotherNaturePosition();
+        //todo: decidere come gestire le carte, possibile gestione:
+        // mettere un flag in gamemanager, da controllare prima di calcolare l'influenza
 
+        // todo: l'if sotto è una bozza, da cambiare (ad esempio: questo course of action è lo stesso se non ci sono carte attive)
+        if(activeCards == null){
+            TowerColor tc = board.calculateInfluence(position, professors);
+            board.getIslands().get(position).setTowerColor(tc);
+            board.mergeIsland(position);
+        }
     }
+
 
 
 }

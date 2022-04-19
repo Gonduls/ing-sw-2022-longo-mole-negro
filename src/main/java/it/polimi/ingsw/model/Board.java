@@ -1,21 +1,15 @@
 package it.polimi.ingsw.model;
 
 import java.util.ArrayList;
-import java.util.ListIterator;
+import java.util.EnumMap;
 
 public class Board {
 
     private final ArrayList<Island> islands;
-    private final ListIterator<Island> iterator;
-
-    private final Professors professors;
-
     private int motherNaturePosition;
-
     private int numberOfIslands;
 
-    public Board(GameManager gameManager){
-        this.professors = gameManager.getProfessors();
+    public Board(){
         numberOfIslands = 12;
         motherNaturePosition = 0;
         islands = new ArrayList<>(12);
@@ -34,11 +28,17 @@ public class Board {
             islands.add(current);
 
         }
-        iterator = islands.listIterator();
     }
 
     public ArrayList<Island> getIslands() {
         return islands;
+    }
+
+    public void moveMotherNature(int amount)throws IllegalArgumentException {
+        if(amount < 1)
+            throw new IllegalArgumentException("Mother nature can only be moved forward");
+
+        motherNaturePosition = (motherNaturePosition + amount) % numberOfIslands;
     }
 
     public int getMotherNaturePosition() {
@@ -51,31 +51,58 @@ public class Board {
 
     void mergeIsland(int indexCurrentIsland){
         int indexPreviousIsland = (indexCurrentIsland+ numberOfIslands-1) % numberOfIslands ;
-        int indexNextIsland = (indexCurrentIsland+ numberOfIslands+1) % numberOfIslands ;
         if (canBeMerged(indexCurrentIsland, indexPreviousIsland)){
             islands.get(indexCurrentIsland).unify(islands.get(indexPreviousIsland));
             islands.remove(indexPreviousIsland);
             numberOfIslands--;
+
+            // indexCurrentIsland has to be corrected before next merge check
+            indexCurrentIsland = indexPreviousIsland < indexCurrentIsland ? indexCurrentIsland - 1 : indexCurrentIsland;
         }
 
+        int indexNextIsland = (indexCurrentIsland+ numberOfIslands+1) % numberOfIslands;
         if (canBeMerged(indexCurrentIsland, indexNextIsland)){
             islands.get(indexCurrentIsland).unify(islands.get(indexNextIsland));
             islands.remove(indexNextIsland);
             numberOfIslands--;
         }
 
-
     }
 
-    TowerColor calculateInfluence(int index) {
+    TowerColor calculateInfluence(int index, Professors professors) {
+        EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
+        EnumMap<Color, Player> profOwners = professors.getOwners();
 
+        for(TowerColor towerC : TowerColor.values()){
+            points.put(towerC, 0);
+        }
 
+        if(islands.get(index).getTower() != null){
+            points.put(islands.get(index).getTower(), islands.get(index).getTowerNumber());
+        }
 
+        for(Color color : Color.values()){
+            if(profOwners.get(color) != null){
+                TowerColor ownerTC = profOwners.get(color).getTowerColor();
+                int finalAmount = points.get(ownerTC) + islands.get(index).getStudentByColor(color);
+                points.put(ownerTC, finalAmount);
+            }
+        }
 
+        int blackP = points.get(TowerColor.BLACK);
+        int whiteP = points.get(TowerColor.WHITE);
+        int greyP = points.get(TowerColor.GREY);
 
+        if(blackP > whiteP && blackP > greyP)
+            return TowerColor.BLACK;
 
+        if(whiteP > blackP && whiteP > greyP)
+            return TowerColor.WHITE;
 
-        return TowerColor.BLACK;
+        if(greyP > blackP && greyP > whiteP)
+            return TowerColor.GREY;
+
+        return null;
     }
 }
 
