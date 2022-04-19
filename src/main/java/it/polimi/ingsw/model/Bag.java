@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-
 import java.util.*;
 
 public class Bag extends StudentHolder {
@@ -18,6 +17,7 @@ public class Bag extends StudentHolder {
         }
         r = new Random();
     }
+
     public Bag(int studentsNumber){
         r = new Random();
         for(Color color : Color.values()) {

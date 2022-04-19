@@ -10,18 +10,11 @@ public class Cloud extends StudentHolder{
         bag = gameManager.getBag();
     }
 
-    void moveAllStudents(School school) throws NoSpaceForStudentException{
-
+    void moveAllStudents(School school) throws NoSpaceForStudentException, NoSuchStudentException{
         for(Color c: Color.values()){
-            for(int i = getStudentByColor(c); i>0; i--) {
-                try{
-                    moveStudentTo(c, school.getStudentsAtEntrance());
-                } catch(NoSuchStudentException e){
-                    System.out.println("Errors in finding students in cloud");
-                }
-            }
+            for(int i = getStudentByColor(c); i>0; i--)
+                moveStudentTo(c, school.getStudentsAtEntrance());
         }
-
     }
 
     void refill() throws NoSpaceForStudentException{
