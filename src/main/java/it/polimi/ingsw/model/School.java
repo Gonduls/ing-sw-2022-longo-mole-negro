@@ -5,9 +5,34 @@ public class School {
     private StudentHolder studentsAtTables;
     private StudentHolder studentsAtEntrance;
 
-    //TODO: constructor. Need to know how many players are playing to set correct values in garden
     public School(boolean threePlayers){
+        if(threePlayers){
+            studentsAtEntrance = new StudentHolder(9, 9);
+        }
+        else{
+            studentsAtEntrance = new StudentHolder(7, 7);
+        }
 
+        studentsAtTables = new StudentHolder(10 * 5, 10);
+    }
+
+    void initializeGardens(Bag bag, boolean threePlayers){
+        for(int i = 0; i< 7; i++){
+            try{
+                studentsAtEntrance.addStudent(bag.extractRandomStudent());
+            } catch(NoSpaceForStudentException e){
+                System.out.println("Someone tried to initialize garden while already initialized");
+            }
+        }
+
+        if(threePlayers){
+            try{
+                studentsAtEntrance.addStudent(bag.extractRandomStudent());
+                studentsAtEntrance.addStudent(bag.extractRandomStudent());
+            } catch(NoSpaceForStudentException e){
+                System.out.println("Someone tried to initialize garden while already initialized");
+            }
+        }
     }
 
     StudentHolder getStudentsAtTables() {

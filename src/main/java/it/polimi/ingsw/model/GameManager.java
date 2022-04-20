@@ -7,16 +7,16 @@ public class GameManager {
     private final Board board;
     private final Cloud[] clouds;
     private final Bag bag;
-    private CharacterCard[] activeCards;
-    private boolean[] usedCards;
+    private final CharacterCard[] activeCards;
+    private final boolean[] usedCards;
     private final Player[] players;
     private final Professors professors;
 
     public GameManager(Player[] players, boolean expert){
+        int size = players.length;
+
         this.players = players;
         board = new Board();
-
-        int size = players.length;
         clouds = new Cloud[size];
         for(int i = 0; i< size; i++){
             clouds[i] = new Cloud(size == 3 ? 4 : 3, this);
@@ -28,12 +28,15 @@ public class GameManager {
         if(expert){
             //todo: instantiate cards
             usedCards = new boolean[]{false, false, false};
-
+            activeCards = null; // to change
         }
         else{
             activeCards = null;
             usedCards = null;
+        }
 
+        for(Player player : players){
+            player.getSchool().initializeGardens(bag, players.length == 3);
         }
     }
 
@@ -103,13 +106,30 @@ public class GameManager {
     public void moveMotherNature(int amount) throws IllegalArgumentException{
         board.moveMotherNature(amount);
         int position = board.getMotherNaturePosition();
+        Island currentIsland = board.getIslands().get(position);
         //todo: decidere come gestire le carte, possibile gestione:
         // mettere un flag in gamemanager, da controllare prima di calcolare l'influenza
 
         // todo: l'if sotto è una bozza, da cambiare (ad esempio: questo course of action è lo stesso se non ci sono carte attive)
         if(activeCards == null){
-            TowerColor tc = board.calculateInfluence(position, professors);
-            board.getIslands().get(position).setTowerColor(tc);
+            TowerColor newTC = board.calculateInfluence(position, professors);
+            TowerColor previousTC = currentIsland.getTower();
+
+            if(newTC == null || (previousTC != null && previousTC != newTC)){
+                return;
+            }
+
+            if(previousTC != null){
+                Player previousP = players[previousTC.ordinal()];
+                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            }
+
+
+            Player newP = players[newTC.ordinal()];
+            // todo: controllare fine partita
+            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+
+            currentIsland.setTowerColor(newTC);
             board.mergeIsland(position);
         }
     }
