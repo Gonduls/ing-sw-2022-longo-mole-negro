@@ -35,8 +35,13 @@ public class GameManager {
             usedCards = null;
         }
 
+        // initialize gardens and tables for each player, observers for view needed?
         for(Player player : players){
-            player.getSchool().initializeGardens(bag, players.length == 3);
+            School school = player.getSchool();
+            school.initializeGardens(bag, players.length == 3);
+            StudentHolder tables = school.getStudentsAtTables();
+            tables.attach(new TablesObserver(player, tables, this));
+            tables.attach(new CoinObserver(player, tables));
         }
     }
 
@@ -111,11 +116,12 @@ public class GameManager {
         // mettere un flag in gamemanager, da controllare prima di calcolare l'influenza
 
         // todo: l'if sotto è una bozza, da cambiare (ad esempio: questo course of action è lo stesso se non ci sono carte attive)
+        // todo: aggiungere effettivamente la prima torre (il metodo addTower non è mai stato chiamato)
         if(activeCards == null){
             TowerColor newTC = board.calculateInfluence(position, professors);
             TowerColor previousTC = currentIsland.getTower();
 
-            if(newTC == null || (previousTC != null && previousTC != newTC)){
+            if(newTC == null || (previousTC != null && previousTC == newTC)){
                 return;
             }
 
@@ -133,7 +139,4 @@ public class GameManager {
             board.mergeIsland(position);
         }
     }
-
-
-
 }

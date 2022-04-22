@@ -6,11 +6,11 @@ public class Island extends StudentHolder {
     private TowerColor towerColor;
     private int noEntry; //we consider the possibility that a number of noEntries greater than 1 can be put on an Island
 
-    public int getTowerNumber() {
+    int getTowerNumber() {
         return towerNumber;
     }
 
-    public TowerColor getTower() {
+    TowerColor getTower() {
         return towerColor;
     }
 
@@ -44,7 +44,7 @@ public class Island extends StudentHolder {
                  try {
                      islandToUnifyWith.moveStudentTo(color, this);
                  } catch (NoSpaceForStudentException e) {
-                     System.out.println("It would seem the island has a maximum capacity");
+                     System.out.println("It would seem the island has a maximum capacity, impossible");
                  }
                  catch (NoSuchStudentException e) {
                      System.out.println("Grabbed a non-existent student from island to be merged");

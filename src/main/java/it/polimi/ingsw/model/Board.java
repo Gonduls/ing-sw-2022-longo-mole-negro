@@ -30,18 +30,18 @@ public class Board {
         }
     }
 
-    public ArrayList<Island> getIslands() {
+    ArrayList<Island> getIslands() {
         return islands;
     }
 
-    public void moveMotherNature(int amount)throws IllegalArgumentException {
+    void moveMotherNature(int amount)throws IllegalArgumentException {
         if(amount < 1)
             throw new IllegalArgumentException("Mother nature can only be moved forward");
 
         motherNaturePosition = (motherNaturePosition + amount) % numberOfIslands;
     }
 
-    public int getMotherNaturePosition() {
+    int getMotherNaturePosition() {
         return motherNaturePosition;
     }
 
