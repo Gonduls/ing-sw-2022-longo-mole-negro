@@ -31,7 +31,7 @@ public class Bag extends StudentHolder {
     }
 
     public Color extractRandomStudent() {
-        EnumMap<Color, Integer> copy = getAllStudents();
+        EnumMap<Color, Integer> copy = this.getAllStudents();
         int total = copy.values().stream().reduce(0, Integer :: sum);
         int randomNumber = r.nextInt(total);
         int bias = 0;

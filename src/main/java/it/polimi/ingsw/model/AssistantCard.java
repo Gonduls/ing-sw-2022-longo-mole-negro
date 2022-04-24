@@ -20,11 +20,11 @@ public enum AssistantCard {
     private final  int value;
     private final int steps;
 
-    public int getvalue() {
+    public int getValue() {
         return value;
     }
 
-    public int getsteps() {
+    public int getSteps() {
         return steps;
     }
 }

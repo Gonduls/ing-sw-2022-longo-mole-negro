@@ -45,9 +45,7 @@ public class GameManager {
         }
     }
 
-    public Board getBoard() {
-        return board;
-    }
+    public Board getBoard() {return board;}
 
     public Cloud[] getClouds() {
         return clouds;

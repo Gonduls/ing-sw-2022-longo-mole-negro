@@ -2,10 +2,16 @@ package it.polimi.ingsw.model;
 
 public class Island extends StudentHolder {
 
+
     private int towerNumber;
     private TowerColor towerColor;
     private int noEntry; //we consider the possibility that a number of noEntries greater than 1 can be put on an Island
 
+    public Island(){
+        super();
+        towerNumber=0;
+        noEntry=0;
+    }
     int getTowerNumber() {
         return towerNumber;
     }
