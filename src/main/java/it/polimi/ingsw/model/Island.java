@@ -58,4 +58,20 @@ public class Island extends StudentHolder {
              }
          }
     }
+
+
+    @Override
+    public String toString(){
+        String toReturn = "TowerColor: "+  (towerColor== null? "null ":towerColor.toString()) +" TowerNumber: " + getTowerNumber();
+        StringBuilder temp = new StringBuilder();
+
+        for(Color c: Color.values()){
+
+            temp.append(" ").append(c.toString()).append(": ").append(this.getStudentByColor(c));
+        }
+        return toReturn + temp;
+
+
+    }
+
 }

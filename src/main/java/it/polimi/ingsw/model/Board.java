@@ -46,7 +46,7 @@ public class Board {
     }
 
     boolean canBeMerged(int indexCurrentIsland, int indexOtherIsland) {
-        return islands.get(indexCurrentIsland).getTower() == islands.get(indexOtherIsland).getTower();
+        return islands.get(indexCurrentIsland).getTower() == islands.get(indexOtherIsland).getTower()  &&  islands.get(indexCurrentIsland).getTower() != null;
     }
 
     void mergeIsland(int indexCurrentIsland){
@@ -104,5 +104,9 @@ public class Board {
 
         return null;
     }
+
+
+
+    public int getNumberOfIslands(){return numberOfIslands;}
 }
 

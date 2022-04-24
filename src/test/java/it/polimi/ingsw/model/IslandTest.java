@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Test Class for Island class
+ * It checks unify function, as the StudentHolder functionality is tested with anoter test
+ * @author marco mole'
+ */
 class IslandTest {
 
 
@@ -28,10 +33,6 @@ class IslandTest {
    try{ island1.addStudent(Color.RED); }
    catch(NoSpaceForStudentException e) {assert(false);}
 
-
-
-
-
    try{ island2.addStudent(Color.YELLOW); }
    catch(NoSpaceForStudentException e) {assert(false);}
 
@@ -40,8 +41,6 @@ class IslandTest {
 
    try{ island2.addStudent(Color.GREEN); }
    catch(NoSpaceForStudentException e) {assert(false);}
-
-
 
 
    island1.unify(island2);
