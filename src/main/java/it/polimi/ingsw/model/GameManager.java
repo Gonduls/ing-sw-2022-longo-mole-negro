@@ -40,8 +40,11 @@ public class GameManager {
             School school = player.getSchool();
             school.initializeGardens(bag, players.length == 3);
             StudentHolder tables = school.getStudentsAtTables();
-            tables.attach(new TablesObserver(player, tables, this));
-            tables.attach(new CoinObserver(player, tables));
+            tables.attach(new ProfessorsObserver(player, professors));
+            tables.attach(new CoinObserver(player));
+
+            if(expert)
+                player.addCoin();
         }
     }
 
@@ -126,6 +129,9 @@ public class GameManager {
             if(previousTC != null){
                 Player previousP = players[previousTC.ordinal()];
                 previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            }
+            else{
+                currentIsland.addTower();
             }
 
 
