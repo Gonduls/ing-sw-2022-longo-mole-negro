@@ -25,22 +25,22 @@ class IslandTest {
     island1.addTower();
 
    try{ island1.addStudent(Color.BLUE); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
    try{ island1.addStudent(Color.YELLOW); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
    try{ island1.addStudent(Color.RED); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
    try{ island2.addStudent(Color.YELLOW); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
    try{ island2.addStudent(Color.RED); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
    try{ island2.addStudent(Color.GREEN); }
-   catch(NoSpaceForStudentException e) {assert(false);}
+   catch(NoSpaceForStudentException e) {assertTrue(false);}
 
 
    island1.unify(island2);

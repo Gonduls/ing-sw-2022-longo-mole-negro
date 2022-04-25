@@ -22,7 +22,7 @@ class BoardTest {
         board.moveMotherNature(4);
         assert (board.getMotherNaturePosition() == 4);
         board.moveMotherNature(8);
-        assert (board.getMotherNaturePosition() == 0);
+        assertEquals(0, board.getMotherNaturePosition());
         try {board.moveMotherNature(0);} catch (IllegalArgumentException e) {assert true;}
 
     }
@@ -41,28 +41,28 @@ class BoardTest {
        try{ board.getIslands().get(0).addStudent(Color.BLUE);} catch (NoSpaceForStudentException e) {assert false;}
        try{ board.getIslands().get(0).addStudent(Color.BLUE);} catch (NoSpaceForStudentException e) {assert false;}
 
-       assert(board.calculateInfluence(0,prof) == TowerColor.WHITE);
+        assertSame(TowerColor.WHITE, board.calculateInfluence(0, prof));
 
        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
 
-       assert(board.calculateInfluence(0,prof) == TowerColor.BLACK);
+        assertSame(TowerColor.BLACK, board.calculateInfluence(0, prof));
 
        try{ board.getIslands().get(0).removeStudent(Color.RED);} catch (NoSuchStudentException e) {assert false;}
 
-       assert(board.calculateInfluence(0,prof) == null);
+        assertNull(board.calculateInfluence(0, prof));
 
        try{ board.getIslands().get(0).removeStudent(Color.RED);} catch (NoSuchStudentException e) {assert false;}
 
-       assert(board.calculateInfluence(0,prof) == TowerColor.WHITE);
+        assertSame(TowerColor.WHITE, board.calculateInfluence(0, prof));
 
 
     }
 
 
     @Test
-    void testCalculateInfluece_withTowers(){
+    void testCalculateInfluence_withTowers(){
 
         //TODO
     }
@@ -79,34 +79,38 @@ class BoardTest {
         prof.setToPlayer(Color.BLUE,playerWhite);
         prof.setToPlayer(Color.RED, playerBlack);
 
+        int redStudents1 = board.getIslands().get(1).getStudentByColor(Color.RED);
+        int redStudents2 = board.getIslands().get(2).getStudentByColor(Color.RED);
 
         try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         board.getIslands().get(0).setTowerColor(board.calculateInfluence(0,prof));
+        assertSame(TowerColor.BLACK, board.getIslands().get(0).getTower());
+        board.getIslands().get(0).addTower();
+
 
         try{ board.getIslands().get(1).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(1).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(1).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         board.getIslands().get(1).setTowerColor(board.calculateInfluence(1,prof));
+        assertSame(TowerColor.BLACK, board.getIslands().get(1).getTower());
+        board.getIslands().get(1).addTower();
 
 
         try{ board.getIslands().get(2).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(2).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         try{ board.getIslands().get(2).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
         board.getIslands().get(2).setTowerColor(board.calculateInfluence(2,prof));
+        assertSame(TowerColor.BLACK, board.getIslands().get(2).getTower());
+        board.getIslands().get(2).addTower();
 
 
         board.mergeIsland(1);
 
-        assert(board.getIslands().size() == 10);
-        assert(board.getIslands().get(0).getStudentByColor(Color.RED) == 9);
-
-        for(int i =0; i<board.getNumberOfIslands(); i++){
-            // PERCHÉ LE ALTRE ISOLE HANNO DEGLI STUDENTI???
-            System.out.println( i + " " + board.getIslands().get(i));
-        }
-
+        assertEquals(10, board.getIslands().size());
+        assertEquals((int) board.getIslands().get(0).getStudentByColor(Color.RED), (9 + redStudents1 + redStudents2));
+        assertEquals(3, board.getIslands().get(0).getTowerNumber());
     }
 
 }
