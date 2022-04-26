@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
-import it.polimi.ingsw.exceptions.NoSuchStudentException;
-
 public class Cloud extends StudentHolder{
     final int size;
     final Bag bag;
@@ -13,7 +10,7 @@ public class Cloud extends StudentHolder{
         bag = gameManager.getBag();
     }
 
-    void moveAllStudents(School school) throws NoSpaceForStudentException, NoSuchStudentException {
+    void moveAllStudents(School school) throws NoSpaceForStudentException, NoSuchStudentException{
         for(Color c: Color.values()){
             for(int i = getStudentByColor(c); i>0; i--)
                 moveStudentTo(c, school.getStudentsAtEntrance());

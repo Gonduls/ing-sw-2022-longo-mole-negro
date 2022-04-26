@@ -8,6 +8,12 @@ import java.util.*;
 public class Bag extends StudentHolder {
     Random r;
 
+    /**
+     * Standard constructor for bag, initializes it to 130 studentsMax,
+     * 26 studentsMaxColor as per the definition of StudentHolder.
+     * It also loads 24 student for each color, which correspond to the
+     * initial 26 minus the ones needed to initialize Islands.
+     */
     public Bag() {
         super(130, 26);
         for(Color color : Color.values()){
@@ -21,6 +27,10 @@ public class Bag extends StudentHolder {
         r = new Random();
     }
 
+    /**
+     * Custom constructor of bag, loads studentsNumber student for each color
+     * @param studentsNumber
+     */
     public Bag(int studentsNumber){
         r = new Random();
         for(Color color : Color.values()) {
@@ -33,6 +43,10 @@ public class Bag extends StudentHolder {
         }
     }
 
+    /**
+     * Removes a single random student from the bag, and returns its color
+     * @return the extracted student's color, null if the bag was empty
+     */
     public Color extractRandomStudent() {
         EnumMap<Color, Integer> copy = this.getAllStudents();
         int total = copy.values().stream().reduce(0, Integer :: sum);
@@ -54,9 +68,6 @@ public class Bag extends StudentHolder {
             }
         }
         return toReturn;
-
     }
-
-
 }
 

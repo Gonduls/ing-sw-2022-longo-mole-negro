@@ -17,16 +17,15 @@ public class GameManager {
 
     public GameManager(Player[] players, boolean expert){
         int size = players.length;
-
         this.players = players;
-        board = new Board();
-        clouds = new Cloud[size];
-        for(int i = 0; i< size; i++){
-            clouds[i] = new Cloud(size == 3 ? 4 : 3, this);
-        }
 
         bag = new Bag();
         professors = new Professors();
+        board = new Board();
+        clouds = new Cloud[size];
+        for(int i = 0; i< size; i++){
+            clouds[i] = new Cloud(size == 3 ? 4 : 3, bag);
+        }
 
         if(expert){
             //todo: instantiate cards

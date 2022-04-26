@@ -11,6 +11,10 @@ public class Board {
     private int motherNaturePosition;
     private int numberOfIslands;
 
+    /**
+     * Constructor for Board.
+     * Also creates and initializes Islands, giving them a student according to their position
+     */
     public Board(){
         numberOfIslands = 12;
         motherNaturePosition = 0;
@@ -28,14 +32,21 @@ public class Board {
                 }
             }
             islands.add(current);
-
         }
     }
 
+    /**
+     * @return the actual list containing islands
+     */
     ArrayList<Island> getIslands() {
         return islands;
     }
 
+    /**
+     * Changes the position of motherNature by the amount of steps given, looping back if needed
+     * @param amount: the number of steps to take
+     * @throws IllegalArgumentException if the amount given is less than 1
+     */
     void moveMotherNature(int amount)throws IllegalArgumentException {
         if(amount < 1)
             throw new IllegalArgumentException("Mother nature can only be moved forward");
@@ -43,14 +54,32 @@ public class Board {
         motherNaturePosition = (motherNaturePosition + amount) % numberOfIslands;
     }
 
+    /**
+     * @return the index representing motherNature position in the islands' list
+     */
     int getMotherNaturePosition() {
         return motherNaturePosition;
     }
 
-    boolean canBeMerged(int indexCurrentIsland, int indexOtherIsland) {
-        return islands.get(indexCurrentIsland).getTower() == islands.get(indexOtherIsland).getTower()  &&  islands.get(indexCurrentIsland).getTower() != null;
+    /**
+     * Checks if the indexes provided correspond to two islands with the same (not null) towerColor
+     *
+     * @param islandAIndex is the first island's index
+     * @param islandBIndex is the second island's index
+     * @return true if the two islands can be merged, false otherwise
+     */
+    boolean canBeMerged(int islandAIndex, int islandBIndex) {
+        return islands.get(islandAIndex).getTower() == islands.get(islandBIndex).getTower() && islands.get(islandAIndex).getTower() != null;
     }
 
+    /**
+     * Performs the act of merging islands, by checking compatibility,
+     * then adding all elements from an island to the one that it merges with,
+     * and finally removing the exceeding island from the list.
+     * Checks for both previous and next island for merge, could merge with both at the same time.
+     *
+     * @param indexCurrentIsland: the index of the island that could be merged with the previous or next island in list
+     */
     void mergeIsland(int indexCurrentIsland){
         int indexPreviousIsland = (indexCurrentIsland+ numberOfIslands-1) % numberOfIslands ;
         if (canBeMerged(indexCurrentIsland, indexPreviousIsland)){
@@ -68,9 +97,15 @@ public class Board {
             islands.remove(indexNextIsland);
             numberOfIslands--;
         }
-
     }
 
+    /**
+     * Calculates how much influence a certain TowerColor has over an island
+     *
+     * @param index: the index of the island to consider
+     * @param professors: needed to know which Player controls which professor
+     * @return the TowerColor that has the most influence over the islands, null in case of a tie
+     */
     TowerColor calculateInfluence(int index, Professors professors) {
         EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
         EnumMap<Color, Player> profOwners = professors.getOwners();
@@ -107,8 +142,9 @@ public class Board {
         return null;
     }
 
-
-
+    /**
+     * @return the number of Islands in the list
+     */
     public int getNumberOfIslands(){return numberOfIslands;}
 }
 
