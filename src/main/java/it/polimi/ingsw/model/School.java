@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.exceptions.NoSuchStudentException;
+
 public class School {
 
     private StudentHolder studentsAtTables;

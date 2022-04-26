@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.EventType;
+import it.polimi.ingsw.events.GameEventType;
 import it.polimi.ingsw.events.VC_GameEvent;
 
 public class AcceptAssistantCardState extends GameState {
@@ -12,7 +12,7 @@ public class AcceptAssistantCardState extends GameState {
 
     @Override
     public boolean checkValidEvent(VC_GameEvent event) {
-        if (event.getEvenType() == EventType.PLAY_ASSISTANT_CARD) {
+        if (event.getEventType() == GameEventType.PLAY_ASSISTANT_CARD) {
             numberOfEvents--;
             if (numberOfEvents==0) {context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));}
             return true;

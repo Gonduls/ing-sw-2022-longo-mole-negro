@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.exceptions.NoSuchStudentException;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;

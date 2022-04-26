@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.exceptions.NoSuchStudentException;
+
 import java.util.List;
 
 public class GameManager {
@@ -90,7 +93,7 @@ public class GameManager {
         return board.getIslands().get(islandIndex).getTower();
     }
 
-    public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException{
+    public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException {
         clouds[cloudIndex].moveAllStudents(player.getSchool());
     }
 

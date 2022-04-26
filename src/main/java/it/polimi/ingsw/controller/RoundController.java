@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.events.VC_GameEvent;
 import it.polimi.ingsw.model.*;
 
 public class RoundController {
@@ -22,10 +23,42 @@ public class RoundController {
 
     GameState gameState;
 
+    public RoundController(){
+        gameState = new AcceptAssistantCardState(this, 4);
 
-    public void changeState(GameState newGameState){
+    }
+
+    void changeState(GameState newGameState){
         this.gameState=newGameState;
     }
+
+
+    /**
+     * This is access point for the view.
+     * The virtual View will send events to the controller via this method
+     * @param event
+     */
+
+    public void handleEvent(VC_GameEvent event){
+
+        if(gameState.checkValidEvent(event)){
+            //DO THING
+
+        } else {
+            //TODO notify that the event is wrong or inconsistent with the actual game state
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
 
 
 
