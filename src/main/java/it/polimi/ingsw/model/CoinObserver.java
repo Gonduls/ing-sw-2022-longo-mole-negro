@@ -25,7 +25,7 @@ public class CoinObserver implements StudentHolderObserver{
     public void update(){
         EnumMap<Color, Integer> newStudents = observed.getAllStudents();
         for(Color color : Color.values()){
-            if(newStudents.get(color) > oldStudents.get(color) && newStudents.get(color) ==0){
+            if(newStudents.get(color) > oldStudents.get(color) && newStudents.get(color)%3 ==0){
                 player.addCoin();
             }
         }

@@ -22,7 +22,7 @@ public class Player {
      * !3 players -> 8 towers to player 1 and 2, first towerColor to player 1 (and 3), second towerColor to player 2 (and 4)
      * @param playerNumber: used to distinguish players (and teams)
      * @param nickname: player's unique identifier
-     * @param threePlayers: used identify a three players game
+     * @param threePlayers: used to identify a three players game
      */
     public Player(int playerNumber, String nickname, boolean threePlayers){
         this.playerNumber = playerNumber;
