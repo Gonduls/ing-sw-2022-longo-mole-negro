@@ -3,6 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.events.VC_GameEvent;
 import it.polimi.ingsw.model.*;
 
+import java.util.Random;
+
 public class RoundController {
     //the order in which the players are "seated"
     private Player[] seatedPlayers;
@@ -25,7 +27,7 @@ public class RoundController {
 
     public RoundController(){
         gameState = new AcceptAssistantCardState(this, 4);
-
+        currentPlayingPlayer = new Random().nextInt(3);
     }
 
     void changeState(GameState newGameState){
