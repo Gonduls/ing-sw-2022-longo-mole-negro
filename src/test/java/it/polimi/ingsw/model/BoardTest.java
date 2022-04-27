@@ -67,6 +67,36 @@ class BoardTest {
     void testCalculateInfluence_withTowers(){
 
         //TODO
+        Professors prof = new Professors();
+        Player playerBlack = new Player(0,"tizio",false);
+        Player playerWhite = new Player(1,"caio", false);
+
+        Board board = new Board();
+
+        prof.setToPlayer(Color.BLUE, playerWhite);
+        prof.setToPlayer(Color.RED, playerBlack);
+
+        try{ board.getIslands().get(0).addStudent(Color.BLUE);} catch (NoSpaceForStudentException e) {assert false;}
+        try{ board.getIslands().get(0).addStudent(Color.BLUE);} catch (NoSpaceForStudentException e) {assert false;}
+        board.getIslands().get(0).addTower();
+        board.getIslands().get(0).setTowerColor(TowerColor.WHITE);
+
+        assertSame(TowerColor.WHITE, board.calculateInfluence(0, prof));
+
+        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
+        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
+        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
+        try{ board.getIslands().get(0).addStudent(Color.RED);} catch (NoSpaceForStudentException e) {assert false;}
+
+        assertSame(TowerColor.BLACK, board.calculateInfluence(0, prof));
+
+        try{ board.getIslands().get(0).removeStudent(Color.RED);} catch (NoSuchStudentException e) {assert false;}
+
+        assertNull(board.calculateInfluence(0, prof));
+
+        try{ board.getIslands().get(0).removeStudent(Color.RED);} catch (NoSuchStudentException e) {assert false;}
+
+        assertSame(TowerColor.WHITE, board.calculateInfluence(0, prof));
     }
 
     @Test
