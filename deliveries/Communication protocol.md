@@ -210,20 +210,32 @@ This message is sent from the server to all clients in a room when the ownership
 This message has no responses.
 
 
-### 1.16. ActivateCard 
+### 1.17. PlayAssistanCard 
 
-This message is sent from the server to all clients in a room in order to communicate the activation of a card.
+This message is sent from the server to all clients in a room in order to communicate that the current playing player has played a card.
 
 #### Arguments
 
- - card: the card that is activated
+ - AssistantCard: the AssistantCard that is picked
+
+#### Possible responses
+
+This message has no responses.
+
+### 1.17. ActivateCharacterCard 
+
+This message is sent from the server to all clients in a room in order to communicate the activation of a CharacterCard.
+
+#### Arguments
+
+ - CharacterCard: the CharacterCard that is activated
 
 #### Possible responses
 
 This message has no responses.
 
 
-### 1.17. AddCoin
+### 1.18. AddCoin
 
 This message is sent from the server to all clients in a room when a coin is given to a player.
 
@@ -236,7 +248,7 @@ This message is sent from the server to all clients in a room when a coin is giv
 This message has no responses.
 
 
-### 1.18. RemoveCoin
+### 1.19. RemoveCoin
 
 This message is sent from the server to all clients in a room when a coin is taken from a player.
 
@@ -249,7 +261,7 @@ This message is sent from the server to all clients in a room when a coin is tak
 This message has no responses.
 
 
-### 1.19. ChangePhase 
+### 1.20. ChangePhase 
 
 This message is sent from the server to all clients in a room when the phase changes.
 
@@ -262,7 +274,7 @@ This message is sent from the server to all clients in a room when the phase cha
 This message has no responses.
 
 
-### 1.20. ChangeTurn
+### 1.21. ChangeTurn
 
 This message is sent from the server to all clients in a room when the turn changes.
 
@@ -275,7 +287,7 @@ This message is sent from the server to all clients in a room when the turn chan
 This message has no responses.
 
 
-### 1.21. GameEvent 
+### 1.22. GameEvent 
 
 Description of the message goes here.
 
@@ -290,7 +302,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 1.22. EndGame 
+### 1.23. EndGame 
 
 This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
 
@@ -302,7 +314,7 @@ This message is sent from the server to all clients in a room when the game ends
 
 This message has no responses.
 
-### 1.23. LeaveRoom 
+### 1.24. LeaveRoom 
 
 This message is sent from the client to the server, after the game ends, in order to exit the room.
 
@@ -335,10 +347,10 @@ Seen as the Username univocally identifies the player, the login phase makes sur
 
 We can see here how there are two ways of entering a new game: by creating a new room or by accessing an initializing room. Trying to acces a non initializing room or a non-exhisting room will result in a Nack. Users can furthermore search for a public room's id, or enter a private room id, to join in a new game. Creating a room will always result into joining said room.
 
-### Name of the scenario
+### 2.2 Planning Phase
 
-(Add sequence diagram picture here)
+<img src="Planning phase.png">
 
-Description of what happens in this scenario.
+In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase a new order is decided for the rest of the round.
 
 
