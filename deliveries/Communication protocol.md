@@ -130,7 +130,7 @@ This message has no responses.
 
 ### 1.10. StartGame 
 
-This message is sent from the server to all clients in a room when all playing players have been added to the room. to indicate that the game can start.
+This message is sent from the server to all clients in a room when all playing players have been added to the room, to indicate that the game can start.
 
 #### Arguments
 
@@ -317,12 +317,28 @@ This message has no arguments.
  - Nack: when the game was not ended
 
 
-## Scenarios
+## 2. Scenarios
+
+### 2.1 Game Access
+
+To better describe what happens in the "Game Access" phase, seen as we decided to implement the multiple simultaneous games mechanic, we will divide into two separate sequence diagrams what actions take place.
+
+#### 2.1.1 Login
+
+<img src="Login.png">
+
+Seen as the Username univocally identifies the player, the login phase makes sure that the player cannot log in until a unique name is given. We can see the ack/nack mechanic shown in this diagram: such aspect of the protocol is used in all scenarios, but for simplicity, we will omit it from this point forth.
+
+#### 2.1.2 Accessing a Room
+
+<img src="Access room.png">
+
+We can see here how there are two ways of entering a new game: by creating a new room or by accessing an initializing room. Trying to acces a non initializing room or a non-exhisting room will result in a Nack. Users can furthermore search for a public room's id, or enter a private room id, to join in a new game. Creating a room will always result into joining said room.
 
 ### Name of the scenario
 
 (Add sequence diagram picture here)
-<img src="image_file_name.png">
 
 Description of what happens in this scenario.
+
 
