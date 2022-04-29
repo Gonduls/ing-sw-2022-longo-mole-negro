@@ -46,50 +46,33 @@ This message is sent from the client to the server after establishing a connecti
 
 ### 4. CreateRoom
 
-Description of the message goes here.
+This message is sent from the client to the server to create and access a new room.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - Number of players: the number of players that will participate in the game (2, 3, 4)
+ - Expert: flag that sets the game to expert if true
+ - Private: flag that sets the room to private if true
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+ - Ack: when the room was correctly created
+ - Nack: when there were errors in the making of the room
 
+### 5. RoomId
 
-### 5. GetPublicRooms
-
-Description of the message goes here.
+This message is sent from the server to the client that creates a game, in order to communicate the roomId. This information is necessary in order to being able to access a game.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - roomId: the room identifier
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+ This message has no responses
 
 
-### 6. PublicRooms
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 7. AccessRoom
+### 6. GetPublicRooms 
 
 Description of the message goes here.
 
@@ -104,7 +87,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 8. AddPlayer
+### 7. PublicRooms 
 
 Description of the message goes here.
 
@@ -119,7 +102,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 9. StartGame
+### 8. AccessRoom 
 
 Description of the message goes here.
 
@@ -134,7 +117,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 10. MoveStudent
+### 9. AddPlayer 
 
 Description of the message goes here.
 
@@ -149,7 +132,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 11. AddStudentTo
+### 10. StartGame 
 
 Description of the message goes here.
 
@@ -164,7 +147,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 12. ActivateCard
+### 11. MoveStudent 
 
 Description of the message goes here.
 
@@ -179,7 +162,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 13. SetProfessorTo
+### 12. AddStudentTo 
 
 Description of the message goes here.
 
@@ -194,7 +177,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 14. ChangePhase
+### 13. ActivateCard 
 
 Description of the message goes here.
 
@@ -209,7 +192,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 15. EndGame
+### 14. SetProfessorTo 
 
 Description of the message goes here.
 
@@ -224,7 +207,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 16. GameEvent
+### 15. ChangePhase 
 
 Description of the message goes here.
 
@@ -239,7 +222,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 17. LeaveRoom
+### 16. EndGame 
 
 Description of the message goes here.
 
@@ -254,9 +237,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-
-
-### MessageName
+### 17. GameEvent 
 
 Description of the message goes here.
 
@@ -269,6 +250,22 @@ Description of the message goes here.
 #### Possible responses
 
  - ResponseMessageName: condition in which this response is sent
+
+
+### 18. LeaveRoom 
+
+Description of the message goes here.
+
+#### Arguments
+
+ - Argument1: description of the argument
+ - Argument2: description of the argument
+ - Argument3: description of the argument
+
+#### Possible responses
+
+ - ResponseMessageName: condition in which this response is sent
+
 
 ## Scenarios
 
