@@ -74,96 +74,182 @@ This message is sent from the server to the client that creates a game, in order
 
 ### 6. GetPublicRooms 
 
-Description of the message goes here.
+This message is sent from the client to the server to get a list of all public rooms currently initializing, along with the number of players that that room will hold and if the game played in the room will be in expert mode.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+This message can have optional parameters to filter through all games:
+ - number of players (2, 3, 4): asks for a public game of that many players
+ - expert (boolean): asks for a public game in expert mode 
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
-
+ - PublicRooms: if the parameters where not illegal
+ - Nack: if number of player is not in (2, 3, 4)
 
 ### 7. PublicRooms 
 
-Description of the message goes here.
+This message is sent from the server to the client after he logs in or in response to a GetPublicRooms message, it holds a list of all public games (or the ones that meet the criterias of the request) and their relative information.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - publicRooms: a collection that holds the information about the rooms
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+This message has no responses. 
 
 
 ### 8. AccessRoom 
 
-Description of the message goes here.
+This message is sent from the client to the server, in order to access a room.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - roomId: The identifier of the room that the player wants to enter. 
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+ - Ack: if the player has been added to the room
+ - Nack: if the room does not exist or if the room is already full
 
 
 ### 9. AddPlayer 
 
-Description of the message goes here.
+This message is sent from the server to the client, while the client is in a room, in response to players being added to the room.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - player: the username of the player added
+ - Color: the TowerColor of the player added 
+ - Position: the position of the player around the table
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
-
+This message has no responses.
 
 ### 10. StartGame 
 
-Description of the message goes here.
+This message is sent from the server to the client when all playing players have been added to the room. to indicate that the game can start.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+This message has no arguments.
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
-
+This message has no responses.
 
 ### 11. MoveStudent 
 
-Description of the message goes here.
+This message is sent from the server to the client in order to communicate the movement of a student, as a consequence of a GameEvent or an internal event.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - from: the place where the student has been taken from
+ - to: the place where the student is added
+ - color: the color of the student
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+This message has no responses.
 
 
 ### 12. AddStudentTo 
 
+This message is sent from the server to the client in order to communicate the placement of a student, as a consequence of a GameEvent or an internal event.
+
+#### Arguments
+
+ - where: the place where the student is added
+ - color: the color of the student
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 13. SetProfessorTo 
+
+This message is sent from the server to the client when the ownership of a professor is changed.
+
+#### Arguments
+
+ - professor: the color of the professor to consider
+ - player: the username of the player that now owns the professor
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 14. ActivateCard 
+
+This message is sent from the server to the client in order to communicate the activation of a card.
+
+#### Arguments
+
+ - card: the card that is activated
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 15. AddCoin
+
+This message is sent from the server to the client when a coin is given to a player.
+
+#### Arguments
+
+ - player: the username of the player that receives the coin
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 16. RemoveCoin
+
+This message is sent from the server to the client when a coin is taken from a player.
+
+#### Arguments
+
+ - player: the username of the player that loses the coin
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 17. ChangePhase 
+
+This message is sent from the server to the client when the phase changes.
+
+#### Arguments
+
+ - phase: the phase the game changes into
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 18. ChangeTurn
+
+This message is sent from the server to the client when the turn changes.
+
+#### Arguments
+
+ - player: the username of the player that is now to play
+
+#### Possible responses
+
+ - This message has no responses.
+
+
+### 19. GameEvent 
+
 Description of the message goes here.
 
 #### Arguments
@@ -177,7 +263,7 @@ Description of the message goes here.
  - ResponseMessageName: condition in which this response is sent
 
 
-### 13. ActivateCard 
+### 20. EndGame 
 
 Description of the message goes here.
 
@@ -191,68 +277,7 @@ Description of the message goes here.
 
  - ResponseMessageName: condition in which this response is sent
 
-
-### 14. SetProfessorTo 
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 15. ChangePhase 
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 16. EndGame 
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 17. GameEvent 
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 18. LeaveRoom 
+### 21. LeaveRoom 
 
 Description of the message goes here.
 
