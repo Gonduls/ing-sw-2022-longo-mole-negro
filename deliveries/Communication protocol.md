@@ -4,11 +4,11 @@ Virginia Longo, Marco Molè, Pierluigi Negro
 
 Group 3
 
-## Messages
+## 1. Messages
 
-### 1. Acknowledgment (ack)
+### 1.1. Acknowledgment (ack)
 
-This message is sent from the server to the client when a generic message has been acknowledged.
+This message is sent from the server to a single client when a generic message received from that client has been acknowledged.
 
 #### Arguments
 
@@ -18,25 +18,25 @@ This message has no arguments.
 
 This message has no responses.
 
-### 2. Negative Acknowledgment (nack)
+### 1.2. Negative Acknowledgment (nack)
 
-This message is sent from the server to the client when a generic action was not permitted. It is interpreted from the network handler depending on scenarios.
+This message is sent from the server to a single client when a generic action was not permitted. It is interpreted from the network handler depending on scenarios.
 
 #### Arguments
 
-- ErrorMessages: the entity of the error
+- ErrorMessage: the entity of the error
 
 #### Possible responses
 
 This message has no responses.
 
-### 3. Login
+### 1.3. Login
 
 This message is sent from the client to the server after establishing a connection to create a player session.
 
 #### Arguments
 
- - Username: the unique name that will identify a pLayer
+ - Username: the unique name that will identify a player
 
 #### Possible responses
 
@@ -44,7 +44,7 @@ This message is sent from the client to the server after establishing a connecti
  - Nack: the name is not unique and the user has not been logged
 
 
-### 4. CreateRoom
+### 1.4. CreateRoom
 
 This message is sent from the client to the server to create and access a new room.
 
@@ -59,9 +59,9 @@ This message is sent from the client to the server to create and access a new ro
  - Ack: when the room was correctly created
  - Nack: when there were errors in the making of the room
 
-### 5. RoomId
+### 1.5. RoomId
 
-This message is sent from the server to the client that creates a game, in order to communicate the roomId. This information is necessary in order to being able to access a game.
+This message is sent from the server to the client that creates a game, in order to communicate the roomId. This information is necessary for other clients in order to access the created game.
 
 #### Arguments
 
@@ -69,10 +69,10 @@ This message is sent from the server to the client that creates a game, in order
 
 #### Possible responses
 
- This message has no responses
+ This message has no responses.
 
 
-### 6. GetPublicRooms 
+### 1.6. GetPublicRooms 
 
 This message is sent from the client to the server to get a list of all public rooms currently initializing, along with the number of players that that room will hold and if the game played in the room will be in expert mode.
 
@@ -87,9 +87,9 @@ This message can have optional parameters to filter through all games:
  - PublicRooms: if the parameters where not illegal
  - Nack: if number of player is not in (2, 3, 4)
 
-### 7. PublicRooms 
+### 1.7. PublicRooms 
 
-This message is sent from the server to the client after he logs in or in response to a GetPublicRooms message, it holds a list of all public games (or the ones that meet the criterias of the request) and their relative information.
+This message is sent from the server to the client after he logs in, or in response to a GetPublicRooms message. It holds a list of all public games (or the ones that meet the criterias of the request) and their relative information.
 
 #### Arguments
 
@@ -100,7 +100,7 @@ This message is sent from the server to the client after he logs in or in respon
 This message has no responses. 
 
 
-### 8. AccessRoom 
+### 1.8. AccessRoom 
 
 This message is sent from the client to the server, in order to access a room.
 
@@ -114,7 +114,7 @@ This message is sent from the client to the server, in order to access a room.
  - Nack: if the room does not exist or if the room is already full
 
 
-### 9. AddPlayer 
+### 1.9. AddPlayer 
 
 This message is sent from the server to the client, while the client is in a room, in response to players being added to the room.
 
@@ -128,9 +128,9 @@ This message is sent from the server to the client, while the client is in a roo
 
 This message has no responses.
 
-### 10. StartGame 
+### 1.10. StartGame 
 
-This message is sent from the server to the client when all playing players have been added to the room. to indicate that the game can start.
+This message is sent from the server to all clients in a room when all playing players have been added to the room. to indicate that the game can start.
 
 #### Arguments
 
@@ -140,9 +140,9 @@ This message has no arguments.
 
 This message has no responses.
 
-### 11. MoveStudent 
+### 1.11. MoveStudent 
 
-This message is sent from the server to the client in order to communicate the movement of a student, as a consequence of a GameEvent or an internal event.
+This message is sent from the server to all clients in a room in order to communicate the movement of a student, as a consequence of a GameEvent or an internal event.
 
 #### Arguments
 
@@ -155,9 +155,9 @@ This message is sent from the server to the client in order to communicate the m
 This message has no responses.
 
 
-### 12. AddStudentTo 
+### 1.12. AddStudentTo 
 
-This message is sent from the server to the client in order to communicate the placement of a student, as a consequence of a GameEvent or an internal event.
+This message is sent from the server to all clients in a room in order to communicate the placement of a student, as a consequence of a GameEvent or an internal event.
 
 #### Arguments
 
@@ -166,12 +166,39 @@ This message is sent from the server to the client in order to communicate the p
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 13. SetProfessorTo 
+### 1.13. MoveTower 
 
-This message is sent from the server to the client when the ownership of a professor is changed.
+This message is sent from the server to all clients in a room in order to communicate the movement of a tower, as a consequence of a GameEvent or an internal event.
+
+#### Arguments
+
+ - from: the place where the tower has been taken from
+ - to: the place where the tower is added
+
+#### Possible responses
+
+This message has no responses.
+
+
+### 1.14. MergeIslands 
+
+This message is sent from the server to all clients in a room in order to communicate the merging of two islands.
+
+#### Arguments
+
+ - firstIsland: the index of the first island 
+ - secondIsland: the index of the second island 
+
+#### Possible responses
+
+This message has no responses.
+
+### 1.15. SetProfessorTo 
+
+This message is sent from the server to all clients in a room when the ownership of a professor is changed.
 
 #### Arguments
 
@@ -180,12 +207,12 @@ This message is sent from the server to the client when the ownership of a profe
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 14. ActivateCard 
+### 1.16. ActivateCard 
 
-This message is sent from the server to the client in order to communicate the activation of a card.
+This message is sent from the server to all clients in a room in order to communicate the activation of a card.
 
 #### Arguments
 
@@ -193,12 +220,12 @@ This message is sent from the server to the client in order to communicate the a
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 15. AddCoin
+### 1.17. AddCoin
 
-This message is sent from the server to the client when a coin is given to a player.
+This message is sent from the server to all clients in a room when a coin is given to a player.
 
 #### Arguments
 
@@ -206,12 +233,12 @@ This message is sent from the server to the client when a coin is given to a pla
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 16. RemoveCoin
+### 1.18. RemoveCoin
 
-This message is sent from the server to the client when a coin is taken from a player.
+This message is sent from the server to all clients in a room when a coin is taken from a player.
 
 #### Arguments
 
@@ -219,12 +246,12 @@ This message is sent from the server to the client when a coin is taken from a p
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 17. ChangePhase 
+### 1.19. ChangePhase 
 
-This message is sent from the server to the client when the phase changes.
+This message is sent from the server to all clients in a room when the phase changes.
 
 #### Arguments
 
@@ -232,12 +259,12 @@ This message is sent from the server to the client when the phase changes.
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 18. ChangeTurn
+### 1.20. ChangeTurn
 
-This message is sent from the server to the client when the turn changes.
+This message is sent from the server to all clients in a room when the turn changes.
 
 #### Arguments
 
@@ -245,25 +272,10 @@ This message is sent from the server to the client when the turn changes.
 
 #### Possible responses
 
- - This message has no responses.
+This message has no responses.
 
 
-### 19. GameEvent 
-
-Description of the message goes here.
-
-#### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
-
-#### Possible responses
-
- - ResponseMessageName: condition in which this response is sent
-
-
-### 20. EndGame 
+### 1.21. GameEvent 
 
 Description of the message goes here.
 
@@ -277,19 +289,32 @@ Description of the message goes here.
 
  - ResponseMessageName: condition in which this response is sent
 
-### 21. LeaveRoom 
 
-Description of the message goes here.
+### 1.22. EndGame 
+
+This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
 
 #### Arguments
 
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - winners: a list of the game winners
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+This message has no responses.
+
+### 1.23. LeaveRoom 
+
+This message is sent from the client to the server, after the game ends, in order to exit the room.
+
+#### Arguments
+
+This message has no arguments.
+
+
+#### Possible responses
+
+ - Ack: when the room was correctly exited
+ - Nack: when the game was not ended
 
 
 ## Scenarios
