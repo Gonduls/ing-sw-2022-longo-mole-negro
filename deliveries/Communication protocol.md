@@ -289,17 +289,36 @@ This message has no responses.
 
 ### 1.22. GameEvent 
 
-Description of the message goes here.
+This is a message sent from the client ot the server specifing the game action that the player took. Each type of game event has its own arguments. The server uses the enum value to operate a cast in order to access the values of the event.
+
+
 
 #### Arguments
-
- - Argument1: description of the argument
- - Argument2: description of the argument
- - Argument3: description of the argument
+ - Player: the  username of player that generated the event
+ - Type: an enum value that indicates what is the event
+    1. PLAY_ASSISTANT_CARD //planning phase
+    1. MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND //actionPhase
+    1. MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE  //actionPhase
+    1. MOVE_MOTHER_NATURE //actionPhase
+    1. CHOOSE_CLOUD_TILE //actionPhase
+    1. ACTIVATE_CHARACTER_CARD //actionPhase  
+    1. MOVE_STUDENT_FROM_CARD_TO_ISLAND //CardRelated
+    1. CHOOSE_COLOR //CardRelated
+    1. CHOOSE_ISLAND //CardRelated
+    1. SWAP_STUDENT_CARD_ENTRANCE //CardRelated
+    1. SWAP_STUDENT_ENTRANCE_TABLE //CardRelated
+ - (opt) AssistantCardValue: the assistant card played (only in type 1)
+ - (opt) Color: the  firstcolor chosen (2,3,7,8,10,11)
+ - (opt) Island index: the island chosen in (9)
+ - (opt) MoveAmount: the movement done by mother nature in (4)
+ - (opt) Color2: the second color chosen in (10,11)
+ - (opt) ActivatedCard: specifies which card is being activated in (6)
+ - (opt) Cloud index: the cloud choosen in (5)
 
 #### Possible responses
 
- - ResponseMessageName: condition in which this response is sent
+ - Nack: if the event was illegal at the moment it was sent or if it had illegal arguments
+ - Messages from 1.11 to 1.21 rappresent the type of message that will be received by all clients if the event was successful
 
 
 ### 1.23. EndGame 
@@ -353,4 +372,17 @@ We can see here how there are two ways of entering a new game: by creating a new
 
 In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase a new order is decided for the rest of the round.
 
+
+### 2.3 Action Phase 1
+
+<img src="action1.png">
+
+
+### 2.4 Action Phase 2 
+
+<img src ="action2-single.jpeg">
+
+### 2.5 Action Phase 3
+
+<img src="action3-single.jpeg">
 
