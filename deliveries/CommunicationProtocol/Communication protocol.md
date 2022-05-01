@@ -4,7 +4,7 @@ Virginia Longo, Marco Molè, Pierluigi Negro
 
 Group 3
 
-## 1. Messages
+## 1.. Messages
 
 ### 1.1. Acknowledgment (ack)
 
@@ -20,7 +20,7 @@ This message has no responses.
 
 ### 1.2. Negative Acknowledgment (nack)
 
-This message is sent from the server to a single client when a generic action was not permitted. It is interpreted from the network handler depending on scenarios.
+This message is sent from the server to a single client when a generic action was not permitted. It is interpreted from the network handler depending on scenarios. For example, all GameEvents received from a player, while it's not their turn, will be responded to by a nack.
 
 #### Arguments
 
@@ -43,8 +43,21 @@ This message is sent from the client to the server after establishing a connecti
  - Ack: the name is unique and the user has been logged
  - Nack: the name is not unique and the user has not been logged
 
+### 1.4. Logout
 
-### 1.4. CreateRoom
+This message is sent from the client to the server while not being in a room. The server will then delete the username from its internal list, so that another user will be able to reuse it in the future.
+
+#### Arguments
+
+This message has no arguments.
+
+#### Possible responses
+
+ - Ack: the client was correctly logged out.
+ - Nack: the client was not correctly logged out.
+
+
+### 1.5. CreateRoom
 
 This message is sent from the client to the server to create and access a new room.
 
@@ -59,7 +72,7 @@ This message is sent from the client to the server to create and access a new ro
  - Ack: when the room was correctly created
  - Nack: when there were errors in the making of the room
 
-### 1.5. RoomId
+### 1.6. RoomId
 
 This message is sent from the server to the client that creates a game, in order to communicate the roomId. This information is necessary for other clients in order to access the created game.
 
@@ -72,7 +85,7 @@ This message is sent from the server to the client that creates a game, in order
  This message has no responses.
 
 
-### 1.6. GetPublicRooms 
+### 1.7. GetPublicRooms 
 
 This message is sent from the client to the server to get a list of all public rooms currently initializing, along with the number of players that that room will hold and if the game played in the room will be in expert mode.
 
@@ -87,7 +100,7 @@ This message can have optional parameters to filter through all games:
  - PublicRooms: if the parameters where not illegal
  - Nack: if number of player is not in (2, 3, 4)
 
-### 1.7. PublicRooms 
+### 1.8. PublicRooms 
 
 This message is sent from the server to the client after he logs in, or in response to a GetPublicRooms message. It holds a list of all public games (or the ones that meet the criterias of the request) and their relative information.
 
@@ -100,7 +113,7 @@ This message is sent from the server to the client after he logs in, or in respo
 This message has no responses. 
 
 
-### 1.8. AccessRoom 
+### 1.9. AccessRoom 
 
 This message is sent from the client to the server, in order to access a room.
 
@@ -114,7 +127,7 @@ This message is sent from the client to the server, in order to access a room.
  - Nack: if the room does not exist or if the room is already full
 
 
-### 1.9. AddPlayer 
+### 1.10. AddPlayer 
 
 This message is sent from the server to the client, while the client is in a room, in response to players being added to the room.
 
@@ -128,7 +141,7 @@ This message is sent from the server to the client, while the client is in a roo
 
 This message has no responses.
 
-### 1.10. StartGame 
+### 1.11. StartGame 
 
 This message is sent from the server to all clients in a room when all playing players have been added to the room, to indicate that the game can start.
 
@@ -140,7 +153,7 @@ This message has no arguments.
 
 This message has no responses.
 
-### 1.11. MoveStudent 
+### 1.12. MoveStudent 
 
 This message is sent from the server to all clients in a room in order to communicate the movement of a student, as a consequence of a GameEvent or an internal event.
 
@@ -155,7 +168,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.12. AddStudentTo 
+### 1.13. AddStudentTo 
 
 This message is sent from the server to all clients in a room in order to communicate the placement of a student, as a consequence of a GameEvent or an internal event.
 
@@ -169,7 +182,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.13. MoveTower 
+### 1.14. MoveTower 
 
 This message is sent from the server to all clients in a room in order to communicate the movement of a tower, as a consequence of a GameEvent or an internal event.
 
@@ -183,7 +196,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.14. MergeIslands 
+### 1.15. MergeIslands 
 
 This message is sent from the server to all clients in a room in order to communicate the merging of two islands.
 
@@ -196,7 +209,7 @@ This message is sent from the server to all clients in a room in order to commun
 
 This message has no responses.
 
-### 1.15. SetProfessorTo 
+### 1.16. SetProfessorTo 
 
 This message is sent from the server to all clients in a room when the ownership of a professor is changed.
 
@@ -210,7 +223,19 @@ This message is sent from the server to all clients in a room when the ownership
 This message has no responses.
 
 
-### 1.17. PlayAssistanCard 
+### 1.17. MoveMotherNature
+
+This message is sent from the server to all clients in a room when Mother Nature needs to be moved.
+
+#### Arguments
+
+ - amount: the number of steps that
+
+#### Possible responses
+
+This message has no responses.
+
+### 1.18. PlayAssistanCard 
 
 This message is sent from the server to all clients in a room in order to communicate that the current playing player has played a card.
 
@@ -222,7 +247,7 @@ This message is sent from the server to all clients in a room in order to commun
 
 This message has no responses.
 
-### 1.17. ActivateCharacterCard 
+### 1.19. ActivateCharacterCard 
 
 This message is sent from the server to all clients in a room in order to communicate the activation of a CharacterCard.
 
@@ -235,7 +260,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.18. AddCoin
+### 1.20. AddCoin
 
 This message is sent from the server to all clients in a room when a coin is given to a player.
 
@@ -248,7 +273,7 @@ This message is sent from the server to all clients in a room when a coin is giv
 This message has no responses.
 
 
-### 1.19. RemoveCoin
+### 1.21. RemoveCoin
 
 This message is sent from the server to all clients in a room when a coin is taken from a player.
 
@@ -261,7 +286,7 @@ This message is sent from the server to all clients in a room when a coin is tak
 This message has no responses.
 
 
-### 1.20. ChangePhase 
+### 1.22. ChangePhase 
 
 This message is sent from the server to all clients in a room when the phase changes.
 
@@ -274,7 +299,7 @@ This message is sent from the server to all clients in a room when the phase cha
 This message has no responses.
 
 
-### 1.21. ChangeTurn
+### 1.23. ChangeTurn
 
 This message is sent from the server to all clients in a room when the turn changes.
 
@@ -287,7 +312,7 @@ This message is sent from the server to all clients in a room when the turn chan
 This message has no responses.
 
 
-### 1.22. GameEvent 
+### 1.24. GameEvent 
 
 This is a message sent from the client ot the server specifing the game action that the player took. Each type of game event has its own arguments. The server uses the enum value to operate a cast in order to access the values of the event.
 
@@ -321,7 +346,7 @@ This is a message sent from the client ot the server specifing the game action t
  - Messages from 1.11 to 1.21 rappresent the type of message that will be received by all clients if the event was successful
 
 
-### 1.23. EndGame 
+### 1.25. EndGame 
 
 This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
 
@@ -333,7 +358,7 @@ This message is sent from the server to all clients in a room when the game ends
 
 This message has no responses.
 
-### 1.24. LeaveRoom 
+### 1.26. LeaveRoom 
 
 This message is sent from the client to the server, after the game ends, in order to exit the room.
 
@@ -370,7 +395,7 @@ We can see here how there are two ways of entering a new game: by creating a new
 
 <img src="Planning phase.png">
 
-In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase a new order is decided for the rest of the round.
+In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase, a new order is decided for the rest of the round. Like we said before, we omitted the ack/nack for simplicity, but for compliteness, a nack will be sent to the player that plays out of turn or that plays a wrong card.
 
 
 ### 2.3 Action Phase 1
@@ -386,3 +411,8 @@ In the planning phase the turn changes according to the order in which players a
 
 <img src="action3-single.jpeg">
 
+### 2.6 EndGame
+
+<img src="EndGame.png">
+
+When the game ends, a simple EndGame message is sent to all clients with the list of all winning players. The controller then waits for all clients to leave the room before ending its funcions. Clients are free to still join another room or logout from the server.
