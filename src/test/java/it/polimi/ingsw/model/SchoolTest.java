@@ -111,26 +111,136 @@ class SchoolTest {
     void testRemoveFromEntrance() {
         School schoolBlack = new School(false);
         Bag bag = new Bag();
-        int sumBlack = 0;
+        int sumBlackPrev = 0;
+        int sumBlackPost = 0;
         Color color = Color.RED;
-
-        try{schoolBlack.removeFromEntrance(color);} catch (NoSuchStudentException e) {assert  true;}
 
         schoolBlack.initializeGardens(bag, false);
 
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtEntrance().getStudentByColor(color1);
+        }
+
+        assertEquals(7, sumBlackPrev);
 
         if (schoolBlack.getStudentsAtEntrance().getStudentByColor(color) > 0) {
-            try {
-                schoolBlack.removeFromEntrance(color);
-            } catch (NoSuchStudentException e) {
-                assert false;
+            try {schoolBlack.removeFromEntrance(color);} catch (NoSuchStudentException e) {assert false;}
+            for(Color color2 : Color.values()) {
+                sumBlackPost += schoolBlack.getStudentsAtEntrance().getStudentByColor(color2);
             }
+            assertEquals(sumBlackPrev - 1, sumBlackPost);
+        } else {
+            try {schoolBlack.removeFromEntrance(color);} catch (NoSuchStudentException e) {assert true;}
+            for(Color color2 : Color.values()) {
+                sumBlackPost += schoolBlack.getStudentsAtEntrance().getStudentByColor(color2);
+            }
+            assertEquals(sumBlackPrev, sumBlackPost);
         }
+
     }
 
     @Test
     void testAddToEntrance() {
+        School schoolBlack = new School(false);
+        int sumBlackPrev = 0;
+        int sumBlackPost = 0;
+        Color color = Color.RED;
+
+        for(int i = 0; i < 7; i++) {
+            try{schoolBlack.addToEntrance(color);} catch (NoSpaceForStudentException e) {assert false;}
+        }
+
+        try {schoolBlack.removeFromEntrance(color);} catch (NoSuchStudentException e) {assert false;}
+        try {schoolBlack.removeFromEntrance(color);} catch (NoSuchStudentException e) {assert false;}
+
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtEntrance().getStudentByColor(color1);
+        }
+
+        assertEquals(5, sumBlackPrev);
+
+        try {schoolBlack.addToEntrance(color);} catch (NoSpaceForStudentException e) {assert false;}
+        try {schoolBlack.addToEntrance(color);} catch (NoSpaceForStudentException e) {assert false;}
+        try {schoolBlack.addToEntrance(color);} catch (NoSpaceForStudentException e) {assert true;}
+
+
+        for(Color color2 : Color.values()) {
+            sumBlackPost += schoolBlack.getStudentsAtEntrance().getStudentByColor(color2);
+        }
+        assertEquals(sumBlackPrev + 2, sumBlackPost);
+
+
+
+    }
+
+    @Test
+    void testRemoveFromTables() {
+        School schoolBlack = new School(false);
+        Bag bag = new Bag();
+        int sumBlackPrev = 0;
+        int sumBlackPost = 0;
+        Color color = Color.RED;
+        Color colorG = Color.GREEN;
+
+        schoolBlack.initializeGardens(bag, false);
+
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);
+        }
+
+        assertEquals(0, sumBlackPrev);
+
+        try{schoolBlack.addToTables(color);} catch (NoSpaceForStudentException e) {assert false;}
+        try{schoolBlack.addToTables(color);} catch (NoSpaceForStudentException e) {assert false;}
+        try{schoolBlack.addToTables(color);} catch (NoSpaceForStudentException e) {assert false;}
+
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);
+        }
+
+        assertEquals(3, sumBlackPrev);
+
+        try{schoolBlack.removeFromTables(color);} catch (NoSuchStudentException e) {assert false;}
+        try{schoolBlack.removeFromTables(colorG);} catch (NoSuchStudentException e) {assert true;}
+
+        for(Color color2 : Color.values()) {
+            sumBlackPost += schoolBlack.getStudentsAtTables().getStudentByColor(color2);
+        }
+
+        assertEquals(sumBlackPrev - 1, sumBlackPost);
+
+    }
+
+    @Test
+    void testAddToTables() {
+        School schoolBlack = new School(false);
+        Bag bag = new Bag();
+        int sumBlackPrev = 0;
+        int sumBlackPost = 0;
+        Color color = Color.RED;
+
+        schoolBlack.initializeGardens(bag, false);
+
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);
+        }
+
+        assertEquals(0, sumBlackPrev);
+
+        for(int i = 0; i < 10; i++) {
+            try{schoolBlack.addToTables(color);} catch (NoSpaceForStudentException e) {assert false;}
+        }
+
+        for(Color color1 : Color.values()) {
+            sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);
+        }
+
+        assertEquals(10, sumBlackPrev);
+
+
+        try{schoolBlack.addToTables(color);} catch (NoSpaceForStudentException e) {assert true;}
 
     }
 
 }
+
