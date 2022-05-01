@@ -145,4 +145,16 @@ public class GameManager {
             board.mergeIsland(position);
         }
     }
+
+
+    public void moveStudentFromEntranceToIsland(School school, Color c, int index) throws NoSuchStudentException, NoSpaceForStudentException {
+        if(index < board.getNumberOfIslands()) throw new IllegalArgumentException("there is no island number " + index);
+        school.getStudentsAtEntrance().moveStudentTo(c, board.getIslands().get(index));
+    }
+
+    public void moveStudentFromEntranceToTable(School school, Color c) throws NoSuchStudentException, NoSpaceForStudentException {
+        school.getStudentsAtEntrance().moveStudentTo(c, school.getStudentsAtTables());
+    }
+
+
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.VC_GameEvent;
+import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
 
 abstract class GameState {
     RoundController context;
@@ -14,5 +14,7 @@ abstract class GameState {
     }
 
     public abstract boolean checkValidEvent(VC_GameEvent event);
+
+    public abstract void executeEvent(VC_GameEvent event);
 
 }
