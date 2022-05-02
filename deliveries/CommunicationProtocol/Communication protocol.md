@@ -229,7 +229,7 @@ This message is sent from the server to all clients in a room when Mother Nature
 
 #### Arguments
 
- - amount: the number of steps that
+ - destination: the index of the island MotherNature ends her movement on
 
 #### Possible responses
 
@@ -377,13 +377,13 @@ This message has no arguments.
 
 ### 2.1 Game Access
 
-To better describe what happens in the "Game Access" phase, seen as we decided to implement the multiple simultaneous games mechanic, we will divide into two separate sequence diagrams what actions take place.
+To better describe what happens in the "Game Access" phase, since we decided to implement the multiple simultaneous games mechanic, we will divide into two separate sequence diagrams what actions take place.
 
 #### 2.1.1 Login
 
 <img src="Login.png">
 
-Seen as the Username univocally identifies the player, the login phase makes sure that the player cannot log in until a unique name is given. We can see the ack/nack mechanic shown in this diagram: such aspect of the protocol is used in all scenarios, but for simplicity, we will omit it from this point forth.
+Given that the Username univocally identifies the player, the login phase makes sure that the player cannot log in until a unique name is given. We can see the ack/nack mechanic shown in this diagram: such aspect of the protocol is used in all scenarios, but for simplicity, we will omit it from this point forth.
 
 #### 2.1.2 Accessing a Room
 

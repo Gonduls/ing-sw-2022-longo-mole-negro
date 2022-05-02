@@ -9,12 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class GameManagerTest {
     @Test
     void testEmptyCloudInPlayer() {
-        Player[] players = new Player[2];
+        Player[] players = new Player[]{new Player(0, "foo", false), new Player(1, "bar", false)};
         GameManager game = new GameManager(players, false);
-        game.getPlayers()[0] = new Player(0,"tizio", false);
+        //game.getPlayers()[0] = new Player(0,"tizio", false);
         int sum = 0;
 
-        try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
+        try{game.emptyCloudInPlayer(1, players[0]);} catch (Exception e) {assert false;}
 
         for(Color color : Color.values()) {
             sum += game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(color);
