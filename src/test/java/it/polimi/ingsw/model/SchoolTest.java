@@ -16,8 +16,8 @@ class SchoolTest {
         int sumBlack = 0;
         int sumWhite = 0;
 
-        schoolBlack.initializeGardens(bag, false);
-        schoolWhite.initializeGardens(bag, false);
+        schoolBlack.initializeEntrances(bag, false);
+        schoolWhite.initializeEntrances(bag, false);
 
 
         for(Color color : Color.values()) {
@@ -57,8 +57,8 @@ class SchoolTest {
         int sumWhite = 0;
 
 
-        schoolBlack.initializeGardens(bag, true);
-        schoolWhite.initializeGardens(bag, true);
+        schoolBlack.initializeEntrances(bag, true);
+        schoolWhite.initializeEntrances(bag, true);
 
 
         for(Color color : Color.values()) {
@@ -81,7 +81,7 @@ class SchoolTest {
         Bag bag = new Bag();
         int sumBlack = 0;
 
-        schoolBlack.initializeGardens(bag, false);
+        schoolBlack.initializeEntrances(bag, false);
 
         for(Color color : Color.values()) {
             sumBlack += schoolBlack.getStudentsAtEntrance().getStudentByColor(color);
@@ -97,7 +97,7 @@ class SchoolTest {
         Bag bag = new Bag();
         int sumBlack = 0;
 
-        schoolBlack.initializeGardens(bag, true);
+        schoolBlack.initializeEntrances(bag, true);
 
         for(Color color : Color.values()) {
             sumBlack += schoolBlack.getStudentsAtEntrance().getStudentByColor(color);
@@ -115,7 +115,7 @@ class SchoolTest {
         int sumBlackPost = 0;
         Color color = Color.RED;
 
-        schoolBlack.initializeGardens(bag, false);
+        schoolBlack.initializeEntrances(bag, false);
 
         for(Color color1 : Color.values()) {
             sumBlackPrev += schoolBlack.getStudentsAtEntrance().getStudentByColor(color1);
@@ -182,7 +182,7 @@ class SchoolTest {
         Color color = Color.RED;
         Color colorG = Color.GREEN;
 
-        schoolBlack.initializeGardens(bag, false);
+        schoolBlack.initializeEntrances(bag, false);
 
         for(Color color1 : Color.values()) {
             sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);
@@ -218,7 +218,7 @@ class SchoolTest {
         int sumBlackPrev = 0;
         Color color = Color.RED;
 
-        schoolBlack.initializeGardens(bag, false);
+        schoolBlack.initializeEntrances(bag, false);
 
         for(Color color1 : Color.values()) {
             sumBlackPrev += schoolBlack.getStudentsAtTables().getStudentByColor(color1);

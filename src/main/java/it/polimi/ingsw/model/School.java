@@ -19,7 +19,7 @@ public class School {
         studentsAtTables = new StudentHolder(10 * 5, 10);
     }
 
-    void initializeGardens(Bag bag, boolean threePlayers){
+    void initializeEntrances(Bag bag, boolean threePlayers){
         for(int i = 0; i< 7; i++){
             try{
                 studentsAtEntrance.addStudent(bag.extractRandomStudent());

@@ -15,6 +15,12 @@ public class GameManager {
     private final Player[] players;
     private final Professors professors;
 
+    /**
+     * This constructor, having given it the array of initialized players and the expert mode flag,
+     * creates and initializes all model elements, made exception for clouds, that are only created and not filled.
+     * @param players: an array of all playing players, already instantiated and owning a school with entrances yet to initialize
+     * @param expert: flag that signals if the game is in expert mode or not
+     */
     public GameManager(Player[] players, boolean expert){
         int size = players.length;
         this.players = players;
@@ -37,10 +43,10 @@ public class GameManager {
             usedCards = null;
         }
 
-        // initialize gardens and tables for each player, observers for view needed?
+        // initialize entrances and tables for each player, observers for view needed?
         for(Player player : players){
             School school = player.getSchool();
-            school.initializeGardens(bag, players.length == 3);
+            school.initializeEntrances(bag, players.length == 3);
             StudentHolder tables = school.getStudentsAtTables();
             tables.attach(new ProfessorsObserver(player, professors));
             tables.attach(new CoinObserver(player));
@@ -50,6 +56,9 @@ public class GameManager {
         }
     }
 
+    /**
+     * @return the exact board object
+     */
     public Board getBoard() {return board;}
 
     public Cloud[] getClouds() {
