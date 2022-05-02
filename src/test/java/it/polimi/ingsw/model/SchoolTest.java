@@ -216,7 +216,6 @@ class SchoolTest {
         School schoolBlack = new School(false);
         Bag bag = new Bag();
         int sumBlackPrev = 0;
-        int sumBlackPost = 0;
         Color color = Color.RED;
 
         schoolBlack.initializeGardens(bag, false);
