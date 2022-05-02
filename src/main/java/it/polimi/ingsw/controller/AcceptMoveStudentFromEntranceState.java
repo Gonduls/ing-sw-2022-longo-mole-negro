@@ -1,9 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
-import it.polimi.ingsw.events.viewcontroller.MoveStudentFromEntranceToIslandEvent;
-import it.polimi.ingsw.events.viewcontroller.MoveStudentFromEntranceToTableEvent;
+import it.polimi.ingsw.events.viewcontroller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.model.Color;
@@ -46,25 +43,18 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             return;
         }
 
+
+
         switch (event.getEventType()) {
             case MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND: {
                 MoveStudentFromEntranceToIslandEvent eventCast = (MoveStudentFromEntranceToIslandEvent) event;
-
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
-
-                if (context.getCurrentPlayingPlayer() != context.getPlayerIndex(player)) {
-                    return;
-                }
-
                 Color color = eventCast.getColor();
-
                 int indexIsland = eventCast.getIndexIsland();
-
-
                 try {
                     context.gameManager.moveStudentFromEntranceToIsland(player.getSchool(), color, indexIsland);
+                    numberOfEvents--;
                 } catch (NoSpaceForStudentException | NoSuchStudentException e) { /*send error*/}
-
 
                 break;
             }
@@ -72,24 +62,30 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             case MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE: {
                 MoveStudentFromEntranceToTableEvent eventCast = (MoveStudentFromEntranceToTableEvent) event;
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
-
-                if (context.getCurrentPlayingPlayer() != context.getPlayerIndex(player)) {
-                    return;
-                }
-
                 Color color = eventCast.getColor();
                 try {
                     context.gameManager.moveStudentFromEntranceToTable(player.getSchool(), color);
+                    numberOfEvents--;
                 } catch (NoSpaceForStudentException | NoSuchStudentException e) { /*send error*/}
-
                 break;
             }
 
             case ACTIVATE_CHARACTER_CARD: {
-                //todo
+                if (context.isHardMode() == false) {
+                    //todo send a nack
+                }
+
+                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+
 
             }
 
+        }
+
+
+        if (numberOfEvents == 0){
+
+            context.changeState(new AcceptCloudTileState(context, 1));
         }
 
     }

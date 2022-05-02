@@ -395,20 +395,38 @@ We can see here how there are two ways of entering a new game: by creating a new
 
 <img src="Planning phase.png">
 
-In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase, a new order is decided for the rest of the round. Like we said before, we omitted the ack/nack for simplicity, but for compliteness, a nack will be sent to the player that plays out of turn or that plays a wrong card.
+In the planning phase the turn changes according to the order in which players are to select an Assistant card. During this turn change the current playing player can only pick the assistant according to the rules. After the planning phase, a new order is decided for the rest of the round. Like we said before, we omitted the ack/nack for simplicity, but for completeness, a nack will be sent to the player that plays out of turn or that plays a wrong card.
 
 
 ### 2.3 Action Phase 1
+In this phase the player must move three students. These actions are represented by the events: 
+- MOVE_STUDENTS_FROM_ENTRANCE_TO_ISLAND
+- MOVE_STUDENTS_FROM_ENTRANCE_TO_TABLE
 
+If the action wanted by the player is, for some reason, illegal, a nack is sent by the controller.
+
+For the sake of clearness in this diagram is omitted the possibility of activating a character card.
 <img src="action1.png">
 
 
 ### 2.4 Action Phase 2 
+In this phase the player moves mother nature. 
+The action is represented by the event: MOVE_MOTHER_NATURE.
 
+If the movement triggered a movement of towers and/or the merging of islands an update event will be sent to the client.
+
+
+If the action wanted by the player is, for some reason, illegal, a nack is sent by the controller.
+For the sake of clearness in this diagram is omitted the possibility of activating a character card.
 <img src ="action2-single.jpeg">
 
 ### 2.5 Action Phase 3
 
+In this phase the player chooses a cloud.
+The action is represented by the event: CHOOSE_CLOUD_TILE.
+
+If the action wanted by the player is, for some reason, illegal, a nack is sent by the controller.
+For the sake of clearness in this diagram is omitted the possibility of activating a character card.
 <img src="action3-single.jpeg">
 
 ### 2.6 EndGame

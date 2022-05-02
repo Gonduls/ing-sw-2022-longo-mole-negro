@@ -1,14 +1,12 @@
 package it.polimi.ingsw.events.viewcontroller;
 
-import it.polimi.ingsw.model.Player;
+public class ChooseCloudTileEvent implements VC_GameEvent{
 
-public class ActivateCharacterCard implements VC_GameEvent{
     String playerName;
-
-
+    int cloudIndex;
     @Override
     public GameEventType getEventType() {
-        return GameEventType.ACTIVATE_CHARACTER_CARD;
+        return GameEventType.CHOOSE_CLOUD_TILE;
     }
 
     @Override
@@ -16,8 +14,7 @@ public class ActivateCharacterCard implements VC_GameEvent{
         return playerName;
     }
 
-
-
-
-
+    public int getCloudIndex(){
+        return cloudIndex;
+    }
 }

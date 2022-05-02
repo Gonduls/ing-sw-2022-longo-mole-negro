@@ -20,14 +20,20 @@ public class RoundController {
     //it's established after playing the assistants cards
     private int[] playingOrder;
 
+
+
+    private int playingOrderIndex;
+
     private int[] maxSteps;
+
+
+    // it's the index of a player in seatedPlayers
+    private int currentPlayingPlayer;
 
     public void setCurrentPlayingPlayer(int currentPlayingPlayer) {
         this.currentPlayingPlayer = currentPlayingPlayer;
     }
 
-    // it's the index of a player in seatedPlayers
-    private int currentPlayingPlayer;
 
 
     private boolean hardMode;
@@ -43,7 +49,7 @@ public class RoundController {
 
     public RoundController() {
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
-        currentPlayingPlayer = new Random().nextInt(3);
+        currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
     }
 
     void changeState(GameState newGameState) {
@@ -107,14 +113,16 @@ public class RoundController {
 
     int getCurrentPlayingPlayer (){
         return currentPlayingPlayer;
-
-    };
-
+    }
 
 
+    public int getPlayingOrderIndex() {
+        return playingOrderIndex;
+    }
 
-
-
+    public void setPlayingOrderIndex(int playingOrderIndex) {
+        this.playingOrderIndex = playingOrderIndex;
+    }
 
 
 }

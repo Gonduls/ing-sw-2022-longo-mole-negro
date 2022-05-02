@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
 
-abstract class GameState {
+public abstract class GameState {
     RoundController context;
 
     int numberOfEvents;

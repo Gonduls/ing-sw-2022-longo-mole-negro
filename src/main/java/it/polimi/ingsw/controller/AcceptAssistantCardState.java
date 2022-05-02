@@ -39,13 +39,6 @@ public class AcceptAssistantCardState extends GameState {
         AssistantCard cardPlayed = eventCast.getAssistantCard();
         Player player = context.getPlayerByUsername(eventCast.getPlayerName());
 
-
-        //checks that the player is the current playing player
-        if(!player.getNickname().equals(context.getSeatedPlayers()[context.getCurrentPlayingPlayer()].getNickname())){
-            return;
-        }
-
-
         try {
             player.pickCard(cardPlayed); // check if it's possible to pick the card
         } catch(InvalidParameterException e){
@@ -60,11 +53,10 @@ public class AcceptAssistantCardState extends GameState {
 
     if (numberOfEvents ==1){
 
-            //set playing order
+            //todo set playing order
 
             //change state to moveStudentFromEntrance
             context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
-
 
         }
         else {

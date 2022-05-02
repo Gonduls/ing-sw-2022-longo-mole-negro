@@ -1,12 +1,20 @@
 package it.polimi.ingsw.model;
 
-public interface CharacterCard {
+public abstract class CharacterCard {
+
+    StudentHolder sh;
+    int price;
+    int id;
+
+    public CharacterCard  (){
 
 
-    public int getPrice();
-    public void activateEffect();
-    public void applyEffect();
-    public StudentHolder getStudentHolder();
-    public void deactivateEffect();
+    }
+
+    public abstract int getPrice();
+    public abstract void activateEffect();
+    public abstract void applyEffect();
+    public abstract StudentHolder getStudentHolder();
+    public abstract void deactivateEffect();
 
 }

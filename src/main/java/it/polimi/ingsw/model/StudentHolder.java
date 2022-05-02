@@ -58,7 +58,7 @@ public class StudentHolder {
      * @param student: the color of the student
      * @throws NoSpaceForStudentException if adding the student would exceed studentsMax or studentsMaxColor
      */
-    void addStudent(Color student) throws NoSpaceForStudentException{
+    public void addStudent(Color student) throws NoSpaceForStudentException{
         if(students.values().stream().reduce(0, Integer::sum) == studentsMax)
             throw new NoSpaceForStudentException("No more students can be added to this holder");
 
@@ -114,7 +114,7 @@ public class StudentHolder {
      * @throws NoSpaceForStudentException if calling addStudent(student) from the target StudentHolder throws it
      * @throws NoSuchStudentException if that student is not in the current StudentHolder
      */
-    void moveStudentTo(Color student, StudentHolder holder) throws NoSpaceForStudentException, NoSuchStudentException{
+   public void moveStudentTo(Color student, StudentHolder holder) throws NoSpaceForStudentException, NoSuchStudentException{
         try{
             removeStudent(student);
             holder.addStudent(student);
