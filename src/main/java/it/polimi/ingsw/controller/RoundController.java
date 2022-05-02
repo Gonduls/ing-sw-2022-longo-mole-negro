@@ -67,7 +67,7 @@ public class RoundController {
     public void handleEvent(VC_GameEvent event) {
 
 
-        if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getNickname()){
+        if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getUsername()){
             return;
         }
 
@@ -91,7 +91,7 @@ public class RoundController {
 
     Player getPlayerByUsername(String username) {
         for (Player p : seatedPlayers) {
-            if (p.getNickname().equals(username)) {
+            if (p.getUsername().equals(username)) {
                 return p;
             }
         }

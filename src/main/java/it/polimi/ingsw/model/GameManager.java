@@ -57,54 +57,97 @@ public class GameManager {
     }
 
     /**
-     * @return the exact board object
+     * @return the exact board instance
      */
     public Board getBoard() {return board;}
 
+    /**
+     * @return the array containing all clouds
+     */
     public Cloud[] getClouds() {
         return clouds;
     }
 
+    /**
+     * @return the exact bag instance
+     */
     public Bag getBag() {
         return bag;
     }
 
+    /**
+     * @return the array containing the cards that can be used in this game
+     */
     public CharacterCard[] getActiveCards() {
         return activeCards;
     }
 
+    /**
+     * @return the array of boolean flags that correspond to the cards that have been activated this turn
+     */
     public boolean[] getUsedCards() {
         return usedCards;
     }
 
+    /**
+     * @return the array that contains the playing player
+     */
     public Player[] getPlayers() {
         return players;
     }
 
+    /**
+     * @return the list with islands used in the game
+     */
     public List<Island> getIslands() {
         return board.getIslands();
     }
 
+    /**
+     * @return the exact professors instance
+     */
     public Professors getProfessors(){
         return professors;
     }
 
+    /**
+     * @return the index of the island that contains MotherNature
+     */
     public int getMotherNaturePosition() {
         return board.getMotherNaturePosition();
     }
 
+    /**
+     * @param islandIndex: the index that designates the island in the list
+     * @return how many towers are contained in the island designated by the islandIndex
+     */
     public int getTowerNumber(int islandIndex) {
         return board.getIslands().get(islandIndex).getTowerNumber();
     }
 
+    /**
+     * @param islandIndex: the index that designates the island in the list
+     * @return the color of the tower in the island. If non are present, null is returned
+     */
     public TowerColor getTowerColor(int islandIndex) {
         return board.getIslands().get(islandIndex).getTower();
     }
 
+    /**
+     * Moves all students from one cloud to the entrance of a player's school
+     *
+     * @param cloudIndex: the index of the cloud in the cloud array
+     * @param player: the target player
+     * @throws NoSpaceForStudentException if the school's entrance cannot hold all students contained in the cloud
+     * @throws NoSuchStudentException if the cloud was empty
+     */
     public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException {
         clouds[cloudIndex].moveAllStudents(player.getSchool());
     }
 
+    /**
+     * It refills all clouds, taking random students from the bag
+     */
     public void refillClouds() {
         for(Cloud cloud : clouds){
             try{
@@ -120,15 +163,19 @@ public class GameManager {
         //todo
     }
 
+    /**
+     * It moves Mother Nature of "amount" steps, then performs the influence count
+     * and places a tower if needed, checking for islands' merges.
+     * It will change behaviour depending on the active cards (todo)
+     *
+     * @param amount: the steps that Mother Nature has to take
+     * @throws IllegalArgumentException if the amount given is less than 1
+     */
     public void moveMotherNature(int amount) throws IllegalArgumentException{
         board.moveMotherNature(amount);
         int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
-        //todo: decidere come gestire le carte, possibile gestione:
-        // mettere un flag in gamemanager, da controllare prima di calcolare l'influenza
 
-        // todo: l'if sotto è una bozza, da cambiare (ad esempio: questo course of action è lo stesso se non ci sono carte attive)
-        // todo: aggiungere effettivamente la prima torre (il metodo addTower non è mai stato chiamato)
         if(activeCards == null){
             TowerColor newTC = board.calculateInfluence(position, professors);
             TowerColor previousTC = currentIsland.getTower();
@@ -155,14 +202,35 @@ public class GameManager {
         }
     }
 
-
-    public void moveStudentFromEntranceToIsland(School school, Color c, int index) throws NoSuchStudentException, NoSpaceForStudentException {
-        if(index < board.getNumberOfIslands()) throw new IllegalArgumentException("there is no island number " + index);
-        school.getStudentsAtEntrance().moveStudentTo(c, board.getIslands().get(index));
+    /**
+     * It moves a single student from the entrance of a school to the designated island
+     *
+     * @param school: the designated school
+     * @param student: the student to be moved
+     * @param index: the index of the designated island
+     * @throws NoSuchStudentException if the target school's entrance does not contain such student
+     * @throws IllegalArgumentException if the island's index does not correspond to any island
+     */
+    public void moveStudentFromEntranceToIsland(School school, Color student, int index) throws NoSuchStudentException, IllegalArgumentException {
+        if(index < 0 || index >= board.getNumberOfIslands()) throw new IllegalArgumentException("there is no island number " + index);
+        try{
+            school.getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
+        }
+        catch (NoSpaceForStudentException e){
+            System.out.println("An island does not a limit on the number of students it can hold");
+        }
     }
 
-    public void moveStudentFromEntranceToTable(School school, Color c) throws NoSuchStudentException, NoSpaceForStudentException {
-        school.getStudentsAtEntrance().moveStudentTo(c, school.getStudentsAtTables());
+    /**
+     * It moves a student from a school's entrance to the school's tables
+     *
+     * @param school: the target school
+     * @param student: the target student
+     * @throws NoSuchStudentException if the target school's entrance does not contain such student
+     * @throws NoSpaceForStudentException if the school's tables can no longer contain students of that color
+     */
+    public void moveStudentFromEntranceToTable(School school, Color student) throws NoSuchStudentException, NoSpaceForStudentException {
+        school.getStudentsAtEntrance().moveStudentTo(student, school.getStudentsAtTables());
     }
 
 
