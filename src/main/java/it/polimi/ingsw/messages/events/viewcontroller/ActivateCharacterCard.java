@@ -1,6 +1,4 @@
-package it.polimi.ingsw.events.viewcontroller;
-
-import it.polimi.ingsw.model.Player;
+package it.polimi.ingsw.messages.events.viewcontroller;
 
 public class ActivateCharacterCard implements VC_GameEvent{
     String playerName;

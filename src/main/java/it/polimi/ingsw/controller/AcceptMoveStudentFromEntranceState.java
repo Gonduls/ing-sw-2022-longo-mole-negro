@@ -3,6 +3,8 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.events.viewcontroller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
+import it.polimi.ingsw.messages.events.viewcontroller.*;
+import it.polimi.ingsw.messages.viewcontroller.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 

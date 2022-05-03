@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events.viewcontroller;
+package it.polimi.ingsw.messages.events.viewcontroller;
 
 import it.polimi.ingsw.model.AssistantCard;
 

@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.viewcontroller.ChooseColorEvent;
-import it.polimi.ingsw.events.viewcontroller.ChooseIslandEvent;
-import it.polimi.ingsw.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.ChooseColorEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.ChooseIslandEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
+import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.model.CharacterCard;

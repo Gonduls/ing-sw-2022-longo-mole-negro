@@ -1,4 +1,4 @@
-package it.polimi.ingsw.events.viewcontroller;
+package it.polimi.ingsw.messages.events.viewcontroller;
 
 public class ChooseCloudTileEvent implements VC_GameEvent{
 

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.events.viewcontroller.MoveMotherNatureEvent;
-import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
+import it.polimi.ingsw.messages.events.viewcontroller.MoveMotherNatureEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
 import it.polimi.ingsw.model.Player;
 
 /**

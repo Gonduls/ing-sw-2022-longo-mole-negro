@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
 import it.polimi.ingsw.model.*;
 
 import java.util.Random;
