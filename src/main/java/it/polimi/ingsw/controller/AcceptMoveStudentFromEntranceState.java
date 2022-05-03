@@ -1,10 +1,10 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.events.viewcontroller.*;
+import it.polimi.ingsw.messages.events.viewcontroller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.viewcontroller.*;
-import it.polimi.ingsw.messages.viewcontroller.*;
+import it.polimi.ingsw.messages.events.viewcontroller.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
@@ -56,7 +56,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 try {
                     context.gameManager.moveStudentFromEntranceToIsland(player.getSchool(), color, indexIsland);
                     numberOfEvents--;
-                } catch (NoSpaceForStudentException | NoSuchStudentException e) { /*send error*/}
+                } catch (IllegalArgumentException | NoSuchStudentException e) { /*send error*/}
 
                 break;
             }

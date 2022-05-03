@@ -71,4 +71,42 @@ class StudentHolderTest {
             }
         }
     }
+
+    @Test
+    void testMoveStudentTo() {
+        //TODO controlla che sia atomica (non viene cambiato nulla se throwa)
+        StudentHolder one = new StudentHolder(5,1);
+        StudentHolder two = new StudentHolder(5,1);
+        int sum = 0;
+
+        for(Color color: Color.values()) {
+            try{one.addStudent(color);} catch (NoSpaceForStudentException e) {assert false;}
+            try{two.addStudent(color);} catch (NoSpaceForStudentException e) {assert false;}
+        }
+
+        try{one.moveStudentTo(Color.RED, two);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert true;}
+
+        for(Color color : Color.values())
+            sum += one.getStudentByColor(color);
+
+        assertEquals(5, sum);
+
+        try{one.removeStudent(Color.RED);} catch (NoSuchStudentException e) {assert false;}
+        try{one.moveStudentTo(Color.RED, two);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert true;}
+
+        try{two.moveStudentTo(Color.RED, one);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
+
+        sum = 0;
+        for(Color color : Color.values())
+            sum += one.getStudentByColor(color);
+
+        assertEquals(5, sum);
+
+        sum = 0;
+        for(Color color : Color.values())
+            sum += two.getStudentByColor(color);
+
+        assertEquals(4, sum);
+
+    }
 }
