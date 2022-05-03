@@ -1,7 +1,6 @@
 package it.polimi.ingsw.messages;
 
 public enum MessageType {
-
     LOGIN,
     LOGOUT,
     ACK,
@@ -27,5 +26,5 @@ public enum MessageType {
     CHANGE_TURN,
     GAME_EVENT,
     END_GAME,
-    LEAVE_ROOM;
+    LEAVE_ROOM
 }

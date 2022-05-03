@@ -1,5 +1,7 @@
 package it.polimi.ingsw.messages;
 
-public interface Message {
-    public MessageType getMessageType();
+import java.io.Serializable;
+
+public abstract class Message implements Serializable {
+    public abstract MessageType getMessageType();
 }

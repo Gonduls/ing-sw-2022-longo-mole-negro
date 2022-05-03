@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.messages.*;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,19 +29,38 @@ public class ClientHandler implements Runnable{
 
         System.out.println("Connected to " + client.getInetAddress());
 
-
-        while(username == null){
-            try{
-                Object next = input.readObject();
-            } catch (ClassNotFoundException | ClassCastException  e) {
-                System.out.println("Could not get Login message from client at " + client.getInetAddress());
-            }
-
+        try {
+            handleClientConnection();
+        } catch (IOException e) {
+            System.out.println("client " + client.getInetAddress() + " connection dropped");
         }
+
+        try {
+            client.close();
+        } catch (IOException e) { }
     }
 
     private void handleClientConnection() throws IOException{
+        login();
 
+    }
+
+    private void login() throws IOException{
+        while(username == null){
+            try{
+                username = ((Login) input.readObject()).getUsername();
+            } catch (ClassNotFoundException | ClassCastException  e) {
+                output.writeObject(new Nack("Login message missing"));
+                continue;
+            }
+
+            if(Lobby.getInstance().insertNewPlayer(username)) {
+                output.writeObject(new Ack());
+                return;
+            }
+
+            output.writeObject(new Nack("Username was already taken"));
+        }
     }
 
 }

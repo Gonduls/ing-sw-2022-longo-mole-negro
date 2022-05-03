@@ -43,16 +43,35 @@ public class Lobby {
             try{
                 Socket client = socket.accept();
 
-                //ClientHandler clientHandler = new ClientHandler(client);
-                //Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
-                //thread.start();
+                ClientHandler clientHandler = new ClientHandler(client);
+                Thread thread = new Thread(clientHandler, "server_" + client.getInetAddress());
+                thread.start();
             }
             catch (IOException e) {
                 System.out.println("connection dropped");
             }
-
-
         }
     }
+
+    public HashMap<String, Integer> getPlayers() {
+        return players;
+    }
+
+    /**
+     * Inserts a player in players only if the username is unique
+     *
+     * @param username: the username to insert
+     * @return true if the username was unique and was inserted, false if the username was already in players
+     */
+    public boolean insertNewPlayer(String username){
+        synchronized (players){
+            if(players.containsKey(username))
+                return false;
+
+            players.put(username, null);
+            return true;
+        }
+    }
+
 
 }
