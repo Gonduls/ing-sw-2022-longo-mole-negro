@@ -23,6 +23,15 @@ public class ProfessorsObserver implements StudentHolderObserver{
      */
     public void update(){
         for(Color color : Color.values()){
+            if(observed.getStudentByColor(color) == 0)
+                continue;
+
+            if(professors.getOwners().get(color) == null) {
+                professors.setToPlayer(color, player);
+                continue;
+            }
+
+
             Player previousOwner = professors.getOwners().get(color);
 
             if(previousOwner.getSchool().getStudentsAtTables().getStudentByColor(color) < observed.getStudentByColor(color))

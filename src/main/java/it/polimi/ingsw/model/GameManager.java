@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class GameManager {
@@ -192,13 +193,26 @@ public class GameManager {
                 currentIsland.addTower();
             }
 
-
             Player newP = players[newTC.ordinal()];
             // todo: controllare fine partita
             newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
 
             currentIsland.setTowerColor(newTC);
             board.mergeIsland(position);
+
+            Player[] winner = new Player[2];
+
+            if(newP.getTowersLeft() <= 0){
+                winner[0] = newP;
+                winner[1] = null;
+                if(players.length == 4)
+                    winner[1] = players[newTC.ordinal() + 2];
+            }
+            //TODO mandare messaggio al controller
+
+            //TODO controllare i casi di parità
+            checkEndConditions();
+
         }
     }
 
@@ -217,7 +231,7 @@ public class GameManager {
             school.getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
         }
         catch (NoSpaceForStudentException e){
-            System.out.println("An island does not a limit on the number of students it can hold");
+            System.out.println("An island does not have a limit on the number of students it can hold");
         }
     }
 
@@ -232,6 +246,44 @@ public class GameManager {
     public void moveStudentFromEntranceToTable(School school, Color student) throws NoSuchStudentException, NoSpaceForStudentException {
         school.getStudentsAtEntrance().moveStudentTo(student, school.getStudentsAtTables());
     }
+
+    public void checkEndConditions() {
+        Player[] winner = new Player[2];
+
+        if(board.getNumberOfIslands() <= 3){
+            int min = players[0].getTowersLeft();
+            winner[0] = players[0];
+
+            if(players.length == 3){
+                for(int i = 1; i < 3; i++) {
+                    if (players[i].getTowersLeft() < min) {
+                        min = players[i].getTowersLeft();
+                        winner[0] = players[i];
+                    }
+                }
+            } else if (players.length == 4) {
+                winner[1] = players[2];
+
+                if(players[1].getTowersLeft() < min) {
+                    min = players[1].getTowersLeft();
+                    winner[0] = players[1];
+                    winner[1] = players[3];
+                }
+            } else {
+                if(players[1].getTowersLeft() < min) {
+                    min = players[1].getTowersLeft();
+                    winner[0] = players[1];
+                    winner[1] = null;
+                }
+
+            }
+
+        }
+
+        //TODO: dovrebbe fare qualcosa con winner
+
+    }
+
 
 
 }
