@@ -11,7 +11,7 @@ public class Lobby {
     private final HashMap<Integer, Room> publicInitializingRooms;
     private final HashMap<Integer, Room> privateInitializingRooms;
     private final HashMap<Integer, Room> PlayingRooms;
-    private final boolean listenEnd = true;
+    private boolean listenEnd = false;
     private ServerSocket socket;
 
     //todo: modify 9999 with value from a config file
@@ -39,7 +39,7 @@ public class Lobby {
 
     public void listen(){
 
-        while(listenEnd){
+        while(!listenEnd){
             try{
                 Socket client = socket.accept();
 
@@ -51,6 +51,8 @@ public class Lobby {
                 System.out.println("connection dropped");
             }
         }
+
+        System.out.println("Shutting down player acceptance");
     }
 
     public HashMap<String, Integer> getPlayers() {
@@ -73,5 +75,23 @@ public class Lobby {
         }
     }
 
+    /**
+     * Stops the lobby from accepting new players,
+     * but does not stop players from playing already started games.
+     * If any games were still initializing, it returns false and does nothing.
+     *
+     * @return true if no rooms were in the midst of initializing, false otherwise (before closing the lobby)
+     * @throws IOException if problems occur in creating and/or closing a "fake" client socket
+     */
+    public boolean stop() throws IOException{
+        synchronized (players){
+            if(!(publicInitializingRooms.isEmpty() && privateInitializingRooms.isEmpty()))
+                return false;
+        }
 
+        listenEnd = true;
+        Socket fake = new Socket("localhost", 9999);
+        fake.close();
+        return true;
+    }
 }

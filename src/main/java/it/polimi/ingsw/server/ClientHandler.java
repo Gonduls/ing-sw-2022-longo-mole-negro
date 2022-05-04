@@ -43,6 +43,10 @@ public class ClientHandler implements Runnable{
     private void handleClientConnection() throws IOException{
         login();
 
+        boolean logout = false;
+        while(!logout){
+
+        }
     }
 
     private void login() throws IOException{

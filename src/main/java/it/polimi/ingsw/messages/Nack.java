@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class Nack extends Message{
+public class Nack implements Message{
     private final String errorMessage;
 
     public Nack(String errorMessage){

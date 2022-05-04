@@ -1,24 +1,27 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.messages.Login;
-import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.exceptions.UnexpectedMessageException;
+import it.polimi.ingsw.messages.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class NetworkHandler implements Runnable{
     Socket server;
     private ObjectOutputStream output;
     private ObjectInputStream input;
+    //private String username;
+    private boolean canLogOut = true;
+    private Message answer = null;
+    private final Object lockAnswer = new Object();
+    private final Object lockAckNack = new Object();
+    private boolean endCondition = false;
+    private ClientController cController;
 
-    public NetworkHandler(String serverIP, int serverPort) throws IOException {
+    public NetworkHandler(String serverIP, int serverPort, ClientController cController) throws IOException {
         server = new Socket(serverIP, serverPort);
-    }
-
-    public void run(){
         try {
             output = new ObjectOutputStream(server.getOutputStream());
             input = new ObjectInputStream(server.getInputStream());
@@ -26,27 +29,106 @@ public class NetworkHandler implements Runnable{
             System.out.println("could not open connection to server at" + server.getInetAddress());
             return;
         }
+
+        this.cController = cController;
     }
 
-    //todo: get input from cli/gui
-    private void login() throws IOException{
-        Scanner scanner = new Scanner(System.in);
-        String username;
-        boolean unique = true;
-        Message answer;
+    public void run() {
+        while (!endCondition){
+            synchronized (lockAnswer){
+                if (answer != null) {
+                    try {
+                        lockAnswer.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
 
-        while(unique){
-            System.out.println("Insert unique name: ");
-            username = scanner.nextLine();
+                try {
+                    answer = (Message) input.readObject();
+                } catch (ClassNotFoundException | ClassCastException | IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
 
-            output.writeObject(new Login(username));
+                try {
+                    cController.updateCModel(answer);
+                } catch (UnexpectedMessageException e) {
+                    lockAnswer.notifyAll();
+                }
+            }
 
-            try{
-                answer = (Message) input.readObject();
-            } catch (ClassNotFoundException | ClassCastException  e){
-                return;
+        }
+    }
+
+
+    public boolean login(String usernameTemp) throws IOException, UnexpectedMessageException {
+        synchronized (lockAckNack) {
+            synchronized (lockAnswer) {
+                while(answer != null){
+                    try {
+                        lockAnswer.wait();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+                output.writeObject(new Login(usernameTemp));
+                lockAnswer.notifyAll();
+
+                try {
+                    lockAnswer.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+
+                if(answer.getMessageType() == MessageType.NACK){
+                    answer = null;
+                    lockAnswer.notifyAll();
+                    return false;
+                }
+                if(answer.getMessageType() == MessageType.ACK){
+                    //this.username = usernameTemp;
+                    answer = null;
+                    lockAnswer.notifyAll();
+                    return true;
+                }
+
+                throw new UnexpectedMessageException("A different message from ack or nack was read");
             }
         }
+    }
 
+    /**
+     * If the client is at a state where he can log out, performs logout
+     *
+     * @return true if logout was successful, false otherwise
+     * @throws IOException if an improper message was sent from the server
+     */
+    public boolean logOut() throws IOException{
+        if(!canLogOut)
+            return false;
+
+        output.writeObject(new Logout());
+
+        try{
+            answer = (Message) input.readObject();
+        } catch (ClassNotFoundException | ClassCastException  e){
+            throw(new IOException("Could not get a proper response from the server"));
+        }
+
+        if(answer.getMessageType() == MessageType.ACK){
+            endCondition = true;
+            return true;
+        }
+
+        if(answer.getMessageType() == MessageType.NACK){
+            System.out.println("Could not log out");
+            return false;
+        }
+
+        return false;
     }
 }

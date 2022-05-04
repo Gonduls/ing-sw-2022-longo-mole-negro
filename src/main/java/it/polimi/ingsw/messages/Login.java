@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class Login extends Message{
+public class Login implements Message{
     private final String username;
 
     public Login(String username){
