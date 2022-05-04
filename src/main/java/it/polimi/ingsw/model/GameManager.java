@@ -194,23 +194,12 @@ public class GameManager {
             }
 
             Player newP = players[newTC.ordinal()];
-            // todo: controllare fine partita
+
             newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
 
             currentIsland.setTowerColor(newTC);
             board.mergeIsland(position);
 
-            Player[] winner = new Player[2];
-
-            if(newP.getTowersLeft() <= 0){
-                winner[0] = newP;
-                winner[1] = null;
-                if(players.length == 4)
-                    winner[1] = players[newTC.ordinal() + 2];
-            }
-            //TODO mandare messaggio al controller
-
-            //TODO controllare i casi di parità
             checkEndConditions();
 
         }
@@ -247,18 +236,40 @@ public class GameManager {
         school.getStudentsAtEntrance().moveStudentTo(student, school.getStudentsAtTables());
     }
 
-    public void checkEndConditions() {
-        Player[] winner = new Player[2];
+    public Player[] checkEndConditions() {
 
-        if(board.getNumberOfIslands() <= 3){
+        Player[] winner = new Player[3];
+        int position = board.getMotherNaturePosition();
+        Island currentIsland = board.getIslands().get(position);
+        TowerColor currentTC = currentIsland.getTower();
+        Player newP = players[currentTC.ordinal()];
+
+        if(newP.getTowersLeft() <= 0){
+            winner[0] = newP;
+            winner[1] = null;
+            winner[2] = null;
+            if(players.length == 4)
+                winner[1] = players[currentTC.ordinal() + 2];
+        }
+        //TODO mandare messaggio al controller
+
+        else if(board.getNumberOfIslands() <= 3){
             int min = players[0].getTowersLeft();
             winner[0] = players[0];
 
             if(players.length == 3){
-                for(int i = 1; i < 3; i++) {
+                for (int i = 1; i < 3; i++) {
                     if (players[i].getTowersLeft() < min) {
                         min = players[i].getTowersLeft();
-                        winner[0] = players[i];
+                    }
+                }
+
+                int k = 0;
+
+                for (int j = 0; j < 3; j++) {
+                    if (players[j].getTowersLeft() == min) {
+                        winner[k] = players[j];
+                        k++;
                     }
                 }
             } else if (players.length == 4) {
@@ -268,19 +279,23 @@ public class GameManager {
                     min = players[1].getTowersLeft();
                     winner[0] = players[1];
                     winner[1] = players[3];
+                } else if (players[1].getTowersLeft() == min) {
+                    winner[1] = players[1];
                 }
             } else {
-                if(players[1].getTowersLeft() < min) {
+                if(players[1].getTowersLeft() < min ) {
                     min = players[1].getTowersLeft();
                     winner[0] = players[1];
                     winner[1] = null;
+                } else if (players[1].getTowersLeft() == min) {
+                    winner[1] = players[1];
                 }
 
             }
 
         }
 
-        //TODO: dovrebbe fare qualcosa con winner
+        return winner;
 
     }
 

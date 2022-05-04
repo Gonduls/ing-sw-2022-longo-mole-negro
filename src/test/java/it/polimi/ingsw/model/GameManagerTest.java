@@ -37,7 +37,6 @@ class GameManagerTest {
 
     @Test
     void testMoveMotherNature() {
-        //TODO
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
         Color savedColor = Color.RED;
@@ -72,9 +71,6 @@ class GameManagerTest {
         assertEquals(1, game.getIslands().get(2).getTowerNumber());
         assertEquals(8,game.getPlayers()[0].getTowersLeft());
         assertEquals(7,game.getPlayers()[1].getTowersLeft());
-
-
-
 
     }
 
