@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CoinObserverTest {
 
     @Test
-    void update() {
+    void testUpdate() {
         Player playerBlack = new Player(0,"tizio",false);
         CoinObserver CO = new CoinObserver(playerBlack);
 

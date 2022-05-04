@@ -10,39 +10,76 @@ class GameManagerTest {
     @Test
     void testEmptyCloudInPlayer() {
 
-        //TODO correggi come sotto
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
         int sum = 0;
-        Color color1 = Color.RED;
-        Color color2 = Color.GREEN;
-        Color color3 = Color.BLUE;
+
+        try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException e) {assert false;} catch (NoSuchStudentException e1) {assert true;}
+
         game.refillClouds();
-        try{game.getPlayers()[0].getSchool().removeFromEntrance(color1);} catch (NoSuchStudentException e) {assert true;}
-        try{game.getPlayers()[0].getSchool().removeFromEntrance(color2);} catch (NoSuchStudentException e) {assert true;}
-        try{game.getPlayers()[0].getSchool().removeFromEntrance(color3);} catch (NoSuchStudentException e) {assert true;}
 
 
-        try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException e) {assert false;} catch (NoSuchStudentException e1) {assert false;}
-        try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException e) {assert true;} catch (NoSuchStudentException e1) {assert true;}
+        for(Color color : Color.values()) {
+            while(game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(color) != 0)
+                try {game.getPlayers()[0].getSchool().removeFromEntrance(color);} catch (NoSuchStudentException e) {assert true;}
+        }
 
+        try{game.emptyCloudInPlayer(0, players[0]);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
+        try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
+        try{game.emptyCloudInPlayer(0, players[0]);} catch (NoSpaceForStudentException e) {assert false;} catch (NoSuchStudentException e1) {assert true;}
         for(Color color : Color.values()) {
             sum += game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(color);
         }
 
-        assertEquals(7, sum);
+        assertEquals(6, sum);
 
     }
 
     @Test
     void testMoveMotherNature() {
         //TODO
+        Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
+        GameManager game = new GameManager(players, false);
+        Color savedColor = Color.RED;
+
+        for(Color color : Color.values()) {
+            if(game.getIslands().get(2).getStudentByColor(color) != 0) {
+                game.getProfessors().setToPlayer(color, game.getPlayers()[0]);
+                savedColor = color;
+            }
+        }
+
+        assertNull(game.getIslands().get(2).getTower());
+
+        try{game.moveMotherNature(0);} catch (IllegalArgumentException e) {assert true;}
+        try{game.moveMotherNature(2);} catch (IllegalArgumentException e) {assert false;}
+
+        assertEquals(2,game.getMotherNaturePosition());
+        assertEquals(TowerColor.BLACK, game.getIslands().get(2).getTower());
+        assertEquals(1, game.getIslands().get(2).getTowerNumber());
+        assertEquals(7,game.getPlayers()[0].getTowersLeft());
+
+        if(game.getPlayers()[1].getSchool().getStudentsAtEntrance().getStudentByColor(Color.BLUE) != 0)
+            try{game.moveStudentFromEntranceToIsland(game.getPlayers()[1].getSchool(),Color.BLUE, 2);} catch (NoSuchStudentException | IllegalArgumentException e) {assert false;}
+
+        game.getProfessors().setToPlayer(Color.BLUE, game.getPlayers()[1]);
+        game.getProfessors().setToPlayer(savedColor, game.getPlayers()[1]);
+
+        try{game.moveMotherNature(12);} catch (IllegalArgumentException e) {assert false;}
+
+        assertEquals(2,game.getMotherNaturePosition());
+        assertEquals(TowerColor.WHITE, game.getIslands().get(2).getTower());
+        assertEquals(1, game.getIslands().get(2).getTowerNumber());
+        assertEquals(8,game.getPlayers()[0].getTowersLeft());
+        assertEquals(7,game.getPlayers()[1].getTowersLeft());
+
+
+
 
     }
 
     @Test
     void testMoveStudentFromEntranceToIsland() {
-        //TODO
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
 
         GameManager game = new GameManager(players, false);
@@ -74,14 +111,12 @@ class GameManagerTest {
 
     @Test
     void testMoveStudentFromEntranceToTable() {
-        //TODO
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
         int sumEntrance = 0;
         int sumTables = 0;
 
         if(game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(Color.RED) == 0) {
-            System.out.println("ok");
             try{game.moveStudentFromEntranceToTable(players[0].getSchool(), Color.RED);} catch (NoSuchStudentException | NoSpaceForStudentException e) {assert true;}
             for(Color color : Color.values()) {
                 sumEntrance += game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(color);

@@ -66,7 +66,6 @@ class BoardTest {
     @Test
     void testCalculateInfluence_withTowers(){
 
-        //TODO
         Professors prof = new Professors();
         Player playerBlack = new Player(0,"tizio",false);
         Player playerWhite = new Player(1,"caio", false);

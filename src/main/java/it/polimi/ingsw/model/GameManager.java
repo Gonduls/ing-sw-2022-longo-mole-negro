@@ -231,7 +231,7 @@ public class GameManager {
             school.getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
         }
         catch (NoSpaceForStudentException e){
-            System.out.println("An island does not have a limit on the number of students it can hold");
+            System.out.println("An island does not have  a limit on the number of students it can hold");
         }
     }
 

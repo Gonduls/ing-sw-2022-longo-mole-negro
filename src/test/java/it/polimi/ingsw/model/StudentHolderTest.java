@@ -74,7 +74,6 @@ class StudentHolderTest {
 
     @Test
     void testMoveStudentTo() {
-        //TODO controlla che sia atomica (non viene cambiato nulla se throwa)
         StudentHolder one = new StudentHolder(5,1);
         StudentHolder two = new StudentHolder(5,1);
         int sum = 0;
