@@ -10,7 +10,7 @@ public class Lobby {
     private final HashMap<String, Integer> players;
     private final HashMap<Integer, Room> publicInitializingRooms;
     private final HashMap<Integer, Room> privateInitializingRooms;
-    private final HashMap<Integer, Room> PlayingRooms;
+    private final HashMap<Integer, Room> playingRooms;
     private boolean listenEnd = false;
     private ServerSocket socket;
 
@@ -19,14 +19,13 @@ public class Lobby {
         players = new HashMap<>();
         publicInitializingRooms = new HashMap<>();
         privateInitializingRooms = new HashMap<>();
-        PlayingRooms = new HashMap<>();
+        playingRooms = new HashMap<>();
 
         try {
             socket = new ServerSocket(9999);
         } catch (IOException e) {
             System.out.println("cannot open server socket");
             System.exit(1);
-            return;
         }
     }
 
@@ -38,7 +37,6 @@ public class Lobby {
     }
 
     public void listen(){
-
         while(!listenEnd){
             try{
                 Socket client = socket.accept();
@@ -75,6 +73,12 @@ public class Lobby {
         }
     }
 
+    public void removePlayer(String username){
+        synchronized (players){
+            players.remove(username);
+        }
+    }
+
     /**
      * Stops the lobby from accepting new players,
      * but does not stop players from playing already started games.
@@ -93,5 +97,12 @@ public class Lobby {
         Socket fake = new Socket("localhost", 9999);
         fake.close();
         return true;
+    }
+
+    /**
+     * @return true if lobby can accept new players, false otherwise
+     */
+    public boolean isRunning(){
+        return !listenEnd;
     }
 }
