@@ -67,15 +67,7 @@ class NetworkHandlerTest {
     void login(){
         assertTrue(lobby.getPlayers().containsKey(username));
 
-        // creating a new client
-        ClientController cc1 = new ClientController();
-        NetworkHandler nh1 = null;
-        try{
-            nh1 = new NetworkHandler("localhost", 9999, cc1);
-            new Thread(nh1).start();
-        } catch (IOException e){
-            fail();
-        }
+        NetworkHandler nh1 = newClient();
 
         // checking that no more clients with same username can be added
         try{
@@ -89,5 +81,32 @@ class NetworkHandlerTest {
         } catch (UnexpectedMessageException | IOException e){
             fail();
         }
+    }
+
+    /**
+     * Creates a new client and returns its NetworkHandler, without logging in
+     * @param cc1 The client ClientController associated to the client
+     * @return The NetworkHandler associated to the client
+     */
+    NetworkHandler newClient(ClientController cc1){
+        NetworkHandler nh1 = null;
+        try{
+            nh1 = new NetworkHandler("localhost", 9999, cc1);
+            new Thread(nh1).start();
+        } catch (IOException e){
+            fail();
+        }
+
+        return nh1;
+    }
+
+    /**
+     * Creates a new client and returns its NetworkHandler, without logging in,
+     * but no ClientController is saved
+     *
+     * @return The NetworkHandler associated to the client
+     */
+    NetworkHandler newClient(){
+        return newClient(new ClientController());
     }
 }
