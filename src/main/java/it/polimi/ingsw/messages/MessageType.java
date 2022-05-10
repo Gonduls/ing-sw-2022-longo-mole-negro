@@ -21,7 +21,7 @@ public enum MessageType {
     PLAY_ASSISTANT_CARD,
     ACTIVATE_CHARACTER_CARD,
     ADD_COIN,
-    REMOVE_COIN,
+    PAY_PRICE,
     CHANGE_PHASE,
     CHANGE_TURN,
     GAME_EVENT,

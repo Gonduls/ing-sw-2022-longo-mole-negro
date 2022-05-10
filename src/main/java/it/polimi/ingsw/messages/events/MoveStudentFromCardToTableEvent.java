@@ -1,15 +1,17 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.Color;
 
-public class MoveStudentFromEntranceToTableEvent extends VC_GameEvent {
+public class MoveStudentFromCardToTableEvent extends GameEvent {
 
     String playerName;
     Color color;
 
+
     @Override
     public GameEventType getEventType() {
-        return GameEventType.MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE;
+        return GameEventType.MOVE_STUDENT_FROM_CARD_TO_TABLE;
     }
 
     @Override
@@ -17,7 +19,8 @@ public class MoveStudentFromEntranceToTableEvent extends VC_GameEvent {
         return playerName;
     }
 
-    public Color getColor(){
+
+    public Color getColor() {
         return color;
     }
 }

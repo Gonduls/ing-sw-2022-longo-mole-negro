@@ -1,4 +1,4 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
 public enum GameEventType {
     PLAY_ASSISTANT_CARD, //planning phase

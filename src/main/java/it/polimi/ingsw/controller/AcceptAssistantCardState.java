@@ -1,8 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.PlayAssistantCardEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.events.PlayAssistantCardEvent;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Player;
 
@@ -26,12 +26,12 @@ public class AcceptAssistantCardState extends GameState {
     }
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.PLAY_ASSISTANT_CARD;
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) {
+    public void executeEvent(GameEvent event) {
 
         if (!checkValidEvent( event)) return;
         PlayAssistantCardEvent eventCast = (PlayAssistantCardEvent) event;

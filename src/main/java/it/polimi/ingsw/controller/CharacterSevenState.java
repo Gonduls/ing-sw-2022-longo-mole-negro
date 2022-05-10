@@ -2,9 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.MoveStudentFromCardToTableEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.events.MoveStudentFromCardToTableEvent;
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
 
@@ -23,12 +23,12 @@ public class CharacterSevenState extends CharacterState{
 
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.MOVE_STUDENT_FROM_CARD_TO_TABLE;
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event) throws NoSuchStudentException {
         MoveStudentFromCardToTableEvent eventCast = (MoveStudentFromCardToTableEvent) event;
         Color color = eventCast.getColor();
         try {

@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
-import it.polimi.ingsw.messages.events.viewcontroller.ChooseIslandEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
-import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.messages.events.ChooseIslandEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.GameEvent;
 
 public class CharacterEightState extends CharacterState{
     GameState nextState;
@@ -19,13 +18,13 @@ public class CharacterEightState extends CharacterState{
     }
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_ISLAND;
     }
 
 
     @Override
-    public void executeEvent(VC_GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event) throws NoSuchStudentException {
         ChooseIslandEvent eventCast = (ChooseIslandEvent) event;
 
         if (eventCast.getIslandIndex() <0 || eventCast.getIslandIndex()>=context.gameManager.getIslands().size() ){

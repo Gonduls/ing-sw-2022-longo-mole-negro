@@ -1,8 +1,9 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.AssistantCard;
 
-public class PlayAssistantCardEvent extends VC_GameEvent {
+public class PlayAssistantCardEvent extends GameEvent {
 
 
     String playerName;

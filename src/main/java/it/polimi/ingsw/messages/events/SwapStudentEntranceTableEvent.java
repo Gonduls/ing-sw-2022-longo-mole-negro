@@ -1,18 +1,23 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.Color;
 
-public class SwapStudentCardEntranceEvent extends VC_GameEvent{
+public class SwapStudentEntranceTableEvent extends GameEvent {
+
 
     String playerName;
 
-    Color studentFromCard;
+
+
     Color studentFromEntrance;
+    Color studentFromTable;
+
 
 
     @Override
     public GameEventType getEventType() {
-        return GameEventType.SWAP_STUDENT_CARD_ENTRANCE;
+        return GameEventType.SWAP_STUDENT_ENTRANCE_TABLE;
     }
 
     @Override
@@ -21,12 +26,11 @@ public class SwapStudentCardEntranceEvent extends VC_GameEvent{
     }
 
 
-    public Color getStudentFromCard() {
-        return studentFromCard;
-    }
-
     public Color getStudentFromEntrance() {
         return studentFromEntrance;
     }
 
+    public Color getStudentFromTable() {
+        return studentFromTable;
+    }
 }

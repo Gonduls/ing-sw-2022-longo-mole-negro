@@ -1,9 +1,8 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages;
 
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.events.GameEventType;
 
-public  abstract class VC_GameEvent implements Message {
+public  abstract class GameEvent implements Message {
 
 
     @Override

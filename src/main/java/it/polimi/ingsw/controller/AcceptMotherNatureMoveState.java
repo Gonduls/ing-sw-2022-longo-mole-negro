@@ -1,9 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.viewcontroller.ActivateCharacterCard;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.MoveMotherNatureEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.events.MoveMotherNatureEvent;
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.Player;
 
 /**
@@ -16,7 +16,7 @@ public class AcceptMotherNatureMoveState extends GameState {
     }
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
 
         return event.getEventType() == GameEventType.MOVE_MOTHER_NATURE ||
                 event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD;
@@ -24,7 +24,7 @@ public class AcceptMotherNatureMoveState extends GameState {
 
 
     @Override
-    public void executeEvent(VC_GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws Exception {
 
         switch(event.getEventType()){
             case MOVE_MOTHER_NATURE: {

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.viewcontroller.ChooseColorEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
-import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.messages.events.ChooseColorEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCardTen;
 
 public class CharacterTenState extends CharacterState{
@@ -18,12 +17,12 @@ public class CharacterTenState extends CharacterState{
 
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_COLOR;
     }
 
 
-    public void executeEvent(VC_GameEvent event){
+    public void executeEvent(GameEvent event){
         ChooseColorEvent eventCast = (ChooseColorEvent) event;
         cc.setColor(eventCast.getColor());
         numberOfEvents--;

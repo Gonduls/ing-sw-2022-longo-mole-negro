@@ -1,6 +1,8 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
-public class MoveMotherNatureEvent extends VC_GameEvent{
+import it.polimi.ingsw.messages.GameEvent;
+
+public class MoveMotherNatureEvent extends GameEvent {
 
     String playerName;
     int amount;

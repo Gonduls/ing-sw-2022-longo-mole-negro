@@ -1,10 +1,9 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
-import it.polimi.ingsw.messages.events.viewcontroller.ChooseIslandEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
-import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.messages.events.ChooseIslandEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCardFive;
 
 
@@ -28,12 +27,12 @@ public class CharacterFiveState extends  CharacterState{
 
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_ISLAND;
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event) throws NoSuchStudentException {
 
 
         if (cc.getNoEntryToken() ==0) {

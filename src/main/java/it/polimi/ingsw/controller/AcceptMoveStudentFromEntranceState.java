@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.viewcontroller.*;
+import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToIslandEvent;
+import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToTableEvent;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
-import it.polimi.ingsw.messages.events.viewcontroller.*;
-import it.polimi.ingsw.messages.events.viewcontroller.*;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
@@ -20,7 +22,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
     }
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         if (event.getEventType() == GameEventType.MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND) {
             numberOfEvents--;
             return true;
@@ -40,7 +42,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
     }
 
 
-    public void executeEvent(VC_GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws Exception {
         if (!checkValidEvent(event)) {
             return;
         }

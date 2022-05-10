@@ -1,6 +1,8 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
-public class ChooseCloudTileEvent extends VC_GameEvent{
+import it.polimi.ingsw.messages.GameEvent;
+
+public class ChooseCloudTileEvent extends GameEvent {
 
     String playerName;
     int cloudIndex;

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.messages.events.viewcontroller;
+package it.polimi.ingsw.messages.events;
 
-public class ActivateCharacterCard extends VC_GameEvent {
+import it.polimi.ingsw.messages.GameEvent;
+
+public class ActivateCharacterCard extends GameEvent {
     String playerName;
     int cardId;
 

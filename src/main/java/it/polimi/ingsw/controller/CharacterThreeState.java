@@ -2,9 +2,9 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
-import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
-import it.polimi.ingsw.messages.events.viewcontroller.SwapStudentEntranceTableEvent;
-import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
+import it.polimi.ingsw.messages.events.SwapStudentEntranceTableEvent;
+import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Player;
 
@@ -19,13 +19,13 @@ public class CharacterThreeState extends CharacterState{
 
 
     @Override
-    public boolean checkValidEvent(VC_GameEvent event) {
+    public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.SWAP_STUDENT_ENTRANCE_TABLE ||
                 event.getEventType()== GameEventType.END_SELECTION;
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event) throws NoSuchStudentException {
 
         if (event.getEventType() == GameEventType.END_SELECTION){
             context.changeState(nextState);
