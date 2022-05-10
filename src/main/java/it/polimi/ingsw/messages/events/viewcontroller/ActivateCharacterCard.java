@@ -1,7 +1,8 @@
 package it.polimi.ingsw.messages.events.viewcontroller;
 
-public class ActivateCharacterCard implements VC_GameEvent{
+public class ActivateCharacterCard extends VC_GameEvent {
     String playerName;
+    int cardId;
 
 
     @Override
@@ -14,8 +15,7 @@ public class ActivateCharacterCard implements VC_GameEvent{
         return playerName;
     }
 
-
-
-
-
+    public int getCardId() {
+        return cardId;
+    }
 }

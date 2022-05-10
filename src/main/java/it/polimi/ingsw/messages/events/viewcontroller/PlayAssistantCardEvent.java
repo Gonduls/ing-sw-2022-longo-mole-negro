@@ -2,7 +2,7 @@ package it.polimi.ingsw.messages.events.viewcontroller;
 
 import it.polimi.ingsw.model.AssistantCard;
 
-public class PlayAssistantCardEvent implements VC_GameEvent {
+public class PlayAssistantCardEvent extends VC_GameEvent {
 
 
     String playerName;

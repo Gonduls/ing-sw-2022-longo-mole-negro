@@ -1,9 +1,18 @@
 package it.polimi.ingsw.messages.events.viewcontroller;
 
-public interface VC_GameEvent {
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 
-    GameEventType getEventType();
-    String getPlayerName();
+public  abstract class VC_GameEvent implements Message {
+
+
+    @Override
+    public MessageType getMessageType() {
+        return MessageType.GAME_EVENT;
+    }
+
+    public abstract GameEventType getEventType();
+    public abstract   String getPlayerName();
 
 }
 

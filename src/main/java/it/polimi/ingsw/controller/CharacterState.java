@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
+import it.polimi.ingsw.model.CharacterCard;
 
 public abstract class CharacterState extends  GameState{
+
+
 
 
     CharacterState(RoundController context, int numberOfEvents) {
@@ -10,14 +14,14 @@ public abstract class CharacterState extends  GameState{
     }
 
 
-    CharacterState(RoundController context, int numberOfEvents, GameState nextState){
+    CharacterState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc){
         super(context,numberOfEvents);
-        /*
-        here if
 
-         */
-        context.changeState(nextState);
+
+
     }
+
+
 
     @Override
     public boolean checkValidEvent(VC_GameEvent event) {
@@ -25,7 +29,7 @@ public abstract class CharacterState extends  GameState{
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) {
+    public void executeEvent(VC_GameEvent event)  throws NoSuchStudentException {
 
     }
 }

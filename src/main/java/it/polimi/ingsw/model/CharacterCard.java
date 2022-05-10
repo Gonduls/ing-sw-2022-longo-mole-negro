@@ -1,5 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.CharacterState;
+import it.polimi.ingsw.controller.CharacterZeroState;
+import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.controller.RoundController;
+
 public abstract class CharacterCard {
 
     StudentHolder sh;
@@ -17,4 +22,12 @@ public abstract class CharacterCard {
     public abstract StudentHolder getStudentHolder();
     public abstract void deactivateEffect();
 
+    public int getId() {
+        return id;
+    }
+
+
+    public  CharacterState getCharacterState(RoundController context, GameState nextState){
+        return null;
+    }
 }

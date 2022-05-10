@@ -2,7 +2,7 @@ package it.polimi.ingsw.messages.events.viewcontroller;
 
 import it.polimi.ingsw.model.Color;
 
-public class MoveStudentFromEntranceToTableEvent implements VC_GameEvent {
+public class MoveStudentFromEntranceToTableEvent extends VC_GameEvent {
 
     String playerName;
     Color color;

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
 import it.polimi.ingsw.model.*;
 
@@ -64,7 +66,7 @@ public class RoundController {
      * @param event
      */
 
-    public void handleEvent(VC_GameEvent event) {
+    public void handleEvent(VC_GameEvent event) throws Exception {
 
 
         if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getUsername()){

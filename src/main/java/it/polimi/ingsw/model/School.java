@@ -37,12 +37,11 @@ public class School {
             }
         }
     }
-
-    StudentHolder getStudentsAtTables() {
+    public StudentHolder getStudentsAtTables() {
         return studentsAtTables;
     }
 
-    StudentHolder getStudentsAtEntrance() {
+   public StudentHolder getStudentsAtEntrance() {
         return studentsAtEntrance;
     }
 

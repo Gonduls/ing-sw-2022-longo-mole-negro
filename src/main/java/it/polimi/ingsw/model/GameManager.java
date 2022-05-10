@@ -3,18 +3,24 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class GameManager {
 
     private final Board board;
     private final Cloud[] clouds;
     private final Bag bag;
-    private final CharacterCard[] activeCards;
-    private final boolean[] usedCards;
+
+    private final List<CharacterCard> activeCards;
+
+    private int usedCard;
     private final Player[] players;
     private final Professors professors;
+
+
 
     /**
      * This constructor, having given it the array of initialized players and the expert mode flag,
@@ -22,7 +28,7 @@ public class GameManager {
      * @param players: an array of all playing players, already instantiated and owning a school with entrances yet to initialize
      * @param expert: flag that signals if the game is in expert mode or not
      */
-    public GameManager(Player[] players, boolean expert){
+    public GameManager(Player[] players, boolean expert) {
         int size = players.length;
         this.players = players;
 
@@ -30,32 +36,88 @@ public class GameManager {
         professors = new Professors();
         board = new Board();
         clouds = new Cloud[size];
-        for(int i = 0; i< size; i++){
+        for (int i = 0; i < size; i++) {
             clouds[i] = new Cloud(size == 3 ? 4 : 3, bag);
         }
 
-        if(expert){
-            //todo: instantiate cards
-            usedCards = new boolean[]{false, false, false};
-            activeCards = null; // to change
+        if (expert) {
+            // todo: instantiate cards
+
+            usedCard = -1;
+
+            activeCards = new ArrayList<>();// to change
+            int randomInt;
+
+            Random randomGen = new Random();
+
+            while (activeCards.size() < 3) {
+                randomInt = randomGen.nextInt(12);
+                for (CharacterCard cc : activeCards) {
+                    if (cc.getId() == randomInt) {
+                        continue;
+                    }
+
+                    switch (randomInt) {
+                        case 0:
+                            activeCards.add(new CharacterCardZero(bag));
+                            break;
+                        case 1:
+                            //activeCards.add(new CharacterCardOne(bag));
+                            break;
+                        case 2:
+                            activeCards.add(new CharacterCardTwo(bag));
+                            break;
+                        case 3:
+                            activeCards.add(new CharacterCardThree());
+                            break;
+                        case 4:
+                            //todo
+                            break;
+                        case 5:
+                            activeCards.add(new CharacterCardFive());
+                            break;
+                        case 6:
+                            activeCards.add(new CharacterCardSix());
+                            break;
+                        case 7:
+                            activeCards.add(new CharacterCardSeven(bag));
+                            break;
+                        case 8:
+                            activeCards.add(new CharacterCardEight());
+                            break;
+                        case 9:
+                            activeCards.add(new CharacterCardNine());
+                            break;
+                        case 10:
+                            activeCards.add(new CharacterCardTen());
+                            break;
+                        case 11:
+                            activeCards.add(new CharacterCardEleven());
+                            break;
+                    }
+
+                }
+            }
+
         }
         else{
-            activeCards = null;
-            usedCards = null;
+                activeCards = null;
+                usedCard = -1;
+            }
+
+            // initialize entrances and tables for each player, observers for view needed?
+            for (Player player : players) {
+                School school = player.getSchool();
+                school.initializeEntrances(bag, players.length == 3);
+                StudentHolder tables = school.getStudentsAtTables();
+                tables.attach(new ProfessorsObserver(player, professors));
+                tables.attach(new CoinObserver(player));
+
+                if (expert)
+                    player.addCoin();
+            }
         }
 
-        // initialize entrances and tables for each player, observers for view needed?
-        for(Player player : players){
-            School school = player.getSchool();
-            school.initializeEntrances(bag, players.length == 3);
-            StudentHolder tables = school.getStudentsAtTables();
-            tables.attach(new ProfessorsObserver(player, professors));
-            tables.attach(new CoinObserver(player));
-
-            if(expert)
-                player.addCoin();
-        }
-    }
 
     /**
      * @return the exact board instance
@@ -79,15 +141,15 @@ public class GameManager {
     /**
      * @return the array containing the cards that can be used in this game
      */
-    public CharacterCard[] getActiveCards() {
+    public List<CharacterCard> getActiveCards() {
         return activeCards;
     }
 
     /**
-     * @return the array of boolean flags that correspond to the cards that have been activated this turn
+     * @return the id the card activated this turn
      */
-    public boolean[] getUsedCards() {
-        return usedCards;
+    public int getUsedCard() {
+        return usedCard;
     }
 
     /**
@@ -177,7 +239,44 @@ public class GameManager {
         int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
 
-        if(activeCards == null){
+        TowerColor newTC = null;
+        TowerColor previousTC = currentIsland.getTower();
+
+        if (usedCard == 6){
+            CharacterCardSix cc6 = (CharacterCardSix) findCardById(6);
+            newTC = board.calculateInfluence(position, professors,cc6.getTowerColor());
+
+        } else if (usedCard == 9) {
+            newTC = board.calculateInfluenceNoTowers(position, professors);
+
+        } else if (usedCard == 10){
+            CharacterCardTen cc10 = (CharacterCardTen) findCardById(10);
+            newTC = board.calculateInfluenceNoColor(position, professors, cc10.getColor());
+        } else {
+            newTC = board.calculateInfluence(position, professors);
+        }
+
+        if(newTC == null || (previousTC != null && previousTC == newTC)){
+            return;
+        }
+
+        if(previousTC != null){
+            Player previousP = players[previousTC.ordinal()];
+            previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+        }
+        else{
+            currentIsland.addTower();
+        }
+
+        Player newP = players[newTC.ordinal()];
+        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+        currentIsland.setTowerColor(newTC);
+        board.mergeIsland(position);
+        checkEndConditions();
+
+
+        /*
+        if(usedCard != 6 && usedCard != 9 && usedCard != 10){ // the card number six is the one that changes the influence math
             TowerColor newTC = board.calculateInfluence(position, professors);
             TowerColor previousTC = currentIsland.getTower();
 
@@ -194,15 +293,92 @@ public class GameManager {
             }
 
             Player newP = players[newTC.ordinal()];
-
             newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-
             currentIsland.setTowerColor(newTC);
             board.mergeIsland(position);
+            checkEndConditions();
 
+        } else if (usedCard==6) {  // this is the card that add +2 to the current player
+            // this a stupid copy and paste -> a little bit of  refactoring could help
+            CharacterCardSix cc6 = (CharacterCardSix) findCardById(6);
+            TowerColor newTC = board.calculateInfluence(position, professors,cc6.getTowerColor());
+            TowerColor previousTC = currentIsland.getTower();
+
+            if(newTC == null || (previousTC != null && previousTC == newTC)){
+                return;
+            }
+
+            if(previousTC != null){
+                Player previousP = players[previousTC.ordinal()];
+                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            }
+            else{
+                currentIsland.addTower();
+            }
+
+            Player newP = players[newTC.ordinal()];
+            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+            currentIsland.setTowerColor(newTC);
+            board.mergeIsland(position);
+            checkEndConditions();
+
+
+
+        } else if (usedCard == 9){ // this is the card that doesn't count the towers!
+
+            TowerColor newTC = board.calculateInfluenceNoTowers(position, professors);
+            TowerColor previousTC = currentIsland.getTower();
+
+            if(newTC == null || (previousTC != null && previousTC == newTC)){
+                return;
+            }
+
+            if(previousTC != null){
+                Player previousP = players[previousTC.ordinal()];
+                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            }
+            else{
+                currentIsland.addTower();
+            }
+
+            Player newP = players[newTC.ordinal()];
+            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+            currentIsland.setTowerColor(newTC);
+            board.mergeIsland(position);
             checkEndConditions();
 
         }
+
+         */
+
+
+    }
+
+
+    public void calculateInfluenceWithoutMovement(int islandIndex){
+        Island currentIsland = board.getIslands().get(islandIndex);
+
+        TowerColor newTC = board.calculateInfluence(islandIndex, professors);
+        TowerColor previousTC = currentIsland.getTower();
+
+        if(newTC == null || (previousTC != null && previousTC == newTC)){
+            return;
+        }
+
+        if(previousTC != null){
+            Player previousP = players[previousTC.ordinal()];
+            previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+        }
+        else{
+            currentIsland.addTower();
+        }
+        Player newP = players[newTC.ordinal()];
+        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+        currentIsland.setTowerColor(newTC);
+        board.mergeIsland(islandIndex);
+
+        checkEndConditions();
+
     }
 
     /**
@@ -300,5 +476,31 @@ public class GameManager {
     }
 
 
+
+
+    public void setUsedCard(int usedCard) {
+        this.usedCard = usedCard;
+    }
+
+    public boolean isCardActive(int id){
+        for(CharacterCard cc : activeCards){
+            if(cc.getId()==id) return true;
+        }
+        return false;
+    }
+
+    public CharacterCard findCardById(int id){
+        for(CharacterCard cc : activeCards){
+            if (id == cc.getId()){
+                return cc;
+            }
+        }
+        return null;
+    }
+
+    public void addNoEntry (int index){
+        board.getIslands().get(index).addNoEntry();
+
+    }
 
 }

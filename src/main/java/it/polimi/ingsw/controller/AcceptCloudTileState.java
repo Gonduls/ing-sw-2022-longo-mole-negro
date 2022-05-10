@@ -1,10 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.events.viewcontroller.ActivateCharacterCard;
 import it.polimi.ingsw.messages.events.viewcontroller.ChooseCloudTileEvent;
 import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
 import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
+import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Player;
 
 /**
@@ -23,7 +25,7 @@ public class AcceptCloudTileState extends  GameState {
     }
 
     @Override
-    public void executeEvent(VC_GameEvent event) {
+    public void executeEvent(VC_GameEvent event) throws Exception {
         switch (event.getEventType()) {
             case CHOOSE_CLOUD_TILE: {
                 ChooseCloudTileEvent
@@ -46,6 +48,12 @@ public class AcceptCloudTileState extends  GameState {
                     } else {
                         //new turn for the new player
                         context.setPlayingOrderIndex(context.getPlayingOrderIndex() + 1);
+                        context.gameManager.setUsedCard(-1);
+
+                        for(CharacterCard cc: context.gameManager.getActiveCards()){
+                            cc.deactivateEffect();
+                        }
+
                         context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
                     }
 
@@ -55,7 +63,30 @@ public class AcceptCloudTileState extends  GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD:{
-                //todo
+                if (!context.isHardMode()) {
+                    //todo send a nack
+                }
+
+                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+
+                int cardId = eventCast.getCardId();
+
+                if (!context.gameManager.isCardActive(eventCast.getCardId())){
+                    throw new Exception("This card is not present in the game");
+                }
+
+                if (context.gameManager.getUsedCard() != -1){
+                    throw new Exception("You already activated a card");
+                }
+
+                context.gameManager.setUsedCard(cardId);
+
+                if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
+                    context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
+                }
+
+                break;
+
             }
         }
 

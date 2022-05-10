@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.events.viewcontroller.ActivateCharacterCard;
 import it.polimi.ingsw.messages.events.viewcontroller.GameEventType;
 import it.polimi.ingsw.messages.events.viewcontroller.MoveMotherNatureEvent;
 import it.polimi.ingsw.messages.events.viewcontroller.VC_GameEvent;
@@ -23,7 +24,7 @@ public class AcceptMotherNatureMoveState extends GameState {
 
 
     @Override
-    public void executeEvent(VC_GameEvent event) {
+    public void executeEvent(VC_GameEvent event) throws Exception {
 
         switch(event.getEventType()){
             case MOVE_MOTHER_NATURE: {
@@ -42,7 +43,30 @@ public class AcceptMotherNatureMoveState extends GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD:{
-                //todo eheheheh
+
+                if (!context.isHardMode()) {
+                    //todo send a nack
+                }
+
+                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+
+                int cardId = eventCast.getCardId();
+
+                if (!context.gameManager.isCardActive(eventCast.getCardId())){
+                    throw new Exception("This card is not present in the game");
+                }
+
+                if (context.gameManager.getUsedCard() != -1){
+                    throw new Exception("You already activated a card");
+                }
+
+                context.gameManager.setUsedCard(cardId);
+
+                if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
+                    context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
+                }
+
+                break;
             }
 
 

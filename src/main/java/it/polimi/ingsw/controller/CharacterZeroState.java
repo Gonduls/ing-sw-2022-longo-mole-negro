@@ -27,8 +27,7 @@ public class CharacterZeroState extends CharacterState {
     GameState nextState;
 
     public CharacterZeroState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc) {
-        super(context, numberOfEvents, nextState);
-        //this.nextState = nextState;
+        super(context, numberOfEvents, nextState,cc);
         color = null;
         islandIndex = -1;
         this.cc =cc;
@@ -38,7 +37,7 @@ public class CharacterZeroState extends CharacterState {
     public boolean checkValidEvent(VC_GameEvent event) {
         return event.getEventType() == GameEventType.CHOOSE_COLOR || event.getEventType() == GameEventType.CHOOSE_ISLAND;
     }
-
+    //todo -> wrong event -> redo with MOVE_STUDENT_FROM_CARD_TO_ISLAND
     @Override
     public void executeEvent(VC_GameEvent event) {
         switch( event.getEventType()){

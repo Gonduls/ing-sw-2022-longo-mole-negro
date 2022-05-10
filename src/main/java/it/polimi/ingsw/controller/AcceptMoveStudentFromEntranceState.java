@@ -40,7 +40,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
     }
 
 
-    public void executeEvent(VC_GameEvent event) {
+    public void executeEvent(VC_GameEvent event) throws Exception {
         if (!checkValidEvent(event)) {
             return;
         }
@@ -73,12 +73,28 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD: {
-                if (context.isHardMode() == false) {
+                if (!context.isHardMode()) {
                     //todo send a nack
                 }
 
                 ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+                int cardId = eventCast.getCardId();
 
+                if (!context.gameManager.isCardActive(eventCast.getCardId())){
+                    throw new Exception("This card is not present in the game");
+                }
+
+                if (context.gameManager.getUsedCard() != -1){
+                    throw new Exception("You already activated a card");
+                }
+
+                context.gameManager.setUsedCard(cardId);
+
+                if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
+                    context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
+                }
+
+                break;
 
             }
 

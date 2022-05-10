@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages.events.viewcontroller;
 
-public class ChooseIslandEvent implements VC_GameEvent {
+public class ChooseIslandEvent extends VC_GameEvent {
 
     String player;
     int islandIndex;
