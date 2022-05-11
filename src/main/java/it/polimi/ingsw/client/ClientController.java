@@ -2,8 +2,12 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.server.RoomInfo;
+
+import java.util.List;
 
 public class ClientController {
+    private boolean turn = true;
 
     void updateCModel(Message message) throws UnexpectedMessageException{
         if(! doesUpdate(message))
@@ -16,5 +20,16 @@ public class ClientController {
                 type != MessageType.NACK &&
                 type != MessageType.ROOM_ID &&
                 type != MessageType.PUBLIC_ROOMS);
+
+
+
+    }
+
+    boolean myTurn(){
+        return turn;
+    }
+
+    void showPublicRooms(List<RoomInfo> rooms){
+        // todo: print all room info
     }
 }
