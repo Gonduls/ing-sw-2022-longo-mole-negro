@@ -32,4 +32,8 @@ public class RoomInfo {
     public boolean getExpert(){
         return expert;
     }
+
+    public boolean isFull(){
+        return currentPlayers == numberOfPlayers;
+    }
 }

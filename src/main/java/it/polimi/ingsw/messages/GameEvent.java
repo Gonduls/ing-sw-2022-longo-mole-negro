@@ -11,7 +11,7 @@ public  abstract class GameEvent implements Message {
     }
 
     public abstract GameEventType getEventType();
-    public abstract   String getPlayerName();
+    public abstract String getPlayerName();
 
 }
 

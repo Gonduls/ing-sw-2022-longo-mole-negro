@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Random;
 
 public class Lobby {
     private static Lobby instance;
@@ -11,8 +12,11 @@ public class Lobby {
     private final HashMap<Integer, Room> publicInitializingRooms;
     private final HashMap<Integer, Room> privateInitializingRooms;
     private final HashMap<Integer, Room> playingRooms;
+    private final HashMap<Integer, RoomInfo> infos;
     private boolean listenEnd = false;
     private ServerSocket socket;
+    private final Random random;
+
 
     //todo: modify 9999 with value from a config file
     private Lobby(){
@@ -20,6 +24,8 @@ public class Lobby {
         publicInitializingRooms = new HashMap<>();
         privateInitializingRooms = new HashMap<>();
         playingRooms = new HashMap<>();
+        infos = new HashMap<>();
+        random = new Random();
 
         try {
             socket = new ServerSocket(9999);
@@ -104,5 +110,60 @@ public class Lobby {
      */
     public boolean isRunning(){
         return !listenEnd;
+    }
+
+    public int createRoom(int numberOfPlayers, boolean expert, boolean isPrivate, ClientHandler ch){
+        int id;
+
+        synchronized (infos){
+            do {
+                id = random.nextInt() % 1000000;
+            } while (infos.containsKey(id));
+
+            infos.put(id, new RoomInfo(id, numberOfPlayers, expert));
+        }
+
+        Room room = new Room(id, numberOfPlayers, expert);
+
+        if(isPrivate)
+            privateInitializingRooms.put(id, room);
+        else
+            publicInitializingRooms.put(id, room);
+
+        addToRoom(id, ch);
+        return id;
+    }
+
+    boolean addToRoom(int roomId, ClientHandler ch){
+        String player = ch.getUsername();
+        synchronized (players){
+            if(!players.containsKey(player) || players.get(player) != null)
+                return false;
+
+            if(!publicInitializingRooms.containsKey(roomId) && ! privateInitializingRooms.containsKey(roomId))
+                return false;
+
+            getFromPublicOrPrivate(roomId).addPlayer(player, ch);
+            players.put(player, roomId);
+        }
+        return true;
+    }
+
+    private Room getFromPublicOrPrivate(int id){
+        if(!publicInitializingRooms.containsKey(id)){
+            return (privateInitializingRooms.getOrDefault(id, null));
+        }
+        return publicInitializingRooms.get(id);
+    }
+
+    void moveToPlayingRooms(int id){
+        playingRooms.put(id, getFromPublicOrPrivate(id));
+        publicInitializingRooms.remove(id);
+        privateInitializingRooms.remove(id);
+    }
+
+
+    public HashMap<Integer, RoomInfo> getInfos() {
+        return new HashMap<>(infos);
     }
 }

@@ -87,26 +87,23 @@ public class NetworkHandler implements Runnable{
         }
     }
 
-
     /**
-     * Login client side function.
-     * Like all other functions in NetworkHandler, if login is called while another
-     * function of NetworkHandler (apart from run()) is still running, it wil return false and not perform any action.
-     * It also does it if the username provided is already being used by another player.
-     * This function has to be called first, along with starting the thread.
+     * Synchronizes functions on lockAnswer, sends the passed message to the server and receives an Ack/Nack answer.
+     * Every function that needs an Ack/Nack answer has to first call occupy.
      *
-     * @param username a unique name that will identify the player
-     * @return true if the login action has been completed, false otherwise
+     * @param message The message to be written in the output stream
+     * @return The ack / nack message
      * @throws IOException if the input/output stream are not correctly set up
      * @throws UnexpectedMessageException if a different message from ack/nack is received
      */
-    public boolean login(String username) throws IOException, UnexpectedMessageException {
+    Message occupy(Message message) throws IOException, UnexpectedMessageException{
         if(occupied.get())
-            return false;
+            return new Nack("Wait until other function is done");
+
         occupied.set(true);
 
-        synchronized (lockAnswer){
-            output.writeObject(new Login(username));
+        synchronized (lockAnswer) {
+            output.writeObject(message);
             lockAnswer.notifyAll();
 
             while (answer == null) {
@@ -116,30 +113,53 @@ public class NetworkHandler implements Runnable{
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
                     occupied.set(false);
-                    return false;
+                    return new Nack("Errors in the execution of wait, closing thread");
                 }
             }
             occupied.set(false);
+            Message toReturn = answer;
 
             if (answer.getMessageType() == MessageType.NACK) {
                 answer = null;
                 lockAnswer.notifyAll();
-                return false;
+                return toReturn;
             }
             if (answer.getMessageType() == MessageType.ACK) {
                 answer = null;
-                canLogOut = true;
                 lockAnswer.notifyAll();
-                return true;
+                return toReturn;
             }
             throw new UnexpectedMessageException("A different message from ack or nack was read");
         }
     }
 
     /**
+     * Login client side function.
+     * It calls occupy with login message, if nack is returned no login has happened.
+     * No login can happen if the username provided is already being used by another player.
+     * This function has to be called before calling any other function of NetworkHandler
+     * right after starting the thread.
+     *
+     * @param username a unique name that will identify the player
+     * @return true if the login action has been completed, false otherwise
+     * @throws IOException if the input/output stream are not correctly set up
+     * @throws UnexpectedMessageException if a different message from ack/nack is received
+     */
+    boolean login(String username) throws IOException, UnexpectedMessageException {
+        Message returnValue = occupy(new Login(username));
+
+        if(returnValue.getMessageType() == MessageType.ACK) {
+            canLogOut = true;
+            getPublicRooms(new GetPublicRooms());
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Logout client side function.
-     * Like all other functions in NetworkHandler, if logout is called while another
-     * function of NetworkHandler (apart from run()) is still running, it wil return false and not perform any action.
+     * It calls occupy with logout message, if nack is returned no logout has happened.
      * It also does it if no logout operation can be performed at the time of calling (like mid-game).
      * If logout is correctly executed, the thread will stop as a result and the username will no longer be in use,
      * therefore it can be used by other players.
@@ -148,43 +168,44 @@ public class NetworkHandler implements Runnable{
      * @throws IOException if the input/output stream are not correctly set up
      * @throws UnexpectedMessageException if a different message from ack/nack is received
      */
-    public boolean logout() throws IOException, UnexpectedMessageException{
-        if(occupied.get())
-            return false;
-
+    boolean logout() throws IOException, UnexpectedMessageException{
         if(!canLogOut)
             return false;
 
-        occupied.set(true);
-        synchronized (lockAnswer){
-            output.writeObject(new Logout());
-            lockAnswer.notifyAll();
+        Message returnValue = occupy(new Logout());
 
-            while(answer == null){
-                try {
-                    lockAnswer.wait();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                    Thread.currentThread().interrupt();
-                    return false;
-                }
-            }
-
-            occupied.set(false);
-
-            if(answer.getMessageType() == MessageType.NACK){
-                answer = null;
-                lockAnswer.notifyAll();
-                return false;
-            }
-            if(answer.getMessageType() == MessageType.ACK){
-                answer = null;
-                endCondition = true;
-                server.close();
-                lockAnswer.notifyAll();
-                return true;
-            }
-            throw new UnexpectedMessageException("A different message from ack or nack was read");
+        if(returnValue.getMessageType() == MessageType.ACK){
+            endCondition = true;
+            server.close();
+            return true;
         }
+
+        return false;
+    }
+
+    /**
+     * Writes the GetPublicRooms message in the output stream, then returns.
+     * The answer message will be read from "run" and be dealt with in ClientController
+     * @param message The GetPublicRooms Message to be written in the output stream
+     * @throws IOException if the input/output stream are not correctly set up
+     */
+    void getPublicRooms(GetPublicRooms message) throws IOException{
+        output.writeObject(message);
+    }
+
+    /**
+     * It calls occupy with event message, if nack is returned no event has happened.
+     * The consequences of a correctly executed event are a nack and the asynchronous update of all models
+     *
+     * @param event: the game event that will be written in the output stream
+     * @return nack if occupied was set to true, or the ack/nack response that the event generated
+     * @throws IOException if the input/output stream are not correctly set up
+     * @throws UnexpectedMessageException if a different message from ack/nack is received
+     */
+    Message performEvent(GameEvent event) throws IOException, UnexpectedMessageException{
+        if(!clientController.myTurn())
+            return new Nack("Can't execute game event: not your turn");
+
+        return occupy(event);
     }
 }

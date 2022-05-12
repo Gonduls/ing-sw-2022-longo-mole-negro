@@ -8,6 +8,14 @@ public class GetPublicRooms implements Message{
         this(-1, null);
     }
 
+    public GetPublicRooms(int numberOfPlayers){
+        this(numberOfPlayers, null);
+    }
+
+    public GetPublicRooms(boolean expert){
+        this(-1, expert);
+    }
+
     public GetPublicRooms(int numberOfPlayers, Boolean expert){
         this.numberOfPlayers = numberOfPlayers;
         this.expert = expert;
@@ -15,5 +23,13 @@ public class GetPublicRooms implements Message{
     @Override
     public MessageType getMessageType() {
         return MessageType.GET_PUBLIC_ROOMS;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public Boolean getExpert() {
+        return expert;
     }
 }

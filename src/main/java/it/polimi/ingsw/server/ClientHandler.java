@@ -1,11 +1,15 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ClientHandler implements Runnable{
     private final Socket client;
@@ -33,7 +37,7 @@ public class ClientHandler implements Runnable{
 
         try {
             handleClientConnection();
-        } catch (IOException e) {
+        } catch (IOException | UnexpectedMessageException e) {
             System.out.println("client " + client.getInetAddress() + " connection dropped");
         }
 
@@ -42,7 +46,7 @@ public class ClientHandler implements Runnable{
         } catch (IOException e) { }
     }
 
-    private void handleClientConnection() throws IOException{
+    private void handleClientConnection() throws IOException, UnexpectedMessageException{
         Message message;
         login();
 
@@ -57,13 +61,42 @@ public class ClientHandler implements Runnable{
                 continue;
             }
 
-            if(message.getMessageType() == MessageType.LOGOUT){
-                if(lobby.getPlayers().get(username) != null)
-                    output.writeObject(new Nack("Player still in a room"));
+            switch (message.getMessageType()){
+                case GET_PUBLIC_ROOMS:
+                    getPublicRooms((GetPublicRooms) message);
+                    break;
 
-                lobby.removePlayer(username);
-                logout = true;
-                output.writeObject(new Ack());
+                case CREATE_ROOM:
+                    CreateRoom m = (CreateRoom) message;
+                    int id = lobby.createRoom(m.getNumberOfPlayers(), m.isExpert(), m.isPrivate(), this);
+                    output.writeObject(new RoomId(id));
+                    break;
+
+                case ACCESS_ROOM:
+                    AccessRoom m1 = (AccessRoom) message;
+                    if (lobby.addToRoom(m1.getId(), this)) {
+                        output.writeObject(new Ack());
+                    } else {
+                        output.writeObject(new Nack("Unable to access room"));
+                    }
+                    break;
+
+                case LEAVE_ROOM:
+                    break;
+
+                case GAME_EVENT:
+
+
+                case LOGOUT:
+                    if(lobby.getPlayers().get(username) != null)
+                        output.writeObject(new Nack("Player still in a room"));
+
+                    lobby.removePlayer(username);
+                    logout = true;
+                    output.writeObject(new Ack());
+                    break;
+                default:
+                    throw new UnexpectedMessageException("Not a correct message");
             }
         }
     }
@@ -90,5 +123,37 @@ public class ClientHandler implements Runnable{
             username = null;
             output.writeObject(new Nack("Username was already taken"));
         }
+    }
+
+    public void getPublicRooms(GetPublicRooms message) throws IOException{
+        List<RoomInfo> result = new ArrayList<>();
+
+        for(RoomInfo info : lobby.getInfos().values()){
+            if(complies(info, message))
+                result.add(info);
+        }
+
+        output.writeObject(new PublicRooms(result));
+    }
+
+    private boolean complies(RoomInfo info, GetPublicRooms message){
+        if(info.isFull())
+            return false;
+
+        if(message.getNumberOfPlayers() == -1)
+            return message.getExpert() == null || message.getExpert() == info.getExpert();
+
+        if(message.getExpert() == null)
+            return message.getNumberOfPlayers() == info.getNumberOfPlayers();
+
+        return (message.getNumberOfPlayers() == info.getNumberOfPlayers() && message.getExpert() == info.getExpert());
+    }
+
+    public void sendMessage(Message message)throws IOException {
+        output.writeObject(message);
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
