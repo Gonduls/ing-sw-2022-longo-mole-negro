@@ -17,7 +17,6 @@ public class Lobby {
     private ServerSocket socket;
     private final Random random;
 
-
     //todo: modify 9999 with value from a config file
     private Lobby(){
         players = new HashMap<>();
@@ -112,7 +111,7 @@ public class Lobby {
         return !listenEnd;
     }
 
-    public int createRoom(int numberOfPlayers, boolean expert, boolean isPrivate, ClientHandler ch){
+    public Room createRoom(int numberOfPlayers, boolean expert, boolean isPrivate, ClientHandler ch){
         int id;
 
         synchronized (infos){
@@ -120,7 +119,7 @@ public class Lobby {
                 id = random.nextInt() % 1000000;
             } while (infos.containsKey(id));
 
-            infos.put(id, new RoomInfo(id, numberOfPlayers, expert));
+            infos.put(id, new RoomInfo(id, numberOfPlayers, expert, isPrivate));
         }
 
         Room room = new Room(id, numberOfPlayers, expert);
@@ -131,7 +130,7 @@ public class Lobby {
             publicInitializingRooms.put(id, room);
 
         addToRoom(id, ch);
-        return id;
+        return room;
     }
 
     boolean addToRoom(int roomId, ClientHandler ch){
@@ -149,7 +148,7 @@ public class Lobby {
         return true;
     }
 
-    private Room getFromPublicOrPrivate(int id){
+    Room getFromPublicOrPrivate(int id){
         if(!publicInitializingRooms.containsKey(id)){
             return (privateInitializingRooms.getOrDefault(id, null));
         }
@@ -162,8 +161,16 @@ public class Lobby {
         privateInitializingRooms.remove(id);
     }
 
-
     public HashMap<Integer, RoomInfo> getInfos() {
-        return new HashMap<>(infos);
+        synchronized (infos){
+            return new HashMap<>(infos);
+        }
+    }
+
+    void eliminateRoom(int id){
+        publicInitializingRooms.remove(id);
+        privateInitializingRooms.remove(id);
+        playingRooms.remove(id);
+        infos.remove(id);
     }
 }

@@ -1,19 +1,10 @@
 package it.polimi.ingsw.messages;
 
-public class RoomId implements Message{
-    private final int id;
-
+public record RoomId(int id) implements Message {
     @Override
     public MessageType getMessageType() {
         return MessageType.ROOM_ID;
     }
 
-    public RoomId(int id){
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
 }
 
