@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.CharacterState;
-import it.polimi.ingsw.controller.CharacterZeroState;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
 
@@ -26,6 +25,15 @@ public abstract class CharacterCard {
         return id;
     }
 
+    public static boolean hasStudentHolder(int id){
+        switch (id){
+            case (0):
+            case (7):
+            case (2):
+                return true;
+            default: return false;
+        }
+    }
 
     public  CharacterState getCharacterState(RoundController context, GameState nextState){
         return null;
