@@ -77,6 +77,11 @@ public class NetworkHandler implements Runnable{
             // Tries to feed the answer message to the clientController.
             // If that fails, the answer must be read by another function in network handler
             synchronized (lockAnswer){
+                if(answer.getMessageType() == MessageType.PUBLIC_ROOMS){
+                    clientController.showPublicRooms(((PublicRooms) answer).getRooms());
+                    answer = null;
+                    continue;
+                }
                 try {
                     clientController.updateCModel(answer);
                     answer = null;
@@ -106,7 +111,7 @@ public class NetworkHandler implements Runnable{
             output.writeObject(message);
             lockAnswer.notifyAll();
 
-            while (answer == null) {
+            do  {
                 try {
                     lockAnswer.wait();
                 } catch (InterruptedException e) {
@@ -115,7 +120,8 @@ public class NetworkHandler implements Runnable{
                     occupied.set(false);
                     return new Nack("Errors in the execution of wait, closing thread");
                 }
-            }
+            } while(answer == null);
+
             occupied.set(false);
             Message toReturn = answer;
 
