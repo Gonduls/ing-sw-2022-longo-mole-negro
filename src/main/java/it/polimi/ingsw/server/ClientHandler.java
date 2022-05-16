@@ -64,19 +64,35 @@ public class ClientHandler implements Runnable{
             }
 
             switch (message.getMessageType()){
+                case LOGIN:
+                    output.writeObject(new Nack("Already logged in!"));
+                    break;
+
                 case GET_PUBLIC_ROOMS:
                     getPublicRooms((GetPublicRooms) message);
                     break;
 
                 case CREATE_ROOM:
+                    if(room != null){
+                        output.writeObject(new Nack("Already in a room!"));
+                        break;
+                    }
                     createRoom((CreateRoom) message);
                     break;
 
                 case ACCESS_ROOM:
+                    if(room != null){
+                        output.writeObject(new Nack("Already in a room!"));
+                        break;
+                    }
                     accessRoom((AccessRoom) message);
                     break;
 
                 case LEAVE_ROOM:
+                    if(room != null){
+                        output.writeObject(new Nack("Not yet in a room!"));
+                        break;
+                    }
                     leaveRoom();
                     break;
 
@@ -142,7 +158,8 @@ public class ClientHandler implements Runnable{
     }
 
     private void createRoom(CreateRoom m) throws IOException{
-        room = lobby.createRoom(m.numberOfPlayers(), m.expert(), m.isPrivate(), this);
+        room = lobby.createRoom(m.numberOfPlayers(), m.expert(), m.isPrivate());
+        lobby.addToRoom(room.getId(), this);
         output.writeObject(new RoomId(room.getId()));
     }
 

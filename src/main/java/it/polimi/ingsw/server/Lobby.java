@@ -117,12 +117,13 @@ public class Lobby {
         return !listenEnd.get();
     }
 
-    public Room createRoom(int numberOfPlayers, boolean expert, boolean isPrivate, ClientHandler ch){
+    public Room createRoom(int numberOfPlayers, boolean expert, boolean isPrivate){
         int id;
 
         synchronized (infos){
+            // assures a 6 digit id
             do {
-                id = random.nextInt() % 1000000;
+                id = (random.nextInt(899999) + 100000);
             } while (infos.containsKey(id));
 
             infos.put(id, new RoomInfo(id, numberOfPlayers, expert, isPrivate));
@@ -132,7 +133,6 @@ public class Lobby {
         synchronized (initializingRooms){
             initializingRooms.put(id, room);
         }
-        addToRoom(id, ch);
         return room;
     }
 

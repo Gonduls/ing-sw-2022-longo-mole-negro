@@ -205,8 +205,27 @@ public class NetworkHandler implements Runnable{
         return returnValue.getMessageType() == MessageType.ACK;
     }
 
-    boolean createRoom(CreateRoom message) throws IOException, UnexpectedMessageException{
-        return occupy(message).getMessageType() == MessageType.ACK;
+    int createRoom(CreateRoom message) throws IOException, UnexpectedMessageException{
+        synchronized (lockAnswer){
+            output.writeObject(message);
+            do{
+                try {
+                    answer = (Message) input.readObject();
+                } catch (ClassNotFoundException | ClassCastException | IOException e) {
+                    e.printStackTrace();
+                    return 0;
+                }
+                if(answer.getMessageType() == MessageType.PUBLIC_ROOMS)
+                    clientController.showPublicRooms(((PublicRooms) answer).getRooms());
+                else if (answer.getMessageType() == MessageType.NACK)
+                    return 0;
+
+                if(answer.getMessageType() != MessageType.ROOM_ID)
+                    throw new UnexpectedMessageException("Not a RoomId message");
+            }while (answer.getMessageType() == MessageType.ROOM_ID);
+
+            return ((RoomId) answer).id();
+        }
     }
 
     boolean leaveRoom() throws IOException, UnexpectedMessageException{
