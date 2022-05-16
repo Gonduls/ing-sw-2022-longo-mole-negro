@@ -4,27 +4,28 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Lobby {
     private static Lobby instance;
     private final HashMap<String, Integer> players;
-    private final HashMap<Integer, Room> publicInitializingRooms;
-    private final HashMap<Integer, Room> privateInitializingRooms;
+    private final HashMap<Integer, Room> initializingRooms;
     private final HashMap<Integer, Room> playingRooms;
     private final HashMap<Integer, RoomInfo> infos;
-    private boolean listenEnd = false;
+    private final AtomicBoolean listenEnd;
     private ServerSocket socket;
     private final Random random;
 
     //todo: modify 9999 with value from a config file
     private Lobby(){
         players = new HashMap<>();
-        publicInitializingRooms = new HashMap<>();
-        privateInitializingRooms = new HashMap<>();
+        initializingRooms = new HashMap<>();
         playingRooms = new HashMap<>();
         infos = new HashMap<>();
         random = new Random();
+        listenEnd = new AtomicBoolean(false);
 
         try {
             socket = new ServerSocket(9999);
@@ -42,7 +43,7 @@ public class Lobby {
     }
 
     public void listen(){
-        while(!listenEnd){
+        while(!listenEnd.get()){
             try{
                 Socket client = socket.accept();
 
@@ -58,12 +59,17 @@ public class Lobby {
         System.out.println("Shutting down player acceptance");
     }
 
-    public HashMap<String, Integer> getPlayers() {
-        return players;
+    /**
+     * @return a copy of currently playing players
+     */
+    public Map<String, Integer> getPlayers() {
+        synchronized (players) {
+            return new HashMap<>(players);
+        }
     }
 
     /**
-     * Inserts a player in players only if the username is unique
+     * Inserts a player in players only if the username is not being used at the moment
      *
      * @param username: the username to insert
      * @return true if the username was unique and was inserted, false if the username was already in players
@@ -94,11 +100,11 @@ public class Lobby {
      */
     public boolean stop() throws IOException{
         synchronized (players){
-            if(!(publicInitializingRooms.isEmpty() && privateInitializingRooms.isEmpty()))
+            if(!(initializingRooms.isEmpty()))
                 return false;
         }
 
-        listenEnd = true;
+        listenEnd.set(true);
         Socket fake = new Socket("localhost", 9999);
         fake.close();
         return true;
@@ -108,7 +114,7 @@ public class Lobby {
      * @return true if lobby can accept new players, false otherwise
      */
     public boolean isRunning(){
-        return !listenEnd;
+        return !listenEnd.get();
     }
 
     public Room createRoom(int numberOfPlayers, boolean expert, boolean isPrivate, ClientHandler ch){
@@ -123,12 +129,9 @@ public class Lobby {
         }
 
         Room room = new Room(id, numberOfPlayers, expert);
-
-        if(isPrivate)
-            privateInitializingRooms.put(id, room);
-        else
-            publicInitializingRooms.put(id, room);
-
+        synchronized (initializingRooms){
+            initializingRooms.put(id, room);
+        }
         addToRoom(id, ch);
         return room;
     }
@@ -139,38 +142,42 @@ public class Lobby {
             if(!players.containsKey(player) || players.get(player) != null)
                 return false;
 
-            if(!publicInitializingRooms.containsKey(roomId) && ! privateInitializingRooms.containsKey(roomId))
+            if(!initializingRooms.containsKey(roomId))
                 return false;
 
-            getFromPublicOrPrivate(roomId).addPlayer(player, ch);
+            getFromInitializing(roomId).addPlayer(player, ch);
             players.put(player, roomId);
         }
         return true;
     }
 
-    Room getFromPublicOrPrivate(int id){
-        if(!publicInitializingRooms.containsKey(id)){
-            return (privateInitializingRooms.getOrDefault(id, null));
-        }
-        return publicInitializingRooms.get(id);
+    Room getFromInitializing(int id){
+        return initializingRooms.get(id);
     }
 
     void moveToPlayingRooms(int id){
-        playingRooms.put(id, getFromPublicOrPrivate(id));
-        publicInitializingRooms.remove(id);
-        privateInitializingRooms.remove(id);
+        synchronized (initializingRooms){
+            playingRooms.put(id, getFromInitializing(id));
+            initializingRooms.remove(id);
+        }
     }
 
-    public HashMap<Integer, RoomInfo> getInfos() {
+    /**
+     * @return a copy of all active rooms' information
+     */
+    public Map<Integer, RoomInfo> getInfos() {
         synchronized (infos){
             return new HashMap<>(infos);
         }
     }
 
     void eliminateRoom(int id){
-        publicInitializingRooms.remove(id);
-        privateInitializingRooms.remove(id);
-        playingRooms.remove(id);
-        infos.remove(id);
+        synchronized (infos){
+            synchronized (initializingRooms){
+                initializingRooms.remove(id);
+                playingRooms.remove(id);
+            }
+            infos.remove(id);
+        }
     }
 }

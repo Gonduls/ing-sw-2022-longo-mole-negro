@@ -52,7 +52,6 @@ public class ClientHandler implements Runnable{
     private void handleClientConnection() throws IOException, UnexpectedMessageException{
         Message message;
         login();
-        getPublicRooms(new GetPublicRooms());
 
         boolean logout = false;
         while(!logout){
@@ -143,12 +142,12 @@ public class ClientHandler implements Runnable{
     }
 
     private void createRoom(CreateRoom m) throws IOException{
-        room = lobby.createRoom(m.getNumberOfPlayers(), m.isExpert(), m.isPrivate(), this);
+        room = lobby.createRoom(m.numberOfPlayers(), m.expert(), m.isPrivate(), this);
         output.writeObject(new RoomId(room.getId()));
     }
 
     private void accessRoom(AccessRoom m) throws IOException{
-        room = lobby.getFromPublicOrPrivate(m.id());
+        room = lobby.getFromInitializing(m.id());
         if(room == null){
             output.writeObject(new Nack("Not an initializing room"));
         }

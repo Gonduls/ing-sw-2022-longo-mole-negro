@@ -193,6 +193,20 @@ public class NetworkHandler implements Runnable{
         output.writeObject(message);
     }
 
+
+    boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
+        Message returnValue = occupy(new AccessRoom(id));
+        return returnValue.getMessageType() == MessageType.ACK;
+    }
+
+    boolean createRoom(CreateRoom message) throws IOException, UnexpectedMessageException{
+        return occupy(message).getMessageType() == MessageType.ACK;
+    }
+
+    boolean leaveRoom() throws IOException, UnexpectedMessageException{
+        return occupy(new LeaveRoom()).getMessageType() == MessageType.ACK;
+    }
+
     /**
      * It calls occupy with event message, if nack is returned no event has happened.
      * The consequences of a correctly executed event are a nack and the asynchronous update of all models
