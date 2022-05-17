@@ -3,6 +3,7 @@ package it.polimi.ingsw.server;
 import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.messages.AddPlayer;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PlayerDisconnect;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -14,7 +15,7 @@ public class Room {
     private final boolean expert;
     private int present = 0;
     private final AtomicBoolean canLeave;
-    private final RoundController rc;
+    private RoundController rc;
     private final RoomInfo info;
 
     Room(int id, int numberOfPlayers, boolean expert){
@@ -22,7 +23,6 @@ public class Room {
         this.expert = expert;
         players = new String[numberOfPlayers];
         handlers = new ClientHandler[numberOfPlayers];
-        rc = new RoundController(players, expert);
         info = Lobby.getInstance().getInfos().get(id);
         canLeave = new AtomicBoolean(false);
     }
@@ -54,9 +54,10 @@ public class Room {
         info.addPlayer();
         present++;
 
-        // todo: tell someone that everything can begin
-        if(present == players.length)
+        if(present == players.length) {
             Lobby.getInstance().moveToPlayingRooms(id);
+            rc = new RoundController(players, expert);
+        }
     }
 
     boolean removePlayer(){
@@ -86,5 +87,14 @@ public class Room {
 
     RoundController getRoundController(){
         return rc;
+    }
+
+    void playerDisconnect( ClientHandler handler) throws IOException{
+        for(int i = 0; i< players.length; i++){
+            if (handlers[i] == handler)
+                handlers[i] = null;
+        }
+
+        sendBroadcast(new PlayerDisconnect(handler.getUsername()));
     }
 }

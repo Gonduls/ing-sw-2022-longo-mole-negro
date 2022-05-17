@@ -40,6 +40,12 @@ public class ClientHandler implements Runnable{
             handleClientConnection();
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("client " + client.getInetAddress() + " connection dropped");
+            try{
+                room.playerDisconnect(this);
+            } catch (IOException f){
+                System.out.println("Cannot diconnect");
+                return;
+            }
         }
 
         try {
@@ -63,54 +69,45 @@ public class ClientHandler implements Runnable{
                 continue;
             }
 
-            switch (message.getMessageType()){
-                case LOGIN:
-                    output.writeObject(new Nack("Already logged in!"));
-                    break;
-
-                case GET_PUBLIC_ROOMS:
-                    getPublicRooms((GetPublicRooms) message);
-                    break;
-
-                case CREATE_ROOM:
-                    if(room != null){
+            switch (message.getMessageType()) {
+                case LOGIN -> output.writeObject(new Nack("Already logged in!"));
+                case GET_PUBLIC_ROOMS -> getPublicRooms((GetPublicRooms) message);
+                case CREATE_ROOM -> {
+                    if (room != null) {
                         output.writeObject(new Nack("Already in a room!"));
                         break;
                     }
                     createRoom((CreateRoom) message);
-                    break;
-
-                case ACCESS_ROOM:
-                    if(room != null){
+                }
+                case ACCESS_ROOM -> {
+                    if (room != null) {
                         output.writeObject(new Nack("Already in a room!"));
                         break;
                     }
                     accessRoom((AccessRoom) message);
-                    break;
-
-                case LEAVE_ROOM:
-                    if(room != null){
+                }
+                case LEAVE_ROOM -> {
+                    if (room == null) {
                         output.writeObject(new Nack("Not yet in a room!"));
                         break;
                     }
                     leaveRoom();
-                    break;
-
-                case GAME_EVENT:
-                    try{
+                }
+                case GAME_EVENT -> {
+                    if (room == null) {
+                        output.writeObject(new Nack("Not yet in a room!"));
+                        break;
+                    }
+                    try {
                         room.getRoundController().handleEvent((GameEvent) message);
-                    } catch (Exception e){
+                    } catch (Exception e) {
                         output.writeObject(new Nack(e.getMessage()));
                         break;
                     }
                     output.writeObject(new Ack());
-                    break;
-
-                case LOGOUT:
-                    logout = logout();
-                    break;
-                default:
-                    throw new UnexpectedMessageException("Not a correct message");
+                }
+                case LOGOUT -> logout = logout();
+                default -> throw new UnexpectedMessageException("Not a correct message");
             }
         }
     }

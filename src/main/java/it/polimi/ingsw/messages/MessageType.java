@@ -26,5 +26,6 @@ public enum MessageType {
     CHANGE_TURN,
     GAME_EVENT,
     END_GAME,
-    LEAVE_ROOM
+    LEAVE_ROOM,
+    PLAYER_DISCONNECT
 }
