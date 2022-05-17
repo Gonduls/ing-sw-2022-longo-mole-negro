@@ -33,10 +33,16 @@ public class AcceptMotherNatureMoveState extends GameState {
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 int amount = eventCast.getAmount();
 
+               //todo check that is a legal move
                 try{
                     context.gameManager.moveMotherNature(amount);
                 } catch (IllegalArgumentException e) {
                     //todo send an error back
+                }
+
+                numberOfEvents--;
+                if(numberOfEvents == 0){
+                    context.changeState(new AcceptCloudTileState(context,1));
                 }
 
                 break;
@@ -44,7 +50,7 @@ public class AcceptMotherNatureMoveState extends GameState {
 
             case ACTIVATE_CHARACTER_CARD:{
 
-                if (!context.isHardMode()) {
+                if (!context.isExpertMode()) {
                     //todo send a nack
                 }
 

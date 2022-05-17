@@ -22,7 +22,7 @@ public class Room {
         this.expert = expert;
         players = new String[numberOfPlayers];
         handlers = new ClientHandler[numberOfPlayers];
-        rc = new RoundController();
+        rc = new RoundController(players, expert);
         info = Lobby.getInstance().getInfos().get(id);
         canLeave = new AtomicBoolean(false);
     }

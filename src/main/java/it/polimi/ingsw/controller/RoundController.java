@@ -3,12 +3,10 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.*;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class RoundController {
-    public Player[] getSeatedPlayers() {
-        return seatedPlayers;
-    }
 
 
     //the order in which the players are "seated"
@@ -18,9 +16,7 @@ public class RoundController {
 
     //it's the order in which the players will do their turns.
     //it's established after playing the assistants cards
-    private int[] playingOrder;
-
-
+    private ArrayList<Player> playingOrder;
 
     private int playingOrderIndex;
 
@@ -30,16 +26,12 @@ public class RoundController {
     // it's the index of a player in seatedPlayers
     private int currentPlayingPlayer;
 
-    public void setCurrentPlayingPlayer(int currentPlayingPlayer) {
-        this.currentPlayingPlayer = currentPlayingPlayer;
-    }
 
 
+    private final boolean expertMode;
 
-    private boolean hardMode;
-
-    public boolean isHardMode() {
-        return hardMode;
+    public boolean isExpertMode() {
+        return expertMode;
     }
 
 
@@ -47,15 +39,36 @@ public class RoundController {
 
     GameState gameState;
 
-    public RoundController() {
+
+    public RoundController(String[] playersNames, boolean expertMode) {
+        this.playingOrder = new ArrayList<>();
+        this.expertMode = expertMode;
+        this.seatedPlayers = new Player[playersNames.length];
+
+        for(int i=0; i<playersNames.length; i++){
+            this.seatedPlayers[i] = new Player(i, playersNames[i], playersNames.length == 3);
+            if(new Random().nextBoolean()){
+                playingOrder.add(seatedPlayers[i]);
+            } else {
+                playingOrder.add(0,seatedPlayers[i]);
+            }
+        }
+        playingOrderIndex=0;
+        gameManager= new GameManager(this.seatedPlayers, expertMode);
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
-        currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
+
+        //
+        //currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
+
     }
 
     void changeState(GameState newGameState) {
         this.gameState = newGameState;
     }
 
+    public Player[] getSeatedPlayers() {
+        return seatedPlayers;
+    }
 
     /**
      * This is access point for the view.
@@ -67,9 +80,15 @@ public class RoundController {
     public void handleEvent(GameEvent event) throws Exception {
 
 
-        if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getUsername()){
+        if(event.getPlayerName() != playingOrder.get(playingOrderIndex).getUsername()){
             return;
         }
+
+       /*
+       if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getUsername()){
+            return;
+        }
+        */
 
         if (gameState.checkValidEvent(event)) {
 
@@ -83,10 +102,6 @@ public class RoundController {
     }
 
 
-
-    void setPlayingOrder(int[] playingOrder) {
-        this.playingOrder = playingOrder;
-    }
 
 
     Player getPlayerByUsername(String username) {
@@ -120,9 +135,16 @@ public class RoundController {
         return playingOrderIndex;
     }
 
+
     public void setPlayingOrderIndex(int playingOrderIndex) {
         this.playingOrderIndex = playingOrderIndex;
     }
 
+    public ArrayList<Player> getPlayingOrder() {
+        return playingOrder;
+    }
 
+    public void setPlayingOrder(ArrayList<Player> playingOrder) {
+        this.playingOrder = playingOrder;
+    }
 }

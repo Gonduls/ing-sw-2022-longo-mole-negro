@@ -56,7 +56,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 Color color = eventCast.getColor();
                 int indexIsland = eventCast.getIndexIsland();
                 try {
-                    context.gameManager.moveStudentFromEntranceToIsland(player.getSchool(), color, indexIsland);
+                    context.gameManager.moveStudentFromEntranceToIsland(player, color, indexIsland);
                     numberOfEvents--;
                 } catch (IllegalArgumentException | NoSuchStudentException e) { /*send error*/}
 
@@ -68,14 +68,14 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 Color color = eventCast.getColor();
                 try {
-                    context.gameManager.moveStudentFromEntranceToTable(player.getSchool(), color);
+                    context.gameManager.moveStudentFromEntranceToTable(player, color);
                     numberOfEvents--;
                 } catch (NoSpaceForStudentException | NoSuchStudentException e) { /*send error*/}
                 break;
             }
 
             case ACTIVATE_CHARACTER_CARD: {
-                if (!context.isHardMode()) {
+                if (!context.isExpertMode()) {
                     //todo send a nack
                 }
 
@@ -105,7 +105,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
 
         if (numberOfEvents == 0){
 
-            context.changeState(new AcceptCloudTileState(context, 1));
+            context.changeState(new AcceptMotherNatureMoveState(context, 1));
         }
 
     }

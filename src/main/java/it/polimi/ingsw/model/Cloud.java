@@ -24,11 +24,11 @@ public class Cloud extends StudentHolder{
      * @throws NoSpaceForStudentException if the entrance of the target School is still full
      * @throws NoSuchStudentException if the cloud was already empty
      */
-    void moveAllStudents(School school) throws NoSpaceForStudentException, NoSuchStudentException {
+    void moveAllStudents(Player player) throws NoSpaceForStudentException, NoSuchStudentException {
         boolean empty = true;
         for(Color c: Color.values()){
             for(int i = getStudentByColor(c); i>0; i--) {
-                moveStudentTo(c, school.getStudentsAtEntrance());
+                moveStudentTo(c, player.getSchool().getStudentsAtEntrance());
                 empty = false;
             }
         }

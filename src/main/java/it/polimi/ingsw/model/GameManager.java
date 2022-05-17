@@ -205,7 +205,7 @@ public class GameManager {
      * @throws NoSuchStudentException if the cloud was empty
      */
     public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException {
-        clouds[cloudIndex].moveAllStudents(player.getSchool());
+        clouds[cloudIndex].moveAllStudents(player);
     }
 
     /**
@@ -239,6 +239,11 @@ public class GameManager {
         int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
 
+        if(board.getIslands().get(position).getNoEntry()>0){
+            board.getIslands().get(position).removeNoEntry();
+            return;
+        }
+
         TowerColor newTC = null;
         TowerColor previousTC = currentIsland.getTower();
 
@@ -256,16 +261,23 @@ public class GameManager {
             newTC = board.calculateInfluence(position, professors);
         }
 
+        //when points are tied newTC is null
         if(newTC == null || (previousTC != null && previousTC == newTC)){
             return;
         }
 
+       //if it's not null it means that we have to put back the towers.
         if(previousTC != null){
             Player previousP = players[previousTC.ordinal()];
             previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            //todo-> moveTower from currentIsland to PreviousPlayer
+            //todo-> moveTower from newPlayer to currentIsland
         }
         else{
+            // if it's null it means that the island had no towers on.
+            //todo -> moveTower from newP to currentIsland
             currentIsland.addTower();
+
         }
 
         Player newP = players[newTC.ordinal()];
@@ -354,7 +366,11 @@ public class GameManager {
 
     }
 
-
+    /**
+     * This method is called by  character card eight(8)
+     *
+     * @param islandIndex
+     */
     public void calculateInfluenceWithoutMovement(int islandIndex){
         Island currentIsland = board.getIslands().get(islandIndex);
 
@@ -384,16 +400,16 @@ public class GameManager {
     /**
      * It moves a single student from the entrance of a school to the designated island
      *
-     * @param school: the designated school
+     * @param player: the player that owns the designated school
      * @param student: the student to be moved
      * @param index: the index of the designated island
      * @throws NoSuchStudentException if the target school's entrance does not contain such student
      * @throws IllegalArgumentException if the island's index does not correspond to any island
      */
-    public void moveStudentFromEntranceToIsland(School school, Color student, int index) throws NoSuchStudentException, IllegalArgumentException {
+    public void moveStudentFromEntranceToIsland(Player player, Color student, int index) throws NoSuchStudentException, IllegalArgumentException {
         if(index < 0 || index >= board.getNumberOfIslands()) throw new IllegalArgumentException("there is no island number " + index);
         try{
-            school.getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
+            player.getSchool().getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
         }
         catch (NoSpaceForStudentException e){
             System.out.println("An island does not have  a limit on the number of students it can hold");
@@ -403,13 +419,13 @@ public class GameManager {
     /**
      * It moves a student from a school's entrance to the school's tables
      *
-     * @param school: the target school
+     * @param player: the  player that owns the target school
      * @param student: the target student
      * @throws NoSuchStudentException if the target school's entrance does not contain such student
      * @throws NoSpaceForStudentException if the school's tables can no longer contain students of that color
      */
-    public void moveStudentFromEntranceToTable(School school, Color student) throws NoSuchStudentException, NoSpaceForStudentException {
-        school.getStudentsAtEntrance().moveStudentTo(student, school.getStudentsAtTables());
+    public void moveStudentFromEntranceToTable(Player player, Color student) throws NoSuchStudentException, NoSpaceForStudentException {
+        player.getSchool().getStudentsAtEntrance().moveStudentTo(student, player.getSchool().getStudentsAtTables());
     }
 
     public Player[] checkEndConditions() {

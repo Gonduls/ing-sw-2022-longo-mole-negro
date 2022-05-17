@@ -22,7 +22,6 @@ public abstract class CharacterState extends  GameState{
     }
 
 
-
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return false;

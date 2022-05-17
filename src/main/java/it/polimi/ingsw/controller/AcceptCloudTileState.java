@@ -28,8 +28,7 @@ public class AcceptCloudTileState extends  GameState {
     public void executeEvent(GameEvent event) throws Exception {
         switch (event.getEventType()) {
             case CHOOSE_CLOUD_TILE: {
-                ChooseCloudTileEvent
-                        eventCast = (ChooseCloudTileEvent) event;
+                ChooseCloudTileEvent eventCast = (ChooseCloudTileEvent) event;
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 int cloudIndex = eventCast.getCloudIndex();
 
@@ -59,11 +58,11 @@ public class AcceptCloudTileState extends  GameState {
 
                 }
 
-
+            break;
             }
 
             case ACTIVATE_CHARACTER_CARD:{
-                if (!context.isHardMode()) {
+                if (!context.isExpertMode()) {
                     //todo send a nack
                 }
 

@@ -20,7 +20,7 @@ class CloudTest {
 
         try{cloud.refill();} catch (NoSpaceForStudentException e) {assert false;}
 
-        try {cloud.moveAllStudents(playerBlack.getSchool());} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
+        try {cloud.moveAllStudents(playerBlack);} catch (NoSpaceForStudentException | NoSuchStudentException e) {assert false;}
 
         int sum = 0;
         for (Color color : Color.values()) {
