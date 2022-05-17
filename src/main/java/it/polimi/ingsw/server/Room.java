@@ -83,4 +83,8 @@ public class Room {
             if(ch != null)
                 ch.sendMessage(message);
     }
+
+    RoundController getRoundController(){
+        return rc;
+    }
 }
