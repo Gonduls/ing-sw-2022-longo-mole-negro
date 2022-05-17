@@ -32,4 +32,8 @@ public class ClientController {
     void showPublicRooms(List<RoomInfo> rooms){
         // todo: print all room info
     }
+
+    void showMessage(Message message){
+        //todo
+    }
 }

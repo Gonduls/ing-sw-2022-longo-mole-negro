@@ -42,12 +42,7 @@ public class Room {
                 return;
             }
         }
-
-        try{
-            sendBroadcast(new AddPlayer(player, present));
-        }catch (IOException e){
-            return;
-        }
+        sendBroadcast(new AddPlayer(player, present));
 
         players[present] = player;
         handlers[present] = ch;
@@ -79,22 +74,29 @@ public class Room {
         canLeave.set(value);
     }
 
-    public void sendBroadcast(Message message) throws IOException {
-        for(ClientHandler ch : handlers)
-            if(ch != null)
-                ch.sendMessage(message);
+    public void sendBroadcast(Message message) {
+        for(ClientHandler ch : handlers) {
+            if (ch != null) {
+                try {
+                    ch.sendMessage(message);
+                } catch (IOException e) {
+                    System.out.println("Could not send message to: " + ch.getUsername());
+                }
+            }
+        }
     }
 
     RoundController getRoundController(){
         return rc;
     }
 
-    void playerDisconnect( ClientHandler handler) throws IOException{
+    void playerDisconnect( ClientHandler handler){
         for(int i = 0; i< players.length; i++){
             if (handlers[i] == handler)
                 handlers[i] = null;
         }
 
         sendBroadcast(new PlayerDisconnect(handler.getUsername()));
+        Lobby.getInstance().eliminateRoom(id);
     }
 }

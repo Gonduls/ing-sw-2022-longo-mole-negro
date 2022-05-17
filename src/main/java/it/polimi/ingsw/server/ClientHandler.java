@@ -38,21 +38,13 @@ public class ClientHandler implements Runnable{
 
         try {
             handleClientConnection();
+            client.close();
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("client " + client.getInetAddress() + " connection dropped");
-            try{
-                room.playerDisconnect(this);
-            } catch (IOException f){
-                System.out.println("Cannot diconnect");
-                return;
-            }
+            room.playerDisconnect(this);
         }
 
-        try {
-            client.close();
-        } catch (IOException e) {
-            // todo: fill with something
-        }
+        lobby.removePlayer(username);
     }
 
     private void handleClientConnection() throws IOException, UnexpectedMessageException{
@@ -183,6 +175,7 @@ public class ClientHandler implements Runnable{
     private void leaveRoom() throws IOException{
         if(room.removePlayer()){
             room = null;
+            lobby.addToRoom(0, this);
             output.writeObject(new Ack());
             return;
         }

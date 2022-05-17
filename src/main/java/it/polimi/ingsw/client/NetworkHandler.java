@@ -82,6 +82,11 @@ public class NetworkHandler implements Runnable{
                     answer = null;
                     continue;
                 }
+                else if(answer.getMessageType() == MessageType.PLAYER_DISCONNECT){
+                    clientController.showMessage(answer);
+                    answer = null;
+                    continue;
+                }
                 try {
                     clientController.updateCModel(answer);
                     answer = null;
@@ -217,7 +222,11 @@ public class NetworkHandler implements Runnable{
                 }
                 if(answer.getMessageType() == MessageType.PUBLIC_ROOMS)
                     clientController.showPublicRooms(((PublicRooms) answer).getRooms());
-                else if (answer.getMessageType() == MessageType.NACK)
+                else if(answer.getMessageType() == MessageType.PLAYER_DISCONNECT){
+                    clientController.showMessage(answer);
+                    answer = null;
+                    continue;
+                }else if (answer.getMessageType() == MessageType.NACK)
                     return 0;
 
                 if(answer.getMessageType() != MessageType.ROOM_ID)

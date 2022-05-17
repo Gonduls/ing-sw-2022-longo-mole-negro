@@ -10,25 +10,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Lobby {
     private static Lobby instance;
-    private final HashMap<String, Integer> players;
-    private final HashMap<Integer, Room> initializingRooms;
-    private final HashMap<Integer, Room> playingRooms;
-    private final HashMap<Integer, RoomInfo> infos;
-    private final AtomicBoolean listenEnd;
+    private final HashMap<String, Integer> players = new HashMap<>();
+    private final HashMap<Integer, Room> initializingRooms = new HashMap<>();
+    private final HashMap<Integer, Room> playingRooms = new HashMap<>();
+    private final HashMap<Integer, RoomInfo> infos = new HashMap<>();
+    private final AtomicBoolean listenEnd = new AtomicBoolean(false);
     private ServerSocket socket;
-    private final Random random;
+    private final Random random = new Random();
 
-    //todo: modify 9999 with value from a config file
-    private Lobby(){
-        players = new HashMap<>();
-        initializingRooms = new HashMap<>();
-        playingRooms = new HashMap<>();
-        infos = new HashMap<>();
-        random = new Random();
-        listenEnd = new AtomicBoolean(false);
-
+    private Lobby(int port){
         try {
-            socket = new ServerSocket(9999);
+            socket = new ServerSocket(port);
         } catch (IOException e) {
             System.out.println("cannot open server socket");
             System.exit(1);
@@ -36,13 +28,18 @@ public class Lobby {
     }
 
     public static Lobby getInstance(){
+        return getInstance(9999);
+    }
+
+    public static Lobby getInstance(int port){
         if(instance == null)
-            instance = new Lobby();
+            instance = new Lobby(port);
 
         return instance;
     }
 
     public void listen(){
+        System.out.println("Starting listen");
         while(!listenEnd.get()){
             try{
                 Socket client = socket.accept();
@@ -142,6 +139,11 @@ public class Lobby {
             if(!players.containsKey(player) || players.get(player) != null)
                 return false;
 
+            if(roomId == 0){
+                players.put(ch.getUsername(), null);
+                return true;
+            }
+
             if(!initializingRooms.containsKey(roomId))
                 return false;
 
@@ -178,6 +180,13 @@ public class Lobby {
                 playingRooms.remove(id);
             }
             infos.remove(id);
+        }
+
+        synchronized(players){
+            for(Map.Entry<String,Integer> entry : players.entrySet()){
+                if(entry.getValue() == id)
+                    players.put(entry.getKey(), null);
+            }
         }
     }
 }
