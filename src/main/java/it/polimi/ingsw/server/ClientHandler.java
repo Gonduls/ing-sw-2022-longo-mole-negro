@@ -41,7 +41,8 @@ public class ClientHandler implements Runnable{
             client.close();
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("client " + client.getInetAddress() + " connection dropped");
-            room.playerDisconnect(this);
+            if(room != null)
+                room.playerDisconnect(this);
         }
 
         lobby.removePlayer(username);
@@ -60,6 +61,9 @@ public class ClientHandler implements Runnable{
                 output.writeObject(new Nack("Not a message"));
                 continue;
             }
+
+            if(MessageType.isServerMessage(message.getMessageType()))
+                throw new UnexpectedMessageException("Did not receive a client message");
 
             switch (message.getMessageType()) {
                 case LOGIN -> output.writeObject(new Nack("Already logged in!"));

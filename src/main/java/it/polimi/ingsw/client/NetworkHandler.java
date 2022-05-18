@@ -69,11 +69,18 @@ public class NetworkHandler implements Runnable{
             // Reads the next message
             try {
                 answer = (Message) input.readObject();
-            } catch (ClassNotFoundException | ClassCastException | IOException e) {
+            } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
+                return;
+            } catch (IOException e){
+                clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
                 return;
             }
 
+            if(MessageType.isClientMessage(answer.getMessageType())){
+                clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
+                return;
+            }
             // Tries to feed the answer message to the clientController.
             // If that fails, the answer must be read by another function in network handler
             synchronized (lockAnswer){
@@ -204,7 +211,6 @@ public class NetworkHandler implements Runnable{
         output.writeObject(message);
     }
 
-
     boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
         Message returnValue = occupy(new AccessRoom(id));
         return returnValue.getMessageType() == MessageType.ACK;
@@ -224,7 +230,6 @@ public class NetworkHandler implements Runnable{
                     clientController.showPublicRooms(((PublicRooms) answer).getRooms());
                 else if(answer.getMessageType() == MessageType.PLAYER_DISCONNECT){
                     clientController.showMessage(answer);
-                    answer = null;
                     continue;
                 }else if (answer.getMessageType() == MessageType.NACK)
                     return 0;

@@ -16,30 +16,21 @@ public class ClientController {
     }
 
     void updateCModel(Message message) throws UnexpectedMessageException{
-        if(! doesUpdate(message))
+        if(! MessageType.doesUpdate(message.getMessageType()))
             throw(new UnexpectedMessageException("Did not receive a message that modifies the model"));
     }
 
-    boolean doesUpdate(Message message){
-        MessageType type = message.getMessageType();
-        return (type != MessageType.ACK &&
-                type != MessageType.NACK &&
-                type != MessageType.ROOM_ID &&
-                type != MessageType.PUBLIC_ROOMS);
 
-
-
-    }
 
     boolean myTurn(){
         return turn;
     }
 
     void showPublicRooms(List<RoomInfo> rooms){
-        // todo: print all room info
+        ui.showPublicRooms(rooms);
     }
 
     void showMessage(Message message){
-        //todo
+        ui.showMessage(message);
     }
 }

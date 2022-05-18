@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.util.*;
 
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.*;
@@ -82,6 +83,11 @@ public class CLI implements UI {
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
+
+    }
+
+    @Override
+    public void showMessage(Message message) {
 
     }
 }
