@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.RoomInfo;
@@ -8,6 +9,11 @@ import java.util.List;
 
 public class ClientController {
     private boolean turn = true;
+    private final UI ui;
+
+    public ClientController(UI ui){
+        this.ui = ui;
+    }
 
     void updateCModel(Message message) throws UnexpectedMessageException{
         if(! doesUpdate(message))

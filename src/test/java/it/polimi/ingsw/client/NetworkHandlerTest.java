@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.server.Lobby;
 import org.junit.jupiter.api.AfterEach;
@@ -27,7 +28,7 @@ class NetworkHandlerTest {
         new Thread(() -> lobby.listen()).start();
 
         // client setup
-        cc = new ClientController();
+        cc = new ClientController(new CLI(new String[0]));
         try{
             nh = new NetworkHandler("localhost", 9999, cc);
             new Thread(nh).start();
@@ -107,6 +108,6 @@ class NetworkHandlerTest {
      * @return The NetworkHandler associated to the client
      */
     NetworkHandler newClient(){
-        return newClient(new ClientController());
+        return newClient(new ClientController(new CLI(new String[0])));
     }
 }

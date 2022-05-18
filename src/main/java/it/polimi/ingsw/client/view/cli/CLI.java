@@ -2,12 +2,15 @@ package it.polimi.ingsw.client.view.cli;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+
+import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.Ansi.*;
 import java.util.concurrent.TimeUnit;
 
 
-public class CLI {
+public class CLI implements UI {
 
     private PrintStream output;
     private Scanner input;
@@ -72,8 +75,13 @@ public class CLI {
     }
 
 
+    @Override
+    public void printStatus() {
 
+    }
 
+    @Override
+    public void showPublicRooms(List<RoomInfo> rooms) {
 
-
+    }
 }
