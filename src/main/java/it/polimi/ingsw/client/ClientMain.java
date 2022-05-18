@@ -87,7 +87,7 @@ public class ClientMain {
             case 1:
                 //starts the cli
                 CLI cli = new CLI(argsString);
-                cli.gameTitle();
+                cli.mainCLI();
                 break;
             case 2:
                 //Application.launch(GUI.class, argsString);
@@ -97,6 +97,8 @@ public class ClientMain {
                 System.exit(0);
                 break;
         }
+
+        CLI.clearScreen();
     }
 
 }
