@@ -47,6 +47,8 @@ public enum MessageType {
         return (type != MessageType.ACK &&
                 type != MessageType.NACK &&
                 type != MessageType.ROOM_ID &&
-                type != MessageType.PUBLIC_ROOMS);
+                type != MessageType.PLAYER_DISCONNECT &&
+                type != MessageType.PUBLIC_ROOMS &&
+                isServerMessage(type));
     }
 }

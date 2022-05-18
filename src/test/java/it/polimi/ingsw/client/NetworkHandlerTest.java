@@ -28,9 +28,9 @@ class NetworkHandlerTest {
         new Thread(() -> lobby.listen()).start();
 
         // client setup
-        cc = new ClientController(new CLI(new String[0]));
         try{
-            nh = new NetworkHandler("localhost", 9999, cc);
+            cc = new ClientController(new CLI(new String[0]), "localhost", 9999);
+            nh = cc.nh;
             new Thread(nh).start();
         } catch (IOException e){
             fail();
@@ -67,8 +67,13 @@ class NetworkHandlerTest {
     @Test
     void login(){
         assertTrue(lobby.getPlayers().containsKey(username));
+        NetworkHandler nh1 = null;
 
-        NetworkHandler nh1 = newClient();
+        try {
+            nh1 = newClient();
+        } catch (IOException e){
+            fail();
+        }
 
         // checking that no more clients with same username can be added
         try{
@@ -84,30 +89,14 @@ class NetworkHandlerTest {
         }
     }
 
-    /**
-     * Creates a new client and returns its NetworkHandler, without logging in
-     * @param cc1 The client ClientController associated to the client
-     * @return The NetworkHandler associated to the client
-     */
-    NetworkHandler newClient(ClientController cc1){
-        NetworkHandler nh1 = null;
-        try{
-            nh1 = new NetworkHandler("localhost", 9999, cc1);
-            new Thread(nh1).start();
-        } catch (IOException e){
-            fail();
-        }
-
-        return nh1;
-    }
 
     /**
-     * Creates a new client and returns its NetworkHandler, without logging in,
-     * but no ClientController is saved
+     * Creates a new clientController and returns its NetworkHandler, without logging in.
+     * No ClientController is saved
      *
      * @return The NetworkHandler associated to the client
      */
-    NetworkHandler newClient(){
-        return newClient(new ClientController(new CLI(new String[0])));
+    NetworkHandler newClient()throws IOException{
+        return (new ClientController(new CLI(new String[0]), "localhost", 9999)).nh;
     }
 }

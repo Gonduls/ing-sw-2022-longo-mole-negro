@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class ChangeTurn implements Message{
+public record ChangeTurn(int playingPlayer) implements Message{
 
     @Override
     public MessageType getMessageType() {
