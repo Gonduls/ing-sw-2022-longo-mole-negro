@@ -2,11 +2,12 @@ package it.polimi.ingsw.client.view.cli;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.Ansi.*;
 import java.util.concurrent.TimeUnit;
 
 
 public class CLI {
-    // private ClientSocket client;
 
     private PrintStream output;
     private Scanner input;
@@ -18,6 +19,17 @@ public class CLI {
         this.input = new Scanner(System.in);
         this.args = args.clone();
         //listening to each other
+    }
+
+    public static void mainCLI(){
+        gameTitle();
+
+
+    }
+
+    public static void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
     public static void gameTitle() {
@@ -45,10 +57,21 @@ public class CLI {
                 "                                                                                                                  .....~B&&&Y~^:^^7!.....             \n" +
                 "                                                                                                                  ......:!Y5P5?7!^:.....              \n" +
                 "                                                                                                                                                        ");
+        System.out.println( Ansi.ansi().eraseScreen().render("@|red Hello|@ @|green World|@") );
 
+    }
+
+    public static void hexagones() {
+        System.out.println("   ____\n" +
+                "         /    \\\n" +
+                "        /      \\\n" +
+                "        \\      /\n" +
+                "         \\____/   ");
 
 
     }
+
+
 
 
 
