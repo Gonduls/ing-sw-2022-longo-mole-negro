@@ -16,30 +16,19 @@ public class ModelObserver {
 
     //move student from a player entrance to an island
     public void moveFromEntranceToIsland(String playerName, Color color ,int islandIndex){
-       try {
-           room.sendBroadcast(new MoveStudent());
-       } catch(IOException e) {
-           //boh
-            }
+        room.sendBroadcast(new MoveStudent());
 
     }
 
     public void moveFromEntranceToTable(String playerName, Color color){
-        try {
-            room.sendBroadcast(new MoveStudent());
-        } catch(IOException e) {
-            //boh
-        }
+        room.sendBroadcast(new MoveStudent());
+
     }
 
 
 
     public void moveMotherNature(int amount){
-        try {
-            room.sendBroadcast(new MoveMotherNature());
-        } catch(IOException e) {
-            //boh
-        }
+        room.sendBroadcast(new MoveMotherNature());
     }
 
 
