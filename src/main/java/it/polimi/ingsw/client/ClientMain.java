@@ -2,6 +2,8 @@ package it.polimi.ingsw.client;
 
 
 import it.polimi.ingsw.client.view.cli.CLI;
+import it.polimi.ingsw.client.view.gui.GUI;
+import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -90,7 +92,7 @@ public class ClientMain {
                 cli.mainCLI();
                 break;
             case 2:
-                //Application.launch(GUI.class, argsString);
+                Application.launch(GUI.class, argsString);
                 break;
             default:
                 System.out.println("ERROR: please insert a valid integer.");

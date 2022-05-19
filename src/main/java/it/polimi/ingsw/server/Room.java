@@ -42,7 +42,9 @@ public class Room {
                 return;
             }
         }
+
         sendBroadcast(new AddPlayer(player, present));
+
 
         players[present] = player;
         handlers[present] = ch;
@@ -97,6 +99,7 @@ public class Room {
         }
 
         sendBroadcast(new PlayerDisconnect(handler.getUsername()));
+
         Lobby.getInstance().eliminateRoom(id);
     }
 }

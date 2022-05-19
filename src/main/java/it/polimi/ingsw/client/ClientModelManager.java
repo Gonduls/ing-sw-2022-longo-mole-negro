@@ -65,7 +65,7 @@ public class ClientModelManager {
         return new EnumMap<>(entrances[playerIndex]);
     }
 
-    public EnumMap<Color, Integer> getTable(int playerIndex) {
+    public EnumMap<Color, Integer> getDiningRooms(int playerIndex) {
         return new EnumMap<>(diningRooms[playerIndex]);
     }
 
@@ -115,7 +115,28 @@ public class ClientModelManager {
         return players;
     }
 
-    void updateModel(Message message){
+    void updateModel(Message message) throws UnexpectedMessageException{
+        switch(message.getMessageType()) {
+            case MOVE_STUDENT ->{
+                MoveStudent ms = (MoveStudent) message;
+                moveStudent(ms.from(), ms.to(), ms.color());
+            }
+            case ADD_STUDENT_TO -> {
+                AddStudentTo ast = (AddStudentTo) message;
+                addStudent(ast.to(), ast.color());
+            }
+            case MOVE_TOWERS -> {}
+            case MERGE_ISLANDS -> {}
+            case SET_PROFESSOR_TO -> {}
+            case MOVE_MOTHER_NATURE -> {}
+            case PLAY_ASSISTANT_CARD -> {}
+            case ACTIVATE_CHARACTER_CARD -> {}
+            case ADD_COIN -> {}
+            case PAY_PRICE -> {}
+            default -> {
+                throw(new UnexpectedMessageException("Message does not update the model"));
+            }
+        }
         //parsing message
 
         //update model

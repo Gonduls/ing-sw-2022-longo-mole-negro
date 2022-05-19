@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
+import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
@@ -26,7 +27,9 @@ public class CLI implements UI {
     }
 
     public static void mainCLI(){
+        Ansi.ansi().bgBrightCyan().fgBright(Color.GREEN).a("ciao");
         gameTitle();
+
 
 
     }
@@ -79,6 +82,7 @@ public class CLI implements UI {
     @Override
     public void printStatus() {
 
+
     }
 
     @Override
@@ -90,4 +94,8 @@ public class CLI implements UI {
     public void showMessage(Message message) {
 
     }
+
+    @Override
+    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){}
+
 }

@@ -37,7 +37,7 @@ public class NetworkHandler implements Runnable{
 
     /**
      * Thread function of NetworkController.
-     * Until an endCondition is set, if follows the schema:
+     * Until an endCondition is set, it follows the schema:
      * wait until answer is null ->
      * read new message ->
      * give the message to the client controller (if able) and set it to null ->

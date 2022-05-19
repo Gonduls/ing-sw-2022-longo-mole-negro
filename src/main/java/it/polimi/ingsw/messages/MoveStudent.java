@@ -1,6 +1,8 @@
 package it.polimi.ingsw.messages;
 
-public class MoveStudent implements Message{
+import it.polimi.ingsw.model.Color;
+
+public record MoveStudent(String from, String to, Color color) implements Message{
 
     @Override
     public MessageType getMessageType() {
