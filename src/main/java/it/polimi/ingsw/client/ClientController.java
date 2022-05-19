@@ -35,16 +35,27 @@ public class ClientController {
                 break;
             }
             case START_GAME -> {
+                int numberOfPlayers = 0;
                 StartGame s = (StartGame) message;
-                if(players[3] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, s.getIndexes() != null);
-                }else if(players[4] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, s.getIndexes() != null);
+                boolean expert = s.getIndexes() != null;
+
+                if(players[2] == null){
+                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert);
+                    numberOfPlayers = 2;
+                }else if(players[3] == null){
+                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, expert);
+                    numberOfPlayers = 3;
                 } else {
-                    cmm = new ClientModelManager(players.clone(), s.getIndexes() != null);
+                    cmm = new ClientModelManager(players.clone(), expert);
+                    numberOfPlayers = 4;
                 }
 
-                cmm.putSHInCharacterCard(s.getIndexes()[0], s.getIndexes()[1], s.getIndexes()[2]);
+                if(expert)
+                    cmm.putSHInCharacterCard(s.getIndexes()[0], s.getIndexes()[1], s.getIndexes()[2]);
+
+                synchronized (cmm){
+                    ui.createGame(numberOfPlayers, expert, cmm);
+                }
                 break;
             }
             case CHANGE_PHASE -> {
@@ -66,7 +77,10 @@ public class ClientController {
                 break;
             }
             default -> {
-                cmm.updateModel(message);
+                synchronized (cmm){
+                    cmm.updateModel(message);
+                }
+                ui.printStatus();
             }
         }
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view;
 
+import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
 
@@ -11,4 +12,5 @@ public interface UI {
     void printStatus();
     void showPublicRooms(List<RoomInfo> rooms);
     void showMessage(Message message);
+    void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm);
 }
