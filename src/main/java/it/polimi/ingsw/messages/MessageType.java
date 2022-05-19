@@ -14,7 +14,7 @@ public enum MessageType {
     START_GAME,
     MOVE_STUDENT,
     ADD_STUDENT_TO,
-    MOVE_TOWER,
+    MOVE_TOWERS,
     MERGE_ISLANDS,
     SET_PROFESSOR_TO,
     MOVE_MOTHER_NATURE,

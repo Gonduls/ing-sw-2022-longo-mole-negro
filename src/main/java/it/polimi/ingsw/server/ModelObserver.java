@@ -16,12 +16,12 @@ public class ModelObserver {
 
     //move student from a player entrance to an island
     public void moveFromEntranceToIsland(String playerName, Color color ,int islandIndex){
-        room.sendBroadcast(new MoveStudent());
+        //room.sendBroadcast(new MoveStudent());
 
     }
 
     public void moveFromEntranceToTable(String playerName, Color color){
-        room.sendBroadcast(new MoveStudent());
+        //room.sendBroadcast(new MoveStudent());
 
     }
 

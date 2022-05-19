@@ -1,6 +1,9 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.exceptions.UnexpectedMessageException;
+import it.polimi.ingsw.messages.AddStudentTo;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MoveStudent;
 import it.polimi.ingsw.model.*;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ public class ClientModelManager {
     private final List<ClientIsland> islands;
     private int motherNature;
     private final String[] players;
+    private final boolean[] activated;
 
     ClientModelManager(String[] players, boolean expert){
         int numberOfPlayers = players.length;
@@ -38,11 +42,13 @@ public class ClientModelManager {
             coins = new int[numberOfPlayers];
             prices = new int[3];
             characterStudents = new EnumMap[3];
+            activated = new boolean[]{false, false, false};
 
         } else {
             coins = null;
             prices = null;
             characterStudents = null;
+            activated = null;
         }
 
         if(numberOfPlayers == 3){
@@ -91,7 +97,7 @@ public class ClientModelManager {
 
     public Integer getPrices(int index) {
         if(prices != null)
-            return prices[index];
+            return prices[index] + (activated[index] ? 1 : 0);
         return null;
     }
 
@@ -169,6 +175,12 @@ public class ClientModelManager {
 
         int result = position.get(color) + 1;
         position.put(color, result);
+    }
+
+    void moveTowers(String from, String to, int amount){
+        if(from.startsWith("ISLAND")){
+            islands.get(Integer.parseInt(from.split(":")[1]));
+        }
     }
 
     private EnumMap<Color, Integer> parsePosition(String pos){

@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class ClientController {
-    private boolean turn = true;
+    private int playingPlayer;
     private final UI ui;
     final NetworkHandler nh;
     private ClientModelManager cmm;
-    private String[] players = new String[4];
+    private final String[] players = new String[4];
     private final String username;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
@@ -32,10 +32,9 @@ public class ClientController {
 
             case ADD_PLAYER -> {
                 players[((AddPlayer) message).position()] = ((AddPlayer) message).username();
-                break;
             }
             case START_GAME -> {
-                int numberOfPlayers = 0;
+                int numberOfPlayers;
                 StartGame s = (StartGame) message;
                 boolean expert = s.getIndexes() != null;
 
@@ -56,29 +55,28 @@ public class ClientController {
                 synchronized (cmm){
                     ui.createGame(numberOfPlayers, expert, cmm);
                 }
-                break;
             }
             case CHANGE_PHASE -> {
                 ChangePhase c = (ChangePhase) message;
+                //todo: create a phase enum
 
-
-                break;
             }
             case CHANGE_TURN -> {
                 ChangeTurn c = (ChangeTurn) message;
-                if(players[c.playingPlayer()].equals(username))
-                    turn = true;
-                else
-                    turn = false;
+                playingPlayer = c.playingPlayer();
                 ui.printStatus();
-                break;
             }
             case END_GAME -> {
-                break;
+                ui.showMessage(message);
             }
             default -> {
                 synchronized (cmm){
-                    cmm.updateModel(message);
+                    try{
+                        cmm.updateModel(message);
+                    } catch (UnexpectedMessageException e){
+                        System.out.println("Did not send a model-uodating message, code is bugged");
+                        return;
+                    }
                 }
                 ui.printStatus();
             }
@@ -86,7 +84,7 @@ public class ClientController {
     }
 
     boolean myTurn(){
-        return turn;
+        return players[playingPlayer].equals(username);
     }
 
     void showPublicRooms(List<RoomInfo> rooms){

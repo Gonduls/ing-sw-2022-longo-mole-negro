@@ -8,7 +8,7 @@ public record MoveTowers(String from, String to, int amount) implements Message{
 
     @Override
     public MessageType getMessageType() {
-        return MessageType.MOVE_TOWER;
+        return MessageType.MOVE_TOWERS;
     }
 }
 
