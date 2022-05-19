@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class PayPrice implements Message{
+public record PayPrice(int amount, int player) implements Message{
 
     @Override
     public MessageType getMessageType() {

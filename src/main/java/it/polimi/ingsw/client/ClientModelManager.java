@@ -1,15 +1,10 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
-import it.polimi.ingsw.messages.AddStudentTo;
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MoveStudent;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.List;
+import java.util.*;
 
 public class ClientModelManager {
     private final EnumMap<Color, Integer>[] entrances, diningRooms, clouds, characterStudents;
@@ -20,6 +15,7 @@ public class ClientModelManager {
     private int motherNature;
     private final String[] players;
     private final boolean[] activated;
+    private HashMap<Integer, Integer> characterCardsIndexes;
 
     ClientModelManager(String[] players, boolean expert){
         int numberOfPlayers = players.length;
@@ -38,11 +34,18 @@ public class ClientModelManager {
         diningRooms = new EnumMap[numberOfPlayers];
         clouds = new EnumMap[numberOfPlayers];
 
+        for(int i = 0; i < numberOfPlayers; i++){
+            entrances[i] = new EnumMap<>(Color.class);
+            diningRooms[i] = new EnumMap<>(Color.class);
+            clouds[i] = new EnumMap<>(Color.class);
+        }
+
         if(expert){
             coins = new int[numberOfPlayers];
             prices = new int[3];
-            characterStudents = new EnumMap[3];
+            characterStudents = new EnumMap[]{new EnumMap<>(Color.class), new EnumMap<>(Color.class), new EnumMap<>(Color.class)};
             activated = new boolean[]{false, false, false};
+            characterCardsIndexes = new HashMap<>();
 
         } else {
             coins = null;
@@ -61,25 +64,28 @@ public class ClientModelManager {
         }
     }
 
-    void putSHInCharacterCard(int index0, int index1, int index2) {
-        this.characterStudents[0] = CharacterCard.hasStudentHolder(index0) ? new EnumMap<>(Color.class) : null;
-        this.characterStudents[1] = CharacterCard.hasStudentHolder(index1) ? new EnumMap<>(Color.class) : null;
-        this.characterStudents[2] = CharacterCard.hasStudentHolder(index2) ? new EnumMap<>(Color.class) : null;
+    void putSHInCharacterCard(int[] indexes) {
+        this.characterStudents[0] = CharacterCard.hasStudentHolder(indexes[0]) ? new EnumMap<>(Color.class) : null;
+        this.characterStudents[1] = CharacterCard.hasStudentHolder(indexes[1]) ? new EnumMap<>(Color.class) : null;
+        this.characterStudents[2] = CharacterCard.hasStudentHolder(indexes[2]) ? new EnumMap<>(Color.class) : null;
+        characterCardsIndexes.put(indexes[0], 0);
+        characterCardsIndexes.put(indexes[1], 1);
+        characterCardsIndexes.put(indexes[2], 2);
     }
 
-    public EnumMap<Color, Integer> getEntrance(int playerIndex) {
+    public Map<Color, Integer> getEntrance(int playerIndex) {
         return new EnumMap<>(entrances[playerIndex]);
     }
 
-    public EnumMap<Color, Integer> getDiningRooms(int playerIndex) {
+    public Map<Color, Integer> getDiningRooms(int playerIndex) {
         return new EnumMap<>(diningRooms[playerIndex]);
     }
 
-    public EnumMap<Color, Integer> getCloud(int index) {
+    public Map<Color, Integer> getCloud(int index) {
         return new EnumMap<>(clouds[index]);
     }
 
-    public EnumMap<Color, Integer> getCharacterStudents(int index) {
+    public Map<Color, Integer> getCharacterStudents(int index) {
         if(characterStudents != null && characterStudents[index] != null)
             return new EnumMap<>(characterStudents[index]);
         return null;
@@ -105,7 +111,7 @@ public class ClientModelManager {
         return towers[playerIndex];
     }
 
-    public EnumMap<Color, Integer> getProfessors() {
+    public Map<Color, Integer> getProfessors() {
         return new EnumMap<>(professors);
     }
 
@@ -131,17 +137,40 @@ public class ClientModelManager {
                 AddStudentTo ast = (AddStudentTo) message;
                 addStudent(ast.to(), ast.color());
             }
-            case MOVE_TOWERS -> {}
-            case MERGE_ISLANDS -> {}
-            case SET_PROFESSOR_TO -> {}
-            case MOVE_MOTHER_NATURE -> {}
-            case PLAY_ASSISTANT_CARD -> {}
-            case ACTIVATE_CHARACTER_CARD -> {}
-            case ADD_COIN -> {}
-            case PAY_PRICE -> {}
-            default -> {
-                throw(new UnexpectedMessageException("Message does not update the model"));
+            case MOVE_TOWERS -> {
+                MoveTowers mt = (MoveTowers) message;
+                moveTowers(mt.from(), mt.to(), mt.amount());
             }
+            case MERGE_ISLANDS -> {
+                // todo: merge islands in client model
+            }
+            case SET_PROFESSOR_TO -> {
+                SetProfessorTo spt = (SetProfessorTo) message;
+                professors.put(spt.color(), spt.player());
+            }
+            case MOVE_MOTHER_NATURE -> {
+                MoveMotherNature mmn = (MoveMotherNature) message;
+                motherNature = (motherNature + mmn.steps()) % islands.size();
+            }
+            case PLAY_ASSISTANT_CARD -> {
+                PlayAssistantCard pac = (PlayAssistantCard) message;
+                deck.remove(pac.assistantCard());
+            }
+
+            case ACTIVATE_CHARACTER_CARD -> {
+                ActivateCharacterCard acc = (ActivateCharacterCard) message;
+                activated[characterCardsIndexes.get(acc.characterCardIndex())] = true;
+
+            }
+            case ADD_COIN -> {
+                AddCoin ac = (AddCoin) message;
+                coins[ac.player()] += 1;
+            }
+            case PAY_PRICE -> {
+                PayPrice pp = (PayPrice) message;
+                coins[pp.player()] -= pp.amount();
+            }
+            default -> throw(new UnexpectedMessageException("Message does not update the model"));
         }
         //parsing message
 
@@ -150,9 +179,6 @@ public class ClientModelManager {
 
     }
 
-    void moveMotherNature(int steps){
-        motherNature = (motherNature + steps) % islands.size();
-    }
 
     void moveStudent(String from, String to, Color color){
         removeStudent(from, color);
@@ -179,8 +205,20 @@ public class ClientModelManager {
 
     void moveTowers(String from, String to, int amount){
         if(from.startsWith("ISLAND")){
-            islands.get(Integer.parseInt(from.split(":")[1]));
+            int indexIslands = Integer.parseInt(from.split(":")[1]);
+            int indexPlayers = Integer.parseInt(to.split(":")[1]);
+
+            ClientIsland island = islands.get(indexIslands);
+            towers[indexPlayers] += amount;
+            island.setTowers(island.getTowers() - amount);
+            return;
         }
+
+        int indexPlayers = Integer.parseInt(from.split(":")[1]);
+        int indexIslands = Integer.parseInt(to.split(":")[1]);
+        ClientIsland island = islands.get(indexIslands);
+        towers[indexPlayers] -= amount;
+        island.setTowers(island.getTowers() + amount);
     }
 
     private EnumMap<Color, Integer> parsePosition(String pos){
@@ -219,6 +257,10 @@ class ClientIsland{
 
     public int getTowers() {
         return towers;
+    }
+
+    public TowerColor getTc() {
+        return tc;
     }
 
     public void addNoEntry() {

@@ -15,23 +15,15 @@ public class ModelObserver {
     }
 
     //move student from a player entrance to an island
-    public void moveFromEntranceToIsland(String playerName, Color color ,int islandIndex){
-        //room.sendBroadcast(new MoveStudent());
-
+    public void moveFromEntranceToIsland(int player, Color color ,int islandIndex){
+        room.sendBroadcast(new MoveStudent("ENTRANCE:"+player, "ISLAND:" + islandIndex, color));
     }
 
-    public void moveFromEntranceToTable(String playerName, Color color){
-        //room.sendBroadcast(new MoveStudent());
-
+    public void moveFromEntranceToTable(int player, Color color){
+        room.sendBroadcast(new MoveStudent("ENTRANCE:"+player, "DININGROOM:" + player, color));
     }
-
-
 
     public void moveMotherNature(int amount){
-        room.sendBroadcast(new MoveMotherNature());
+        room.sendBroadcast(new MoveMotherNature(amount));
     }
-
-
-
-
 }

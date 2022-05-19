@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class ActivateCharacterCard implements Message{
+public record ActivateCharacterCard(int characterCardIndex, int player) implements Message{
 
     @Override
     public MessageType getMessageType() {

@@ -19,6 +19,7 @@ public class ClientController {
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
         nh = new NetworkHandler(serverIP, serverPort, this);
+
         //TODO: login
         username = "";
     }
@@ -30,9 +31,7 @@ public class ClientController {
         // todo: finish
         switch (message.getMessageType()){
 
-            case ADD_PLAYER -> {
-                players[((AddPlayer) message).position()] = ((AddPlayer) message).username();
-            }
+            case ADD_PLAYER -> players[((AddPlayer) message).position()] = ((AddPlayer) message).username();
             case START_GAME -> {
                 int numberOfPlayers;
                 StartGame s = (StartGame) message;
@@ -50,10 +49,28 @@ public class ClientController {
                 }
 
                 if(expert)
-                    cmm.putSHInCharacterCard(s.getIndexes()[0], s.getIndexes()[1], s.getIndexes()[2]);
+                    cmm.putSHInCharacterCard(s.getIndexes().clone());
 
                 synchronized (cmm){
                     ui.createGame(numberOfPlayers, expert, cmm);
+                }
+            }
+            case PLAY_ASSISTANT_CARD -> {
+                // todo: display activated assistant cards
+                PlayAssistantCard pac = (PlayAssistantCard) message;
+                if(players[pac.player()].equals(username)){
+                    synchronized (cmm){
+                        updateCModel(pac);
+                    }
+                }
+            }
+            case ACTIVATE_CHARACTER_CARD -> {
+                // todo: display activated character cards
+                ActivateCharacterCard acc = (ActivateCharacterCard) message;
+                if(players[acc.player()].equals(username)){
+                    synchronized (cmm){
+                        updateCModel(acc);
+                    }
                 }
             }
             case CHANGE_PHASE -> {
@@ -66,15 +83,13 @@ public class ClientController {
                 playingPlayer = c.playingPlayer();
                 ui.printStatus();
             }
-            case END_GAME -> {
-                ui.showMessage(message);
-            }
+            case END_GAME -> ui.showMessage(message);
             default -> {
                 synchronized (cmm){
                     try{
                         cmm.updateModel(message);
                     } catch (UnexpectedMessageException e){
-                        System.out.println("Did not send a model-uodating message, code is bugged");
+                        System.out.println("Did not send a model-updating message, code is bugged");
                         return;
                     }
                 }

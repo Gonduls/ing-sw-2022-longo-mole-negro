@@ -1,7 +1,8 @@
 package it.polimi.ingsw.messages;
 
-public class SetProfessorTo implements Message{
+import it.polimi.ingsw.model.Color;
 
+public record SetProfessorTo(Color color, int player) implements Message{
 
     @Override
     public MessageType getMessageType() {

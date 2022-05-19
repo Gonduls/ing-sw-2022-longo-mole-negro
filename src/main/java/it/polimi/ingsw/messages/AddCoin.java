@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class AddCoin implements Message{
+public record AddCoin(int player) implements Message{
 
     @Override
     public MessageType getMessageType() {
