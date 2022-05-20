@@ -33,8 +33,17 @@ public class AcceptMotherNatureMoveState extends GameState {
                 Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 int amount = eventCast.getAmount();
 
-               //todo check that is a legal move
-                try{
+               if (context.gameManager.getUsedCard() == 1) {
+                   if (amount > context.getPlayerMaxSteps().get(player).getSteps() +2 ) {
+                       throw new Exception("you cannot move mother nature more than " + (context.getPlayerMaxSteps().get(player).getSteps() + 2 ));
+                   }
+               } else {
+                   if (amount > context.getPlayerMaxSteps().get(player).getSteps()) {
+                       throw new Exception("you cannot move mother nature more than " + context.getPlayerMaxSteps().get(player).getSteps());
+                   }
+               }
+
+               try{
                     context.gameManager.moveMotherNature(amount);
                 } catch (IllegalArgumentException e) {
                     //todo send an error back
@@ -43,6 +52,7 @@ public class AcceptMotherNatureMoveState extends GameState {
                 numberOfEvents--;
                 if(numberOfEvents == 0){
                     context.changeState(new AcceptCloudTileState(context,1));
+                    context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_THREE);
                 }
 
                 break;
@@ -51,7 +61,7 @@ public class AcceptMotherNatureMoveState extends GameState {
             case ACTIVATE_CHARACTER_CARD:{
 
                 if (!context.isExpertMode()) {
-                    //todo send a nack
+                    throw new Exception("You can't  use character card in easy mode");
                 }
 
                 ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
@@ -66,7 +76,18 @@ public class AcceptMotherNatureMoveState extends GameState {
                     throw new Exception("You already activated a card");
                 }
 
-                context.gameManager.setUsedCard(cardId);
+                if (context.getPlayerByUsername(eventCast.getPlayerName()).getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
+                    throw new Exception("You don't have enough coins");
+                }
+
+                context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
+
+                context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
+
+                context.gameManager.findCardById(cardId).increasePrice();
+
+
+
 
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));

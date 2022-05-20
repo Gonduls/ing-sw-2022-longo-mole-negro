@@ -90,7 +90,13 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                     throw new Exception("You already activated a card");
                 }
 
-                context.gameManager.setUsedCard(cardId);
+                //todo: refactor this functions in setUsedCard
+                context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
+
+                context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
+
+                context.gameManager.findCardById(cardId).increasePrice();
+
 
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
@@ -106,6 +112,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
         if (numberOfEvents == 0){
 
             context.changeState(new AcceptMotherNatureMoveState(context, 1));
+            context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_TWO);
         }
 
     }

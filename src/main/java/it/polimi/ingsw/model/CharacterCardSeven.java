@@ -1,5 +1,9 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.controller.CharacterSevenState;
+import it.polimi.ingsw.controller.CharacterState;
+import it.polimi.ingsw.controller.GameState;
+import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 
 /**
@@ -46,5 +50,10 @@ public class CharacterCardSeven extends  CharacterCard{
     @Override
     public void deactivateEffect() {
 
+    }
+
+    @Override
+    public CharacterState getCharacterState(RoundController context, GameState nextState) {
+        return new CharacterSevenState(context,1, nextState,this);
     }
 }

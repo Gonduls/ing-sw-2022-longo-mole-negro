@@ -38,4 +38,14 @@ public abstract class CharacterCard {
     public  CharacterState getCharacterState(RoundController context, GameState nextState){
         return null;
     }
+
+    /**
+     * The increase in price happens only once.
+     * We structured the cards so that the initial price is ID%4 + 1
+     */
+    public void increasePrice(){
+        if(this.price == (this.id % 4) + 1 ) {
+            this.price++;
+        }
+    }
 }

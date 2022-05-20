@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public class MergeIslands implements Message{
+public record MergeIslands(int firstIslandIndex, int secondIslandIndex) implements Message{
 
     @Override
     public MessageType getMessageType() {

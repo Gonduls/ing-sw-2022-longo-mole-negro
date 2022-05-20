@@ -1,8 +1,7 @@
 package it.polimi.ingsw.server;
 
-import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.MoveMotherNature;
-import it.polimi.ingsw.messages.MoveStudent;
+import it.polimi.ingsw.controller.GamePhase;
+import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
@@ -26,4 +25,48 @@ public class ModelObserver {
     public void moveMotherNature(int amount){
         room.sendBroadcast(new MoveMotherNature(amount));
     }
+
+    public void moveTowerToPlayer(int player, int islandIndex,int numberOfTowers){
+        room.sendBroadcast(new MoveTowers("ISLAND:"+islandIndex, "PLAYER:"+player, numberOfTowers));
+    }
+
+    public void moveTowerToIsland(int player, int islandIndex,int numberOfTowers){
+        room.sendBroadcast(new MoveTowers("PLAYER:"+player, "ISLAND:"+islandIndex, numberOfTowers));
+
+    }
+
+    public void mergeIslands(int firstIslandIndex, int secondIslandIndex){
+
+        room.sendBroadcast(new MergeIslands(firstIslandIndex, secondIslandIndex));
+
+    }
+
+    public void activateCharacterCard(int id,int playerNumber){
+        room.sendBroadcast(new ActivateCharacterCard(id, playerNumber));
+    }
+
+    public void removeNoEntry(int islandIndex){
+    }
+
+
+    public void addNoEntry(int islandIndex){
+
+    }
+
+    public void changePhase(GamePhase phase){
+        room.sendBroadcast(new ChangePhase(phase));
+    }
+
+
+    public void changeTurn(int player){
+
+        room.sendBroadcast(new ChangeTurn(player));
+
+    }
+
+    public void playAssistantCard(AssistantCard assCard, int player){
+        room.sendBroadcast(new PlayAssistantCard(assCard, player));
+    }
+
+
 }

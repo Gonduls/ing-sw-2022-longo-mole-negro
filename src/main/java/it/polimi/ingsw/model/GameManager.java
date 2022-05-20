@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
+import it.polimi.ingsw.server.ModelObserver;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +21,7 @@ public class GameManager {
     private final Player[] players;
     private final Professors professors;
 
-
+    ModelObserver modelObserver;
 
     /**
      * This constructor, having given it the array of initialized players and the expert mode flag,
@@ -62,7 +63,7 @@ public class GameManager {
                             activeCards.add(new CharacterCardZero(bag));
                             break;
                         case 1:
-                            //activeCards.add(new CharacterCardOne(bag));
+                            activeCards.add(new CharacterCardOne());
                             break;
                         case 2:
                             activeCards.add(new CharacterCardTwo(bag));
@@ -93,6 +94,8 @@ public class GameManager {
                             break;
                         case 11:
                             activeCards.add(new CharacterCardEleven());
+                            break;
+                        default:
                             break;
                     }
 
@@ -238,9 +241,11 @@ public class GameManager {
         board.moveMotherNature(amount);
         int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
+        modelObserver.moveMotherNature(amount);
 
         if(board.getIslands().get(position).getNoEntry()>0){
             board.getIslands().get(position).removeNoEntry();
+            modelObserver.removeNoEntry(position);
             return;
         }
 
@@ -266,24 +271,29 @@ public class GameManager {
             return;
         }
 
-       //if it's not null it means that we have to put back the towers.
-        if(previousTC != null){
-            Player previousP = players[previousTC.ordinal()];
-            previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
-            //todo-> moveTower from currentIsland to PreviousPlayer
-            //todo-> moveTower from newPlayer to currentIsland
-        }
-        else{
-            // if it's null it means that the island had no towers on.
-            //todo -> moveTower from newP to currentIsland
-            currentIsland.addTower();
-
-        }
-
+        //past this point we are for sure changing colorTower on the current island
         Player newP = players[newTC.ordinal()];
         newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
         currentIsland.setTowerColor(newTC);
-        board.mergeIsland(position);
+
+        //if previousTC is not null it means that we have to put back the towers.
+        if(previousTC != null){
+            Player previousP = players[previousTC.ordinal()];
+            previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+
+            modelObserver.moveTowerToPlayer(previousP.getPlayerNumber(), position, currentIsland.getTowerNumber());
+            modelObserver.moveTowerToIsland(newP.getPlayerNumber(), position, currentIsland.getTowerNumber());
+
+        }
+        // if it's null it means that the island had no towers on.
+        else{
+            // if it's null it means that the island had no towers on.
+            currentIsland.addTower();
+            modelObserver.moveTowerToIsland(newP.getPlayerNumber(), position,1);
+
+        }
+
+        board.mergeIsland(position, modelObserver);
         checkEndConditions();
 
 
@@ -380,18 +390,26 @@ public class GameManager {
         if(newTC == null || (previousTC != null && previousTC == newTC)){
             return;
         }
+        //the comments made in calculateInfluence are valid also here
+        Player newP = players[newTC.ordinal()];
+        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+        currentIsland.setTowerColor(newTC);
 
         if(previousTC != null){
             Player previousP = players[previousTC.ordinal()];
             previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
+            modelObserver.moveTowerToPlayer(previousP.getPlayerNumber(), islandIndex,currentIsland.getTowerNumber());
+            modelObserver.moveTowerToIsland(newP.getPlayerNumber(), islandIndex,currentIsland.getTowerNumber());
+
         }
         else{
             currentIsland.addTower();
+            modelObserver.moveTowerToIsland(newP.getPlayerNumber(), islandIndex,1);
+
+
         }
-        Player newP = players[newTC.ordinal()];
-        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-        currentIsland.setTowerColor(newTC);
-        board.mergeIsland(islandIndex);
+
+        board.mergeIsland(islandIndex, modelObserver);
 
         checkEndConditions();
 
@@ -410,6 +428,7 @@ public class GameManager {
         if(index < 0 || index >= board.getNumberOfIslands()) throw new IllegalArgumentException("there is no island number " + index);
         try{
             player.getSchool().getStudentsAtEntrance().moveStudentTo(student, board.getIslands().get(index));
+            modelObserver.moveFromEntranceToIsland(player.getPlayerNumber(), student, index);
         }
         catch (NoSpaceForStudentException e){
             System.out.println("An island does not have  a limit on the number of students it can hold");
@@ -426,6 +445,8 @@ public class GameManager {
      */
     public void moveStudentFromEntranceToTable(Player player, Color student) throws NoSuchStudentException, NoSpaceForStudentException {
         player.getSchool().getStudentsAtEntrance().moveStudentTo(student, player.getSchool().getStudentsAtTables());
+        modelObserver.moveFromEntranceToTable(player.getPlayerNumber(),student);
+
     }
 
     public Player[] checkEndConditions() {
@@ -491,11 +512,9 @@ public class GameManager {
 
     }
 
-
-
-
-    public void setUsedCard(int usedCard) {
+    public void setUsedCard(int usedCard, int playerNumber) {
         this.usedCard = usedCard;
+        modelObserver.activateCharacterCard(usedCard,playerNumber);
     }
 
     public boolean isCardActive(int id){
@@ -516,7 +535,16 @@ public class GameManager {
 
     public void addNoEntry (int index){
         board.getIslands().get(index).addNoEntry();
+        modelObserver.addNoEntry(index);
 
     }
 
+
+    public ModelObserver getModelObserver() {
+        return modelObserver;
+    }
+
+    public void setModelObserver(ModelObserver modelObserver) {
+        this.modelObserver = modelObserver;
+    }
 }

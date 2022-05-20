@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.server.ModelObserver;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -80,13 +81,14 @@ public class Board {
      *
      * @param indexCurrentIsland: the index of the island that could be merged with the previous or next island in list
      */
-    void mergeIsland(int indexCurrentIsland){
+    void mergeIsland(int indexCurrentIsland, ModelObserver modelObserver){
         int indexPreviousIsland = (indexCurrentIsland+ numberOfIslands-1) % numberOfIslands ;
         if (canBeMerged(indexCurrentIsland, indexPreviousIsland)){
             islands.get(indexCurrentIsland).unify(islands.get(indexPreviousIsland));
             islands.remove(indexPreviousIsland);
             numberOfIslands--;
-
+            //the null check is useful when testing the model
+            if(modelObserver!=null) modelObserver.mergeIslands(indexPreviousIsland, indexCurrentIsland);
             // indexCurrentIsland has to be corrected before next merge check
             indexCurrentIsland = indexPreviousIsland < indexCurrentIsland ? indexCurrentIsland - 1 : indexCurrentIsland;
         }
@@ -96,6 +98,8 @@ public class Board {
             islands.get(indexCurrentIsland).unify(islands.get(indexNextIsland));
             islands.remove(indexNextIsland);
             numberOfIslands--;
+            //the null check is useful when testing the model
+            if(modelObserver!=null)  modelObserver.mergeIslands(indexCurrentIsland, indexNextIsland);
         }
     }
 

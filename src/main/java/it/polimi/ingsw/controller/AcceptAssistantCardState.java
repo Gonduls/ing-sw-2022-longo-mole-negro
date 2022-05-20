@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.Player;
 
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -27,6 +28,7 @@ public class AcceptAssistantCardState extends GameState {
         super(context, numberOfEvents);
         context.gameManager.refillClouds();//this is the first step of the planning phase
         newPlayingOrder = new ArrayList<>();
+        context.resetPlayerMaxSteps();
     }
 
     @Override
@@ -67,15 +69,34 @@ public class AcceptAssistantCardState extends GameState {
         //this sets the playing order
         if(newPlayingOrder.isEmpty()){
             newPlayingOrder.add(player);
-        } else {
-            for(Player other : newPlayingOrder){
-                if (cardPlayed.getValue()  >= cardsPlayedThisTurn[other.getPlayerNumber()].getValue()){
-                    newPlayingOrder.add(newPlayingOrder.indexOf(other)+1 , player);
+        } else if (newPlayingOrder.size()==1) {
+
+            if (cardsPlayedThisTurn[newPlayingOrder.get(0).getPlayerNumber()].getValue() < cardPlayed.getValue()) {
+                newPlayingOrder.add(player);
+            } else {
+                newPlayingOrder.add(0, player);
+            }
+
+        }
+        else {
+            for(int i = 0; i < newPlayingOrder.size();i++){
+                //this works on the hypothesis that the list is already ordered in ascending order
+                if(cardPlayed.getValue() < cardsPlayedThisTurn[newPlayingOrder.get(i).getPlayerNumber()].getValue()){
+                    newPlayingOrder.add(i, player);
                     break;
                 }
+                //in case we are inserting the  biggest element so far
+                if(i== newPlayingOrder.size()-1){
+                    newPlayingOrder.add(player);
+                }
             }
+
+
         }
 
+        context.getPlayerMaxSteps().put(player, cardPlayed);
+
+        context.gameManager.getModelObserver().playAssistantCard(cardPlayed,player.getPlayerNumber());
 
         numberOfEvents--;
 
@@ -85,11 +106,18 @@ public class AcceptAssistantCardState extends GameState {
 
             //change state to moveStudentFromEntrance
             context.setPlayingOrderIndex(0);
+
+            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+
             context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
+
+            context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
         }
         else {
             //next player
             context.setPlayingOrderIndex(context.getPlayingOrderIndex()+1);
+
+            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
         }
 
 

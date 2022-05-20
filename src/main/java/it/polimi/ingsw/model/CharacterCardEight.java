@@ -7,8 +7,6 @@ import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
 
 /**
- *
- *
  * scegli un isola e calcola la sua influenza come se madre natura fosse caduta lì.
  */
 public class CharacterCardEight extends CharacterCard {

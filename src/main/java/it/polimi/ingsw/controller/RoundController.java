@@ -1,10 +1,11 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.Room;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.util.*;
 
 public class RoundController {
 
@@ -39,8 +40,12 @@ public class RoundController {
 
     GameState gameState;
 
+    Map<Player, AssistantCard> playerMaxSteps;
 
-    public RoundController(String[] playersNames, boolean expertMode) {
+    Room room;
+
+
+    public RoundController(String[] playersNames, boolean expertMode, Room room) {
         this.playingOrder = new ArrayList<>();
         this.expertMode = expertMode;
         this.seatedPlayers = new Player[playersNames.length];
@@ -59,6 +64,7 @@ public class RoundController {
 
         //
         //currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
+        this.room = room;
 
     }
 
@@ -80,8 +86,8 @@ public class RoundController {
     public void handleEvent(GameEvent event) throws Exception {
 
 
-        if(event.getPlayerName() != playingOrder.get(playingOrderIndex).getUsername()){
-            return;
+        if(!Objects.equals(event.getPlayerName(), playingOrder.get(playingOrderIndex).getUsername())){
+            throw new Exception("It's not your turn");
         }
 
        /*
@@ -89,13 +95,15 @@ public class RoundController {
             return;
         }
         */
-
+       if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD && isExpertMode()==false){
+           throw new Exception("you cannot activate character cards in simple mode");
+       }
         if (gameState.checkValidEvent(event)) {
 
             gameState.executeEvent(event);
 
         } else {
-            //TODO notify that the event is wrong or inconsistent with the actual game state
+            throw new Exception("this move is not allowed at this stage of the game");
         }
 
         firstPlayerToPlayCard = 0;
@@ -146,5 +154,20 @@ public class RoundController {
 
     public void setPlayingOrder(ArrayList<Player> playingOrder) {
         this.playingOrder = playingOrder;
+    }
+
+
+
+    public Map<Player, AssistantCard> getPlayerMaxSteps() {
+        return playerMaxSteps;
+    }
+
+    public void resetPlayerMaxSteps(){
+        this.playerMaxSteps = new HashMap<>();
+    }
+
+
+    public Player getCurrentPlayer(){
+        return playingOrder.get(playingOrderIndex);
     }
 }

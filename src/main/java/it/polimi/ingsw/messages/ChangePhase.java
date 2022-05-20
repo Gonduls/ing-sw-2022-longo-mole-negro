@@ -1,6 +1,8 @@
 package it.polimi.ingsw.messages;
 
-public class ChangePhase implements Message{
+import it.polimi.ingsw.controller.GamePhase;
+
+public record ChangePhase(GamePhase gamePhase) implements Message{
 
     @Override
     public MessageType getMessageType() {

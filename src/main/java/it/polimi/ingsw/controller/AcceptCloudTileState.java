@@ -43,17 +43,29 @@ public class AcceptCloudTileState extends  GameState {
                     if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {
                         //new round
                         context.setPlayingOrderIndex(0);
+
+                        context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+
                         context.changeState(new AcceptAssistantCardState(context, context.getNumberOfPlayers()));
+
+                        context.gameManager.getModelObserver().changePhase(GamePhase.PLANNING_PHASE);
+
+
+
                     } else {
                         //new turn for the new player
                         context.setPlayingOrderIndex(context.getPlayingOrderIndex() + 1);
-                        context.gameManager.setUsedCard(-1);
+                        context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+
+                        context.gameManager.setUsedCard(-1, context.getCurrentPlayer().getPlayerNumber());
 
                         for(CharacterCard cc: context.gameManager.getActiveCards()){
                             cc.deactivateEffect();
                         }
 
                         context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
+                        context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
+
                     }
 
                 }
@@ -63,9 +75,8 @@ public class AcceptCloudTileState extends  GameState {
 
             case ACTIVATE_CHARACTER_CARD:{
                 if (!context.isExpertMode()) {
-                    //todo send a nack
+                   throw new Exception("You can't  use character card in easy mode");
                 }
-
                 ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
 
                 int cardId = eventCast.getCardId();
@@ -78,7 +89,17 @@ public class AcceptCloudTileState extends  GameState {
                     throw new Exception("You already activated a card");
                 }
 
-                context.gameManager.setUsedCard(cardId);
+
+
+                if (context.getPlayerByUsername(eventCast.getPlayerName()).getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
+                    throw new Exception("You don't have enough coins");
+                }
+                context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
+
+                context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
+
+                context.gameManager.findCardById(cardId).increasePrice();
+
 
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));

@@ -137,7 +137,7 @@ class BoardTest {
         board.getIslands().get(2).addTower();
 
 
-        board.mergeIsland(1);
+        board.mergeIsland(1, null);
 
         assertEquals(10, board.getIslands().size());
         assertEquals((int) board.getIslands().get(0).getStudentByColor(Color.RED), (9 + redStudents1 + redStudents2));
