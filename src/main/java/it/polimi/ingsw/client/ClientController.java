@@ -15,6 +15,7 @@ public class ClientController {
     private ClientModelManager cmm;
     private final String[] players = new String[4];
     private final String username;
+    private boolean expert;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -52,7 +53,7 @@ public class ClientController {
                     cmm.putSHInCharacterCard(s.getIndexes().clone());
 
                 synchronized (cmm){
-                    ui.createGame(numberOfPlayers, expert, cmm);
+                    ui.createGameView(numberOfPlayers, expert, cmm);
                 }
             }
             case PLAY_ASSISTANT_CARD -> {
@@ -73,6 +74,11 @@ public class ClientController {
                     }
                 }
             }
+
+            case MOVE_STUDENT -> {
+                // todo
+            }
+
             case CHANGE_PHASE -> {
                 ChangePhase c = (ChangePhase) message;
                 //todo: create a phase enum
@@ -108,5 +114,9 @@ public class ClientController {
 
     void showMessage(Message message){
         ui.showMessage(message);
+    }
+
+    void createGameView(){
+        ui.createGameView(players.length, expert, this.cmm);
     }
 }

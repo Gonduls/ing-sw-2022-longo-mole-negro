@@ -234,6 +234,10 @@ public class ClientModelManager {
             default -> null;
         };
     }
+
+    public EnumMap<Color, Integer> getStudentsInIsland(int islandIndex){
+        return islands.get(islandIndex).getStudents();
+    }
 }
 
 class ClientIsland{

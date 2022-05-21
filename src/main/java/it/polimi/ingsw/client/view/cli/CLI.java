@@ -1,15 +1,19 @@
 package it.polimi.ingsw.client.view.cli;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.PublicRooms;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.RoomInfo;
-import org.fusesource.jansi.Ansi;
-import org.fusesource.jansi.Ansi.*;
+
 import java.util.concurrent.TimeUnit;
+
+import static org.fusesource.jansi.Ansi.ansi;
 
 
 public class CLI implements UI {
@@ -26,23 +30,51 @@ public class CLI implements UI {
         //listening to each other
     }
 
-    public static void mainCLI(){
-        Ansi.ansi().bgBrightCyan().fgBright(Color.GREEN).a("ciao");
+    public void start(){
+        //todo: de-commentare sotto
+        //AnsiConsole.systemInstall();
         gameTitle();
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.print(ansi().fgCyan() + "Welcome! \n" +
+                "Would you like to play? \n" +
+                ansi().render("@|underline Insert the Server IP address: |@") + "\n");
+        System.out.print(
+                ansi().render("@|fg_cyan,underline Insert the Server Port: |@") + "\n");
+        //check connection
 
+        System.out.print(ansi().fgCyan() + "Now your " +
+                ansi().render("@|underline nickname: |@") + "\n");
+        //check nickname
+
+        System.out.print(ansi().fgCyan() +"Here's the list of Public Games currently available \n");
+        //showPublicRooms(PublicRooms.getRooms());
+
+        System.out.print(ansi().fgCyan() +"What would you like to do? \n" +
+                "CREATE NEW GAME \n" +
+                "JOIN PUBLIC GAME \n" +
+                "JOIN PRIVATE GAME \n");
+        //parse input
+
+
+        ansi().cursorDownLine();
+        moves();
+        schoolCard();
 
 
     }
 
-    public static void clearScreen() {
+    /*public void clearScreen() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
-    }
+    }*/
 
-    public static void gameTitle() {
+    public void gameTitle() {
         //System.out.println(ANSIColors.CYAN_BRIGHT);
-        System.out.println("                                                                                                                                                        \n" +
-                "                                                                                                                                                      \n" +
+        System.out.print("                                                                                                                                                      \n" +
                 "        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                       \n" +
                 "     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                        \n" +
                 "   .?YPJ~:.   ?G#&&?        .:!G&#P7                    ?@&&&&G                                            .PB.                                       \n" +
@@ -62,20 +94,58 @@ public class CLI implements UI {
                 "                                                                                                                    ...^P&&?..........                \n" +
                 "                                                                                                                   ....?&&&5:.....:~^...              \n" +
                 "                                                                                                                  .....~B&&&Y~^:^^7!.....             \n" +
-                "                                                                                                                  ......:!Y5P5?7!^:.....              \n" +
-                "                                                                                                                                                        ");
-        System.out.println( Ansi.ansi().eraseScreen().render("@|red Hello|@ @|green World|@") );
+                "                                                                                                                  ......:!Y5P5?7!^:.....              \n");
+
+
+        //System.out.println( Ansi.ansi().eraseScreen().render("@|red Hello|@ @|green World|@") );
 
     }
 
-    public static void hexagones() {
-        System.out.println("   ____\n" +
-                "         /    \\\n" +
-                "        /      \\\n" +
-                "        \\      /\n" +
-                "         \\____/   ");
+    public void islandPrint(int islandIndex, ClientModelManager cmm) {
+        for(int i = 0; i < islandIndex; i++) {
+                System.out.println("    ________     \n" +
+                        "   /        \\    \n" +
+                        "  /  "+ cmm.getStudentsInIsland(i).get(Color.RED) +"    " + cmm.getStudentsInIsland(i).get(Color.BLUE) +"    \\   \n" +
+                        " /   "+ cmm.getStudentsInIsland(i).get(Color.GREEN) +"    " + cmm.getStudentsInIsland(i).get(Color.PINK) +"         \\  \n" +
+                        " \\  "+ cmm.getStudentsInIsland(i).get(Color.YELLOW) +"          /  \n" +
+                        "  \\          /   \n" +
+                        "   \\________/    \n");
 
 
+        }
+
+
+
+
+    }
+
+    public void moves() {
+        System.out.println("   ______________________________     \n" +
+                " / \\                             \\.   \n" +
+                "|   |     What's your move?      |.   \n" +
+                " \\_ |                            |.   \n" +
+                "    |  -PLAY_ASSISTANT_CARD      |.   \n" +
+                "    |                            |.   \n" +
+                "    |  -MOVE_STUDENT             |.   \n" +
+                "    |                            |.   \n" +
+                "    |  -ACTIVATE_CHARACTER_CARD  |.   \n" +
+                "    |                            |.   \n" +
+                "    |  -MOVE_MOTHER_NATURE       |.   \n" +
+                "    |                            |.   \n" +
+                "    |   _________________________|___ \n" +
+                "    |  /                            /.\n" +
+                "    \\_/____________________________/. \n");
+    }
+
+    public void schoolCard() {
+        System.out.println(" NAME             \n" +
+                " ________________ \n" +
+                "| P  P  P  P  P  |\n" +
+                "|----------------|\n" +
+                "| 01 00 00 00 00 |\n" +
+                "|----------------|\n" +
+                "| $00            |\n" +
+                "|________________|\n");
     }
 
 
@@ -87,6 +157,13 @@ public class CLI implements UI {
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
+        System.out.println(ansi().render("@|fg_black,bold,bg_yellow Public Games:|@") );
+        for(RoomInfo room : rooms){
+            if(room.isPrivate() == false) {
+                System.out.println("______________________________________________________________");
+                System.out.print(room.toString());
+            }
+        }
 
     }
 
@@ -96,6 +173,10 @@ public class CLI implements UI {
     }
 
     @Override
-    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){}
+    public void createGameView(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+        islandPrint(cmm.getIslands().size(), cmm);
+
+
+    }
 
 }

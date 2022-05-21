@@ -51,10 +51,8 @@ public class RoomInfo {
     public String toString() {
         return "RoomInfo{" +
                 "id=" + id +
-                ", numberOfPlayers=" + numberOfPlayers +
-                ", expert=" + expert +
-                ", isPrivate=" + isPrivate +
-                ", currentPlayers=" + currentPlayers +
+                "\n numberOfPlayers=" + numberOfPlayers + "/" + currentPlayers +
+                "\n expert=" + expert +
                 "}\n";
     }
 }

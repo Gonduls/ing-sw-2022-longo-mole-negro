@@ -89,7 +89,7 @@ public class ClientMain {
             case 1:
                 //starts the cli
                 CLI cli = new CLI(argsString);
-                cli.mainCLI();
+                cli.start();
                 break;
             case 2:
                 Application.launch(GUI.class, argsString);
@@ -100,7 +100,7 @@ public class ClientMain {
                 break;
         }
 
-        CLI.clearScreen();
+        //CLI.clearScreen();
     }
 
 }

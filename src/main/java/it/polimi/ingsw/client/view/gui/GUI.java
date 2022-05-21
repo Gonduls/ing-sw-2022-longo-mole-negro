@@ -36,7 +36,7 @@ public class GUI extends Application implements UI{
     }
 
     @Override
-    public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
+    public void createGameView(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
 
     }
 
