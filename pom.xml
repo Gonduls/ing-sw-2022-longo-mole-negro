@@ -57,9 +57,9 @@
         <version>3.10.1</version>
         <configuration>
           <!-- Version of the Java language to use -->
-          <source>16</source>
+          <source>17</source>
           <!-- Minimum JRE version the JAR will be compatible with -->
-          <target>16</target>
+          <target>17</target>
         </configuration>
       </plugin>
       <!-- Surefire plugin, responsible for running tests -->
@@ -74,7 +74,7 @@
         <version>2.4.1</version>
         <executions>
           <execution>
-            <id>EriantysClient</id>
+            <id>Main</id>
             <phase>package</phase>
             <goals>
               <goal>shade</goal>
@@ -82,10 +82,10 @@
             <configuration>
               <transformers>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                  <mainClass>it/polimi/ingsw/Main.java</mainClass>
+                  <mainClass>it.polimi.ingsw.Main</mainClass>
                 </transformer>
               </transformers>
-              <finalName>EriantysMain</finalName>
+              <finalName>Main</finalName>
             </configuration>
           </execution>
         </executions>
