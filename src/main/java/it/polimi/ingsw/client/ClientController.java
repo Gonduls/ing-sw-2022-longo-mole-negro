@@ -14,15 +14,23 @@ public class ClientController {
     final NetworkHandler nh;
     private ClientModelManager cmm;
     private final String[] players = new String[4];
-    private final String username;
+    private String username;
     private boolean expert;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
         nh = new NetworkHandler(serverIP, serverPort, this);
+        new Thread(nh).start();
 
-        //TODO: login
-        username = "";
+    }
+
+    public boolean login(String username) throws UnexpectedMessageException {
+        try {
+            return nh.login(username);
+        } catch (IOException e) {
+            // todo: gestire IO
+            return false;
+        }
     }
 
     void updateCModel(Message message) throws UnexpectedMessageException{
@@ -118,5 +126,9 @@ public class ClientController {
 
     void createGameView(){
         ui.createGameView(players.length, expert, this.cmm);
+    }
+
+    void preGameOptions(){
+
     }
 }

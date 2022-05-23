@@ -195,6 +195,7 @@ public class NetworkHandler implements Runnable{
             return true;
         }
 
+        System.out.println("Could not login: name already taken");
         return false;
     }
 

@@ -23,6 +23,7 @@ public class CLI implements UI {
     private ClientController clientController;
     private final PrintStream output;
     private final Scanner input;
+    private String username;
 
     public CLI() {
         this.output = System.out;
@@ -47,6 +48,20 @@ public class CLI implements UI {
                 System.out.println("Could not connect");
             }
         } while (clientController == null);
+
+        boolean login = false;
+        do {
+            System.out.println("What's your nickname? ");
+            username = input.nextLine();
+            try {
+                login = clientController.login(username);
+                System.out.println(login);
+            } catch (UnexpectedMessageException e){
+                System.out.println("Could not login, unexpected message exception");
+                continue;
+            }
+        } while (!login);
+
 
         printClear();
         /*If (List<RoomInfo> != Null)
@@ -154,9 +169,11 @@ public class CLI implements UI {
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
-        System.out.println(ansi().render("@|fg_black,bold,bg_yellow Public Games:|@") );
-        for(RoomInfo room : rooms){
-            if(room.isPrivate() == false) {
+        System.out.println(ansi().render("@|fg_black,bold,bg_yellow Public Games:|@").bgDefault().fgDefault());
+        if(rooms.size() == 0) {
+            System.out.println("There are no public rooms available. \n");
+        } else {
+            for (RoomInfo room : rooms) {
                 System.out.println("______________________________________________________________");
                 System.out.print(room.toString());
             }
