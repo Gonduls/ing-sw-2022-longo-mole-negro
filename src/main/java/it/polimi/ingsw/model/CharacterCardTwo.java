@@ -15,9 +15,12 @@ public class CharacterCardTwo extends  CharacterCard{
         this.id = 2;
         this.price = 1;
         studentHolder = new StudentHolder();
+        Color colorTemp;
         for (int i = 0; i < 6; i++) {
             try {
-                studentHolder.addStudent(bag.extractRandomStudent());
+                colorTemp = bag.extractRandomStudent();
+                studentHolder.addStudent(colorTemp);
+                this.modelObserver.addStudentToCard(this.id, colorTemp);
             } catch (NoSpaceForStudentException ignored) {
             }
 

@@ -38,6 +38,7 @@ public class CharacterZeroState extends CharacterState {
         return event.getEventType() == GameEventType.CHOOSE_COLOR || event.getEventType() == GameEventType.CHOOSE_ISLAND;
     }
     //todo -> wrong event -> redo with MOVE_STUDENT_FROM_CARD_TO_ISLAND
+    //todo add modelobserver
     @Override
     public void executeEvent(GameEvent event) {
         switch( event.getEventType()){

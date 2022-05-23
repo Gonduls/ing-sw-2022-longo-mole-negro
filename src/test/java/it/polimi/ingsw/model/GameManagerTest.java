@@ -2,16 +2,30 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
+import it.polimi.ingsw.server.DummyRoom;
+import it.polimi.ingsw.server.ModelObserver;
+import it.polimi.ingsw.server.Room;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameManagerTest {
+    Room dummyRoom;
+    ModelObserver modelObserver;
+    @BeforeEach
+    void  init(){
+        dummyRoom = new DummyRoom(0,2,false);
+        modelObserver = new ModelObserver(dummyRoom);
+    }
+
     @Test
     void testEmptyCloudInPlayer() {
 
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
+        game.setModelObserver(modelObserver);
         int sum = 0;
 
         try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException e) {assert false;} catch (NoSuchStudentException e1) {assert true;}
@@ -39,6 +53,8 @@ class GameManagerTest {
     void testMoveMotherNature() {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
+        game.setModelObserver(modelObserver);
+
         Color savedColor = Color.RED;
 
         for(Color color : Color.values()) {
@@ -79,6 +95,8 @@ class GameManagerTest {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
 
         GameManager game = new GameManager(players, false);
+        game.setModelObserver(modelObserver);
+
         if(game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(Color.RED) == 0) {
             try {
                 game.moveStudentFromEntranceToIsland(players[0], Color.RED, 1);
@@ -109,6 +127,8 @@ class GameManagerTest {
     void testMoveStudentFromEntranceToTable() {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
         GameManager game = new GameManager(players, false);
+        game.setModelObserver(modelObserver);
+
         int sumEntrance = 0;
         int sumTables = 0;
 

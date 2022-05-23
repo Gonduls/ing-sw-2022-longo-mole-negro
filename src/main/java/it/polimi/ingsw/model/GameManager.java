@@ -22,6 +22,7 @@ public class GameManager {
     private final Professors professors;
 
     ModelObserver modelObserver;
+    private final boolean expert;
 
     /**
      * This constructor, having given it the array of initialized players and the expert mode flag,
@@ -32,6 +33,7 @@ public class GameManager {
     public GameManager(Player[] players, boolean expert) {
         int size = players.length;
         this.players = players;
+        this.expert=expert;
 
         bag = new Bag();
         professors = new Professors();
@@ -272,11 +274,10 @@ public class GameManager {
         }
 
         //past this point we are for sure changing colorTower on the current island
-        Player newP = players[newTC.ordinal()];
-        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-        currentIsland.setTowerColor(newTC);
+
 
         //if previousTC is not null it means that we have to put back the towers.
+        Player newP = players[newTC.ordinal()];
         if(previousTC != null){
             Player previousP = players[previousTC.ordinal()];
             previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
@@ -292,6 +293,10 @@ public class GameManager {
             modelObserver.moveTowerToIsland(newP.getPlayerNumber(), position,1);
 
         }
+
+
+        newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
+        currentIsland.setTowerColor(newTC);
 
         board.mergeIsland(position, modelObserver);
         checkEndConditions();
@@ -546,5 +551,15 @@ public class GameManager {
 
     public void setModelObserver(ModelObserver modelObserver) {
         this.modelObserver = modelObserver;
+       if(expert) {
+           setModelObserverOnCharacterCard();
+       }
+    }
+
+    public void setModelObserverOnCharacterCard(){
+
+        for(CharacterCard characterCard : activeCards){
+            characterCard.setModelObserver(modelObserver);
+        }
     }
 }

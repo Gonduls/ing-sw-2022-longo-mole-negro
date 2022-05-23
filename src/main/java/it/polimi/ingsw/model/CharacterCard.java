@@ -3,12 +3,14 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.CharacterState;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
+import it.polimi.ingsw.server.ModelObserver;
 
 public abstract class CharacterCard {
 
     StudentHolder sh;
     int price;
     int id;
+    ModelObserver modelObserver;
 
     public CharacterCard  (){
 
@@ -47,5 +49,9 @@ public abstract class CharacterCard {
         if(this.price == (this.id % 4) + 1 ) {
             this.price++;
         }
+    }
+
+    public void setModelObserver(ModelObserver modelObserver){
+        this.modelObserver= modelObserver;
     }
 }

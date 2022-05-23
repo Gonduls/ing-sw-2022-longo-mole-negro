@@ -53,8 +53,9 @@ public class CharacterTwoState extends CharacterState{
                 throw new NoSuchStudentException("the player doesn't have this student in the entrance");
 
             try{
-                cc.getStudentHolder().moveStudentTo(eventCast.getStudentFromCard(), player.getSchool().getStudentsAtEntrance());
                 player.getSchool().getStudentsAtEntrance().moveStudentTo(eventCast.getStudentFromEntrance(), cc.getStudentHolder());
+                cc.getStudentHolder().moveStudentTo(eventCast.getStudentFromCard(), player.getSchool().getStudentsAtEntrance());
+                //todo modelobserver
                 numberOfEvents--;
             } catch (NoSpaceForStudentException ignored){}
 

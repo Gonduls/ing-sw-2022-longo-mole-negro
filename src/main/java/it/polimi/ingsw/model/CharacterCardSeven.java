@@ -19,9 +19,16 @@ public class CharacterCardSeven extends  CharacterCard{
     public CharacterCardSeven(Bag bag){
       this.id=7;
       this.price=2;
+      Color colorTemp;
        for(int i =0;i<4;i++) {
-           try {sh.addStudent(bag.extractRandomStudent());}
-           catch (NoSpaceForStudentException ignored){}
+           try {
+               colorTemp = bag.extractRandomStudent();
+               sh.addStudent(colorTemp);
+               modelObserver.addStudentToCard(this.id, colorTemp);
+           }
+           catch (NoSpaceForStudentException ignored){
+
+           }
 
        }
 

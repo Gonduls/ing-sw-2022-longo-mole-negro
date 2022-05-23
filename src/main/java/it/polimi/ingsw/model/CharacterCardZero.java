@@ -5,15 +5,18 @@ import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 
 public class CharacterCardZero extends CharacterCard {
 
-    int price;
+
     StudentHolder studentHolder;
     public CharacterCardZero(Bag bag) {
         this.id = 0;
         this.price = 1;
         studentHolder = new StudentHolder();
+        Color colorTemp;
         for (int i = 0; i < 4; i++) {
             try {
-                studentHolder.addStudent(bag.extractRandomStudent());
+                colorTemp = bag.extractRandomStudent();
+                studentHolder.addStudent(colorTemp);
+                this.modelObserver.addStudentToCard(this.id, colorTemp );
             } catch (NoSpaceForStudentException ignored) {
             }
 

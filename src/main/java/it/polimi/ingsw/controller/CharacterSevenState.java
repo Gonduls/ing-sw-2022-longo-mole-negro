@@ -34,6 +34,7 @@ public class CharacterSevenState extends CharacterState{
         try {
             cc.getStudentHolder().moveStudentTo(color, context.getPlayerByUsername(eventCast.getPlayerName()).getSchool().getStudentsAtTables());
             cc.getStudentHolder().addStudent(context.gameManager.getBag().extractRandomStudent());
+            //todo modelobserver
             numberOfEvents--;
         } catch(NoSpaceForStudentException ignored){}
 

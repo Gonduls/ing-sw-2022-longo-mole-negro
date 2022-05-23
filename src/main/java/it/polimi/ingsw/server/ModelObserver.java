@@ -59,8 +59,31 @@ public class ModelObserver {
 
 
     public void changeTurn(int player){
-
         room.sendBroadcast(new ChangeTurn(player));
+    }
+
+
+    public void addStudentToCard(int idCard, Color color){
+        room.sendBroadcast(new AddStudentTo("CARD:idCard",color));
+    }
+
+    public void moveStudentFromCardToEntrance(int idCard ,int player,Color color){
+        room.sendBroadcast(new MoveStudent("CARD:"+idCard, "ENTRANCE:"+player ,color));
+
+    }
+
+    public void moveStudentFromCardToTable(int idCard ,int player,Color color){
+        room.sendBroadcast(new MoveStudent("CARD:"+idCard, "DININGROOM:"+player ,color));
+
+    }
+
+    public void moveStudentFromEntranceToCard(int idCard ,int player,Color color){
+        room.sendBroadcast(new MoveStudent( "ENTRANCE:"+player ,"CARD:"+idCard,color));
+
+    }
+
+    public void moveStudentFromTableToCard(int idCard ,int player,Color color){
+        room.sendBroadcast(new MoveStudent( "DININGROOM:"+player ,"CARD:"+idCard,color));
 
     }
 
