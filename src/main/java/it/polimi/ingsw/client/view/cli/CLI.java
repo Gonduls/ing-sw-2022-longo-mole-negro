@@ -1,4 +1,5 @@
 package it.polimi.ingsw.client.view.cli;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.*;
 
@@ -19,9 +20,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 
 public class CLI implements UI {
-
-    private PrintStream output;
-    private Scanner input;
+    private ClientController clientController;
+    private final PrintStream output;
+    private final Scanner input;
 
     public CLI() {
         this.output = System.out;
@@ -173,6 +174,14 @@ public class CLI implements UI {
         islandPrint(cmm.getIslands().size(), cmm);
 
 
+    }
+
+    protected void printClear() {
+        AnsiConsole.systemInstall();
+        Ansi ansi = Ansi.ansi();
+        System.out.println( ansi.eraseScreen() );
+        System.out.println( ansi.cursor(0, 0) );
+        AnsiConsole.systemUninstall();
     }
 
 }

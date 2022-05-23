@@ -3,6 +3,8 @@ package it.polimi.ingsw;
 import it.polimi.ingsw.client.ClientMain;
 import it.polimi.ingsw.server.Lobby;
 
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
         boolean server = false;
