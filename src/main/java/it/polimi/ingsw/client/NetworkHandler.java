@@ -224,19 +224,24 @@ public class NetworkHandler implements Runnable{
                     e.printStackTrace();
                     return 0;
                 }
-                if(answer.getMessageType() == MessageType.PUBLIC_ROOMS)
+                if(answer.getMessageType() == MessageType.PUBLIC_ROOMS) {
                     clientController.showPublicRooms(((PublicRooms) answer).getRooms());
+                }
                 else if(answer.getMessageType() == MessageType.PLAYER_DISCONNECT){
                     clientController.showMessage(answer);
                     continue;
-                }else if (answer.getMessageType() == MessageType.NACK)
+                }else if (answer.getMessageType() == MessageType.NACK) {
+                    answer = null;
                     return 0;
+                }
 
                 if(answer.getMessageType() != MessageType.ROOM_ID)
                     throw new UnexpectedMessageException("Not a RoomId message");
             }while (answer.getMessageType() == MessageType.ROOM_ID);
 
-            return ((RoomId) answer).id();
+            int id = ((RoomId) answer).id();
+            answer = null;
+            return id;
         }
     }
 

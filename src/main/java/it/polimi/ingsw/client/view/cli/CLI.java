@@ -8,10 +8,8 @@ import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.CreateRoom;
+import it.polimi.ingsw.messages.GetPublicRooms;
 import it.polimi.ingsw.messages.Message;
-import it.polimi.ingsw.messages.PublicRooms;
-import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -66,40 +64,90 @@ public class CLI implements UI {
         } while (!login);
 
         printClear();
-        System.out.println("What would you like to do? \n" +
-                "1. ACCESS ROOM \n" +
-                "2. CREATE GAME \n" +
-                "3. LOGOUT \n" +
-                "4. REFRESH \n");
-        String chosenAction = input.nextLine();
-        switch (chosenAction) {
-            case("1"):
-                System.out.println("Enter the room ID: ");
-                int id = input.nextInt();
-                clientController.accessRoom(id);
+        boolean inARoom = false;
+        do{
+            System.out.println("""
+                What would you like to do?\s
+                1. ACCESS ROOM\s
+                2. CREATE GAME\s
+                3. LOGOUT\s
+                4. REFRESH AVAILABLE PUBLIC ROOMS\s
+                """);
+            String chosenAction = input.nextLine();
+            switch (chosenAction) {
+                case("1"):
+                    System.out.println("Enter the room ID: ");
+                    int id = Integer.parseInt(input.nextLine());
+                    if(clientController.accessRoom(id)) {
+                        inARoom = true;
+                    }
+                    else {
+                        System.out.println("Could not enter room, please try again");
+                    }
+                    break;
+                case("2"):
+                    System.out.println("Enter the number of players (2/3/4): ");
+                    int playersNumber = input.nextInt();
+                    System.out.println("Is the mode expert? (true/false) ");
+                    boolean isExpert = input.nextBoolean();
+                    System.out.println("Is your game private? (true/false) ");
+                    boolean isPrivate = input.nextBoolean();
 
-            case("2"):
-                System.out.println("Enter the number of players: ");
-                int playersNumber = input.nextInt();
-                System.out.println("Is the mode expert? (true/false) ");
-                boolean isExpert = input.nextBoolean();
-                System.out.println("Is your game private? (true/false) ");
-                boolean isPrivate = input.nextBoolean();
+                    CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
+                    int roomID = clientController.createRoom(message);
+                    if(roomID < 0){
+                        System.out.println("Could not create room, please try again");
+                        break;
+                    }
+                    System.out.println("Your room ID is: " + roomID);
+                    inARoom = true;
+                    break;
+                case("3"):
+                    clientController.logout();
+                    break;
 
-                CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
-                clientController.createRoom(message);
+                case("4"):
+                    System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
+                    try{
+                        playersNumber = Integer.parseInt(input.nextLine());
+                    } catch (NumberFormatException e){
+                        playersNumber = 0;
+                    }
+                    System.out.println("Is the mode expert? (true/false/ default: all games) ");
 
-            case("3"):
-                clientController.logout();
+                    String expert = input.nextLine();
 
-            case("4"):
-                //todo:  how to show public rooms again?
+                    if(expert.startsWith("true")){
+                        if(playersNumber == 0){
+                            clientController.getPublicRooms(new GetPublicRooms(true));
+                            break;
+                        }
+                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, true));
+                        break;
+                    }
+                    if(expert.startsWith("false")){
+                        if(playersNumber == 0){
+                            clientController.getPublicRooms(new GetPublicRooms(false));
+                            break;
+                        }
+                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
+                        break;
+                    }
 
-            default:
-                System.out.println("Please enter a valid choice");
+                    if(playersNumber == 0){
+                        clientController.getPublicRooms(new GetPublicRooms());
+                        break;
+                    }
+                    clientController.getPublicRooms(new GetPublicRooms(playersNumber));
+                    break;
+
+                default:
+                    System.out.println("Please enter a valid choice");
+            }
 
 
-        }
+
+        }while(!inARoom);
 
         printClear();
         //todo: createGameView();
@@ -117,27 +165,29 @@ public class CLI implements UI {
     public void gameTitle() {
         //System.out.println(ANSIColors.CYAN_BRIGHT);
         AnsiConsole.systemInstall();
-        System.out.print("                                                                                                                                                      \n" +
-                "        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                       \n" +
-                "     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                        \n" +
-                "   .?YPJ~:.   ?G#&&?        .:!G&#P7                    ?@&&&&G                                            .PB.                                       \n" +
-                "  ^PP#!      JG&&&&?            :YBGJ                   .JGG5!.                                           :5G#.                                       \n" +
-                "  PG#J      :##&&&&7   :^~!!!~.   .!Y. .:::.    .^::.    .^^:            ..:^^^^::     .::.    .:^:.   .^75B&B~^~.  .^~~.     .!?!^    .:~~~~^::^!:   \n" +
-                " .P##~      :B&&&&&~.^?5PGPY555^     .~?5PP?  ^?YPP5J: ^?YPP5J.       :~JYYJJ5PPPP.  ^7YP5J  :7YPP5Y^ :JYG#&&GYJ?..~?PBGY~.  ~PB&#57. ~?5YYY5PP55Y.   \n" +
-                " .5#B!      .G&&&&#7?P#BJ^.  ?B!    ~?JB&##5^75B&&&&B^~!^Y&&&G:     ^75BB7:.^#&&&P.:??G&&&P~!5B#&&&#?  .:G&&&G: .!JG#&@@&G7. ^J#&&&G?~G&P~....!GG:    \n" +
-                "  J##J.     .G&&#&BP&B?.     ~?.    :.^B&##5JY~:P&&G~    ?&&&B:   .7Y#&G:   ^B&&&P....G&&&GJP?:!#&&&J   .P&&&P. ~!~:.^P&&&B?:  :G&&&J~#&BY?!^:...     \n" +
-                "  .P&P7:    .G#&&&&&P:                :G&&#P7. .PG!.     J#&&B:   !5#&#~    ^B#&&P.  .P&&&BY:  ~#&&&J   .P&&&P.       .Y&&&G?:  J&&5..J&&&&#G5J7^.    \n" +
-                "   .Y#GJ!:. .G###&&G.               . :B&&&5.  .^.       J#&&B:  .J#&&B~    ~B&&&P.  .P&&&B:   ~#&&&?.. .P&&&P.        .J#&&G?^^5#J. ..:?G#&&&&#GJ^   \n" +
-                "     :7JJ!!^.G###&#7              .!?.:B&&&5.            J#&&G:  .P&&&B7::~?JB&&&5.  .P&&&B:   ~#&&#J   .P&&&G. .:.     .?&&&G??G?. .??^ ..~JP#&&B7   \n" +
-                "            .P#&&&B:             .!J^ .P&&&J.            7#&&P:.:.?&&&&#GGG5!G&&&Y..:.J&&&P.   :B&&#7.:..5&&&5:~!!.      .7#&&BY~  ..7B?^..  .^P&#^   \n" +
-                "            .Y&&&&G:         ..:^JP~  .5&#P~             :B&&G~^: .J#&&&#Y^  7#&&J~^..?&&#7    .5&&&!^:. ~&&&BJ!.  .   ... ~#&Y. .....Y#GJ!^^^~5P~.   \n" +
-                "         .:^?#&&&&&J~^^^:^^^~7YG##~   .^!:.               .!?!:     :!7~.     :!7~.   ^7^.      .!7!:.   .^77~.        ....^GJ.........:~!!~^^:.      \n" +
-                "         ..:~~~~~~~~^^:::::^^~~~~:                                                                                    ...:?BJ.........                \n" +
-                "                                                                                                                     ...^Y&G......                    \n" +
-                "                                                                                                                    ...^P&&?..........                \n" +
-                "                                                                                                                   ....?&&&5:.....:~^...              \n" +
-                "                                                                                                                  .....~B&&&Y~^:^^7!.....             \n" +
-                "                                                                                                                  ......:!Y5P5?7!^:.....              \n");
+        System.out.print("""
+                                                                                                                                                                     \s
+                        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                      \s
+                     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                       \s
+                   .?YPJ~:.   ?G#&&?        .:!G&#P7                    ?@&&&&G                                            .PB.                                      \s
+                  ^PP#!      JG&&&&?            :YBGJ                   .JGG5!.                                           :5G#.                                      \s
+                  PG#J      :##&&&&7   :^~!!!~.   .!Y. .:::.    .^::.    .^^:            ..:^^^^::     .::.    .:^:.   .^75B&B~^~.  .^~~.     .!?!^    .:~~~~^::^!:  \s
+                 .P##~      :B&&&&&~.^?5PGPY555^     .~?5PP?  ^?YPP5J: ^?YPP5J.       :~JYYJJ5PPPP.  ^7YP5J  :7YPP5Y^ :JYG#&&GYJ?..~?PBGY~.  ~PB&#57. ~?5YYY5PP55Y.  \s
+                 .5#B!      .G&&&&#7?P#BJ^.  ?B!    ~?JB&##5^75B&&&&B^~!^Y&&&G:     ^75BB7:.^#&&&P.:??G&&&P~!5B#&&&#?  .:G&&&G: .!JG#&@@&G7. ^J#&&&G?~G&P~....!GG:   \s
+                  J##J.     .G&&#&BP&B?.     ~?.    :.^B&##5JY~:P&&G~    ?&&&B:   .7Y#&G:   ^B&&&P....G&&&GJP?:!#&&&J   .P&&&P. ~!~:.^P&&&B?:  :G&&&J~#&BY?!^:...    \s
+                  .P&P7:    .G#&&&&&P:                :G&&#P7. .PG!.     J#&&B:   !5#&#~    ^B#&&P.  .P&&&BY:  ~#&&&J   .P&&&P.       .Y&&&G?:  J&&5..J&&&&#G5J7^.   \s
+                   .Y#GJ!:. .G###&&G.               . :B&&&5.  .^.       J#&&B:  .J#&&B~    ~B&&&P.  .P&&&B:   ~#&&&?.. .P&&&P.        .J#&&G?^^5#J. ..:?G#&&&&#GJ^  \s
+                     :7JJ!!^.G###&#7              .!?.:B&&&5.            J#&&G:  .P&&&B7::~?JB&&&5.  .P&&&B:   ~#&&#J   .P&&&G. .:.     .?&&&G??G?. .??^ ..~JP#&&B7  \s
+                            .P#&&&B:             .!J^ .P&&&J.            7#&&P:.:.?&&&&#GGG5!G&&&Y..:.J&&&P.   :B&&#7.:..5&&&5:~!!.      .7#&&BY~  ..7B?^..  .^P&#^  \s
+                            .Y&&&&G:         ..:^JP~  .5&#P~             :B&&G~^: .J#&&&#Y^  7#&&J~^..?&&#7    .5&&&!^:. ~&&&BJ!.  .   ... ~#&Y. .....Y#GJ!^^^~5P~.  \s
+                         .:^?#&&&&&J~^^^:^^^~7YG##~   .^!:.               .!?!:     :!7~.     :!7~.   ^7^.      .!7!:.   .^77~.        ....^GJ.........:~!!~^^:.     \s
+                         ..:~~~~~~~~^^:::::^^~~~~:                                                                                    ...:?BJ.........               \s
+                                                                                                                                     ...^Y&G......                   \s
+                                                                                                                                    ...^P&&?..........               \s
+                                                                                                                                   ....?&&&5:.....:~^...             \s
+                                                                                                                                  .....~B&&&Y~^:^^7!.....            \s
+                                                                                                                                  ......:!Y5P5?7!^:.....             \s
+                """);
 
 
         AnsiConsole.systemUninstall();

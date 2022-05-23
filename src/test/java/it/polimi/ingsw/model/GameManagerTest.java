@@ -76,6 +76,13 @@ class GameManagerTest {
 
         if(game.getPlayers()[1].getSchool().getStudentsAtEntrance().getStudentByColor(Color.BLUE) != 0)
             try{game.moveStudentFromEntranceToIsland(game.getPlayers()[1],Color.BLUE, 2);} catch (NoSuchStudentException | IllegalArgumentException e) {assert false;}
+        else {
+            try{
+                game.getIslands().get(2).addStudent(Color.BLUE);
+            } catch (NoSpaceForStudentException e){
+                fail();
+            }
+        }
 
         game.getProfessors().setToPlayer(Color.BLUE, game.getPlayers()[1]);
         game.getProfessors().setToPlayer(savedColor, game.getPlayers()[1]);

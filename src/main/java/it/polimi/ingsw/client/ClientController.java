@@ -15,7 +15,7 @@ public class ClientController {
     private ClientModelManager cmm;
     private final String[] players = new String[4];
     private String username;
-    private boolean expert;
+    private boolean expertGame;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -125,24 +125,26 @@ public class ClientController {
     }
 
     void createGameView(){
-        ui.createGameView(players.length, expert, this.cmm);
+        ui.createGameView(players.length, expertGame, this.cmm);
     }
 
-    public void accessRoom(int id){
+    public boolean accessRoom(int id){
         try {
-            nh.accessRoom(id);
+            return nh.accessRoom(id);
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("There was an error in accessing the room!");
+            return false;
         }
-
     }
 
-    public void createRoom(CreateRoom message) {
+    public int createRoom(CreateRoom message) {
         try {
             int newID = nh.createRoom(message);
             accessRoom(newID);
+            return newID;
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("There was an error in creating a new game!");
+            return -1;
         }
     }
 
@@ -151,6 +153,14 @@ public class ClientController {
             nh.logout();
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("There was an error logging out!");
+        }
+    }
+
+    public void getPublicRooms(GetPublicRooms message){
+        try{
+            nh.getPublicRooms(message);
+        }catch (IOException e) {
+            System.out.println("There was an error getting public rooms!");
         }
     }
 }
