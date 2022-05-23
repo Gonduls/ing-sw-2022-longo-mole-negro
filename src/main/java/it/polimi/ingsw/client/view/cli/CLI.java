@@ -7,6 +7,7 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
+import it.polimi.ingsw.messages.CreateRoom;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PublicRooms;
 import it.polimi.ingsw.model.Color;
@@ -64,20 +65,46 @@ public class CLI implements UI {
             }
         } while (!login);
 
+        printClear();
+        System.out.println("What would you like to do? \n" +
+                "1. ACCESS ROOM \n" +
+                "2. CREATE GAME \n" +
+                "3. LOGOUT \n" +
+                "4. REFRESH \n");
+        String chosenAction = input.nextLine();
+        switch (chosenAction) {
+            case("1"):
+                System.out.println("Enter the room ID: ");
+                int id = input.nextInt();
+                clientController.accessRoom(id);
+
+            case("2"):
+                System.out.println("Enter the number of players: ");
+                int playersNumber = input.nextInt();
+                System.out.println("Is the mode expert? (true/false) ");
+                boolean isExpert = input.nextBoolean();
+                System.out.println("Is your game private? (true/false) ");
+                boolean isPrivate = input.nextBoolean();
+
+                CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
+                clientController.createRoom(message);
+
+            case("3"):
+                clientController.logout();
+
+            case("4"):
+                //todo:  how to show public rooms again?
+
+            default:
+                System.out.println("Please enter a valid choice");
+
+
+        }
 
         printClear();
-        /*If (List<RoomInfo> != Null)
-        System.out.println("Here's a list of currently available games: ")
-        showPublicRooms;
-        System.out.println("What would you like to do? /n" + "JOIN_GAME \n" + "JOIN_PRIVATE_GAME /n" + "CREATE_GAME /n" + "REFRESH /n");
-        input;
-//Parse input
-        Switch (input)
-        Case()
+        //todo: createGameView();
+        //where do I get the infos?
 
-...
-
-        createGameView;*/
 
 
     }

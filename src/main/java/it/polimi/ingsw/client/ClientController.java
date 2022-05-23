@@ -128,7 +128,29 @@ public class ClientController {
         ui.createGameView(players.length, expert, this.cmm);
     }
 
-    void preGameOptions(){
+    public void accessRoom(int id){
+        try {
+            nh.accessRoom(id);
+        } catch (IOException | UnexpectedMessageException e) {
+            System.out.println("There was an error in accessing the room!");
+        }
 
+    }
+
+    public void createRoom(CreateRoom message) {
+        try {
+            int newID = nh.createRoom(message);
+            accessRoom(newID);
+        } catch (IOException | UnexpectedMessageException e) {
+            System.out.println("There was an error in creating a new game!");
+        }
+    }
+
+    public void logout() {
+        try {
+            nh.logout();
+        } catch (IOException | UnexpectedMessageException e) {
+            System.out.println("There was an error logging out!");
+        }
     }
 }
