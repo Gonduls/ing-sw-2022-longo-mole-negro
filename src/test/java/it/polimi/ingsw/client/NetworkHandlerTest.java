@@ -26,12 +26,11 @@ class NetworkHandlerTest {
     void setUp() {
         // lobby setup
         lobby = Lobby.getInstance();
-
+        new Thread(() -> lobby.listen()).start();
         // client setup
         try{
             cc = new ClientController(new CLI(), "localhost", 9999);
             nh = cc.nh;
-            new Thread(nh).start();
         } catch (IOException e){
             fail();
         }
