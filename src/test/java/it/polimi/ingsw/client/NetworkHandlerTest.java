@@ -26,7 +26,6 @@ class NetworkHandlerTest {
     void setUp() {
         // lobby setup
         lobby = Lobby.getInstance();
-        new Thread(() -> lobby.listen()).start();
 
         // client setup
         try{
@@ -72,16 +71,15 @@ class NetworkHandlerTest {
 
         try {
             nh1 = newClient();
-            new Thread(nh1).start();
         } catch (IOException e){
             fail();
         }
 
         // checking that no more clients with same username can be added
         try{
-            //assertFalse(nh1.login(username));
-            //assertFalse(nh1.login(username));
-            //assertFalse(nh1.login(username));
+            assertFalse(nh1.login(username));
+            assertFalse(nh1.login(username));
+            assertFalse(nh1.login(username));
             assertFalse(nh1.login(username));
             assertTrue(nh1.login(username + "1"));
             assertTrue(lobby.getPlayers().containsKey(username + "1"));
