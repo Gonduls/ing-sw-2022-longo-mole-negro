@@ -2,6 +2,7 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
+import it.polimi.ingsw.messages.CreateRoom;
 import it.polimi.ingsw.server.Lobby;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -71,22 +72,26 @@ class NetworkHandlerTest {
 
         try {
             nh1 = newClient();
+            new Thread(nh1).start();
         } catch (IOException e){
             fail();
         }
 
         // checking that no more clients with same username can be added
-        /*try{
+        try{
             //assertFalse(nh1.login(username));
             //assertFalse(nh1.login(username));
             //assertFalse(nh1.login(username));
-            //assertFalse(nh1.login(username));
+            assertFalse(nh1.login(username));
             assertTrue(nh1.login(username + "1"));
             assertTrue(lobby.getPlayers().containsKey(username + "1"));
             assertTrue(nh1.logout());
+
+
         } catch (UnexpectedMessageException | IOException e){
+            e.printStackTrace();
             fail();
-        }*/
+        }
     }
 
 

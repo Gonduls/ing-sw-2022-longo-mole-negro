@@ -74,6 +74,7 @@ public class NetworkHandler implements Runnable{
                 return;
             } catch (IOException e){
                 clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
+                System.out.println("player disconnecting");
                 return;
             }
 
@@ -121,10 +122,10 @@ public class NetworkHandler implements Runnable{
 
         synchronized (lockAnswer) {
             output.writeObject(message);
-            lockAnswer.notifyAll();
 
-            do  {
+            while(answer == null || !(answer.getMessageType() == MessageType.ACK || answer.getMessageType() == MessageType.NACK)){
                 try {
+                    lockAnswer.notifyAll();
                     lockAnswer.wait();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -132,21 +133,17 @@ public class NetworkHandler implements Runnable{
                     occupied.set(false);
                     return new Nack("Errors in the execution of wait, closing thread");
                 }
-            } while(answer == null);
+            }
 
             occupied.set(false);
             Message toReturn = answer;
 
-            if (answer.getMessageType() == MessageType.NACK) {
+            if (answer.getMessageType() == MessageType.NACK || answer.getMessageType() == MessageType.ACK) {
                 answer = null;
                 lockAnswer.notifyAll();
                 return toReturn;
             }
-            if (answer.getMessageType() == MessageType.ACK) {
-                answer = null;
-                lockAnswer.notifyAll();
-                return toReturn;
-            }
+            System.out.println(answer.getMessageType());
             throw new UnexpectedMessageException("A different message from ack or nack was read");
         }
     }
