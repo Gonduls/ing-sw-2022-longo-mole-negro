@@ -128,6 +128,7 @@ public class ClientHandler implements Runnable{
 
             // resets loop condition
             username = null;
+            System.out.println("Username was already taken");
             output.writeObject(new Nack("Username was already taken"));
         }
     }

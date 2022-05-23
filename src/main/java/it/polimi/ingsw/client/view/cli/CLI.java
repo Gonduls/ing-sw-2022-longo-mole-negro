@@ -6,6 +6,7 @@ import java.util.*;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PublicRooms;
 import it.polimi.ingsw.model.Color;
@@ -42,6 +43,7 @@ public class CLI implements UI {
             String ipAddress = input.nextLine();
             System.out.println("Insert the Server Port: ");
             int serverPort = input.nextInt();
+            input.nextLine();
             try {
                 clientController = new ClientController(this, ipAddress, serverPort);
             } catch (IOException e){
