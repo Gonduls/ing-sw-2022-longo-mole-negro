@@ -53,7 +53,7 @@ public class Room {
 
         if(present == players.length) {
             Lobby.getInstance().moveToPlayingRooms(id);
-            rc = new RoundController(players, expert);
+            rc = new RoundController(players, expert, this);
         }
     }
 

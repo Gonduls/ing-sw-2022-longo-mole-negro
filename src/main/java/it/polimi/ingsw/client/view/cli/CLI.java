@@ -20,14 +20,10 @@ public class CLI implements UI {
 
     private PrintStream output;
     private Scanner input;
-    private String[] args;
-    //private ClientSocket client;
 
-    public CLI(String[] args) {
+    public CLI() {
         this.output = System.out;
         this.input = new Scanner(System.in);
-        this.args = args.clone();
-        //listening to each other
     }
 
     public void start(){
@@ -42,6 +38,8 @@ public class CLI implements UI {
         System.out.print(ansi().fgCyan() + "Welcome! \n" +
                 "Would you like to play? \n" +
                 ansi().render("@|underline Insert the Server IP address: |@") + "\n");
+        String ipAddress = input.nextLine();
+
         System.out.print(
                 ansi().render("@|fg_cyan,underline Insert the Server Port: |@") + "\n");
         //check connection

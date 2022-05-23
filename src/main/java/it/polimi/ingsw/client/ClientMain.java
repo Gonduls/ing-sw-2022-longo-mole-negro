@@ -14,9 +14,9 @@ public class ClientMain {
     private final static String errorValid = "\nERROR: please insert a valid integer.\n";
     /**
      * Server program entry point, starts cli or gui
-     * @param args used to toggle ping on / off and to choose between CLI and GUI.
+     * @param args used to choose between CLI and GUI.
      */
-    public static void main(String[] args) {
+    public static void notmain(String[] args) {
         boolean viewModeArg = false;
         boolean enablePing = true;
 
@@ -27,11 +27,6 @@ public class ClientMain {
         if (args != null) {
             for (String currentArgument : args) {
                 switch (currentArgument) {
-                    case "-pingOff":
-                        argsToForward.add("-ping off");
-                        enablePing = false;
-                        System.out.println("CLIENT SETTINGS: <Ping System> OFF");
-                        break;
                     case "-cli":
                         if (!viewModeArg) {
                             viewModeArg = true;
@@ -88,7 +83,7 @@ public class ClientMain {
         switch (viewModeChoice) {
             case 1:
                 //starts the cli
-                CLI cli = new CLI(argsString);
+                CLI cli = new CLI();
                 cli.start();
                 break;
             case 2:
@@ -99,8 +94,5 @@ public class ClientMain {
                 System.exit(0);
                 break;
         }
-
-        //CLI.clearScreen();
     }
-
 }
