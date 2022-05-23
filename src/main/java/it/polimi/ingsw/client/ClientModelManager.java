@@ -29,7 +29,7 @@ public class ClientModelManager {
 
         professors = new EnumMap<>(Color.class);
         towers = new int[numberOfPlayers];
-        deck = Arrays.stream(AssistantCard.values()).toList();
+        deck = new ArrayList<>(Arrays.asList(AssistantCard.values()));
         entrances = new EnumMap[numberOfPlayers];
         diningRooms = new EnumMap[numberOfPlayers];
         clouds = new EnumMap[numberOfPlayers];

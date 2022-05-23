@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Player {
     public Player(int playerNumber, String username, boolean threePlayers){
         this.playerNumber = playerNumber;
         this.username = username;
-        deck = Arrays.stream(AssistantCard.values()).toList();
+        deck = new ArrayList<>(Arrays.asList(AssistantCard.values()));
         coinsOwned = 1;
 
         if(threePlayers) {
