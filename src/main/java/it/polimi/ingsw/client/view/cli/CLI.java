@@ -10,6 +10,8 @@ import it.polimi.ingsw.messages.PublicRooms;
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.server.Lobby;
 import it.polimi.ingsw.server.RoomInfo;
+import org.fusesource.jansi.Ansi;
+import org.fusesource.jansi.AnsiConsole;
 
 import java.util.concurrent.TimeUnit;
 
@@ -28,39 +30,36 @@ public class CLI implements UI {
 
     public void start(){
         //todo: de-commentare sotto
-        //AnsiConsole.systemInstall();
+        AnsiConsole.systemInstall();
+        printClear();
+
+        System.out.println("Welcome to /n");
         gameTitle();
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.print(ansi().fgCyan() + "Welcome! \n" +
-                "Would you like to play? \n" +
-                ansi().render("@|underline Insert the Server IP address: |@") + "\n");
-        String ipAddress = input.nextLine();
+        do{
+            System.out.println("Insert the Server IP: ");
+            String ipAddress = input.nextLine();
+            System.out.println("Insert the Server Port: ");
+            int serverPort = input.nextInt();
+            try {
+                clientController = new ClientController(this, ipAddress, serverPort);
+            } catch (IOException e){
+                System.out.println("Could not connect");
+            }
+        } while (clientController == null);
 
-        System.out.print(
-                ansi().render("@|fg_cyan,underline Insert the Server Port: |@") + "\n");
-        //check connection
+        printClear();
+        /*If (List<RoomInfo> != Null)
+        System.out.println("Here's a list of currently available games: ")
+        showPublicRooms;
+        System.out.println("What would you like to do? /n" + "JOIN_GAME \n" + "JOIN_PRIVATE_GAME /n" + "CREATE_GAME /n" + "REFRESH /n");
+        input;
+//Parse input
+        Switch (input)
+        Case()
 
-        System.out.print(ansi().fgCyan() + "Now your " +
-                ansi().render("@|underline nickname: |@") + "\n");
-        //check nickname
+...
 
-        System.out.print(ansi().fgCyan() +"Here's the list of Public Games currently available \n");
-        //showPublicRooms(PublicRooms.getRooms());
-
-        System.out.print(ansi().fgCyan() +"What would you like to do? \n" +
-                "CREATE NEW GAME \n" +
-                "JOIN PUBLIC GAME \n" +
-                "JOIN PRIVATE GAME \n");
-        //parse input
-
-
-        ansi().cursorDownLine();
-        moves();
-        schoolCard();
+        createGameView;*/
 
 
     }
@@ -72,6 +71,7 @@ public class CLI implements UI {
 
     public void gameTitle() {
         //System.out.println(ANSIColors.CYAN_BRIGHT);
+        AnsiConsole.systemInstall();
         System.out.print("                                                                                                                                                      \n" +
                 "        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                       \n" +
                 "     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                        \n" +
@@ -95,12 +95,13 @@ public class CLI implements UI {
                 "                                                                                                                  ......:!Y5P5?7!^:.....              \n");
 
 
+        AnsiConsole.systemUninstall();
         //System.out.println( Ansi.ansi().eraseScreen().render("@|red Hello|@ @|green World|@") );
 
     }
 
     public void islandPrint(int islandIndex, ClientModelManager cmm) {
-        for(int i = 0; i < islandIndex; i++) {
+        /*for(int i = 0; i < islandIndex; i++) {
                 System.out.println("    ________     \n" +
                         "   /        \\    \n" +
                         "  /  "+ cmm.getStudentsInIsland(i).get(Color.RED) +"    " + cmm.getStudentsInIsland(i).get(Color.BLUE) +"    \\   \n" +
@@ -110,10 +111,7 @@ public class CLI implements UI {
                         "   \\________/    \n");
 
 
-        }
-
-
-
+        }*/
 
     }
 

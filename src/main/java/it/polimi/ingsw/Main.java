@@ -26,5 +26,9 @@ public class Main {
                 lobby.listen();
             }
         }
+
+        // todo: ask for server or client
+        Scanner sc = new Scanner(System.in);
+        System.out.println("");
     }
 }
