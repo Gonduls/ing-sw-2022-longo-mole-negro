@@ -120,7 +120,7 @@ public class Lobby {
         synchronized (infos){
             // assures a 6 digit id
             do {
-                id = (random.nextInt(899999) + 100000);
+                id = (random.nextInt(8999) + 1000);
             } while (infos.containsKey(id));
 
             infos.put(id, new RoomInfo(id, numberOfPlayers, expert, isPrivate));

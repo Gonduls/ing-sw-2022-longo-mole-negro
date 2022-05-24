@@ -51,7 +51,7 @@ public class RoomInfo {
     public String toString() {
         return "RoomInfo{" +
                 "id=" + id +
-                "\n numberOfPlayers=" + numberOfPlayers + "/" + currentPlayers +
+                "\n numberOfPlayers=" + currentPlayers + "/" + numberOfPlayers +
                 "\n expert=" + expert +
                 "}\n";
     }

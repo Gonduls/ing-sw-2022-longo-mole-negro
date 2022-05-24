@@ -1,8 +1,10 @@
 package it.polimi.ingsw.client.view.cli;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
+import com.google.gson.*;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
@@ -37,11 +39,49 @@ public class CLI implements UI {
 
         System.out.println("Welcome to /n");
         gameTitle();
+        String ipAddress;
+        int serverPort;
         do{
+            /*try{
+                Scanner scan = new Scanner(new File("./config.json"));
+                StringBuilder str = new StringBuilder(new String());
+
+                while (scan.hasNext()) {
+                    String st = scan.nextLine();
+                    if(st.contains("\"server ip address\"")){
+                        st.split(":").
+                    }
+                }
+
+
+            } catch (IOException e){
+                System.out.println("No config file present in repository: " + System.getProperty("user.dir"));
+            }
+
+            /*
+
+            try (FileReader reader = new FileReader("employees.json")) {
+                //Read JSON file
+                Object obj = jsonParser.parse(reader);
+
+                JSONArray employeeList = (JSONArray) obj;
+                System.out.println(employeeList);
+
+                //Iterate over employee array
+                employeeList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
+
             System.out.println("Insert the Server IP: ");
-            String ipAddress = input.nextLine();
+            ipAddress = input.nextLine();
             System.out.println("Insert the Server Port: ");
-            int serverPort = input.nextInt();
+            serverPort = input.nextInt();
             input.nextLine();
             try {
                 clientController = new ClientController(this, ipAddress, serverPort);
