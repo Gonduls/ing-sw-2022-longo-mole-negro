@@ -69,11 +69,13 @@ public class NetworkHandler implements Runnable{
             // Reads the next message
             try {
                 answer = (Message) input.readObject();
+                System.out.println(answer.getMessageType());
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
                 return;
             } catch (IOException e){
                 clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
+                e.printStackTrace();
                 System.out.println("player disconnecting");
                 return;
             }
@@ -211,33 +213,23 @@ public class NetworkHandler implements Runnable{
 
     boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
         Message returnValue = occupy(new AccessRoom(id));
+        System.out.println(returnValue.getMessageType());
         return returnValue.getMessageType() == MessageType.ACK;
     }
 
-    int createRoom(CreateRoom message) throws IOException, UnexpectedMessageException{
+    int createRoom(CreateRoom message) throws IOException{
         synchronized (lockAnswer){
             output.writeObject(message);
-            do{
+            lockAnswer.notifyAll();
+            while(!(answer != null && answer.getMessageType() == MessageType.ROOM_ID)) {
                 try {
-                    answer = (Message) input.readObject();
-                } catch (ClassNotFoundException | ClassCastException | IOException e) {
+                    lockAnswer.wait();
+                } catch (InterruptedException e) {
                     e.printStackTrace();
-                    return 0;
+                    Thread.currentThread().interrupt();
+                    return -1;
                 }
-                if(answer.getMessageType() == MessageType.PUBLIC_ROOMS) {
-                    clientController.showPublicRooms(((PublicRooms) answer).getRooms());
-                }
-                else if(answer.getMessageType() == MessageType.PLAYER_DISCONNECT){
-                    clientController.showMessage(answer);
-                    continue;
-                }else if (answer.getMessageType() == MessageType.NACK) {
-                    answer = null;
-                    return 0;
-                }
-
-                if(answer.getMessageType() != MessageType.ROOM_ID)
-                    throw new UnexpectedMessageException("Not a RoomId message");
-            }while (answer.getMessageType() == MessageType.ROOM_ID);
+            }
 
             int id = ((RoomId) answer).id();
             answer = null;

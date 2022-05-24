@@ -1,6 +1,8 @@
 package it.polimi.ingsw.server;
 
-public class RoomInfo {
+import java.io.Serializable;
+
+public class RoomInfo implements Serializable {
     private final int id;
     private final int numberOfPlayers;
     private final boolean expert;
