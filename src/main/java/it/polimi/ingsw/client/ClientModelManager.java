@@ -39,14 +39,20 @@ public class ClientModelManager {
             entrances[i] = new EnumMap<>(Color.class);
             diningRooms[i] = new EnumMap<>(Color.class);
             clouds[i] = new EnumMap<>(Color.class);
+
+            for(Color color : Color.values()){
+                entrances[i].put(color, 0);
+                diningRooms[i].put(color, 0);
+                clouds[i].put(color, 0);
+            }
         }
 
         if(expert){
             coins = new int[numberOfPlayers];
             prices = new int[3];
-            characterStudents = new EnumMap[]{new EnumMap<>(Color.class), new EnumMap<>(Color.class), new EnumMap<>(Color.class)};
             activated = new boolean[]{false, false, false};
             characterCardsIndexes = new HashMap<>();
+            characterStudents = new EnumMap[3];
 
         } else {
             coins = null;
@@ -69,6 +75,15 @@ public class ClientModelManager {
         this.characterStudents[0] = CharacterCard.hasStudentHolder(indexes[0]) ? new EnumMap<>(Color.class) : null;
         this.characterStudents[1] = CharacterCard.hasStudentHolder(indexes[1]) ? new EnumMap<>(Color.class) : null;
         this.characterStudents[2] = CharacterCard.hasStudentHolder(indexes[2]) ? new EnumMap<>(Color.class) : null;
+
+        for(int i = 0; i< 3; i++){
+            if(characterStudents[i] != null){
+                for(Color color : Color.values()){
+                    characterStudents[i].put(color, 0);
+                }
+            }
+        }
+
         characterCardsIndexes.put(indexes[0], 0);
         characterCardsIndexes.put(indexes[1], 1);
         characterCardsIndexes.put(indexes[2], 2);
@@ -267,6 +282,8 @@ class ClientIsland{
 
     ClientIsland(){
         students = new EnumMap<>(Color.class);
+        for(Color color : Color.values())
+            students.put(color, 0);
         noEntry = 0;
         towers = 0;
     }

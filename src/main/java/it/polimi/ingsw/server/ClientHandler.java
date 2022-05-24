@@ -128,7 +128,7 @@ public class ClientHandler implements Runnable{
 
             // resets loop condition
             username = null;
-            System.out.println("Username was already taken");
+            //System.out.println("Username was already taken");
             output.writeObject(new Nack("Username was already taken"));
         }
     }
@@ -139,13 +139,13 @@ public class ClientHandler implements Runnable{
         for(RoomInfo info : lobby.getInfos().values()){
             if(complies(info, message)) {
                 result.add(info);
-                System.out.println(info.getCurrentPlayers());
+                //System.out.println(info.getCurrentPlayers());
             }
         }
 
-        System.out.println(result.size());
+        //System.out.println(result.size());
         output.writeObject(new PublicRooms(result));
-        System.out.println("sent public rooms message");
+        //System.out.println("sent public rooms message");
     }
 
     private boolean complies(RoomInfo info, GetPublicRooms message){

@@ -70,6 +70,10 @@ public class NetworkHandler implements Runnable{
             try {
                 answer = (Message) input.readObject();
                 System.out.println(answer.getMessageType());
+
+                if(answer.getMessageType() == MessageType.NACK)
+                    clientController.showMessage(answer);
+
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
                 return;
@@ -145,7 +149,6 @@ public class NetworkHandler implements Runnable{
                 lockAnswer.notifyAll();
                 return toReturn;
             }
-            System.out.println(answer.getMessageType());
             throw new UnexpectedMessageException("A different message from ack or nack was read");
         }
     }
@@ -213,7 +216,7 @@ public class NetworkHandler implements Runnable{
 
     boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
         Message returnValue = occupy(new AccessRoom(id));
-        System.out.println(returnValue.getMessageType());
+        //System.out.println(returnValue.getMessageType());
         return returnValue.getMessageType() == MessageType.ACK;
     }
 

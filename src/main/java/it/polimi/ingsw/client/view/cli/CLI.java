@@ -1,23 +1,18 @@
 package it.polimi.ingsw.client.view.cli;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
-import com.google.gson.*;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Color;
-import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
-import javax.print.attribute.HashAttributeSet;
-import java.util.concurrent.TimeUnit;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
@@ -115,6 +110,7 @@ public class CLI implements UI {
                         System.out.println("Could not create room, please try again");
                         break;
                     }
+                    printClear();
                     System.out.println("Your room ID is: " + roomID);
                     inARoom = true;
                     break;
@@ -167,7 +163,11 @@ public class CLI implements UI {
     }
 
     public void game() {
-
+        try{
+            TimeUnit.SECONDS.sleep(20);
+        } catch (InterruptedException ignored){
+            System.out.println("problems in waiting");
+        }
     }
 
     /*public void clearScreen() {

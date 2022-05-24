@@ -143,9 +143,7 @@ public class ClientController {
 
     public int createRoom(CreateRoom message) {
         try {
-            int newID = nh.createRoom(message);
-            System.out.println(accessRoom(newID));
-            return newID;
+            return nh.createRoom(message);
         } catch (IOException e) {
             System.out.println("There was an error in creating a new game!");
             return -1;

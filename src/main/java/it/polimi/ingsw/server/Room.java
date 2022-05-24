@@ -42,12 +42,13 @@ public class Room {
             }
         }
 
-        sendBroadcast(new AddPlayer(player, present));
-        System.out.println("present = " + " adding player: " + player);
-
-
         players[present] = player;
         handlers[present] = ch;
+
+        sendBroadcast(new AddPlayer(player, present));
+        //System.out.println("present = " + present + " adding player: " + player);
+
+
         info.addPlayer();
         present++;
 
