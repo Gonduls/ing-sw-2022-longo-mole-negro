@@ -9,9 +9,9 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
-import it.polimi.ingsw.messages.CreateRoom;
-import it.polimi.ingsw.messages.GetPublicRooms;
-import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
@@ -189,6 +189,7 @@ public class CLI implements UI {
 
         }while(!inARoom);
 
+
         printClear();
         //todo: createGameView();
         //where do I get the infos?
@@ -236,7 +237,7 @@ public class CLI implements UI {
     }
 
     public void islandPrint(int islandIndex, ClientModelManager cmm) {
-        /*for(int i = 0; i < islandIndex; i++) {
+        for(int i = 0; i < islandIndex; i++) {
                 System.out.println("    ________     \n" +
                         "   /        \\    \n" +
                         "  /  "+ cmm.getStudentsInIsland(i).get(Color.RED) +"    " + cmm.getStudentsInIsland(i).get(Color.BLUE) +"    \\   \n" +
@@ -246,7 +247,7 @@ public class CLI implements UI {
                         "   \\________/    \n");
 
 
-        }*/
+        }
 
     }
 
@@ -255,21 +256,23 @@ public class CLI implements UI {
                 " / \\                             \\.   \n" +
                 "|   |     What's your move?      |.   \n" +
                 " \\_ |                            |.   \n" +
-                "    |  -PLAY_ASSISTANT_CARD      |.   \n" +
+                "    |  1.PLAY_ASSISTANT_CARD     |.   \n" +
                 "    |                            |.   \n" +
-                "    |  -MOVE_STUDENT             |.   \n" +
+                "    |  2.MOVE_STUDENT            |.   \n" +
                 "    |                            |.   \n" +
-                "    |  -ACTIVATE_CHARACTER_CARD  |.   \n" +
+                "    |  3.ACTIVATE_CHARACTER_CARD |.   \n" +
                 "    |                            |.   \n" +
-                "    |  -MOVE_MOTHER_NATURE       |.   \n" +
+                "    |  4.MOVE_MOTHER_NATURE      |.   \n" +
                 "    |                            |.   \n" +
+                "    |  5.PICK_CLOUD              |.   \n" +
                 "    |   _________________________|___ \n" +
                 "    |  /                            /.\n" +
                 "    \\_/____________________________/. \n");
     }
 
-    public void schoolCard() {
-        System.out.println(" NAME             \n" +
+    public void schoolCard(ClientModelManager cmm) {
+        for(int i = 0; i < cmm.getPlayers().length; i++)
+        System.out.println("    " + username.toUpperCase(Locale.ROOT) +
                 " ________________ \n" +
                 "| P  P  P  P  P  |\n" +
                 "|----------------|\n" +
@@ -288,7 +291,7 @@ public class CLI implements UI {
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
-        System.out.println(ansi().render("@|fg_black,bold,bg_yellow Public Games:|@").bgDefault().fgDefault());
+        System.out.println(ansi().render("@|bg_black,bold,fg_yellow Public Games:|@").bgDefault().fgDefault());
         if(rooms.size() == 0) {
             System.out.println("There are no public rooms available. \n");
         } else {
@@ -302,13 +305,37 @@ public class CLI implements UI {
 
     @Override
     public void showMessage(Message message) {
+        switch (message.getMessageType()) {
+            case NACK -> {
+                System.out.println("NACK");
+            }
+            case ADD_PLAYER -> {
+                AddPlayer ap = (AddPlayer) message;
+                System.out.println("Player " + ap.username() +" joined! ");
+            }
+            case END_GAME -> {
+                System.out.println("Game Over \n" +
+                        "Winner/s: " );
+                EndGame eg = (EndGame) message;
+                for(int i = 0; i < eg.winners().length; i++)
+                {
+                    System.out.println((eg.winners()[i]));
+                }
+            }
+            case PLAYER_DISCONNECT -> {
+                PlayerDisconnect pd = (PlayerDisconnect) message;
+                System.out.println("Player" + pd.username() + "has left the room \n" +
+                        "Please, return to Lobby. ");
+            }
+            default ->
+                System.out.print(message.getMessageType());
+        }
 
     }
 
     @Override
     public void createGameView(int numberOfPlayer, boolean expert, ClientModelManager cmm){
         islandPrint(cmm.getIslands().size(), cmm);
-
 
     }
 
