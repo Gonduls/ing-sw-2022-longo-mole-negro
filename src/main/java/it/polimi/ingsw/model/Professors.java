@@ -1,8 +1,11 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.server.ModelObserver;
+
 import java.util.EnumMap;
 
 public class Professors {
+    ModelObserver modelObserver;
     private final EnumMap<Color, Player> owners;
 
     /**
@@ -15,6 +18,10 @@ public class Professors {
             owners.put(color, null);
     }
 
+    void setModelObserver(ModelObserver modelObserver){
+        this.modelObserver = modelObserver;
+    }
+
     /**
      * Sets the target professor's ownership to player
      * @param professor: target professor
@@ -22,6 +29,9 @@ public class Professors {
      */
     void setToPlayer(Color professor, Player player){
         owners.put(professor, player);
+        if(modelObserver != null) {
+            modelObserver.setProfessorTo(professor, player.getPlayerNumber());
+        }
     }
 
     /**

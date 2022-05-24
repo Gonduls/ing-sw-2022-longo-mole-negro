@@ -1,8 +1,12 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.messages.ChangePhase;
+import it.polimi.ingsw.messages.ChangeTurn;
 import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.StartGame;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.server.ModelObserver;
 import it.polimi.ingsw.server.Room;
 
 import java.util.*;
@@ -49,6 +53,8 @@ public class RoundController {
         this.playingOrder = new ArrayList<>();
         this.expertMode = expertMode;
         this.seatedPlayers = new Player[playersNames.length];
+        this.room = room;
+
 
         for(int i=0; i<playersNames.length; i++){
             this.seatedPlayers[i] = new Player(i, playersNames[i], playersNames.length == 3);
@@ -60,11 +66,24 @@ public class RoundController {
         }
         playingOrderIndex=0;
         gameManager= new GameManager(this.seatedPlayers, expertMode);
+        gameManager.setModelObserver(new ModelObserver(room));
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
+
+        if(expertMode) {
+            room.sendBroadcast(new StartGame(gameManager.getIdCards()));
+        } else {
+            room.sendBroadcast(new StartGame(null));
+
+        }
+
+        room.sendBroadcast(new ChangeTurn(playingOrder.get(playingOrderIndex).getPlayerNumber()));
+
+        room.sendBroadcast(new ChangePhase(GamePhase.PLANNING_PHASE));
 
         //
         //currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
-        this.room = room;
+
+
 
     }
 

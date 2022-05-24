@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.server.ModelObserver;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,6 +16,7 @@ public class Player {
     private final List<AssistantCard> deck;
     private int coinsOwned;
     private final School school;
+    private  ModelObserver modelObserver;
 
     /**
      * Builder method for Player, also instantiates School and deck associated to player.
@@ -125,6 +128,7 @@ public class Player {
             throw new InvalidParameterException("There are not enough coins to execute this action");
 
         coinsOwned -= coinsNumber;
+        modelObserver.payPrice(coinsNumber, this.getPlayerNumber());
     }
 
     /**
@@ -133,4 +137,10 @@ public class Player {
     public School getSchool(){
         return school;
     }
+
+    void setModelObserver(ModelObserver modelObserver){
+        this.modelObserver=modelObserver;
+    }
+
+
 }

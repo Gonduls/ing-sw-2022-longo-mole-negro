@@ -99,7 +99,12 @@ public class ModelObserver {
     }
 
     public void payPrice(int amount, int playerNumber){
+
         room.sendBroadcast(new PayPrice(amount, playerNumber));
+    }
+
+    public void addCoin(int playerNumber){
+        //todo create the record
     }
 
 

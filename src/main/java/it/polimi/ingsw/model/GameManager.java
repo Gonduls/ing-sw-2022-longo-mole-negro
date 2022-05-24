@@ -551,6 +551,11 @@ public class GameManager {
 
     public void setModelObserver(ModelObserver modelObserver) {
         this.modelObserver = modelObserver;
+        professors.setModelObserver(modelObserver);
+        for(Player p: players){
+            p.setModelObserver(modelObserver);
+        }
+
        if(expert) {
            setModelObserverOnCharacterCard();
        }
@@ -561,5 +566,18 @@ public class GameManager {
         for(CharacterCard characterCard : activeCards){
             characterCard.setModelObserver(modelObserver);
         }
+    }
+
+
+    public int[] getIdCards(){
+        int[] cardIndexes = new int[3];
+        int j=0;
+        for(int i=0; i<12;i++){
+            if(isCardActive(i)){
+                cardIndexes[j]=i;
+            }
+        }
+
+        return  Arrays.copyOf(cardIndexes,3);
     }
 }
