@@ -103,7 +103,7 @@ public class CLI implements UI {
             }
         } while (!login);
 
-        printClear();
+        //printClear();
         boolean inARoom = false;
         do{
             System.out.println("""
@@ -190,7 +190,7 @@ public class CLI implements UI {
         }while(!inARoom);
 
 
-        printClear();
+        //printClear();
         //todo: createGameView();
         //where do I get the infos?
 

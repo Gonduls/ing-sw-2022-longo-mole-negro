@@ -16,6 +16,7 @@ public class ClientModelManager {
     private final String[] players;
     private final boolean[] activated;
     private HashMap<Integer, Integer> characterCardsIndexes;
+    private int noEntries;
 
     ClientModelManager(String[] players, boolean expert){
         int numberOfPlayers = players.length;
@@ -71,6 +72,9 @@ public class ClientModelManager {
         characterCardsIndexes.put(indexes[0], 0);
         characterCardsIndexes.put(indexes[1], 1);
         characterCardsIndexes.put(indexes[2], 2);
+        if(indexes[0] == 5 || indexes[1] == 5 || indexes[2] == 5){
+            noEntries = 4;
+        }
     }
 
     public Map<Color, Integer> getEntrance(int playerIndex) {
@@ -170,6 +174,18 @@ public class ClientModelManager {
                 PayPrice pp = (PayPrice) message;
                 coins[pp.player()] -= pp.amount();
             }
+            case NO_ENTRY -> {
+                NoEntry ne = (NoEntry) message;
+                if(ne.add()) {
+                    islands.get(ne.islandIndex()).addNoEntry();
+                    noEntries --;
+                }
+                else {
+                    islands.get(ne.islandIndex()).removeNoEntry();
+                    noEntries ++;
+                }
+
+            }
             default -> throw(new UnexpectedMessageException("Message does not update the model"));
         }
         //parsing message
@@ -237,6 +253,10 @@ public class ClientModelManager {
 
     public EnumMap<Color, Integer> getStudentsInIsland(int islandIndex){
         return islands.get(islandIndex).getStudents();
+    }
+
+    public int getNoEntries() {
+        return noEntries;
     }
 }
 

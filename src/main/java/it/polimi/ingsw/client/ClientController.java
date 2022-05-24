@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.RoomInfo;
@@ -16,6 +17,7 @@ public class ClientController {
     private final String[] players = new String[4];
     private String username;
     private boolean expertGame;
+    private GamePhase phase;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -40,7 +42,10 @@ public class ClientController {
         // todo: finish
         switch (message.getMessageType()){
 
-            case ADD_PLAYER -> players[((AddPlayer) message).position()] = ((AddPlayer) message).username();
+            case ADD_PLAYER -> {
+                players[((AddPlayer) message).position()] = ((AddPlayer) message).username();
+                ui.showMessage(message);
+            }
             case START_GAME -> {
                 int numberOfPlayers;
                 StartGame s = (StartGame) message;
@@ -82,15 +87,10 @@ public class ClientController {
                     }
                 }
             }
-
-            case MOVE_STUDENT -> {
-                // todo
-            }
-
             case CHANGE_PHASE -> {
                 ChangePhase c = (ChangePhase) message;
-                //todo: create a phase enum
-
+                phase = c.gamePhase();
+                ui.printStatus();
             }
             case CHANGE_TURN -> {
                 ChangeTurn c = (ChangeTurn) message;
@@ -126,6 +126,10 @@ public class ClientController {
 
     void createGameView(){
         ui.createGameView(players.length, expertGame, this.cmm);
+    }
+
+    public GamePhase getPhase() {
+        return phase;
     }
 
     public boolean accessRoom(int id){

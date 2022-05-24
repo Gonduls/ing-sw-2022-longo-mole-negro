@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.messages.AddPlayer;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PlayerDisconnect;
+import it.polimi.ingsw.messages.StartGame;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -32,8 +33,6 @@ public class Room {
     }
 
     void addPlayer(String player, ClientHandler ch){
-        if(present == players.length)
-            return;
 
         for(int i = 0; i< present; i++){
             try{
@@ -44,6 +43,7 @@ public class Room {
         }
 
         sendBroadcast(new AddPlayer(player, present));
+        System.out.println("present = " + " adding player: " + player);
 
 
         players[present] = player;
