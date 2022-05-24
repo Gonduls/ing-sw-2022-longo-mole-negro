@@ -142,7 +142,7 @@ public class ClientController {
             int newID = nh.createRoom(message);
             System.out.println(accessRoom(newID));
             return newID;
-        } catch (IOException | UnexpectedMessageException e) {
+        } catch (IOException e) {
             System.out.println("There was an error in creating a new game!");
             return -1;
         }
