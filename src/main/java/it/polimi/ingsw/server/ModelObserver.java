@@ -9,6 +9,7 @@ import java.io.IOException;
 public class ModelObserver {
     Room room;
 
+
     public ModelObserver(Room room){
         this.room=room;
     }
@@ -46,11 +47,12 @@ public class ModelObserver {
     }
 
     public void removeNoEntry(int islandIndex){
+        room.sendBroadcast(new NoEntry(false,islandIndex));
     }
 
 
     public void addNoEntry(int islandIndex){
-
+        room.sendBroadcast(new NoEntry(true,islandIndex));
     }
 
     public void changePhase(GamePhase phase){
@@ -64,7 +66,7 @@ public class ModelObserver {
 
 
     public void addStudentToCard(int idCard, Color color){
-        room.sendBroadcast(new AddStudentTo("CARD:idCard",color));
+        room.sendBroadcast(new AddStudentTo("CARD"+idCard,color));
     }
 
     public void moveStudentFromCardToEntrance(int idCard ,int player,Color color){
@@ -89,6 +91,15 @@ public class ModelObserver {
 
     public void playAssistantCard(AssistantCard assCard, int player){
         room.sendBroadcast(new PlayAssistantCard(assCard, player));
+    }
+
+
+    public void setProfessorTo(Color color, int playerNumber){
+        room.sendBroadcast(new SetProfessorTo(color, playerNumber));
+    }
+
+    public void payPrice(int amount, int playerNumber){
+        room.sendBroadcast(new PayPrice(amount, playerNumber));
     }
 
 
