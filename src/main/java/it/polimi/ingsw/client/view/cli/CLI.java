@@ -16,6 +16,7 @@ import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
+import javax.print.attribute.HashAttributeSet;
 import java.util.concurrent.TimeUnit;
 
 import static org.fusesource.jansi.Ansi.ansi;
@@ -42,42 +43,6 @@ public class CLI implements UI {
         String ipAddress;
         int serverPort;
         do{
-            /*try{
-                Scanner scan = new Scanner(new File("./config.json"));
-                StringBuilder str = new StringBuilder(new String());
-
-                while (scan.hasNext()) {
-                    String st = scan.nextLine();
-                    if(st.contains("\"server ip address\"")){
-                        st.split(":").
-                    }
-                }
-
-
-            } catch (IOException e){
-                System.out.println("No config file present in repository: " + System.getProperty("user.dir"));
-            }
-
-            /*
-
-            try (FileReader reader = new FileReader("employees.json")) {
-                //Read JSON file
-                Object obj = jsonParser.parse(reader);
-
-                JSONArray employeeList = (JSONArray) obj;
-                System.out.println(employeeList);
-
-                //Iterate over employee array
-                employeeList.forEach( emp -> parseEmployeeObject( (JSONObject) emp ) );
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }*/
-
             System.out.println("Insert the Server IP: ");
             ipAddress = input.nextLine();
             System.out.println("Insert the Server Port: ");
@@ -103,7 +68,18 @@ public class CLI implements UI {
             }
         } while (!login);
 
-        //printClear();
+        do {
+            preGame();
+            game();
+        } while(true);
+        //todo: createGameView();
+        //where do I get the infos?
+
+
+
+    }
+
+    public void preGame(){
         boolean inARoom = false;
         do{
             System.out.println("""
@@ -188,13 +164,9 @@ public class CLI implements UI {
 
 
         }while(!inARoom);
+    }
 
-
-        //printClear();
-        //todo: createGameView();
-        //where do I get the infos?
-
-
+    public void game() {
 
     }
 
@@ -232,19 +204,19 @@ public class CLI implements UI {
 
 
         AnsiConsole.systemUninstall();
-        //System.out.println( Ansi.ansi().eraseScreen().render("@|red Hello|@ @|green World|@") );
 
     }
 
     public void islandPrint(int islandIndex, ClientModelManager cmm) {
         for(int i = 0; i < islandIndex; i++) {
+            EnumMap<Color, Integer> studentsIsland = cmm.getStudentsInIsland(i);
                 System.out.println("    ________     \n" +
                         "   /        \\    \n" +
-                        "  /  "+ cmm.getStudentsInIsland(i).get(Color.RED) +"    " + cmm.getStudentsInIsland(i).get(Color.BLUE) +"    \\   \n" +
-                        " /   "+ cmm.getStudentsInIsland(i).get(Color.GREEN) +"    " + cmm.getStudentsInIsland(i).get(Color.PINK) +"         \\  \n" +
-                        " \\  "+ cmm.getStudentsInIsland(i).get(Color.YELLOW) +"          /  \n" +
+                        "  /  "+ studentsIsland.get(Color.RED) +"    " + studentsIsland.get(Color.BLUE) +"    \\   \n" +
+                        " /   "+ studentsIsland.get(Color.GREEN) +"    " + studentsIsland.get(Color.PINK) +"         \\  \n" +
+                        " \\  "+ studentsIsland.get(Color.YELLOW) +"          /  \n" +
                         "  \\          /   \n" +
-                        "   \\________/    \n");
+                        "   \\________/ "+ i +"   \n");
 
 
         }
