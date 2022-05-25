@@ -229,13 +229,18 @@ public class CLI implements UI {
     public void islandPrint(int islandIndex, ClientModelManager cmm) {
         for(int i = 0; i < islandIndex; i++) {
             EnumMap<Color, Integer> studentsIsland = cmm.getStudentsInIsland(i);
+            int red = studentsIsland.get(Color.RED);
+            int blue = studentsIsland.get(Color.BLUE);
+            int green = studentsIsland.get(Color.GREEN);
+            int pink = studentsIsland.get(Color.PINK);
+            int yellow = studentsIsland.get(Color.YELLOW);
                 System.out.println("    ________     \n" +
-                        "   /        \\    \n" +
-                        "  /  "+ studentsIsland.get(Color.RED) +"    " + studentsIsland.get(Color.BLUE) +"    \\   \n" +
-                        " /   "+ studentsIsland.get(Color.GREEN) +"    " + studentsIsland.get(Color.PINK) +"         \\  \n" +
-                        " \\  "+ studentsIsland.get(Color.YELLOW) +"          /  \n" +
-                        "  \\          /   \n" +
-                        "   \\________/ "+ i +"   \n");
+                        "   /  "+ (cmm.getMotherNature() == i ? "M" : " ")+"     \\    \n" +
+                        "  /    " +( "T:" + cmm.getIslands().get(i).getTowers())+ "   \\   \n" +
+                        " /"+render((red < 10 ? " " : "") + red, "red") +"  "+ render((green < 10 ? " " : "") + green, "green") +"  " + render((pink < 10 ? " " : "") + pink, "pink") +"  \\  \n" +
+                        " \\  "+ render((yellow < 10 ? " " : "") + yellow, "yellow") +"  " + render((blue < 10 ? " " : "") + blue, "blue") +"    /  \n" +
+                        "  \\   " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : "") +"       /   \n" +
+                        "   \\________/ "+ i  +"   \n");
 
 
         }
@@ -262,15 +267,28 @@ public class CLI implements UI {
     }
 
     public void schoolCard(ClientModelManager cmm) {
-        for(int i = 0; i < cmm.getPlayers().length; i++)
-        System.out.println("    " + username.toUpperCase(Locale.ROOT) +
-                " ________________ \n" +
-                "| P  P  P  P  P  |\n" +
-                "|----------------|\n" +
-                "| 01 00 00 00 00 |\n" +
-                "|----------------|\n" +
-                "| $00            |\n" +
-                "|________________|\n");
+        for(int i = 0; i < cmm.getPlayers().length; i++) {
+            int eRed = cmm.getEntrance(i).get(Color.RED);
+            int eBlue = cmm.getEntrance(i).get(Color.BLUE);
+            int eGreen = cmm.getEntrance(i).get(Color.GREEN);
+            int ePink= cmm.getEntrance(i).get(Color.PINK);
+            int eYellow= cmm.getEntrance(i).get(Color.YELLOW);
+            int drRed = cmm.getDiningRooms(i).get(Color.RED);
+            int drBlue = cmm.getDiningRooms(i).get(Color.BLUE);
+            int drGreen = cmm.getDiningRooms(i).get(Color.GREEN);
+            int drPink = cmm.getDiningRooms(i).get(Color.PINK);
+            int drYellow = cmm.getDiningRooms(i).get(Color.YELLOW);
+
+            System.out.println("    " + cmm.getPlayers()[i].toUpperCase(Locale.ROOT) + "\n" +
+                    " ___________________ \n" +
+                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? render("P", "red") : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? render("P", "blue") : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? render("P", "green") : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? render("P", "pink") : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? render("P", "yellow") : " " )+"  |\n" +
+                    "|-------------------|\n" +
+                    "| E: " + render((eRed < 10 ? " " : "" ) + eRed, "red") +" "+ render((eBlue < 10 ? " " : "" )+ eBlue, "blue") +" "+ render((eGreen < 10 ? " " : "") + eGreen, "green")+" "+ render((ePink < 10 ? " " : "" )+ ePink, "pink")+" "+render((eYellow < 10 ? " " : "" )+ eYellow, "yellow")+" |\n" +
+                    "|DR: " + render((drRed < 10 ? " " : "" ) + drRed, "red") +" "+ render((drBlue < 10 ? " " : "" )+ drBlue, "blue") +" "+ render((drGreen < 10 ? " " : "" )+ drGreen, "green")+" "+ render((drPink < 10 ? " " : "" )+ drPink, "pink")+" "+render((drYellow < 10 ? " " : "" )+ drYellow, "yellow")+" |\n" +
+                    "|-------------------|\n" +
+                    "| $" + ((cmm.getCoins(i) < 10 ? " " : "") + cmm.getCoins(i))+"               |\n" +
+                    "|___________________|\n");
+        }
     }
 
 
@@ -316,7 +334,7 @@ public class CLI implements UI {
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
-                System.out.println("Player" + pd.username() + "has left the room \n" +
+                System.out.println("Player " + pd.username() + " has left the room \n" +
                         "Please, return to Lobby. ");
             }
             default ->
@@ -329,12 +347,31 @@ public class CLI implements UI {
     public void createGameView(int numberOfPlayer, boolean expert, ClientModelManager cmm){
         this.cmm = cmm;
         islandPrint(cmm.getIslands().size(), cmm);
+        schoolCard(cmm);
 
     }
 
     protected void printClear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    public Object render(Object object, String color){
+        switch(color){
+            case("red"):
+                return ansi().fgBrightRed().a(object).fgDefault();
+            case("blue"):
+                return ansi().fgBrightCyan().a(object).fgDefault();
+            case("green"):
+                return ansi().fgBrightGreen().a(object).fgDefault();
+            case("pink"):
+                return ansi().fgBrightMagenta().a(object).fgDefault();
+            case("yellow"):
+                return ansi().fgBrightYellow().a(object).fgDefault();
+            default:
+                return ansi().fgDefault();
+
+        }
     }
 
 }

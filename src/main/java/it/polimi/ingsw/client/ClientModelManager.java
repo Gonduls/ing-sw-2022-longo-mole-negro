@@ -48,6 +48,10 @@ public class ClientModelManager {
             }
         }
 
+        for(Color color : Color.values()){
+            professors.put(color, -1);
+        }
+
         if(expert){
             coins = new int[numberOfPlayers];
             prices = new int[3];
@@ -56,7 +60,7 @@ public class ClientModelManager {
             characterStudents = new EnumMap[3];
 
         } else {
-            coins = null;
+            coins = new int[]{0, 0, 0};
             prices = null;
             characterStudents = null;
             activated = null;
