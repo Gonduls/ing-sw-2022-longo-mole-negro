@@ -150,11 +150,12 @@ public class ClientController {
         }
     }
 
-    public void logout() {
+    public boolean logout() {
         try {
-            nh.logout();
+            return nh.logout();
         } catch (IOException | UnexpectedMessageException e) {
             System.out.println("There was an error logging out!");
+            return false;
         }
     }
 

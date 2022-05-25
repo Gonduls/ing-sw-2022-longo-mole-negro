@@ -26,6 +26,9 @@ public class CLI implements UI {
     private final PrintStream output;
     private final Scanner input;
     private String username;
+    boolean inARoom = false;
+    int playersNumber;
+    ClientModelManager cmm;
 
     public CLI() {
         this.output = System.out;
@@ -80,7 +83,10 @@ public class CLI implements UI {
 
         do {
             preGame();
-            game();
+            if(inARoom)
+                game();
+            else
+                return;
         } while(true);
         //todo: createGameView();
         //where do I get the infos?
@@ -90,50 +96,17 @@ public class CLI implements UI {
     }
 
     public void preGame(){
-        boolean inARoom = false;
         do{
             System.out.println("""
-                What would you like to do?\s
-                1. ACCESS ROOM\s
-                2. CREATE GAME\s
-                3. LOGOUT\s
-                4. REFRESH AVAILABLE PUBLIC ROOMS\s
-                """);
+                    What would you like to do?\s
+                    1. REFRESH AVAILABLE PUBLIC ROOMS\s
+                    2. CREATE GAME\s
+                    3. ACCESS ROOM\s
+                    4. LOGOUT\s
+                    """);
             String chosenAction = input.nextLine();
             switch (chosenAction) {
                 case("1"):
-                    System.out.println("Enter the room ID: ");
-                    int id = Integer.parseInt(input.nextLine());
-                    if(clientController.accessRoom(id)) {
-                        inARoom = true;
-                    }
-                    else {
-                        System.out.println("Could not enter room, please try again");
-                    }
-                    break;
-                case("2"):
-                    System.out.println("Enter the number of players (2/3/4): ");
-                    int playersNumber = input.nextInt();
-                    System.out.println("Is the mode expert? (true/false) ");
-                    boolean isExpert = input.nextBoolean();
-                    System.out.println("Is your game private? (true/false) ");
-                    boolean isPrivate = input.nextBoolean();
-
-                    CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
-                    int roomID = clientController.createRoom(message);
-                    if(roomID < 0){
-                        System.out.println("Could not create room, please try again");
-                        break;
-                    }
-                    printClear();
-                    System.out.println("Your room ID is: " + roomID);
-                    inARoom = true;
-                    break;
-                case("3"):
-                    clientController.logout();
-                    break;
-
-                case("4"):
                     System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
                     try{
                         playersNumber = Integer.parseInt(input.nextLine());
@@ -168,6 +141,42 @@ public class CLI implements UI {
                     clientController.getPublicRooms(new GetPublicRooms(playersNumber));
                     break;
 
+                case("2"):
+                    System.out.println("Enter the number of players (2/3/4): ");
+                    playersNumber = input.nextInt();
+                    System.out.println("Is the mode expert? (true/false) ");
+                    boolean isExpert = input.nextBoolean();
+                    System.out.println("Is your game private? (true/false) ");
+                    boolean isPrivate = input.nextBoolean();
+
+                    CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
+                    int roomID = clientController.createRoom(message);
+                    if(roomID < 0){
+                        System.out.println("Could not create room, please try again");
+                        break;
+                    }
+                    printClear();
+                    System.out.println("Your room ID is: " + roomID);
+                    inARoom = true;
+                    break;
+
+                case("3"):
+                    System.out.println("Enter the room ID: ");
+                    int id = Integer.parseInt(input.nextLine());
+                    if(clientController.accessRoom(id)) {
+                        inARoom = true;
+                    }
+                    else {
+                        System.out.println("Could not enter room, please try again");
+                    }
+                    break;
+
+                case("4"):
+                    if(clientController.logout())
+                        return;
+                    System.out.println("Could not logout");
+                    break;
+
                 default:
                     System.out.println("Please enter a valid choice");
             }
@@ -179,16 +188,11 @@ public class CLI implements UI {
 
     public void game() {
         try{
-            TimeUnit.SECONDS.sleep(20);
+            TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException ignored){
             System.out.println("problems in waiting");
         }
     }
-
-    /*public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }*/
 
     public void gameTitle() {
         //System.out.println(ANSIColors.CYAN_BRIGHT);
@@ -272,7 +276,8 @@ public class CLI implements UI {
 
     @Override
     public void printStatus() {
-
+        printClear();
+        islandPrint(12, cmm);
 
     }
 
@@ -322,16 +327,14 @@ public class CLI implements UI {
 
     @Override
     public void createGameView(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+        this.cmm = cmm;
         islandPrint(cmm.getIslands().size(), cmm);
 
     }
 
     protected void printClear() {
-        AnsiConsole.systemInstall();
-        Ansi ansi = Ansi.ansi();
-        System.out.println( ansi.eraseScreen() );
-        System.out.println( ansi.cursor(0, 0) );
-        AnsiConsole.systemUninstall();
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
