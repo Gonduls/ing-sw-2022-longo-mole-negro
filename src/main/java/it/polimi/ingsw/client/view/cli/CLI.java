@@ -77,7 +77,6 @@ public class CLI implements UI {
                 System.out.println(login);
             } catch (UnexpectedMessageException e){
                 System.out.println("Could not login, unexpected message exception");
-                continue;
             }
         } while (!login);
 
@@ -106,79 +105,69 @@ public class CLI implements UI {
                     """);
             String chosenAction = input.nextLine();
             switch (chosenAction) {
-                case("1"):
+                case ("1") -> {
                     System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
-                    try{
+                    try {
                         playersNumber = Integer.parseInt(input.nextLine());
-                    } catch (NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         playersNumber = 0;
                     }
                     System.out.println("Is the mode expert? (true/false/ default: all games) ");
-
                     String expert = input.nextLine();
-
-                    if(expert.startsWith("true")){
-                        if(playersNumber == 0){
+                    if (expert.startsWith("true")) {
+                        if (playersNumber == 0) {
                             clientController.getPublicRooms(new GetPublicRooms(true));
                             break;
                         }
                         clientController.getPublicRooms(new GetPublicRooms(playersNumber, true));
                         break;
                     }
-                    if(expert.startsWith("false")){
-                        if(playersNumber == 0){
+                    if (expert.startsWith("false")) {
+                        if (playersNumber == 0) {
                             clientController.getPublicRooms(new GetPublicRooms(false));
                             break;
                         }
                         clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
                         break;
                     }
-
-                    if(playersNumber == 0){
+                    if (playersNumber == 0) {
                         clientController.getPublicRooms(new GetPublicRooms());
                         break;
                     }
                     clientController.getPublicRooms(new GetPublicRooms(playersNumber));
-                    break;
-
-                case("2"):
+                }
+                case ("2") -> {
                     System.out.println("Enter the number of players (2/3/4): ");
                     playersNumber = input.nextInt();
                     System.out.println("Is the mode expert? (true/false) ");
                     boolean isExpert = input.nextBoolean();
                     System.out.println("Is your game private? (true/false) ");
                     boolean isPrivate = input.nextBoolean();
-
-                    CreateRoom message = new CreateRoom(playersNumber,isExpert,isPrivate);
+                    CreateRoom message = new CreateRoom(playersNumber, isExpert, isPrivate);
                     int roomID = clientController.createRoom(message);
-                    if(roomID < 0){
+                    if (roomID < 0) {
                         System.out.println("Could not create room, please try again");
                         break;
                     }
                     printClear();
                     System.out.println("Your room ID is: " + roomID);
                     inARoom = true;
-                    break;
-
-                case("3"):
+                }
+                case ("3") -> {
                     System.out.println("Enter the room ID: ");
                     int id = Integer.parseInt(input.nextLine());
-                    if(clientController.accessRoom(id)) {
+                    if (clientController.accessRoom(id)) {
                         inARoom = true;
-                    }
-                    else {
+                    } else {
                         System.out.println("Could not enter room, please try again");
                     }
-                    break;
-
-                case("4"):
-                    if(clientController.logout())
+                }
+                case ("4") -> {
+                    if (clientController.logout())
                         return;
                     System.out.println("Could not logout");
-                    break;
-
-                default:
-                    System.out.println("Please enter a valid choice");
+                }
+                default -> System.out.println("Please enter a valid choice");
             }
 
 
@@ -195,7 +184,6 @@ public class CLI implements UI {
     }
 
     public void gameTitle() {
-        //System.out.println(ANSIColors.CYAN_BRIGHT);
         AnsiConsole.systemInstall();
         System.out.print("""
                                                                                                                                                                      \s
@@ -234,13 +222,13 @@ public class CLI implements UI {
             int green = studentsIsland.get(Color.GREEN);
             int pink = studentsIsland.get(Color.PINK);
             int yellow = studentsIsland.get(Color.YELLOW);
-                System.out.println("    ________     \n" +
-                        "   /  "+ (cmm.getMotherNature() == i ? "M" : " ")+"     \\    \n" +
-                        "  /    " +( "T:" + cmm.getIslands().get(i).getTowers())+ "   \\   \n" +
-                        " /"+render((red < 10 ? " " : "") + red, "red") +"  "+ render((green < 10 ? " " : "") + green, "green") +"  " + render((pink < 10 ? " " : "") + pink, "pink") +"  \\  \n" +
-                        " \\  "+ render((yellow < 10 ? " " : "") + yellow, "yellow") +"  " + render((blue < 10 ? " " : "") + blue, "blue") +"    /  \n" +
-                        "  \\   " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : "") +"       /   \n" +
-                        "   \\________/ "+ i  +"   \n");
+            System.out.println("    ________     \n" +
+                    "   /        \\    \n" +
+            "  /  " + (cmm.getMotherNature() == i ? "M" : " ") +"   "+ "T:" + cmm.getIslands().get(i).getTowers() + " \\   \n" +
+                    " /     " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : " ") + "      \\   \n" +
+                    " \\"+ render((red < 10 ? " " : "") + red, Color.RED) +"  "+ render((green < 10 ? " " : "") + green, Color.GREEN) +"  " + render((pink < 10 ? " " : "") + pink, Color.PINK)+ "  /  \n" +
+            "  \\ "+ render((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + render((blue < 10 ? " " : "") + blue, Color.BLUE) +"   /  \n" +
+                    "   \\________/ "+ 1  +"   \n");
 
 
         }
@@ -248,22 +236,24 @@ public class CLI implements UI {
     }
 
     public void moves() {
-        System.out.println("   ______________________________     \n" +
-                " / \\                             \\.   \n" +
-                "|   |     What's your move?      |.   \n" +
-                " \\_ |                            |.   \n" +
-                "    |  1.PLAY_ASSISTANT_CARD     |.   \n" +
-                "    |                            |.   \n" +
-                "    |  2.MOVE_STUDENT            |.   \n" +
-                "    |                            |.   \n" +
-                "    |  3.ACTIVATE_CHARACTER_CARD |.   \n" +
-                "    |                            |.   \n" +
-                "    |  4.MOVE_MOTHER_NATURE      |.   \n" +
-                "    |                            |.   \n" +
-                "    |  5.PICK_CLOUD              |.   \n" +
-                "    |   _________________________|___ \n" +
-                "    |  /                            /.\n" +
-                "    \\_/____________________________/. \n");
+        System.out.println("""
+                   ______________________________    \s
+                 / \\                             \\.  \s
+                |   |     What's your move?      |.  \s
+                 \\_ |                            |.  \s
+                    |  1.PLAY_ASSISTANT_CARD     |.  \s
+                    |                            |.  \s
+                    |  2.MOVE_STUDENT            |.  \s
+                    |                            |.  \s
+                    |  3.ACTIVATE_CHARACTER_CARD |.  \s
+                    |                            |.  \s
+                    |  4.MOVE_MOTHER_NATURE      |.  \s
+                    |                            |.  \s
+                    |  5.PICK_CLOUD              |.  \s
+                    |   _________________________|___\s
+                    |  /                            /.
+                    \\_/____________________________/.\s
+                """);
     }
 
     public void schoolCard(ClientModelManager cmm) {
@@ -281,10 +271,10 @@ public class CLI implements UI {
 
             System.out.println("    " + cmm.getPlayers()[i].toUpperCase(Locale.ROOT) + "\n" +
                     " ___________________ \n" +
-                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? render("P", "red") : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? render("P", "blue") : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? render("P", "green") : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? render("P", "pink") : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? render("P", "yellow") : " " )+"  |\n" +
+                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? render("P", Color.RED) : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? render("P", Color.BLUE) : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? render("P", Color.GREEN) : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? render("P", Color.PINK) : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? render("P", Color.YELLOW) : " " )+"  |\n" +
                     "|-------------------|\n" +
-                    "| E: " + render((eRed < 10 ? " " : "" ) + eRed, "red") +" "+ render((eBlue < 10 ? " " : "" )+ eBlue, "blue") +" "+ render((eGreen < 10 ? " " : "") + eGreen, "green")+" "+ render((ePink < 10 ? " " : "" )+ ePink, "pink")+" "+render((eYellow < 10 ? " " : "" )+ eYellow, "yellow")+" |\n" +
-                    "|DR: " + render((drRed < 10 ? " " : "" ) + drRed, "red") +" "+ render((drBlue < 10 ? " " : "" )+ drBlue, "blue") +" "+ render((drGreen < 10 ? " " : "" )+ drGreen, "green")+" "+ render((drPink < 10 ? " " : "" )+ drPink, "pink")+" "+render((drYellow < 10 ? " " : "" )+ drYellow, "yellow")+" |\n" +
+                    "| E: " + render((eRed < 10 ? " " : "" ) + eRed, Color.RED) +" "+ render((eBlue < 10 ? " " : "" )+ eBlue, Color.BLUE) +" "+ render((eGreen < 10 ? " " : "") + eGreen, Color.GREEN)+" "+ render((ePink < 10 ? " " : "" )+ ePink, Color.PINK)+" "+render((eYellow < 10 ? " " : "" )+ eYellow, Color.YELLOW)+" |\n" +
+                    "|DR: " + render((drRed < 10 ? " " : "" ) + drRed, Color.RED) +" "+ render((drBlue < 10 ? " " : "" )+ drBlue, Color.BLUE) +" "+ render((drGreen < 10 ? " " : "" )+ drGreen, Color.GREEN)+" "+ render((drPink < 10 ? " " : "" )+ drPink, Color.PINK)+" "+render((drYellow < 10 ? " " : "" )+ drYellow, Color.YELLOW)+" |\n" +
                     "|-------------------|\n" +
                     "| $" + ((cmm.getCoins(i) < 10 ? " " : "") + cmm.getCoins(i))+"               |\n" +
                     "|___________________|\n");
@@ -302,7 +292,7 @@ public class CLI implements UI {
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
         System.out.println(ansi().render("@|bg_black,bold,fg_yellow Public Games:|@").bgDefault().fgDefault());
-        if(rooms.size() == 0) {
+        if(rooms.isEmpty()) {
             System.out.println("There are no public rooms available. \n");
         } else {
             for (RoomInfo room : rooms) {
@@ -316,9 +306,7 @@ public class CLI implements UI {
     @Override
     public void showMessage(Message message) {
         switch (message.getMessageType()) {
-            case NACK -> {
-                System.out.println("NACK");
-            }
+            case NACK -> System.out.println("NACK");
             case ADD_PLAYER -> {
                 AddPlayer ap = (AddPlayer) message;
                 System.out.println("Player " + ap.username() +" joined! ");
@@ -356,22 +344,13 @@ public class CLI implements UI {
         System.out.flush();
     }
 
-    public Object render(Object object, String color){
-        switch(color){
-            case("red"):
-                return ansi().fgBrightRed().a(object).fgDefault();
-            case("blue"):
-                return ansi().fgBrightCyan().a(object).fgDefault();
-            case("green"):
-                return ansi().fgBrightGreen().a(object).fgDefault();
-            case("pink"):
-                return ansi().fgBrightMagenta().a(object).fgDefault();
-            case("yellow"):
-                return ansi().fgBrightYellow().a(object).fgDefault();
-            default:
-                return ansi().fgDefault();
-
-        }
+    public Object render(Object object, Color color){
+        return switch (color) {
+            case RED -> ansi().fgBrightRed().a(object).fgDefault();
+            case BLUE -> ansi().fgBrightCyan().a(object).fgDefault();
+            case GREEN -> ansi().fgBrightGreen().a(object).fgDefault();
+            case PINK -> ansi().fgBrightMagenta().a(object).fgDefault();
+            case YELLOW -> ansi().fgBrightYellow().a(object).fgDefault();
+        };
     }
-
 }
