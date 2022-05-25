@@ -11,15 +11,13 @@ import java.util.Scanner;
 
 public class ClientMain {
 
-    private final static String errorValid = "\nERROR: please insert a valid integer.\n";
+    private final static String ERROR_VALID = "\nERROR: please insert a valid integer.\n";
     /**
      * Server program entry point, starts cli or gui
      * @param args used to choose between CLI and GUI.
      */
     public static void notmain(String[] args) {
         boolean viewModeArg = false;
-        boolean enablePing = true;
-
         int viewModeChoice = -1;
 
         ArrayList<String> argsToForward = new ArrayList<>();
@@ -64,13 +62,13 @@ public class ClientMain {
                 try {
                     viewModeChoice = input.nextInt();
                     if (viewModeChoice != 1 && viewModeChoice != 2) {
-                        System.out.println(errorValid);
+                        System.out.println(ERROR_VALID);
                     } else {
                         continueInput = false;
                     }
 
                 } catch (InputMismatchException e) {
-                    System.out.println(errorValid);
+                    System.out.println(ERROR_VALID);
                 }
 
             }

@@ -200,7 +200,6 @@ public class NetworkHandler implements Runnable{
             return true;
         }
 
-        System.out.println("Could not login: name already taken");
         return false;
     }
 
@@ -216,7 +215,6 @@ public class NetworkHandler implements Runnable{
 
     boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
         Message returnValue = occupy(new AccessRoom(id));
-        //System.out.println(returnValue.getMessageType());
         return returnValue.getMessageType() == MessageType.ACK;
     }
 
@@ -230,12 +228,14 @@ public class NetworkHandler implements Runnable{
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     Thread.currentThread().interrupt();
+                    lockAnswer.notifyAll();
                     return -1;
                 }
             }
 
             int id = ((RoomId) answer).id();
             answer = null;
+            lockAnswer.notifyAll();
             return id;
         }
     }

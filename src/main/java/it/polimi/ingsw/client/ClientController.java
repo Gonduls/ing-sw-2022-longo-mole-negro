@@ -66,8 +66,9 @@ public class ClientController {
                     cmm.putSHInCharacterCard(s.getIndexes().clone());
 
                 synchronized (cmm){
-                    ui.createGameView(numberOfPlayers, expert, cmm);
+                    ui.createGame(numberOfPlayers, expert, cmm);
                 }
+                System.out.println("Started game!");
             }
             case PLAY_ASSISTANT_CARD -> {
                 // todo: display activated assistant cards
@@ -122,10 +123,6 @@ public class ClientController {
 
     void showMessage(Message message){
         ui.showMessage(message);
-    }
-
-    void createGameView(){
-        ui.createGameView(players.length, expertGame, this.cmm);
     }
 
     public GamePhase getPhase() {

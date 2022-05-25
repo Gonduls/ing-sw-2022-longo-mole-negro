@@ -12,5 +12,5 @@ public interface UI {
     void printStatus();
     void showPublicRooms(List<RoomInfo> rooms);
     void showMessage(Message message);
-    void createGameView(int numberOfPlayers, boolean expert, ClientModelManager cmm);
+    void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm);
 }

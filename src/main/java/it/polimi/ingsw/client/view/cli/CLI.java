@@ -87,11 +87,6 @@ public class CLI implements UI {
             else
                 return;
         } while(true);
-        //todo: createGameView();
-        //where do I get the infos?
-
-
-
     }
 
     public void preGame(){
@@ -130,6 +125,7 @@ public class CLI implements UI {
                         clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
                         break;
                     }
+                    printClear();
                     if (playersNumber == 0) {
                         clientController.getPublicRooms(new GetPublicRooms());
                         break;
@@ -167,7 +163,10 @@ public class CLI implements UI {
                         return;
                     System.out.println("Could not logout");
                 }
-                default -> System.out.println("Please enter a valid choice");
+                default -> {
+                    printClear();
+                    System.out.println("Please enter a valid choice");
+                }
             }
 
 
@@ -176,10 +175,10 @@ public class CLI implements UI {
     }
 
     public void game() {
-        try{
-            TimeUnit.SECONDS.sleep(5);
-        } catch (InterruptedException ignored){
-            System.out.println("problems in waiting");
+         while(true){
+            if(input.nextLine().equals("close"))
+                return;
+            System.out.println(cmm);
         }
     }
 
@@ -224,11 +223,11 @@ public class CLI implements UI {
             int yellow = studentsIsland.get(Color.YELLOW);
             System.out.println("    ________     \n" +
                     "   /        \\    \n" +
-            "  /  " + (cmm.getMotherNature() == i ? "M" : " ") +"   "+ "T:" + cmm.getIslands().get(i).getTowers() + " \\   \n" +
+            "  /  " + (cmm.getMotherNature() == i ? "M" : " ") +"  "+ "T:" + cmm.getIslands().get(i).getTowers() + "  \\   \n" +
                     " /     " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : " ") + "      \\   \n" +
-                    " \\"+ render((red < 10 ? " " : "") + red, Color.RED) +"  "+ render((green < 10 ? " " : "") + green, Color.GREEN) +"  " + render((pink < 10 ? " " : "") + pink, Color.PINK)+ "  /  \n" +
-            "  \\ "+ render((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + render((blue < 10 ? " " : "") + blue, Color.BLUE) +"   /  \n" +
-                    "   \\________/ "+ 1  +"   \n");
+                    " \\ "+ render((red < 10 ? " " : "") + red, Color.RED) +"  "+ render((green < 10 ? " " : "") + green, Color.GREEN) +"  " + render((pink < 10 ? " " : "") + pink, Color.PINK)+ " /  \n" +
+            "  \\  "+ render((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + render((blue < 10 ? " " : "") + blue, Color.BLUE) +"  /  \n" +
+                    "   \\________/ "+ i  +"   \n");
 
 
         }
@@ -281,7 +280,6 @@ public class CLI implements UI {
         }
     }
 
-
     @Override
     public void printStatus() {
         printClear();
@@ -322,8 +320,9 @@ public class CLI implements UI {
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
-                System.out.println("Player " + pd.username() + " has left the room \n" +
-                        "Please, return to Lobby. ");
+                System.out.println("Player " + pd.username() + " has left the room \n" +"Press anything to return to Lobby. ");
+                input.nextLine();
+                // todo: kill "game process"
             }
             default ->
                 System.out.print(message.getMessageType());
@@ -332,7 +331,7 @@ public class CLI implements UI {
     }
 
     @Override
-    public void createGameView(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
         this.cmm = cmm;
         islandPrint(cmm.getIslands().size(), cmm);
         schoolCard(cmm);
