@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.client.view.ClientIsland;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
@@ -270,53 +271,10 @@ public class ClientModelManager {
         return islands.get(islandIndex).getStudents();
     }
 
+    //
     public int getNoEntries() {
         return noEntries;
     }
 }
 
-class ClientIsland{
-    private final EnumMap<Color, Integer> students;
-    private int towers, noEntry;
-    private TowerColor tc;
 
-    ClientIsland(){
-        students = new EnumMap<>(Color.class);
-        for(Color color : Color.values())
-            students.put(color, 0);
-        noEntry = 0;
-        towers = 0;
-    }
-
-    public EnumMap<Color, Integer> getStudents() {
-        return students;
-    }
-
-    public int getNoEntry() {
-        return noEntry;
-    }
-
-    public int getTowers() {
-        return towers;
-    }
-
-    public TowerColor getTc() {
-        return tc;
-    }
-
-    public void addNoEntry() {
-        noEntry ++;
-    }
-
-    public void removeNoEntry() {
-        noEntry --;
-    }
-
-    public void setTc(TowerColor tc) {
-        this.tc = tc;
-    }
-
-    public void setTowers(int towers) {
-        this.towers = towers;
-    }
-}

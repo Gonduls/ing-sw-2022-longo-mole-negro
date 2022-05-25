@@ -1,11 +1,15 @@
 package it.polimi.ingsw.client.view.cli;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.client.ConfigServer;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.Color;
@@ -29,7 +33,6 @@ public class CLI implements UI {
     }
 
     public void start(){
-        //todo: de-commentare sotto
         AnsiConsole.systemInstall();
         printClear();
 
@@ -37,7 +40,19 @@ public class CLI implements UI {
         gameTitle();
         String ipAddress;
         int serverPort;
-        do{
+
+
+        try{
+            Gson gson = new Gson();
+            ConfigServer config = gson.fromJson( new String(Files.readAllBytes(Paths.get("config.json"))), ConfigServer.class);
+            if(config != null) {
+                clientController = new ClientController(this, config.getAddress(), config.getPort());
+            }
+        } catch (IOException e){
+            clientController = null;
+        }
+
+        while (clientController == null){
             System.out.println("Insert the Server IP: ");
             ipAddress = input.nextLine();
             System.out.println("Insert the Server Port: ");
@@ -48,7 +63,7 @@ public class CLI implements UI {
             } catch (IOException e){
                 System.out.println("Could not connect");
             }
-        } while (clientController == null);
+        }
 
         boolean login = false;
         do {
