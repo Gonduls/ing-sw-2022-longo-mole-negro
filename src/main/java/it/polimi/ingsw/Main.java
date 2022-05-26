@@ -8,6 +8,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         boolean server = false;
+        ClientMain.notmain(args);
 
         for(String s : args){
             if(s.startsWith("-s")){

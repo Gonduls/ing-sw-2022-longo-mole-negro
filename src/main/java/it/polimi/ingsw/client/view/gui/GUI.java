@@ -11,12 +11,12 @@ import java.util.List;
 
 public class GUI extends Application implements UI{
 
-    public static void main(String args[]){
-        Login.main(args);
-    }
+    public static void main(String[] args) {launch();}
 
     @Override
     public void start(Stage stage) throws Exception {
+
+        stage.show();
 
     }
 
@@ -39,6 +39,7 @@ public class GUI extends Application implements UI{
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
 
     }
+
 
 
 }
