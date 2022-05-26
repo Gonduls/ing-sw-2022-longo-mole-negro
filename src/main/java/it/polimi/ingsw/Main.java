@@ -1,14 +1,15 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.client.ClientMain;
+import it.polimi.ingsw.client.view.gui.Login;
 import it.polimi.ingsw.server.Lobby;
+import javafx.application.Application;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         boolean server = false;
-        ClientMain.notmain(args);
 
         for(String s : args){
             if(s.startsWith("-s")){

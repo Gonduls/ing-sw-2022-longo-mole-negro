@@ -5,8 +5,6 @@ module PSP3 {
     requires org.jline.style;
     requires org.fusesource.jansi;
 
-
-    opens it.polimi.ingsw.client.view.gui to javafx.fxml;
-    exports it.polimi.ingsw.client.view.gui;
-
+    exports it.polimi.ingsw.client.view.gui to javafx.graphics;
+    exports it.polimi.ingsw.client.view.gui.controller to javafx.fxml;
 }

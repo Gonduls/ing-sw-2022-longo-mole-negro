@@ -3,14 +3,11 @@ package it.polimi.ingsw.client;
 
 import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.gui.GUI;
-import it.polimi.ingsw.client.view.gui.Login;
 import javafx.application.Application;
 
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-
-import static javafx.application.Application.launch;
 
 public class ClientMain {
 
@@ -89,7 +86,7 @@ public class ClientMain {
                 cli.start();
                 break;
             case 2:
-                launch(Login.class, argsString);
+                Application.launch(GUI.class, argsString);
                 break;
             default:
                 System.out.println("ERROR: please insert a valid integer.");
