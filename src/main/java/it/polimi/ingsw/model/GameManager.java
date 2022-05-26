@@ -30,14 +30,17 @@ public class GameManager {
      * @param players: an array of all playing players, already instantiated and owning a school with entrances yet to initialize
      * @param expert: flag that signals if the game is in expert mode or not
      */
-    public GameManager(Player[] players, boolean expert) {
+    public GameManager(Player[] players, boolean expert,ModelObserver modelObserver) {
         int size = players.length;
         this.players = players;
         this.expert=expert;
-
         bag = new Bag();
         professors = new Professors();
         board = new Board();
+
+        this.setModelObserver(modelObserver);
+
+
         clouds = new Cloud[size];
         for (int i = 0; i < size; i++) {
             clouds[i] = new Cloud(size == 3 ? 4 : 3, bag);
@@ -114,6 +117,13 @@ public class GameManager {
             for (Player player : players) {
                 School school = player.getSchool();
                 school.initializeEntrances(bag, players.length == 3);
+
+                for( Color color: Color.values()){
+                    for(int i=0;i<player.getSchool().getStudentsAtEntrance().getStudentByColor(color);i++){
+                        modelObserver.addStudentToEntrance(player.getPlayerNumber(), color);
+                    }
+                }
+
                 StudentHolder tables = school.getStudentsAtTables();
                 tables.attach(new ProfessorsObserver(player, professors));
                 tables.attach(new CoinObserver(player));
@@ -217,13 +227,21 @@ public class GameManager {
      * It refills all clouds, taking random students from the bag
      */
     public void refillClouds() {
+        int i =0;
         for(Cloud cloud : clouds){
             try{
                 cloud.refill();
+                for(Color color: Color.values()){
+                    if (cloud.getStudentByColor(color) >0 ){
+                        modelObserver.addStudentToCloud(i, color);
+                    }
+
+                }
             }
             catch (NoSpaceForStudentException e){
                 System.out.println("Someone called refill clouds without all of them being empty");
             }
+            i++; //this is dumb
         }
     }
 
@@ -575,6 +593,7 @@ public class GameManager {
         for(int i=0; i<12;i++){
             if(isCardActive(i)){
                 cardIndexes[j]=i;
+                j++;
             }
         }
 

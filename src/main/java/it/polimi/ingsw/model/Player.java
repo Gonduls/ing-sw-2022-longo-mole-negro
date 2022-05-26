@@ -116,7 +116,8 @@ public class Player {
      * Adds a coin to the ones owned by the player
      */
     public void addCoin() {
-        coinsOwned ++;
+        coinsOwned++;
+        modelObserver.addCoin(this.playerNumber);
     }
 
     /**

@@ -104,8 +104,16 @@ public class ModelObserver {
     }
 
     public void addCoin(int playerNumber){
-        //todo create the record
+        room.sendBroadcast(new AddCoin(playerNumber));
     }
 
+    public void addStudentToEntrance(int playerNumber, Color color){
+        room.sendBroadcast(new AddStudentTo("ENTRANCE:"+playerNumber, color));
+    }
+
+    public void addStudentToCloud(int cloudIndex, Color color){
+        room.sendBroadcast(new AddStudentTo("CLOUD:"+cloudIndex, color));
+
+    }
 
 }

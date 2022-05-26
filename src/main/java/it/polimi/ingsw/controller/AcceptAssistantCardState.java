@@ -62,8 +62,6 @@ public class AcceptAssistantCardState extends GameState {
             player.pickCard(cardPlayed);
         }
 
-
-
         cardsPlayedThisTurn[context.getNumberOfPlayers()- numberOfEvents ] = cardPlayed;
 
         //this sets the playing order

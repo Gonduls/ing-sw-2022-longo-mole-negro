@@ -65,26 +65,16 @@ public class RoundController {
             }
         }
         playingOrderIndex=0;
-        gameManager= new GameManager(this.seatedPlayers, expertMode);
-        gameManager.setModelObserver(new ModelObserver(room));
+        gameManager= new GameManager(this.seatedPlayers, expertMode,new ModelObserver(room));
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
 
         if(expertMode) {
             room.sendBroadcast(new StartGame(gameManager.getIdCards()));
         } else {
             room.sendBroadcast(new StartGame(null));
-
         }
-
         room.sendBroadcast(new ChangeTurn(playingOrder.get(playingOrderIndex).getPlayerNumber()));
-
         room.sendBroadcast(new ChangePhase(GamePhase.PLANNING_PHASE));
-
-        //
-        //currentPlayingPlayer = new Random().nextInt(seatedPlayers.length);
-
-
-
     }
 
     void changeState(GameState newGameState) {

@@ -24,8 +24,7 @@ class GameManagerTest {
     void testEmptyCloudInPlayer() {
 
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
-        GameManager game = new GameManager(players, false);
-        game.setModelObserver(modelObserver);
+        GameManager game = new GameManager(players, false,modelObserver);
         int sum = 0;
 
         try{game.emptyCloudInPlayer(1, players[0]);} catch (NoSpaceForStudentException e) {assert false;} catch (NoSuchStudentException e1) {assert true;}
@@ -52,8 +51,7 @@ class GameManagerTest {
     @Test
     void testMoveMotherNature() {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
-        GameManager game = new GameManager(players, false);
-        game.setModelObserver(modelObserver);
+        GameManager game = new GameManager(players, false,modelObserver);
 
         Color savedColor = Color.RED;
 
@@ -101,8 +99,7 @@ class GameManagerTest {
     void testMoveStudentFromEntranceToIsland() {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
 
-        GameManager game = new GameManager(players, false);
-        game.setModelObserver(modelObserver);
+        GameManager game = new GameManager(players, false,modelObserver);
 
         if(game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(Color.RED) == 0) {
             try {
@@ -133,8 +130,7 @@ class GameManagerTest {
     @Test
     void testMoveStudentFromEntranceToTable() {
         Player[] players = new Player[]{new Player(0, "tizio", false), new Player(1, "caio", false)};
-        GameManager game = new GameManager(players, false);
-        game.setModelObserver(modelObserver);
+        GameManager game = new GameManager(players, false,modelObserver);
 
         int sumEntrance = 0;
         int sumTables = 0;
