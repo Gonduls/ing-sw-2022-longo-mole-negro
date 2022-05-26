@@ -31,13 +31,10 @@ public class GUI extends Application implements UI{
 
     }
 
-    private void setPreLoginScene() throws IOException {
-        /*FXMLLoader loaderPreLogin = new FXMLLoader(getClass().getResource("/fxml/PreLogin.fxml"));
-        Scene preLoginScene = new Scene(loaderPreLogin.load());
-        preLoginController = loaderStartingScene.getController();
-        preLoginController.setGui(this);
-        preLoginController.start();*/
+    public void connectionScene() {
+
     }
+
 
     @Override
     public void printStatus() {

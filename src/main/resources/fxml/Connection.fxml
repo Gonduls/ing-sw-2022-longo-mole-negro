@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="it.polimi.ingsw.client.view.gui.controller.ConnectionController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="myImageView" fitHeight="477.0" fitWidth="629.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/EriantysText.png" />
+         </image>
+      </ImageView>
+      <AnchorPane fx:id="anchorTextButton" layoutX="131.0" layoutY="150.0" prefHeight="236.0" prefWidth="215.0">
+         <children>
+            <Label fx:id="labelServerIP" layoutX="33.0" layoutY="28.0" text="Server IP" />
+            <TextField fx:id="textServerIP" layoutX="33.0" layoutY="45.0" text="localhost" />
+            <Label fx:id="labelServerPort" layoutX="33.0" layoutY="92.0" text="Server Port" />
+            <TextField fx:id="textServerPort" layoutX="33.0" layoutY="109.0" text="9999" />
+            <Button fx:id="continueButton" layoutX="75.0" layoutY="167.0" mnemonicParsing="false" onAction="#onClickContinue" text="Continue" />
+         </children>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </AnchorPane>
+   </children>
 </AnchorPane>
