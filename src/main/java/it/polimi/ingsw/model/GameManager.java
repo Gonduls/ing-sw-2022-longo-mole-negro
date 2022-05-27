@@ -63,6 +63,7 @@ public class GameManager {
                         continue;
                     }
 
+                    modelObserver.notifyCharacterCard(randomInt);
                     switch (randomInt) {
                         case 0:
                             activeCards.add(new CharacterCardZero(bag));
@@ -106,6 +107,8 @@ public class GameManager {
 
                 }
             }
+
+
 
         }
         else{

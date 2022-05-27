@@ -42,6 +42,8 @@ public class AcceptAssistantCardState extends GameState {
         PlayAssistantCardEvent eventCast = (PlayAssistantCardEvent) event;
 
         AssistantCard cardPlayed = eventCast.getAssistantCard();
+
+        System.out.println(eventCast.getPlayerName());
         Player player = context.getPlayerByUsername(eventCast.getPlayerName());
 
 

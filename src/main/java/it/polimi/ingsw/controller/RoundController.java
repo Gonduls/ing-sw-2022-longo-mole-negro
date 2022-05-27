@@ -56,6 +56,13 @@ public class RoundController {
         this.room = room;
 
 
+        //if(expertMode) {
+       //     room.sendBroadcast(new StartGame(gameManager.getIdCards()));
+        //} else {
+            room.sendBroadcast(new StartGame(null));
+       // }
+
+
         for(int i=0; i<playersNames.length; i++){
             this.seatedPlayers[i] = new Player(i, playersNames[i], playersNames.length == 3);
             if(new Random().nextBoolean()){
@@ -68,11 +75,7 @@ public class RoundController {
         gameManager= new GameManager(this.seatedPlayers, expertMode,new ModelObserver(room));
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
 
-        if(expertMode) {
-            room.sendBroadcast(new StartGame(gameManager.getIdCards()));
-        } else {
-            room.sendBroadcast(new StartGame(null));
-        }
+
         room.sendBroadcast(new ChangeTurn(playingOrder.get(playingOrderIndex).getPlayerNumber()));
         room.sendBroadcast(new ChangePhase(GamePhase.PLANNING_PHASE));
     }
@@ -95,7 +98,7 @@ public class RoundController {
     public void handleEvent(GameEvent event) throws Exception {
 
 
-        if(!Objects.equals(event.getPlayerName(), playingOrder.get(playingOrderIndex).getUsername())){
+        if( !playingOrder.get(playingOrderIndex).getUsername().equals(event.getPlayerName())){
             throw new Exception("It's not your turn");
         }
 

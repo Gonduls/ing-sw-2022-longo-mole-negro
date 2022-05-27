@@ -12,6 +12,7 @@ public enum MessageType {
     ACCESS_ROOM,
     ADD_PLAYER,
     START_GAME,
+    NOTIFY_CHARACTER_CARD,
     MOVE_STUDENT,
     ADD_STUDENT_TO,
     MOVE_TOWERS,

@@ -4,8 +4,6 @@ import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 
-import java.io.IOException;
-
 public class ModelObserver {
     Room room;
 
@@ -115,5 +113,11 @@ public class ModelObserver {
         room.sendBroadcast(new AddStudentTo("CLOUD:"+cloudIndex, color));
 
     }
+
+    public void notifyCharacterCard(int card){
+        room.sendBroadcast(new NotifyCharacterCard(card));
+    }
+
+
 
 }

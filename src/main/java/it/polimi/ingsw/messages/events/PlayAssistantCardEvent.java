@@ -20,7 +20,7 @@ public class PlayAssistantCardEvent extends GameEvent {
 
     @Override
     public String getPlayerName() {
-        return null;
+        return playerName;
     }
 
     public AssistantCard getAssistantCard(){
