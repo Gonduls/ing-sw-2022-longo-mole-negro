@@ -28,7 +28,8 @@ public class CLI implements UI {
     private String username;
     boolean inARoom = false;
     int playersNumber;
-    ClientModelManager cmm;
+    private ClientModelManager cmm;
+    private BoardStatus bs;
 
     public CLI() {
         this.output = System.out;
@@ -281,9 +282,14 @@ public class CLI implements UI {
     }
 
     @Override
+    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+        this.cmm = cmm;
+        this.bs = new BoardStatus(numberOfPlayer, expert);
+    }
+
+    @Override
     public void printStatus() {
         printClear();
-        islandPrint(12, cmm);
 
     }
 
@@ -327,14 +333,6 @@ public class CLI implements UI {
             default ->
                 System.out.print(message.getMessageType());
         }
-
-    }
-
-    @Override
-    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
-        this.cmm = cmm;
-        islandPrint(cmm.getIslands().size(), cmm);
-        schoolCard(cmm);
 
     }
 

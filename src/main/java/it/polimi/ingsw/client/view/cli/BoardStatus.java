@@ -1,5 +1,7 @@
 package it.polimi.ingsw.client.view.cli;
 
+import it.polimi.ingsw.client.ClientModelManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,11 +9,9 @@ public class BoardStatus {
     private final Coordinates[] clouds, schools;
     private final Coordinates infoTurn, infoCards;
     private final List<Coordinates> islands;
-    private final boolean expert;
     private final int[] islandsRemove;
 
-    public BoardStatus(int numberOfPlayers, boolean expert){
-        this.expert = expert;
+public BoardStatus(int numberOfPlayers, boolean expert){
         islands = new ArrayList<>();
         clouds = new Coordinates[numberOfPlayers];
         schools = new Coordinates[numberOfPlayers];
@@ -93,4 +93,25 @@ public class BoardStatus {
         }
     }
 
+    public void merge(){
+        islands.remove(islandsRemove[islands.size() - 2]);
+    }
+
+    public List<Coordinates> getIslands() {
+        return islands;
+    }
+
+    public void printStatus(ClientModelManager cmm){
+        printClouds(cmm);
+        printIslands(cmm);
+        printSchools(cmm);
+        printInfo(cmm);
+        printCards(cmm);
+    }
+
+    public void printIslands(ClientModelManager cmm){}
+    public void printSchools(ClientModelManager cmm){}
+    public void printClouds(ClientModelManager cmm){}
+    public void printInfo(ClientModelManager cmm){}
+    public void printCards(ClientModelManager cmm){}
 }
