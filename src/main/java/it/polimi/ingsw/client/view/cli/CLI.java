@@ -1,9 +1,9 @@
 package it.polimi.ingsw.client.view.cli;
+
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.client.ClientController;
@@ -12,9 +12,7 @@ import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.ConfigServer;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
-import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.server.RoomInfo;
-import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 
@@ -214,7 +212,7 @@ public class CLI implements UI {
 
     }
 
-    public void islandPrint(int islandIndex, ClientModelManager cmm) {
+    /*public void islandPrint(int islandIndex, ClientModelManager cmm) {
         for(int i = 0; i < islandIndex; i++) {
             EnumMap<Color, Integer> studentsIsland = cmm.getStudentsInIsland(i);
             int red = studentsIsland.get(Color.RED);
@@ -226,16 +224,16 @@ public class CLI implements UI {
                     "   /        \\    \n" +
             "  /  " + (cmm.getMotherNature() == i ? "M" : " ") +"  "+ "T:" + cmm.getIslands().get(i).getTowers() + "  \\   \n" +
                     " /     " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : " ") + "      \\   \n" +
-                    " \\ "+ render((red < 10 ? " " : "") + red, Color.RED) +"  "+ render((green < 10 ? " " : "") + green, Color.GREEN) +"  " + render((pink < 10 ? " " : "") + pink, Color.PINK)+ " /  \n" +
-            "  \\  "+ render((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + render((blue < 10 ? " " : "") + blue, Color.BLUE) +"  /  \n" +
+                    " \\ "+ renderColor((red < 10 ? " " : "") + red, Color.RED) +"  "+ renderColor((green < 10 ? " " : "") + green, Color.GREEN) +"  " + renderColor((pink < 10 ? " " : "") + pink, Color.PINK)+ " /  \n" +
+            "  \\  "+ renderColor((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + renderColor((blue < 10 ? " " : "") + blue, Color.BLUE) +"  /  \n" +
                     "   \\________/ "+ i  +"   \n");
 
 
         }
 
-    }
+    }*/
 
-    public void moves() {
+    /*public void moves() {
         System.out.println("""
                    ______________________________    \s
                  / \\                             \\.  \s
@@ -254,9 +252,9 @@ public class CLI implements UI {
                     |  /                            /.
                     \\_/____________________________/.\s
                 """);
-    }
+    }*/
 
-    public void schoolCard(ClientModelManager cmm) {
+    /*public void schoolCard(ClientModelManager cmm) {
         for(int i = 0; i < cmm.getPlayers().length; i++) {
             int eRed = cmm.getEntrance(i).get(Color.RED);
             int eBlue = cmm.getEntrance(i).get(Color.BLUE);
@@ -271,15 +269,15 @@ public class CLI implements UI {
 
             System.out.println("    " + cmm.getPlayers()[i].toUpperCase(Locale.ROOT) + "\n" +
                     " ___________________ \n" +
-                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? render("P", Color.RED) : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? render("P", Color.BLUE) : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? render("P", Color.GREEN) : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? render("P", Color.PINK) : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? render("P", Color.YELLOW) : " " )+"  |\n" +
+                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? renderColor("P", Color.RED) : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? renderColor("P", Color.BLUE) : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? renderColor("P", Color.GREEN) : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? renderColor("P", Color.PINK) : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? renderColor("P", Color.YELLOW) : " " )+"  |\n" +
                     "|-------------------|\n" +
-                    "| E: " + render((eRed < 10 ? " " : "" ) + eRed, Color.RED) +" "+ render((eBlue < 10 ? " " : "" )+ eBlue, Color.BLUE) +" "+ render((eGreen < 10 ? " " : "") + eGreen, Color.GREEN)+" "+ render((ePink < 10 ? " " : "" )+ ePink, Color.PINK)+" "+render((eYellow < 10 ? " " : "" )+ eYellow, Color.YELLOW)+" |\n" +
-                    "|DR: " + render((drRed < 10 ? " " : "" ) + drRed, Color.RED) +" "+ render((drBlue < 10 ? " " : "" )+ drBlue, Color.BLUE) +" "+ render((drGreen < 10 ? " " : "" )+ drGreen, Color.GREEN)+" "+ render((drPink < 10 ? " " : "" )+ drPink, Color.PINK)+" "+render((drYellow < 10 ? " " : "" )+ drYellow, Color.YELLOW)+" |\n" +
+                    "| E: " + renderColor((eRed < 10 ? " " : "" ) + eRed, Color.RED) +" "+ renderColor((eBlue < 10 ? " " : "" )+ eBlue, Color.BLUE) +" "+ renderColor((eGreen < 10 ? " " : "") + eGreen, Color.GREEN)+" "+ renderColor((ePink < 10 ? " " : "" )+ ePink, Color.PINK)+" "+renderColor((eYellow < 10 ? " " : "" )+ eYellow, Color.YELLOW)+" |\n" +
+                    "|DR: " + renderColor((drRed < 10 ? " " : "" ) + drRed, Color.RED) +" "+ renderColor((drBlue < 10 ? " " : "" )+ drBlue, Color.BLUE) +" "+ renderColor((drGreen < 10 ? " " : "" )+ drGreen, Color.GREEN)+" "+ renderColor((drPink < 10 ? " " : "" )+ drPink, Color.PINK)+" "+renderColor((drYellow < 10 ? " " : "" )+ drYellow, Color.YELLOW)+" |\n" +
                     "|-------------------|\n" +
                     "| $" + ((cmm.getCoins(i) < 10 ? " " : "") + cmm.getCoins(i))+"               |\n" +
                     "|___________________|\n");
         }
-    }
+    }*/
 
     @Override
     public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
@@ -289,8 +287,9 @@ public class CLI implements UI {
 
     @Override
     public void printStatus() {
-        printClear();
-
+        if(clientController.getPlayingPlayer() == -1)
+            return;
+        bs.printStatus(cmm, clientController);
     }
 
     @Override
@@ -341,13 +340,5 @@ public class CLI implements UI {
         System.out.flush();
     }
 
-    public Object render(Object object, Color color){
-        return switch (color) {
-            case RED -> ansi().fgBrightRed().a(object).fgDefault();
-            case BLUE -> ansi().fgBrightCyan().a(object).fgDefault();
-            case GREEN -> ansi().fgBrightGreen().a(object).fgDefault();
-            case PINK -> ansi().fgBrightMagenta().a(object).fgDefault();
-            case YELLOW -> ansi().fgBrightYellow().a(object).fgDefault();
-        };
-    }
+
 }

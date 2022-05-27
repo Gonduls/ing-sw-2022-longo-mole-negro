@@ -5,12 +5,14 @@ import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.RoomInfo;
+import javafx.print.PageLayout;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ClientController {
-    private int playingPlayer;
+    private int playingPlayer = -1;
     private final UI ui;
     final NetworkHandler nh;
     private ClientModelManager cmm;
@@ -18,6 +20,8 @@ public class ClientController {
     private String username;
     private boolean expertGame;
     private GamePhase phase;
+    private int[] assistantCardsPlayed;
+    private int activeCharachterCard;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -62,40 +66,46 @@ public class ClientController {
                     numberOfPlayers = 4;
                 }
 
-                if(expert)
-                    cmm.putSHInCharacterCard(s.getIndexes().clone());
-
                 synchronized (cmm){
                     ui.createGame(numberOfPlayers, expert, cmm);
                 }
                 System.out.println("Started game!");
             }
+            case NOTIFY_CHARACTER_CARD -> {
+                NotifyCharacterCard ncc = (NotifyCharacterCard) message;
+                cmm.putSHInCharacterCard(ncc.card());
+            }
             case PLAY_ASSISTANT_CARD -> {
-                // todo: display activated assistant cards
                 PlayAssistantCard pac = (PlayAssistantCard) message;
                 if(players[pac.player()].equals(username)){
                     synchronized (cmm){
                         updateCModel(pac);
                     }
                 }
+                assistantCardsPlayed[pac.player()] = pac.assistantCard().getValue();
+                ui.printStatus();
             }
             case ACTIVATE_CHARACTER_CARD -> {
-                // todo: display activated character cards
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
                 if(players[acc.player()].equals(username)){
                     synchronized (cmm){
                         updateCModel(acc);
                     }
                 }
+                activeCharachterCard = acc.characterCardIndex();
+                ui.printStatus();
             }
             case CHANGE_PHASE -> {
                 ChangePhase c = (ChangePhase) message;
                 phase = c.gamePhase();
+                if(c.gamePhase() == GamePhase.PLANNING_PHASE)
+                    assistantCardsPlayed = new int[4];
                 ui.printStatus();
             }
             case CHANGE_TURN -> {
                 ChangeTurn c = (ChangeTurn) message;
                 playingPlayer = c.playingPlayer();
+                activeCharachterCard = -1;
                 ui.printStatus();
             }
             case END_GAME -> ui.showMessage(message);
@@ -162,5 +172,26 @@ public class ClientController {
         }catch (IOException e) {
             System.out.println("There was an error getting public rooms!");
         }
+    }
+
+    public int getPlayingPlayer() {
+        return playingPlayer;
+    }
+
+    public List<String> getActions(){
+        // todo: define possible actions based on phase (Or use jline)
+        return new ArrayList<>();
+    }
+
+    public int[] getAssistantCardsPlayed() {
+        return assistantCardsPlayed;
+    }
+
+    public int getActiveCharachterCard() {
+        return activeCharachterCard;
+    }
+
+    public String[] getPlayers() {
+        return players;
     }
 }

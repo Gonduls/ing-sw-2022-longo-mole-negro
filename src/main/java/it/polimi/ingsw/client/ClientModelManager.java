@@ -75,25 +75,19 @@ public class ClientModelManager {
         }
     }
 
-    void putSHInCharacterCard(int[] indexes) {
-        this.characterStudents[0] = CharacterCard.hasStudentHolder(indexes[0]) ? new EnumMap<>(Color.class) : null;
-        this.characterStudents[1] = CharacterCard.hasStudentHolder(indexes[1]) ? new EnumMap<>(Color.class) : null;
-        this.characterStudents[2] = CharacterCard.hasStudentHolder(indexes[2]) ? new EnumMap<>(Color.class) : null;
+    void putSHInCharacterCard(int card) {
+        int index =characterCardsIndexes.size();
+        characterCardsIndexes.put(card, index);
 
-        for(int i = 0; i< 3; i++){
-            if(characterStudents[i] != null){
-                for(Color color : Color.values()){
-                    characterStudents[i].put(color, 0);
-                }
+        if(CharacterCard.hasStudentHolder(card)){
+            this.characterStudents[index] = new EnumMap<>(Color.class);
+            for(Color color : Color.values()){
+                characterStudents[index].put(color, 0);
             }
         }
 
-        characterCardsIndexes.put(indexes[0], 0);
-        characterCardsIndexes.put(indexes[1], 1);
-        characterCardsIndexes.put(indexes[2], 2);
-        if(indexes[0] == 5 || indexes[1] == 5 || indexes[2] == 5){
+        if(card == 5)
             noEntries = 4;
-        }
     }
 
     public Map<Color, Integer> getEntrance(int playerIndex) {
@@ -265,7 +259,7 @@ public class ClientModelManager {
             case ("CLOUD") -> clouds[index];
             case ("ENTRANCE") -> entrances[index];
             case ("DININGROOM") -> diningRooms[index];
-            case ("CHARACTERCARD") -> characterStudents[index];
+            case ("CHARACTERCARD") -> characterStudents[characterCardsIndexes.get(index)];
             default -> null;
         };
     }
