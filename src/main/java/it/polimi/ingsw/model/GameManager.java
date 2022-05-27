@@ -63,43 +63,45 @@ public class GameManager {
                         continue;
                     }
 
+                }
+
                     modelObserver.notifyCharacterCard(randomInt);
                     switch (randomInt) {
                         case 0:
-                            activeCards.add(new CharacterCardZero(bag));
+                            activeCards.add(new CharacterCardZero(bag,modelObserver));
                             break;
                         case 1:
-                            activeCards.add(new CharacterCardOne());
+                            activeCards.add(new CharacterCardOne(modelObserver));
                             break;
                         case 2:
-                            activeCards.add(new CharacterCardTwo(bag));
+                            activeCards.add(new CharacterCardTwo(bag,modelObserver));
                             break;
                         case 3:
-                            activeCards.add(new CharacterCardThree());
+                            activeCards.add(new CharacterCardThree(modelObserver));
                             break;
                         case 4:
                             //todo
                             break;
                         case 5:
-                            activeCards.add(new CharacterCardFive());
+                            activeCards.add(new CharacterCardFive(modelObserver));
                             break;
                         case 6:
-                            activeCards.add(new CharacterCardSix());
+                            activeCards.add(new CharacterCardSix(modelObserver));
                             break;
                         case 7:
-                            activeCards.add(new CharacterCardSeven(bag));
+                            activeCards.add(new CharacterCardSeven(bag,modelObserver));
                             break;
                         case 8:
-                            activeCards.add(new CharacterCardEight());
+                            activeCards.add(new CharacterCardEight(modelObserver));
                             break;
                         case 9:
-                            activeCards.add(new CharacterCardNine());
+                            activeCards.add(new CharacterCardNine(modelObserver));
                             break;
                         case 10:
-                            activeCards.add(new CharacterCardTen());
+                            activeCards.add(new CharacterCardTen(modelObserver));
                             break;
                         case 11:
-                            activeCards.add(new CharacterCardEleven());
+                            activeCards.add(new CharacterCardEleven(modelObserver));
                             break;
                         default:
                             break;
@@ -108,9 +110,6 @@ public class GameManager {
                 }
             }
 
-
-
-        }
         else{
                 activeCards = null;
                 usedCard = -1;
@@ -577,9 +576,7 @@ public class GameManager {
             p.setModelObserver(modelObserver);
         }
 
-       if(expert) {
-           setModelObserverOnCharacterCard();
-       }
+
     }
 
     public void setModelObserverOnCharacterCard(){

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.server.ModelObserver;
+
 import java.util.EnumMap;
 
 /**
@@ -13,10 +15,12 @@ public class CharacterCardSix extends CharacterCard{
     private Player player;
 
 
-    public CharacterCardSix(){
+    public CharacterCardSix(ModelObserver modelObserver){
         this.id=6;
         this.price=2;
         player = null;
+        this.setModelObserver(modelObserver);
+
     }
 
 

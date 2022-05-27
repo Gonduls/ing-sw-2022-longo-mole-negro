@@ -5,15 +5,17 @@ import it.polimi.ingsw.controller.CharacterEightState;
 import it.polimi.ingsw.controller.CharacterState;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
+import it.polimi.ingsw.server.ModelObserver;
 
 /**
  * scegli un isola e calcola la sua influenza come se madre natura fosse caduta lì.
  */
 public class CharacterCardEight extends CharacterCard {
 
-    public CharacterCardEight(){
+    public CharacterCardEight(ModelObserver modelObserver){
         this.id = 8;
         this.price=3;
+        this.setModelObserver(modelObserver);
     }
 
     @Override

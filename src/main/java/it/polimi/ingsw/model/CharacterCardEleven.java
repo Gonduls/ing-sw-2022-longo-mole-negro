@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.CharacterElevenState;
 import it.polimi.ingsw.controller.CharacterState;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
+import it.polimi.ingsw.server.ModelObserver;
 
 /**
  *
@@ -13,9 +14,10 @@ import it.polimi.ingsw.controller.RoundController;
 public class CharacterCardEleven extends CharacterCard{
 
 
-    public CharacterCardEleven() {
+    public CharacterCardEleven(ModelObserver modelObserver) {
     this.id=11;
     this.price=3;
+    this.setModelObserver(modelObserver);
     }
 
     @Override

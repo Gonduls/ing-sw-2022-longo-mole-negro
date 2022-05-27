@@ -1,13 +1,15 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.*;
+import it.polimi.ingsw.server.ModelObserver;
 
 public class CharacterCardFive extends CharacterCard{
 
-    public CharacterCardFive() {
+    public CharacterCardFive(ModelObserver modelObserver) {
       this.noEntryToken = 4;
       this.id = 5;
       this.price=2;
+      this.setModelObserver(modelObserver);
     }
 
     private int noEntryToken;

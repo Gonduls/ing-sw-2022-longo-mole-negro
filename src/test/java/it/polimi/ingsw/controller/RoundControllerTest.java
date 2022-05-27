@@ -18,13 +18,13 @@ class RoundControllerTest {
 
     @BeforeEach
     void init(){
-        dummyRoom = new DummyRoom(0,2,false);
+        dummyRoom = new DummyRoom(0,2,true);
         playerNames = new String[]{"Albano", "Romina"};
     }
 
     @Test
     void testConstructor(){
-         RoundController controller = new RoundController(playerNames, false, dummyRoom);
+         RoundController controller = new RoundController(playerNames, true, dummyRoom);
 
          System.out.println("the current player for the controller: " + controller.getCurrentPlayer().getUsername());
         try {

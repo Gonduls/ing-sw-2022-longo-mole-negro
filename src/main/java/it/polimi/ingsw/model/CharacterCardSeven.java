@@ -5,6 +5,7 @@ import it.polimi.ingsw.controller.CharacterState;
 import it.polimi.ingsw.controller.GameState;
 import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.server.ModelObserver;
 
 /**
  *
@@ -16,10 +17,12 @@ import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 public class CharacterCardSeven extends  CharacterCard{
 
 
-    public CharacterCardSeven(Bag bag){
+    public CharacterCardSeven(Bag bag, ModelObserver modelObserver){
       this.id=7;
       this.price=2;
+      this.sh = new StudentHolder();
       Color colorTemp;
+      this.setModelObserver(modelObserver);
        for(int i =0;i<4;i++) {
            try {
                colorTemp = bag.extractRandomStudent();

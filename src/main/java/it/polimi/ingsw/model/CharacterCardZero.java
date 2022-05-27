@@ -2,15 +2,17 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.server.ModelObserver;
 
 public class CharacterCardZero extends CharacterCard {
 
 
     StudentHolder studentHolder;
-    public CharacterCardZero(Bag bag) {
+    public CharacterCardZero(Bag bag, ModelObserver modelObserver) {
         this.id = 0;
         this.price = 1;
         studentHolder = new StudentHolder();
+        this.setModelObserver(modelObserver);
         Color colorTemp;
         for (int i = 0; i < 4; i++) {
             try {

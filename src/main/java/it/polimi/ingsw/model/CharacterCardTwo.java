@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
+import it.polimi.ingsw.server.ModelObserver;
+
 /**
  *
  * È una carta con 6 studenti. scambia fino a 3 studenti presenti nel tuo ingresso
@@ -11,10 +13,11 @@ public class CharacterCardTwo extends  CharacterCard{
     private  StudentHolder studentHolder;
 
 
-    public CharacterCardTwo(Bag bag) {
+    public CharacterCardTwo(Bag bag, ModelObserver modelObserver) {
         this.id = 2;
         this.price = 1;
         studentHolder = new StudentHolder();
+        this.setModelObserver(modelObserver);
         Color colorTemp;
         for (int i = 0; i < 6; i++) {
             try {

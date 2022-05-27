@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
 
+import it.polimi.ingsw.server.ModelObserver;
+
 /**
  *
  *durante il conteggio dell’influenza, le torri non vengono calcolate
@@ -9,9 +11,10 @@ package it.polimi.ingsw.model;
 
 public class CharacterCardNine extends  CharacterCard{
 
-    public CharacterCardNine(){
+    public CharacterCardNine(ModelObserver modelObserver){
         this.id =9;
         this.price=3;
+        this.setModelObserver(modelObserver);
     }
 
     @Override
