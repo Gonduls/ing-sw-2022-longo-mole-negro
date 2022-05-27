@@ -1,19 +1,11 @@
 package it.polimi.ingsw.messages;
 
-public class StartGame implements Message{
-    private final int[] indexes;
-
-    public StartGame(int[] indexes){
-        this.indexes = indexes;
-    }
+public record StartGame(boolean expert) implements Message{
 
     @Override
     public MessageType getMessageType() {
         return MessageType.START_GAME;
     }
 
-    public int[] getIndexes() {
-        return indexes;
-    }
 }
 

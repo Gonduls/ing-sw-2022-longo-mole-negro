@@ -51,6 +51,7 @@ public class ClientModelManager {
             professors.put(color, -1);
         }
 
+        System.out.println(expert);
         if(expert){
             coins = new int[numberOfPlayers];
             prices = new int[3];

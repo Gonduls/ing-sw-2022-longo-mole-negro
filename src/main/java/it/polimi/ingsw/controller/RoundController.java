@@ -56,11 +56,7 @@ public class RoundController {
         this.room = room;
 
 
-        //if(expertMode) {
-       //     room.sendBroadcast(new StartGame(gameManager.getIdCards()));
-        //} else {
-            room.sendBroadcast(new StartGame(null));
-       // }
+        room.sendBroadcast(new StartGame(expertMode));
 
 
         for(int i=0; i<playersNames.length; i++){

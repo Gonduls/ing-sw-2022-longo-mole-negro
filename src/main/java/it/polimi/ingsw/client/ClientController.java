@@ -53,7 +53,7 @@ public class ClientController {
             case START_GAME -> {
                 int numberOfPlayers;
                 StartGame s = (StartGame) message;
-                boolean expert = s.getIndexes() != null;
+                boolean expert = s.expert();
 
                 if(players[2] == null){
                     cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert);
