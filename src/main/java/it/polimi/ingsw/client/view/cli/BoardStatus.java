@@ -4,18 +4,17 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientIsland;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.controller.GamePhase;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Color;
 import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
 public class BoardStatus {
     private final Coordinates[] clouds, schools;
-    private final Coordinates infoTurn, infoCards;
     private final List<Coordinates> islands;
     private final int[] islandsRemove;
     private final boolean expert;
@@ -26,13 +25,6 @@ public class BoardStatus {
         clouds = new Coordinates[numberOfPlayers];
         schools = new Coordinates[numberOfPlayers];
         islandsRemove = new int[11];
-        infoTurn = new Coordinates(2, 8);
-
-        if(expert){
-            infoCards = new Coordinates(19, 8);
-        } else{
-            infoCards = new Coordinates(25, 8);
-        }
 
         for(int i = 0; i<12; i++){
             switch (i){
@@ -111,15 +103,15 @@ public class BoardStatus {
         return islands;
     }
 
-    public void printStatus(ClientModelManager cmm, ClientController controller){
+    public void printStatus(ClientModelManager cmm, ClientController cc){
         printClear();
 
         AnsiConsole.systemInstall();
         printClouds(cmm);
         printIslands(cmm);
-        printSchools(cmm, controller.getPlayers());
-        printCards(cmm);
-        printInfo(cmm.getPlayers()[controller.getPlayingPlayer()], controller.getPhase(), controller.getActions());
+        printSchools(cmm, cc.getPlayers());
+        printCards(cmm, cc);
+        printInfo(cmm.getPlayers()[cc.getPlayingPlayer()], cc.getPhase(), cc.getActions());
         AnsiConsole.out().print(Ansi.ansi().cursor(40, 10));
         AnsiConsole.systemUninstall();
     }
@@ -215,7 +207,7 @@ public class BoardStatus {
 
             }
 
-            ansi.cursor(y + 7, x + 2);
+            ansi.cursor(y + 7, x + 3);
             if(expert)
                 ansi.a("$" + cmm.getCoins(j));
 
@@ -264,10 +256,93 @@ public class BoardStatus {
     }
 
     public void printInfo(String player, GamePhase phase, List<String> actions){
-
+        Ansi ansi = Ansi.ansi();
+        ansi.cursor(2, 8);
     }
 
-    void printCards(ClientModelManager cmm){}
+    void printCards(ClientModelManager cmm, ClientController cc){
+        Ansi ansi = Ansi.ansi();
+        List<String> lines = new ArrayList<>();
+
+        lines.add(" ______________________________ ");
+
+        if(expert){
+            // adding expert part
+            lines.add("| Card used in this turn:      |");
+            lines.add("| Available cards:             |");
+            lines.add("|   ) $                        |");
+            lines.add("|   ) $                        |");
+            lines.add("|   ) $                        |");
+            lines.add("|------------------------------|");
+
+            // preemptively filling expert part
+            ansi.cursor(20, 34).a(cc.getActiveCharacterCard() == -1 ? "no" : cc.getActiveCharacterCard());
+            Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
+
+            ansi.cursor(21, 27).a(indexes[0]+ ", " + indexes[1]+ ", " + indexes[2]);
+
+            ansi.cursor( 22, 10);
+            for(int index : indexes){
+                if(index < 10)
+                    ansi.cursorRight(1);
+
+                ansi.a(index).cursorRight(3).a(cmm.getPrice(index)).cursorRight(2);
+
+                Map<Color, Integer> studs = cmm.getCharacterStudents(index);
+                if(studs != null){
+                    ansi.a("Students: ");
+                    for(Color color: Color.values())
+                        ansi.a(renderColor(studs.get(color), color)).cursorRight(1);
+                }
+
+                if(index == 5)
+                    ansi.a(cmm.getNoEntries());
+
+                ansi.cursorDownLine().cursorRight(10);
+            }
+
+            // moving cursor to "expert position"
+            ansi.cursor(18, 0);
+        } else{
+            // moving cursor to "normal mode position"
+            ansi.cursor(24, 0);
+        }
+
+        lines.add("| Assistant card left:         |");
+        lines.add("|                              |");
+        lines.add("| Steps for card:              |");
+        lines.add("|                              |");
+        lines.add("| Assistant played this turn:  |");
+        lines.add("|                              |");
+        lines.add("|______________________________|");
+
+        for(String s : lines)
+            ansi.cursorDownLine().cursorRight(8).a(s);
+
+        // filling assistant card info
+        List<AssistantCard> deck = cmm.getDeck();
+        ansi.cursor(27, 11);
+        for(AssistantCard ac : deck){
+            if(ac.getValue() != 10) {
+                ansi.a(ac.getValue()).cursorLeft(1).cursorDown(2);
+                ansi.a(ac.getSteps()).cursorRight(2).cursorUp(2);
+            }
+            else{
+                ansi.cursorLeft(1).a(ac.getValue()).cursorLeft(1).cursorDown(2);
+                ansi.a(ac.getSteps());
+            }
+        }
+        ansi.cursor(31, 10);
+        for(int i = 0; i < 4; i++){
+            if(cc.getAssistantCardsPlayed()[i] != -1) {
+                ansi.a("(" + i + ", " + cc.getAssistantCardsPlayed()[i] + ") ");
+            }
+        }
+
+
+
+        AnsiConsole.out().print(ansi);
+    }
 
     void printClear() {
         AnsiConsole.systemInstall();

@@ -79,6 +79,7 @@ public class ClientModelManager {
     void putSHInCharacterCard(int card) {
         int index =characterCardsIndexes.size();
         characterCardsIndexes.put(card, index);
+        System.out.println("Received card: " + card);
 
         if(CharacterCard.hasStudentHolder(card)){
             this.characterStudents[index] = new EnumMap<>(Color.class);
@@ -104,8 +105,8 @@ public class ClientModelManager {
     }
 
     public Map<Color, Integer> getCharacterStudents(int index) {
-        if(characterStudents != null && characterStudents[index] != null)
-            return new EnumMap<>(characterStudents[index]);
+        if(characterStudents != null && characterStudents[characterCardsIndexes.get(index)] != null)
+            return new EnumMap<>(characterStudents[characterCardsIndexes.get(index)]);
         return null;
     }
 
@@ -119,7 +120,7 @@ public class ClientModelManager {
         return null;
     }
 
-    public Integer getPrices(int index) {
+    public Integer getPrice(int index) {
         if(prices != null)
             return prices[index] + (activated[index] ? 1 : 0);
         return null;
@@ -209,7 +210,6 @@ public class ClientModelManager {
 
     }
 
-
     void moveStudent(String from, String to, Color color){
         removeStudent(from, color);
         addStudent(to, color);
@@ -269,9 +269,12 @@ public class ClientModelManager {
         return islands.get(islandIndex).getStudents();
     }
 
-    //
     public int getNoEntries() {
         return noEntries;
+    }
+
+    public Set<Integer> getCharactersIndexes(){
+        return characterCardsIndexes.keySet();
     }
 }
 
