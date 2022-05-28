@@ -234,7 +234,8 @@ public class GameManager {
             try{
                 cloud.refill();
                 for(Color color: Color.values()){
-                    if (cloud.getStudentByColor(color) >0 ){
+                    for (int j =0; j < cloud.getStudentByColor(color); j++ ){
+
                         modelObserver.addStudentToCloud(i, color);
                     }
 

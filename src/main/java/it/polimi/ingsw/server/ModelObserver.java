@@ -64,7 +64,7 @@ public class ModelObserver {
 
 
     public void addStudentToCard(int idCard, Color color){
-        room.sendBroadcast(new AddStudentTo("CARD"+idCard,color));
+        room.sendBroadcast(new AddStudentTo("CARD:"+idCard,color));
     }
 
     public void moveStudentFromCardToEntrance(int idCard ,int player,Color color){
