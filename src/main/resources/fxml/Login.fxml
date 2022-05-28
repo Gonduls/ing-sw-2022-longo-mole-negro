@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.LoginController">
     <children>
         <ImageView fx:id="myImageView" fitHeight="477.0" fitWidth="629.0" pickOnBounds="true" preserveRatio="true">
             <image>
@@ -19,7 +19,7 @@
             <children>
                 <Label fx:id="labelUsername" layoutX="33.0" layoutY="60.0" text="Username" />
                 <TextField fx:id="textUsername" layoutX="33.0" layoutY="77.0" text="John" />
-                <Button fx:id="continueButton" layoutX="75.0" layoutY="151.0" mnemonicParsing="false" text="Continue" />
+                <Button fx:id="continueButton" layoutX="75.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToCreateGameScene" text="Continue" />
             </children>
             <opaqueInsets>
                 <Insets />
