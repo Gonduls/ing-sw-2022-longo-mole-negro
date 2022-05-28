@@ -89,7 +89,7 @@ public class BoardStatus {
             schools[i] = new Coordinates(1 + 8*i, 146);
         }
 
-        Coordinates[] cloudsC = new Coordinates[]{new Coordinates(11, 73), new Coordinates(12, 97), new Coordinates(17, 73), new Coordinates(19, 97)};
+        Coordinates[] cloudsC = new Coordinates[]{new Coordinates(11, 73), new Coordinates(12, 95), new Coordinates(17, 73), new Coordinates(19, 97)};
         if(numberOfPlayers == 4){
             clouds[0] = cloudsC[0];
             clouds[1] = cloudsC[1];
@@ -232,7 +232,36 @@ public class BoardStatus {
         }
     }
 
-    void printClouds(ClientModelManager cmm){}
+    void printClouds(ClientModelManager cmm){
+        Ansi ansi = Ansi.ansi();
+        int i = 0;
+
+        for(Coordinates c : clouds) {
+            int x = c.column();
+            int y = c.row();
+            List<String> lines = new ArrayList<>();
+            lines.add("    __        ");
+            lines.add("  (`   ). " + i);
+            lines.add("(  0  0  ')'`.");
+            lines.add("( 0  0  0  ) )");
+            lines.add(" ` __.:'-' ");
+
+            ansi.cursor(y - 1, x);
+            for(String s : lines){
+                ansi.cursorDownLine().cursorRight(x).a(s);
+            }
+
+            ansi.cursor(y + 2, x + 4 );
+            ansi.a(renderColor(cmm.getCloud(i).get(Color.YELLOW), Color.YELLOW)).cursorRight(2);
+            ansi.a(renderColor(cmm.getCloud(i).get(Color.BLUE), Color.BLUE)).cursorLeft(5).cursorDown(1);
+            ansi.a(renderColor(cmm.getCloud(i).get(Color.RED), Color.RED)).cursorRight(2);
+            ansi.a(renderColor(cmm.getCloud(i).get(Color.GREEN), Color.GREEN)).cursorRight(2);
+            ansi.a(renderColor(cmm.getCloud(i).get(Color.PINK), Color.PINK)).cursorRight(2);
+
+            AnsiConsole.out().print(ansi);
+            i++;
+        }
+    }
 
     public void printInfo(String player, GamePhase phase, List<String> actions){
 
