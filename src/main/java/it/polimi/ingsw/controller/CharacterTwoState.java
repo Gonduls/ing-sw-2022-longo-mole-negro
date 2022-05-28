@@ -55,7 +55,9 @@ public class CharacterTwoState extends CharacterState{
             try{
                 player.getSchool().getStudentsAtEntrance().moveStudentTo(eventCast.getStudentFromEntrance(), cc.getStudentHolder());
                 cc.getStudentHolder().moveStudentTo(eventCast.getStudentFromCard(), player.getSchool().getStudentsAtEntrance());
-                //todo modelobserver
+                context.gameManager.getModelObserver().moveStudentFromEntranceToCard(2,player.getPlayerNumber(),eventCast.getStudentFromEntrance());
+                context.gameManager.getModelObserver().moveStudentFromCardToEntrance(2,player.getPlayerNumber(),eventCast.getStudentFromCard());
+
                 numberOfEvents--;
             } catch (NoSpaceForStudentException ignored){}
 

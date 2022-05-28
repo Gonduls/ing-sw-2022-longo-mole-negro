@@ -5,8 +5,10 @@ import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.events.MoveStudentFromCardToTableEvent;
 import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.events.PlayAssistantCardEvent;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.Player;
 
 public class CharacterSevenState extends CharacterState{
 
@@ -31,10 +33,14 @@ public class CharacterSevenState extends CharacterState{
     public void executeEvent(GameEvent event) throws NoSuchStudentException {
         MoveStudentFromCardToTableEvent eventCast = (MoveStudentFromCardToTableEvent) event;
         Color color = eventCast.getColor();
+        Player player = context.getPlayerByUsername(eventCast.getPlayerName());
         try {
-            cc.getStudentHolder().moveStudentTo(color, context.getPlayerByUsername(eventCast.getPlayerName()).getSchool().getStudentsAtTables());
-            cc.getStudentHolder().addStudent(context.gameManager.getBag().extractRandomStudent());
-            //todo modelobserver
+            cc.getStudentHolder().moveStudentTo(color, player.getSchool().getStudentsAtTables());
+            Color newColor = context.gameManager.getBag().extractRandomStudent();
+            cc.getStudentHolder().addStudent(newColor);
+            context.gameManager.getModelObserver().moveStudentFromCardToTable(7, player.getPlayerNumber(), color);
+            context.gameManager.getModelObserver().addStudentToCard(7,newColor);
+
             numberOfEvents--;
         } catch(NoSpaceForStudentException ignored){}
 

@@ -38,7 +38,6 @@ public class CharacterZeroState extends CharacterState {
         return event.getEventType() == GameEventType.CHOOSE_COLOR || event.getEventType() == GameEventType.CHOOSE_ISLAND;
     }
     //todo -> wrong event -> redo with MOVE_STUDENT_FROM_CARD_TO_ISLAND
-    //todo add modelobserver
     @Override
     public void executeEvent(GameEvent event) {
         switch( event.getEventType()){
@@ -79,10 +78,14 @@ public class CharacterZeroState extends CharacterState {
         if(numberOfEvents==0){
             try {
                 cc.getStudentHolder().moveStudentTo(color, context.gameManager.getIslands().get(islandIndex));
-                cc.getStudentHolder().addStudent(context.gameManager.getBag().extractRandomStudent());
+                Color newColor =  context.gameManager.getBag().extractRandomStudent();
+                cc.getStudentHolder().addStudent(newColor);
+                context.gameManager.getModelObserver().moveStudentFromCardToIsland(islandIndex, color);
+                context.gameManager.getModelObserver().addStudentToCard(2, newColor);
+
             } catch (NoSuchStudentException e) {
                 //send a nack, maybe a should do it in the switch case block
-            } catch(NoSpaceForStudentException ignored) {/*impossibile*/}
+            } catch(NoSpaceForStudentException ignored) {/*impossible*/}
 
             context.changeState(nextState);
         }
