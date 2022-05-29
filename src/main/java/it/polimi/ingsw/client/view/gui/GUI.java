@@ -8,10 +8,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+
 
 public class GUI extends Application implements UI{
 
@@ -20,9 +22,8 @@ public class GUI extends Application implements UI{
 
     @Override
     public void start(Stage stage) throws IOException {
-
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("/fxml/Connection.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Connection.fxml"));
+        Scene scene = new Scene(root);
         stage.setTitle("Eriantys");
         stage.setScene(scene);
         stage.setResizable(false);

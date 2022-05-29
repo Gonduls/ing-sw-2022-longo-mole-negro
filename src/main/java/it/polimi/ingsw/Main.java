@@ -11,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         boolean server = false;
 
+
         for(String s : args){
             if(s.startsWith("-s")){
                 server = true;

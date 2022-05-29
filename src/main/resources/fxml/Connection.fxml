@@ -8,7 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.ConnectionController">
    <children>
       <ImageView fx:id="myImageView" fitHeight="477.0" fitWidth="629.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -21,7 +21,7 @@
             <TextField fx:id="textServerIP" layoutX="33.0" layoutY="45.0" text="localhost" />
             <Label fx:id="labelServerPort" layoutX="33.0" layoutY="92.0" text="Server Port" />
             <TextField fx:id="textServerPort" layoutX="33.0" layoutY="109.0" text="9999" />
-            <Button fx:id="continueButton" layoutX="75.0" layoutY="167.0" mnemonicParsing="false" onAction="#onClickContinue" text="Continue" />
+            <Button fx:id="continueButton" layoutX="75.0" layoutY="167.0" mnemonicParsing="false" onAction="#switchToLoginScene" text="Continue" />
          </children>
          <opaqueInsets>
             <Insets />

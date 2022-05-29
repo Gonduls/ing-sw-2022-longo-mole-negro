@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.server.RoomInfo;
-import javafx.print.PageLayout;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,8 +19,8 @@ public class ClientController {
     private String username;
     private boolean expertGame;
     private GamePhase phase;
-    private int[] assistantCardsPlayed;
-    private int activeCharachterCard;
+    private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
+    private int activeCharacterCard;
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -32,7 +31,11 @@ public class ClientController {
 
     public boolean login(String username) throws UnexpectedMessageException {
         try {
-            return nh.login(username);
+            if(nh.login(username)){
+                this.username = username;
+                return true;
+            }
+            return false;
         } catch (IOException e) {
             // todo: gestire IO
             return false;
@@ -92,20 +95,20 @@ public class ClientController {
                         updateCModel(acc);
                     }
                 }
-                activeCharachterCard = acc.characterCardIndex();
+                activeCharacterCard = acc.characterCardIndex();
                 ui.printStatus();
             }
             case CHANGE_PHASE -> {
                 ChangePhase c = (ChangePhase) message;
                 phase = c.gamePhase();
                 if(c.gamePhase() == GamePhase.PLANNING_PHASE)
-                    assistantCardsPlayed = new int[4];
+                    assistantCardsPlayed = new int[]{-1, -1, -1, -1};
                 ui.printStatus();
             }
             case CHANGE_TURN -> {
                 ChangeTurn c = (ChangeTurn) message;
                 playingPlayer = c.playingPlayer();
-                activeCharachterCard = -1;
+                activeCharacterCard = -1;
                 ui.printStatus();
             }
             case END_GAME -> ui.showMessage(message);
@@ -187,8 +190,8 @@ public class ClientController {
         return assistantCardsPlayed;
     }
 
-    public int getActiveCharachterCard() {
-        return activeCharachterCard;
+    public int getActiveCharacterCard() {
+        return activeCharacterCard;
     }
 
     public String[] getPlayers() {
