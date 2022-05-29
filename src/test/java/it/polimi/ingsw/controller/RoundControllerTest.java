@@ -28,11 +28,17 @@ class RoundControllerTest {
 
          System.out.println("the current player for the controller: " + controller.getCurrentPlayer().getUsername());
         try {
-            controller.handleEvent(new PlayAssistantCardEvent(controller.getCurrentPlayer().getUsername(), AssistantCard.ONE));
+            controller.handleEvent(new PlayAssistantCardEvent(controller.getCurrentPlayer().getUsername(), AssistantCard.FOUR));
         } catch (Exception e) {
             System.out.println(controller.getCurrentPlayer().getUsername());
             System.out.println(e.getMessage());
             e.printStackTrace();
+        }
+
+        try{
+            controller.handleEvent(new PlayAssistantCardEvent(controller.getCurrentPlayer().getUsername(), AssistantCard.TWO));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
 
     }
