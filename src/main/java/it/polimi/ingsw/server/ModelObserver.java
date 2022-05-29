@@ -122,4 +122,8 @@ public class ModelObserver {
         room.sendBroadcast(new MoveStudent("CARD:0", "ISLAND:"+islandIndex, color));
     }
 
+    public void addStudentToIsland(int islandIndex, Color color){
+        room.sendBroadcast(new AddStudentTo("ISLAND:"+islandIndex, color));
+    }
+
 }

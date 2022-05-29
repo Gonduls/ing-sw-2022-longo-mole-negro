@@ -78,6 +78,7 @@ public class Room {
     }
 
     public void sendBroadcast(Message message) {
+        System.out.println(message.toString());
         for(ClientHandler ch : handlers) {
             if (ch != null) {
                 try {

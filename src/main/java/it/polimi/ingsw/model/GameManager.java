@@ -36,9 +36,10 @@ public class GameManager {
         this.expert=expert;
         bag = new Bag();
         professors = new Professors();
-        board = new Board();
 
         this.setModelObserver(modelObserver);
+
+        board = new Board(this.modelObserver);
 
 
         clouds = new Cloud[size];
@@ -47,34 +48,37 @@ public class GameManager {
         }
 
         if (expert) {
-            // todo: instantiate cards
-
             usedCard = -1;
 
             activeCards = new ArrayList<>();// to change
             int randomInt;
 
             Random randomGen = new Random();
+            boolean skip;
 
             while (activeCards.size() < 3) {
                 randomInt = randomGen.nextInt(12);
+                skip = false;
                 for (CharacterCard cc : activeCards) {
                     if (cc.getId() == randomInt) {
-                        continue;
+                        skip = true;
+                        break;
                     }
-
                 }
+
+                if (!skip) {
+
 
                     modelObserver.notifyCharacterCard(randomInt);
                     switch (randomInt) {
                         case 0:
-                            activeCards.add(new CharacterCardZero(bag,modelObserver));
+                            activeCards.add(new CharacterCardZero(bag, modelObserver));
                             break;
                         case 1:
                             activeCards.add(new CharacterCardOne(modelObserver));
                             break;
                         case 2:
-                            activeCards.add(new CharacterCardTwo(bag,modelObserver));
+                            activeCards.add(new CharacterCardTwo(bag, modelObserver));
                             break;
                         case 3:
                             activeCards.add(new CharacterCardThree(modelObserver));
@@ -89,7 +93,7 @@ public class GameManager {
                             activeCards.add(new CharacterCardSix(modelObserver));
                             break;
                         case 7:
-                            activeCards.add(new CharacterCardSeven(bag,modelObserver));
+                            activeCards.add(new CharacterCardSeven(bag, modelObserver));
                             break;
                         case 8:
                             activeCards.add(new CharacterCardEight(modelObserver));
@@ -109,6 +113,7 @@ public class GameManager {
 
                 }
             }
+        }
 
         else{
                 activeCards = null;
@@ -248,9 +253,7 @@ public class GameManager {
         }
     }
 
-    public void activateCharacterCars() {
-        //todo
-    }
+
 
     /**
      * It moves Mother Nature of "amount" steps, then performs the influence count

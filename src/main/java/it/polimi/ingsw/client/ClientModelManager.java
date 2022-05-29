@@ -120,9 +120,10 @@ public class ClientModelManager {
         return null;
     }
 
-    public Integer getPrice(int index) {
+    public Integer getPrice(int cardId) {
+        int index = characterCardsIndexes.get(cardId);
         if(prices != null)
-            return prices[index] + (activated[index] ? 1 : 0);
+             return prices[index] + (activated[index] ? 1 : 0);
         return null;
     }
 

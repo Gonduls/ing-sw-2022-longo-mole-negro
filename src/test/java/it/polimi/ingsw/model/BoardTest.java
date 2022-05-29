@@ -2,12 +2,24 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
+import it.polimi.ingsw.server.DummyRoom;
+import it.polimi.ingsw.server.ModelObserver;
+import it.polimi.ingsw.server.Room;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
+
+    Room dummyRoom;
+    ModelObserver modelObserver;
+    @BeforeEach
+    void init (){
+        dummyRoom = new DummyRoom(0,2,true);
+        modelObserver = new ModelObserver(dummyRoom);
+    }
 
     @Test
     void testMoveMotherNature_simple(){
@@ -18,7 +30,7 @@ class BoardTest {
         prof.setToPlayer(Color.RED, playerBlack);
         prof.setToPlayer(Color.BLUE, playerWhite);
 
-        Board board = new Board();
+        Board board = new Board(modelObserver);
         assert (board.getIslands().size() == 12); // starting number of islands
         assert (board.getMotherNaturePosition() == 0); // starting position of MN
 
@@ -36,7 +48,7 @@ class BoardTest {
         Player playerBlack = new Player(0,"tizio",false);
         Player playerWhite = new Player(1,"caio", false);
 
-        Board board = new Board();
+        Board board = new Board(modelObserver);
 
         prof.setToPlayer(Color.BLUE, playerWhite);
         prof.setToPlayer(Color.RED, playerBlack);
@@ -71,7 +83,7 @@ class BoardTest {
         Player playerBlack = new Player(0,"tizio",false);
         Player playerWhite = new Player(1,"caio", false);
 
-        Board board = new Board();
+        Board board = new Board(modelObserver);
 
         prof.setToPlayer(Color.BLUE, playerWhite);
         prof.setToPlayer(Color.RED, playerBlack);
@@ -101,7 +113,7 @@ class BoardTest {
 
     @Test
     void testMergeIsland_ThreeIslands(){
-        Board board = new Board();
+        Board board = new Board(modelObserver);
 
         Player playerBlack = new Player(0,"tizio",false);
         Player playerWhite = new Player(1,"caio", false);
