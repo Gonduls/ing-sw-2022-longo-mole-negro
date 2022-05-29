@@ -212,73 +212,6 @@ public class CLI implements UI {
 
     }
 
-    /*public void islandPrint(int islandIndex, ClientModelManager cmm) {
-        for(int i = 0; i < islandIndex; i++) {
-            EnumMap<Color, Integer> studentsIsland = cmm.getStudentsInIsland(i);
-            int red = studentsIsland.get(Color.RED);
-            int blue = studentsIsland.get(Color.BLUE);
-            int green = studentsIsland.get(Color.GREEN);
-            int pink = studentsIsland.get(Color.PINK);
-            int yellow = studentsIsland.get(Color.YELLOW);
-            System.out.println("    ________     \n" +
-                    "   /        \\    \n" +
-            "  /  " + (cmm.getMotherNature() == i ? "M" : " ") +"  "+ "T:" + cmm.getIslands().get(i).getTowers() + "  \\   \n" +
-                    " /     " + (cmm.getIslands().get(i).getNoEntry() > 0 ? "X" : " ") + "      \\   \n" +
-                    " \\ "+ renderColor((red < 10 ? " " : "") + red, Color.RED) +"  "+ renderColor((green < 10 ? " " : "") + green, Color.GREEN) +"  " + renderColor((pink < 10 ? " " : "") + pink, Color.PINK)+ " /  \n" +
-            "  \\  "+ renderColor((yellow < 10 ? " " : "") + yellow, Color.YELLOW) +"  " + renderColor((blue < 10 ? " " : "") + blue, Color.BLUE) +"  /  \n" +
-                    "   \\________/ "+ i  +"   \n");
-
-
-        }
-
-    }*/
-
-    /*public void moves() {
-        System.out.println("""
-                   ______________________________    \s
-                 / \\                             \\.  \s
-                |   |     What's your move?      |.  \s
-                 \\_ |                            |.  \s
-                    |  1.PLAY_ASSISTANT_CARD     |.  \s
-                    |                            |.  \s
-                    |  2.MOVE_STUDENT            |.  \s
-                    |                            |.  \s
-                    |  3.ACTIVATE_CHARACTER_CARD |.  \s
-                    |                            |.  \s
-                    |  4.MOVE_MOTHER_NATURE      |.  \s
-                    |                            |.  \s
-                    |  5.PICK_CLOUD              |.  \s
-                    |   _________________________|___\s
-                    |  /                            /.
-                    \\_/____________________________/.\s
-                """);
-    }*/
-
-    /*public void schoolCard(ClientModelManager cmm) {
-        for(int i = 0; i < cmm.getPlayers().length; i++) {
-            int eRed = cmm.getEntrance(i).get(Color.RED);
-            int eBlue = cmm.getEntrance(i).get(Color.BLUE);
-            int eGreen = cmm.getEntrance(i).get(Color.GREEN);
-            int ePink= cmm.getEntrance(i).get(Color.PINK);
-            int eYellow= cmm.getEntrance(i).get(Color.YELLOW);
-            int drRed = cmm.getDiningRooms(i).get(Color.RED);
-            int drBlue = cmm.getDiningRooms(i).get(Color.BLUE);
-            int drGreen = cmm.getDiningRooms(i).get(Color.GREEN);
-            int drPink = cmm.getDiningRooms(i).get(Color.PINK);
-            int drYellow = cmm.getDiningRooms(i).get(Color.YELLOW);
-
-            System.out.println("    " + cmm.getPlayers()[i].toUpperCase(Locale.ROOT) + "\n" +
-                    " ___________________ \n" +
-                    "|    " + (cmm.getProfessors().get(Color.RED) == i ? renderColor("P", Color.RED) : " " )+"  "+ (cmm.getProfessors().get(Color.BLUE) == i ? renderColor("P", Color.BLUE) : " " ) +"  "+(cmm.getProfessors().get(Color.GREEN) == i ? renderColor("P", Color.GREEN) : " " )+"  "+ (cmm.getProfessors().get(Color.PINK) == i ? renderColor("P", Color.PINK) : " " ) +"  "+(cmm.getProfessors().get(Color.YELLOW) == i ? renderColor("P", Color.YELLOW) : " " )+"  |\n" +
-                    "|-------------------|\n" +
-                    "| E: " + renderColor((eRed < 10 ? " " : "" ) + eRed, Color.RED) +" "+ renderColor((eBlue < 10 ? " " : "" )+ eBlue, Color.BLUE) +" "+ renderColor((eGreen < 10 ? " " : "") + eGreen, Color.GREEN)+" "+ renderColor((ePink < 10 ? " " : "" )+ ePink, Color.PINK)+" "+renderColor((eYellow < 10 ? " " : "" )+ eYellow, Color.YELLOW)+" |\n" +
-                    "|DR: " + renderColor((drRed < 10 ? " " : "" ) + drRed, Color.RED) +" "+ renderColor((drBlue < 10 ? " " : "" )+ drBlue, Color.BLUE) +" "+ renderColor((drGreen < 10 ? " " : "" )+ drGreen, Color.GREEN)+" "+ renderColor((drPink < 10 ? " " : "" )+ drPink, Color.PINK)+" "+renderColor((drYellow < 10 ? " " : "" )+ drYellow, Color.YELLOW)+" |\n" +
-                    "|-------------------|\n" +
-                    "| $" + ((cmm.getCoins(i) < 10 ? " " : "") + cmm.getCoins(i))+"               |\n" +
-                    "|___________________|\n");
-        }
-    }*/
-
     @Override
     public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
         this.cmm = cmm;
@@ -301,6 +234,8 @@ public class CLI implements UI {
             for (RoomInfo room : rooms) {
                 System.out.println("______________________________________________________________");
                 System.out.print(room.toString());
+                System.out.println();
+                System.out.println();
             }
         }
 
@@ -339,6 +274,4 @@ public class CLI implements UI {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
-
-
 }

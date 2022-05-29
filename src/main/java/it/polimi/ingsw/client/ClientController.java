@@ -17,7 +17,6 @@ public class ClientController {
     private ClientModelManager cmm;
     private final String[] players = new String[4];
     private String username;
-    private boolean expertGame;
     private GamePhase phase;
     private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     private int activeCharacterCard;
@@ -46,6 +45,7 @@ public class ClientController {
         if(! MessageType.doesUpdate(message.getMessageType()))
             throw(new UnexpectedMessageException("Did not receive a message that modifies the model"));
 
+        boolean updates = false;
         // todo: finish
         switch (message.getMessageType()){
 
@@ -80,21 +80,17 @@ public class ClientController {
             }
             case PLAY_ASSISTANT_CARD -> {
                 PlayAssistantCard pac = (PlayAssistantCard) message;
-                if(players[pac.player()].equals(username)){
-                    synchronized (cmm){
-                        updateCModel(pac);
-                    }
-                }
+                if(players[pac.player()].equals(username))
+                    updates = true;
+
                 assistantCardsPlayed[pac.player()] = pac.assistantCard().getValue();
                 ui.printStatus();
             }
             case ACTIVATE_CHARACTER_CARD -> {
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
-                if(players[acc.player()].equals(username)){
-                    synchronized (cmm){
-                        updateCModel(acc);
-                    }
-                }
+                if(players[acc.player()].equals(username))
+                    updates = true;
+
                 activeCharacterCard = acc.characterCardIndex();
                 ui.printStatus();
             }
@@ -113,17 +109,15 @@ public class ClientController {
             }
             case END_GAME -> ui.showMessage(message);
             default -> {
-                synchronized (cmm){
-                    try{
-                        cmm.updateModel(message);
-                    } catch (UnexpectedMessageException e){
-                        System.out.println("Did not send a model-updating message, code is bugged");
-                        return;
-                    }
-                }
+                updates = true;
                 ui.printStatus();
             }
         }
+
+        if(updates)
+            synchronized (cmm){
+                cmm.updateModel(message);
+            }
     }
 
     boolean myTurn(){

@@ -15,63 +15,28 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class BoardStatus {
     private final Coordinates[] clouds, schools;
-    private final List<Coordinates> islands;
-    private final int[] islandsRemove;
+    private static final List<Coordinates> islands = new ArrayList<>();
+    private static final int[] islandsRemove = new int[]{0,1,0,0,4,4,2,7,5,3,1};
     private final boolean expert;
 
     public BoardStatus(int numberOfPlayers, boolean expert){
         this.expert = expert;
-        islands = new ArrayList<>();
         clouds = new Coordinates[numberOfPlayers];
         schools = new Coordinates[numberOfPlayers];
-        islandsRemove = new int[11];
 
         for(int i = 0; i<12; i++){
             switch (i){
-                case 0 -> {
-                    islands.add(new Coordinates(3, 60));
-                    islandsRemove[i] = 0;
-                }
-                case 1 -> {
-                    islands.add(new Coordinates(3, 77));
-                    islandsRemove[i] = 1;
-                }
-                case 2 -> {
-                    islands.add(new Coordinates(3, 94));
-                    islandsRemove[i] = 0;
-                }
-                case 3 -> {
-                    islands.add(new Coordinates(3, 111));
-                    islandsRemove[i] = 0;
-                }
-                case 4 -> {
-                    islands.add(new Coordinates(10, 121));
-                    islandsRemove[i] = 4;
-                }
-                case 5 -> {
-                    islands.add(new Coordinates(18, 121));
-                    islandsRemove[i] = 4;
-                }
-                case 6 -> {
-                    islands.add(new Coordinates(25, 111));
-                    islandsRemove[i] = 2;
-                }
-                case 7 -> {
-                    islands.add(new Coordinates(25, 94));
-                    islandsRemove[i] = 7;
-                }
-                case 8 -> {
-                    islands.add(new Coordinates(25, 77));
-                    islandsRemove[i] = 5;
-                }
-                case 9 -> {
-                    islands.add(new Coordinates(25, 60));
-                    islandsRemove[i] = 3;
-                }
-                case 10 -> {
-                    islands.add(new Coordinates(18, 49));
-                    islandsRemove[i] = 1;
-                }
+                case 0 -> islands.add(new Coordinates(3, 60));
+                case 1 -> islands.add(new Coordinates(3, 77));
+                case 2 -> islands.add(new Coordinates(3, 94));
+                case 3 -> islands.add(new Coordinates(3, 111));
+                case 4 -> islands.add(new Coordinates(10, 121));
+                case 5 -> islands.add(new Coordinates(18, 121));
+                case 6 -> islands.add(new Coordinates(25, 111));
+                case 7 -> islands.add(new Coordinates(25, 94));
+                case 8 -> islands.add(new Coordinates(25, 77));
+                case 9 -> islands.add(new Coordinates(25, 60));
+                case 10 -> islands.add(new Coordinates(18, 49));
                 default -> islands.add(new Coordinates(10, 49));
 
             }
@@ -95,7 +60,7 @@ public class BoardStatus {
         }
     }
 
-    public void merge(){
+    public static void merge(){
         islands.remove(islandsRemove[islands.size() - 2]);
     }
 
@@ -264,50 +229,9 @@ public class BoardStatus {
         Ansi ansi = Ansi.ansi();
         List<String> lines = new ArrayList<>();
 
+        ansi.cursor(24, 0);
+
         lines.add(" ______________________________ ");
-
-        if(expert){
-            // adding expert part
-            lines.add("| Card used in this turn:      |");
-            lines.add("| Available cards:             |");
-            lines.add("|   ) $                        |");
-            lines.add("|   ) $                        |");
-            lines.add("|   ) $                        |");
-            lines.add("|------------------------------|");
-
-            // preemptively filling expert part
-            ansi.cursor(20, 34).a(cc.getActiveCharacterCard() == -1 ? "no" : cc.getActiveCharacterCard());
-            Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
-
-            ansi.cursor(21, 27).a(indexes[0]+ ", " + indexes[1]+ ", " + indexes[2]);
-
-            ansi.cursor( 22, 10);
-            for(int index : indexes){
-                if(index < 10)
-                    ansi.cursorRight(1);
-
-                ansi.a(index).cursorRight(3).a(cmm.getPrice(index)).cursorRight(2);
-
-                Map<Color, Integer> studs = cmm.getCharacterStudents(index);
-                if(studs != null){
-                    ansi.a("Students: ");
-                    for(Color color: Color.values())
-                        ansi.a(renderColor(studs.get(color), color)).cursorRight(1);
-                }
-
-                if(index == 5)
-                    ansi.a(cmm.getNoEntries());
-
-                ansi.cursorDownLine().cursorRight(10);
-            }
-
-            // moving cursor to "expert position"
-            ansi.cursor(18, 0);
-        } else{
-            // moving cursor to "normal mode position"
-            ansi.cursor(24, 0);
-        }
-
         lines.add("| Assistant card left:         |");
         lines.add("|                              |");
         lines.add("| Steps for card:              |");
@@ -339,6 +263,52 @@ public class BoardStatus {
             }
         }
 
+        if(expert){
+            // adding expert part
+            lines = new ArrayList<>();
+            lines.add(" ______________________________ ");
+            lines.add("| Card used in this turn:      |");
+            lines.add("| Available cards:             |");
+            lines.add("|   ) $                        |");
+            lines.add("|   ) $                        |");
+            lines.add("|   ) $                        |");
+            lines.add("|------------------------------|");
+
+            // adding empty expert part
+            ansi.cursor(18, 0);
+            for(String s : lines)
+                ansi.cursorDownLine().cursorRight(8).a(s);
+
+            // filling expert part
+            ansi.cursor(20, 34).a(cc.getActiveCharacterCard() == -1 ? "  no" : cc.getActiveCharacterCard());
+            Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
+
+            ansi.cursor(21, 29).a(indexes[0]+ ", " + indexes[1]+ ", " + indexes[2]);
+
+            ansi.cursor( 22, 11);
+            for(int index : indexes){
+                if(index < 10) {
+                    ansi.cursorRight(1);
+                }
+
+                ansi.a(index).cursorRight(3).a(cmm.getPrice(index)).cursorRight(2);
+
+                Map<Color, Integer> studs = cmm.getCharacterStudents(index);
+                if(studs != null){
+                    ansi.a("Students: ");
+                    for(Color color: Color.values())
+                        ansi.a(renderColor(studs.get(color), color)).cursorRight(1);
+                }
+
+                if(index == 5) {
+                    ansi.a(cmm.getNoEntries());
+                }
+
+                ansi.cursorDownLine().cursorRight(10);
+            }
+            AnsiConsole.out().print(ansi);
+
+        }
 
 
         AnsiConsole.out().print(ansi);
