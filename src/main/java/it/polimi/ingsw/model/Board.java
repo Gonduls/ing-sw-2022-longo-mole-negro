@@ -12,22 +12,27 @@ public class Board {
     private int motherNaturePosition;
     private int numberOfIslands;
 
+    private ModelObserver modelObserver;
+
     /**
      * Constructor for Board.
      * Also creates and initializes Islands, giving them a student according to their position
      */
-    public Board(){
+    public Board(ModelObserver observer){
         numberOfIslands = 12;
         motherNaturePosition = 0;
         islands = new ArrayList<>(12);
         Bag initialBag = new Bag(2);
+        Color colorTemp;
 
         // Initializing islands with students according to their position in the list
         for (int i = 0; i< 12; i++) {
             Island current = new Island();
             if(i%6 != 0){
                 try{
-                    current.addStudent(initialBag.extractRandomStudent());
+                    colorTemp = initialBag.extractRandomStudent();
+                    current.addStudent(colorTemp);
+                    observer.addStudentToIsland(i, colorTemp);
                 }catch (NoSpaceForStudentException e){
                     System.out.println("Initializing island has gone wrong");
                 }
@@ -35,6 +40,8 @@ public class Board {
             islands.add(current);
         }
     }
+
+
 
     /**
      * @return the actual list containing islands

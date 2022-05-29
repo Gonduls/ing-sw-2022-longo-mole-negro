@@ -36,9 +36,10 @@ public class GameManager {
         this.expert=expert;
         bag = new Bag();
         professors = new Professors();
-        board = new Board();
 
         this.setModelObserver(modelObserver);
+
+        board = new Board(this.modelObserver);
 
 
         clouds = new Cloud[size];
