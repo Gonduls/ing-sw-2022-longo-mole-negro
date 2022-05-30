@@ -8,8 +8,9 @@ import it.polimi.ingsw.server.ModelObserver;
 
 
 /**
- * scambia la posizione di fino a 2 studenti dalla sala all’ingresso o viceversa.
- * (nb in tutto si muoveranno 4 studenti max)
+ *
+ * When activated it swaps up to two students from the entrance to the dining room and vice-versa.
+ * It moves up to 4 students.
  */
 
 public class CharacterCardThree extends CharacterCard{
@@ -49,6 +50,7 @@ public class CharacterCardThree extends CharacterCard{
 
     }
 
+    @Override
     public CharacterState getCharacterState(RoundController context, GameState nextState){
 
         return new CharacterThreeState(context,2,nextState, this);

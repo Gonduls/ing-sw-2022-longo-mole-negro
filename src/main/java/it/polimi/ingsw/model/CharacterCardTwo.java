@@ -7,6 +7,8 @@ import it.polimi.ingsw.server.ModelObserver;
 /**
  *
  * È una carta con 6 studenti. scambia fino a 3 studenti presenti nel tuo ingresso
+ * It's  a card with 6 students on it. When activated  a player can choose up to three students on the card to swap with
+ * as many students on their entrance.
  */
 public class CharacterCardTwo extends  CharacterCard{
 
@@ -34,7 +36,7 @@ public class CharacterCardTwo extends  CharacterCard{
 
     @Override
     public int getPrice() {
-        return 0;
+        return this.price;
     }
 
     @Override

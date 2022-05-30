@@ -26,7 +26,7 @@ public class CharacterCardSix extends CharacterCard{
 
     @Override
     public int getPrice() {
-        return 0;
+        return this.price;
     }
 
     @Override

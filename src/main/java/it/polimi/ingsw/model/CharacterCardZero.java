@@ -4,6 +4,11 @@ import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.server.ModelObserver;
 
+/**
+ *  It's a card with 4 students on.
+ *  When activated the player chooses a student on the card and moves it into an island.
+ *  Then a new student is moved from the bag to the card
+ */
 public class CharacterCardZero extends CharacterCard {
 
 

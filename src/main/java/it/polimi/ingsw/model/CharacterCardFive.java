@@ -3,6 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.controller.*;
 import it.polimi.ingsw.server.ModelObserver;
 
+/**
+ * It has 4 for no entry token on it. When activated a player can choose an island on which put a token from the card.
+ *
+ */
 public class CharacterCardFive extends CharacterCard{
 
     public CharacterCardFive(ModelObserver modelObserver) {
@@ -45,14 +49,12 @@ public class CharacterCardFive extends CharacterCard{
         return noEntryToken;
     }
 
-    public void setNoEntryToken(int noEntryToken) {
-        this.noEntryToken = noEntryToken;
-    }
 
     public void removeNoEntryToken(){
         this.noEntryToken--;
     }
 
+    @Override
     public CharacterState getCharacterState(RoundController context, GameState nextState){
 
         return new CharacterFiveState(context,1,nextState, this);
