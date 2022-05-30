@@ -4,6 +4,7 @@ public class ProfessorsObserver implements StudentHolderObserver{
     private final StudentHolder observed;
     private final Player player;
     private final Professors professors;
+    private final  GameManager gameManager;
 
     /**
      * Observer that automatically updates the professors' ownership
@@ -11,10 +12,11 @@ public class ProfessorsObserver implements StudentHolderObserver{
      * @param player: the Player that has the School that contains the tables to be observed
      * @param professors: the professors to be updated
      */
-    ProfessorsObserver(Player player, Professors professors){
+    ProfessorsObserver(Player player, Professors professors, GameManager gameManager){
         this.observed = player.getSchool().getStudentsAtTables();
         this.player = player;
         this.professors = professors;
+        this.gameManager = gameManager;
     }
 
     /**
@@ -33,9 +35,15 @@ public class ProfessorsObserver implements StudentHolderObserver{
 
 
             Player previousOwner = professors.getOwners().get(color);
+            //the card that changes the rule for assigning professors
+            if(gameManager.getUsedCard() == 4){
+                if(previousOwner.getSchool().getStudentsAtTables().getStudentByColor(color) <= observed.getStudentByColor(color))
+                    professors.setToPlayer(color, player);
+            } else {
+                if (previousOwner.getSchool().getStudentsAtTables().getStudentByColor(color) < observed.getStudentByColor(color))
+                    professors.setToPlayer(color, player);
+            }
 
-            if(previousOwner.getSchool().getStudentsAtTables().getStudentByColor(color) < observed.getStudentByColor(color))
-                professors.setToPlayer(color, player);
         }
     }
 }

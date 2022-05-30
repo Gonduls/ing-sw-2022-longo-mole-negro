@@ -84,7 +84,7 @@ public class GameManager {
                             activeCards.add(new CharacterCardThree(modelObserver));
                             break;
                         case 4:
-                            //todo
+                            activeCards.add(new CharacterCardFour(modelObserver));
                             break;
                         case 5:
                             activeCards.add(new CharacterCardFive(modelObserver));
@@ -132,7 +132,7 @@ public class GameManager {
                 }
 
                 StudentHolder tables = school.getStudentsAtTables();
-                tables.attach(new ProfessorsObserver(player, professors));
+                tables.attach(new ProfessorsObserver(player, professors,this));
                 tables.attach(new CoinObserver(player));
 
                 if (expert)
