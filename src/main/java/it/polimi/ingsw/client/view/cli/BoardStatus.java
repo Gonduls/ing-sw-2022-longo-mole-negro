@@ -69,7 +69,7 @@ public class BoardStatus {
     }
 
     public void printStatus(ClientModelManager cmm, ClientController cc){
-        printClear();
+        //printClear();
 
         AnsiConsole.systemInstall();
         printClouds(cmm);

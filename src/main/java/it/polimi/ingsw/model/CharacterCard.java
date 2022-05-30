@@ -12,11 +12,6 @@ public abstract class CharacterCard {
     int id;
     ModelObserver modelObserver;
 
-    public CharacterCard  (){
-
-
-    }
-
     public abstract int getPrice();
     public abstract void activateEffect();
     public abstract void applyEffect();
@@ -28,13 +23,17 @@ public abstract class CharacterCard {
     }
 
     public static boolean hasStudentHolder(int id){
+        return (id == 0 || id == 2 || id == 7);
+    }
+
+    public static String description(int id){
+        // todo: add all card descriptions
+        String response;
         switch (id){
-            case (0):
-            case (7):
-            case (2):
-                return true;
-            default: return false;
+            case 0 -> response = "generic card description";
+            default -> response = "even more generic card description";
         }
+        return(response);
     }
 
     public  CharacterState getCharacterState(RoundController context, GameState nextState){

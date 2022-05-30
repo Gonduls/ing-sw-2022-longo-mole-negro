@@ -77,10 +77,7 @@ public class ClientModelManager {
     }
 
     void putSHInCharacterCard(int cardId) {
-        if (cardId < 8)
-            prices.put(cardId, cardId < 4 ? 1 : 2);
-        else
-            prices.put(cardId, 3);
+        prices.put(cardId, cardId/ 4 + 1);
         activated.put(cardId, false);
 
         if(CharacterCard.hasStudentHolder(cardId)){

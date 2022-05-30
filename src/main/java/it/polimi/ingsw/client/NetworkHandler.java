@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 
@@ -19,6 +20,7 @@ public class NetworkHandler implements Runnable{
     private final AtomicBoolean occupied = new AtomicBoolean(false);
     private boolean endCondition = false;
     private final ClientController clientController;
+    private final Log log;
 
     /**
      * Sets up the client-server connection
@@ -33,6 +35,7 @@ public class NetworkHandler implements Runnable{
         output = new ObjectOutputStream(server.getOutputStream());
         input = new ObjectInputStream(server.getInputStream());
         this.clientController = clientController;
+        log = new Log("nhlog.txt");
     }
 
     /**
@@ -69,10 +72,12 @@ public class NetworkHandler implements Runnable{
             // Reads the next message
             try {
                 answer = (Message) input.readObject();
-                System.out.println(answer.getMessageType());
+                log.logger.info(answer.getMessageType().toString());
 
-                if(answer.getMessageType() == MessageType.NACK)
+                if(answer.getMessageType() == MessageType.NACK) {
+                    log.logger.warning(((Nack) answer).getErrorMessage());
                     clientController.showMessage(answer);
+                }
 
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();

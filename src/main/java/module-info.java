@@ -4,6 +4,7 @@ module PSP3 {
     requires com.google.gson;
     requires org.jline.style;
     requires org.fusesource.jansi;
+    requires java.logging;
 
     opens it.polimi.ingsw.client.view.gui.controller to javafx.fxml;
     opens it.polimi.ingsw to javafx.fxml;

@@ -134,17 +134,20 @@ public class CLI implements UI {
                 case ("2") -> {
                     boolean isPrivate;
                     boolean isExpert;
+
                     System.out.println("Enter the number of players (2/3/4/ default: 2): ");
                     try {
                         playersNumber = Integer.parseInt(input.nextLine());
                     } catch (NumberFormatException e) {
                         playersNumber = 2;
                     }
+
                     System.out.println("Is the mode expert? (true/false/ default: true) ");
                     if(input.nextLine().toLowerCase().startsWith("false"))
                         isExpert = false;
                     else
                         isExpert = true;
+
                     System.out.println("Is your game private? (true/false/ default: false) ");
                     isPrivate = Boolean.parseBoolean(input.nextLine());
 
@@ -177,14 +180,13 @@ public class CLI implements UI {
                     System.out.println("Please enter a valid choice");
                 }
             }
-
-
-
         }while(!inARoom);
     }
 
     public void game() {
-         while(true){
+        printClear();
+        printStatus();
+        while(true){
             if(input.nextLine().equals("close"))
                 return;
             System.out.println(cmm);
