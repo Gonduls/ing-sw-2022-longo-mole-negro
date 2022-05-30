@@ -8,6 +8,7 @@ import it.polimi.ingsw.server.RoomInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientController {
@@ -177,7 +178,7 @@ public class ClientController {
 
     public List<String> getActions(){
         // todo: define possible actions based on phase (Or use jline)
-        return new ArrayList<>();
+        return Arrays.stream((new String[]{"1) show card # information", "2) move student ?"})).toList();
     }
 
     public int[] getAssistantCardsPlayed() {

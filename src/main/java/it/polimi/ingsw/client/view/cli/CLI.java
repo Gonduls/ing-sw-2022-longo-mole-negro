@@ -132,12 +132,22 @@ public class CLI implements UI {
                     clientController.getPublicRooms(new GetPublicRooms(playersNumber));
                 }
                 case ("2") -> {
-                    System.out.println("Enter the number of players (2/3/4): ");
-                    playersNumber = input.nextInt();
-                    System.out.println("Is the mode expert? (true/false) ");
-                    boolean isExpert = input.nextBoolean();
-                    System.out.println("Is your game private? (true/false) ");
-                    boolean isPrivate = input.nextBoolean();
+                    boolean isPrivate;
+                    boolean isExpert;
+                    System.out.println("Enter the number of players (2/3/4/ default: 2): ");
+                    try {
+                        playersNumber = Integer.parseInt(input.nextLine());
+                    } catch (NumberFormatException e) {
+                        playersNumber = 2;
+                    }
+                    System.out.println("Is the mode expert? (true/false/ default: true) ");
+                    if(input.nextLine().toLowerCase().startsWith("false"))
+                        isExpert = false;
+                    else
+                        isExpert = true;
+                    System.out.println("Is your game private? (true/false/ default: false) ");
+                    isPrivate = Boolean.parseBoolean(input.nextLine());
+
                     CreateRoom message = new CreateRoom(playersNumber, isExpert, isPrivate);
                     int roomID = clientController.createRoom(message);
                     if (roomID < 0) {

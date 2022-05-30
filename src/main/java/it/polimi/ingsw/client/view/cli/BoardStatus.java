@@ -26,16 +26,16 @@ public class BoardStatus {
 
         for(int i = 0; i<12; i++){
             switch (i){
-                case 0 -> islands.add(new Coordinates(3, 60));
+                case 0 -> islands.add(new Coordinates(5, 62));
                 case 1 -> islands.add(new Coordinates(3, 77));
-                case 2 -> islands.add(new Coordinates(3, 94));
-                case 3 -> islands.add(new Coordinates(3, 111));
-                case 4 -> islands.add(new Coordinates(10, 121));
-                case 5 -> islands.add(new Coordinates(18, 121));
-                case 6 -> islands.add(new Coordinates(25, 111));
-                case 7 -> islands.add(new Coordinates(25, 94));
+                case 2 -> islands.add(new Coordinates(3, 93));
+                case 3 -> islands.add(new Coordinates(5, 108));
+                case 4 -> islands.add(new Coordinates(10, 120));
+                case 5 -> islands.add(new Coordinates(18, 120));
+                case 6 -> islands.add(new Coordinates(23, 108));
+                case 7 -> islands.add(new Coordinates(25, 93));
                 case 8 -> islands.add(new Coordinates(25, 77));
-                case 9 -> islands.add(new Coordinates(25, 60));
+                case 9 -> islands.add(new Coordinates(23, 62));
                 case 10 -> islands.add(new Coordinates(18, 49));
                 default -> islands.add(new Coordinates(10, 49));
 
@@ -95,7 +95,7 @@ public class BoardStatus {
             lines.add("/           \\");
             lines.add("\\           /");
             lines.add(" \\         /");
-            lines.add("  \\_______/ " + i);
+            lines.add("  \\_______/" + i);
 
             ansi.cursor(y -1, x);
             for(String s : lines){
@@ -110,16 +110,16 @@ public class BoardStatus {
             // printing MN
             ansi.cursor(y + 2, x +5);
             if(cmm.getMotherNature() == i){
-                ansi.a(render("M", Ansi.Color.CYAN));
+                ansi.a(render("M", 0xff5d00)).fgDefault();
             }
 
             //printing Towers
             ansi.cursorRight(3);
             if(ci.getTowers() >0){
                 switch (ci.getTc()) {
-                    case BLACK -> ansi.a(render("T:" + ci.getTowers(), Ansi.Color.BLACK));
-                    case WHITE -> ansi.a(render("T:" + ci.getTowers(), Ansi.Color.WHITE));
-                    case GREY -> ansi.a(render("T:" + ci.getTowers(), Ansi.Color.CYAN));
+                    case BLACK -> ansi.a("T:").bg(0xffffff).a(render(ci.getTowers(), 0x000000)).bgDefault();
+                    case WHITE -> ansi.a("T:").a(render(ci.getTowers(), Ansi.Color.WHITE));
+                    case GREY -> ansi.a("T:").a(render(ci.getTowers(), 0xa8a8a8));
                 }
             }
 
@@ -178,8 +178,14 @@ public class BoardStatus {
 
             ansi.cursorRight(1);
             // todo: change tower colors
-            if(cmm.getTowers(j) > 0)
-                ansi.a(render("T" + cmm.getTowers(j), Ansi.Color.WHITE)).cursorLeft(2);
+            if(cmm.getTowers(j) > 0){
+                switch (j) {
+                    case 0 -> ansi.a(render("T:" + cmm.getTowers(j), Ansi.Color.WHITE));
+                    case 1 -> ansi.a("T:").bg(0xffffff).a(render(cmm.getTowers(j), 0x000000)).bgDefault();
+                    default -> ansi.a("T:").a(render(cmm.getTowers(j), 0xa8a8a8a8));
+                }
+            }
+                //ansi.a(render("T" + cmm.getTowers(j), Ansi.Color.WHITE)).cursorLeft(2);
 
             ansi.cursorRight(4).a(players[j]);
 
@@ -222,7 +228,46 @@ public class BoardStatus {
 
     public void printInfo(String player, GamePhase phase, List<String> actions){
         Ansi ansi = Ansi.ansi();
+
+        List<String> lines = new ArrayList<>();
+        lines.add(" ______________________________");
+        lines.add("| Turn:                        |");
+        lines.add("|------------------------------|");
+        lines.add("| Phase:                       |");
+        lines.add("|------------------------------|");
+        lines.add("| Possible actions:            |");
+        String empty = "|                              |";
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add(empty);
+        lines.add("|______________________________|");
+
         ansi.cursor(2, 8);
+        for (String s : lines) {
+            ansi.cursorDownLine().cursorRight(8).a(s);
+        }
+        ansi.cursor(4, 18).a(player);
+        String phaseS = null;
+        if(phase != null)
+            switch (phase){
+                case PLANNING_PHASE -> phaseS = "Planning";
+                case ACTION_PHASE_ONE -> phaseS = "Move Students";
+                case ACTION_PHASE_TWO -> phaseS = "Move Mother Nature";
+                case ACTION_PHASE_THREE -> phaseS = "Chose Island";
+            }
+
+        ansi.cursor(6, 20).a(phaseS);
+
+        ansi.cursor(9, 0);
+        for(String s : actions){
+            ansi.cursorRight(10).a(s).cursorDownLine();
+        }
+        AnsiConsole.out().print(ansi);
     }
 
     void printCards(ClientModelManager cmm, ClientController cc){
@@ -307,10 +352,9 @@ public class BoardStatus {
                 ansi.cursorDownLine().cursorRight(10);
             }
             AnsiConsole.out().print(ansi);
-
         }
 
-
+        ansi.cursor(40,0);
         AnsiConsole.out().print(ansi);
     }
 
@@ -324,14 +368,17 @@ public class BoardStatus {
 
     public Object renderColor(Object object, Color color){
         return switch (color) {
-            case RED -> ansi().fgBrightRed().a(object).fgDefault();
+            case RED -> ansi().fgRgb(0xee2e2c).a(object).fgDefault();
             case BLUE -> ansi().fgBrightCyan().a(object).fgDefault();
             case GREEN -> ansi().fgBrightGreen().a(object).fgDefault();
-            case PINK -> ansi().fgBrightMagenta().a(object).fgDefault();
+            case PINK -> ansi().fgRgb(0xff3996).a(object).fgDefault();
             case YELLOW -> ansi().fgBrightYellow().a(object).fgDefault();
         };
     }
     public Object render(Object object, Ansi.Color color){
         return ansi().fgBright(color).a(object).fgDefault();
+    }
+    public Object render(Object object, int hexadecimal){
+        return ansi().fgRgb(hexadecimal).a(object).fgDefault();
     }
 }
