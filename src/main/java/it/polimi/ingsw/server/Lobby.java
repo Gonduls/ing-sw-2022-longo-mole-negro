@@ -183,10 +183,7 @@ public class Lobby {
         }
 
         synchronized(players){
-            for(Map.Entry<String,Integer> entry : players.entrySet()){
-                if(entry.getValue() != null && entry.getValue() == id)
-                    players.put(entry.getKey(), null);
-            }
+            players.replaceAll((p, v) -> (players.get(p) == null || players.get(p) == id) ? null : players.get(p));
         }
     }
 }

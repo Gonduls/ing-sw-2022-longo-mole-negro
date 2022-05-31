@@ -15,8 +15,8 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class BoardStatus {
     private final Coordinates[] clouds, schools;
-    private static final List<Coordinates> islands = new ArrayList<>();
-    private static final int[] islandsRemove = new int[]{0,1,0,0,4,4,2,7,5,3,1};
+    private final List<Coordinates> islands = new ArrayList<>();
+    private final int[] islandsRemove = new int[]{0,1,0,0,4,4,2,7,5,3,1};
     private final boolean expert;
 
     public BoardStatus(int numberOfPlayers, boolean expert){
@@ -61,7 +61,7 @@ public class BoardStatus {
         printClear();
     }
 
-    public static void merge(){
+    public void merge(){
         islands.remove(islandsRemove[islands.size() - 2]);
     }
 
@@ -279,7 +279,7 @@ public class BoardStatus {
         lines.add(" ______________________________ ");
         lines.add("| Assistant card left:         |");
         lines.add("|                              |");
-        lines.add("| Steps for card:              |");
+        lines.add("| Steps for assistant card:    |");
         lines.add("|                              |");
         lines.add("| Assistant played this turn:  |");
         lines.add("|                              |");
