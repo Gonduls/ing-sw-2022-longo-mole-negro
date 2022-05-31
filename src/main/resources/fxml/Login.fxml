@@ -7,6 +7,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="anchorBG" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="477.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.LoginController">
     <children>
@@ -17,9 +18,13 @@
         </ImageView>
         <AnchorPane fx:id="anchorTextButton" layoutX="131.0" layoutY="150.0" prefHeight="236.0" prefWidth="215.0">
             <children>
-                <Label fx:id="labelUsername" layoutX="33.0" layoutY="60.0" text="Username" />
+                <Label fx:id="labelUsername" layoutX="33.0" layoutY="57.0" text="Username">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
                 <TextField fx:id="textUsername" layoutX="33.0" layoutY="77.0" text="John" />
-                <Button fx:id="continueButton" layoutX="75.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToCreateGameScene" text="Continue" />
+                <Button fx:id="continueButton" layoutX="75.0" layoutY="151.0" mnemonicParsing="false" onAction="#switchToStartMenuScene" text="Continue" />
+            <Label fx:id="unableToLoginId" layoutX="34.0" layoutY="110.0" text="Unable to login. Try Again." textFill="RED" visible="false" />
             </children>
             <opaqueInsets>
                 <Insets />

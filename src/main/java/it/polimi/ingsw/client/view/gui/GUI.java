@@ -3,13 +3,14 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -36,14 +37,12 @@ public class GUI extends Application implements UI{
         stage.setTitle("Eriantys");
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/images/Elements/Logo2.png"))));
         stage.show();
 
 
     }
 
-    public void connectionScene() {
-
-    }
 
     @Override
     public void killGame(){}
@@ -55,6 +54,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
+        //chiama un metodo da definire in lobbycontroller passandogli la lista che poi utilizza per compilare quella gfx
 
     }
 
@@ -72,4 +72,7 @@ public class GUI extends Application implements UI{
         cc = new ClientController(this, ip, port);
     }
 
+    public ClientController getClientController() {
+        return cc;
+    }
 }
