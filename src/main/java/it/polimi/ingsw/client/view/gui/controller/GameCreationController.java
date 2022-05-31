@@ -40,8 +40,8 @@ public class GameCreationController implements Initializable {
         root = FXMLLoader.load(getClass().getResource("/fxml/GameBoard.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
-        scene.setFill(Color.BLACK);
         stage.setScene(scene);
+        stage.setFullScreen(true);
         stage.show();
     }
 }
