@@ -4,7 +4,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.Log;
@@ -27,7 +26,7 @@ public class CLI implements UI {
     private final PrintStream output;
     private final Scanner input;
     private String username;
-    boolean inARoom = false, kill = false;
+    boolean inARoom = false, kill;
     int playersNumber;
     private ClientModelManager cmm;
     private BoardStatus bs;
@@ -35,8 +34,9 @@ public class CLI implements UI {
     boolean logout = false;
     Log log;
     private String actionString;
+    private static CLI instance;
 
-    public CLI() {
+    private CLI() {
         this.output = System.out;
         this.input = new Scanner(System.in);
         log = new Log("CliLog.txt");
@@ -90,7 +90,7 @@ public class CLI implements UI {
         do {
             preGame();
             if(inARoom) {
-
+                kill = false;
                 game = new Thread(this::game);
                 game.start();
                 try{
@@ -160,10 +160,7 @@ public class CLI implements UI {
                     }
 
                     System.out.println("Is the mode expert? (true/false/ default: true) ");
-                    if(input.nextLine().toLowerCase().startsWith("false"))
-                        isExpert = false;
-                    else
-                        isExpert = true;
+                    isExpert = !input.nextLine().toLowerCase().startsWith("false");
 
                     System.out.println("Is your game private? (true/false/ default: false) ");
                     isPrivate = Boolean.parseBoolean(input.nextLine());
@@ -181,8 +178,9 @@ public class CLI implements UI {
                 case ("3") -> {
                     System.out.println("Enter the room ID: ");
                     int id = Integer.parseInt(input.nextLine());
-                    if (clientController.accessRoom(id))
+                    if (clientController.accessRoom(id)) {
                         inARoom = true;
+                    }
                     else
                         System.out.println("Could not enter room, please try again");
 
@@ -224,7 +222,7 @@ public class CLI implements UI {
             if(actionString != null && actionString.startsWith("close"))
                 exit = true;
 
-            System.out.println(cmm);
+            System.out.println("ending game");
         }
     }
 
@@ -291,7 +289,7 @@ public class CLI implements UI {
     @Override
     public void showMessage(Message message) {
         switch (message.getMessageType()) {
-            case NACK -> System.out.println("NACK");
+            case NACK -> System.out.println("NACK: " + ((Nack) message).getErrorMessage());
             case ADD_PLAYER -> {
                 AddPlayer ap = (AddPlayer) message;
                 System.out.println("Player " + ap.username() +" joined! ");
@@ -319,23 +317,35 @@ public class CLI implements UI {
     public void killGame(){
         kill = true;
         inARoom = false;
-        try{
-            if(action != null)
-                action.interrupt();
-        }catch (Exception ignored){}
-        try{
-            game.interrupt();
-        }catch (Exception ignored){}
+        clientController.startOver();
+        if(action != null) {
+            actionString = null;
+            action.interrupt();
+        }
+
+        printClear();
+        System.out.println("Press anything to return to Lobby.");
+        (new Scanner(System.in)).nextLine();
+
+        game.interrupt();
         game = null;
         action = null;
         log.logger.info("killed game");
         log.logger.info("killed action");
 
-        System.out.println("Press anything to return to Lobby.");
-        (new Scanner(System.in)).nextLine();
-        System.out.println("Returning to Lobby");
-        printClear();
     }
+
+    @Override
+    public void merge(){
+        bs.merge();
+    }
+
+    public static CLI getInstance() {
+        if(instance == null)
+            instance = new CLI();
+        return instance;
+    }
+
 
     void printClear() {
         System.out.print("\033[H\033[2J");
@@ -348,6 +358,8 @@ public class CLI implements UI {
     }
 
     private void dealWithAction(){
+        if(actionString == null)
+            return;
         try{
             actionString = actionString.trim();
             int lineNum = Integer.parseInt(actionString.substring(0, 1));
