@@ -230,13 +230,13 @@ public class BoardStatus {
         Ansi ansi = Ansi.ansi();
 
         List<String> lines = new ArrayList<>();
-        lines.add(" ______________________________");
-        lines.add("| Turn:                        |");
-        lines.add("|------------------------------|");
-        lines.add("| Phase:                       |");
-        lines.add("|------------------------------|");
-        lines.add("| Possible actions:            |");
-        String empty = "|                              |";
+        lines.add(" _______________________________");
+        lines.add("| Turn:                         |");
+        lines.add("|-------------------------------|");
+        lines.add("| Phase:                        |");
+        lines.add("|-------------------------------|");
+        lines.add("| Possible actions:             |");
+        String empty = "|                               |";
         lines.add(empty);
         lines.add(empty);
         lines.add(empty);
@@ -245,7 +245,7 @@ public class BoardStatus {
         lines.add(empty);
         lines.add(empty);
         lines.add(empty);
-        lines.add("|______________________________|");
+        lines.add("|_______________________________|");
 
         ansi.cursor(2, 8);
         for (String s : lines) {

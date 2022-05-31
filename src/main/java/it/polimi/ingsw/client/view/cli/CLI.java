@@ -14,6 +14,7 @@ import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.ConfigServer;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.server.RoomInfo;
 import org.fusesource.jansi.AnsiConsole;
 
@@ -216,7 +217,7 @@ public class CLI implements UI {
             action.start();
             try{
                 action.join();
-                // todo: pass actionString
+                dealWithAction();
             } catch (InterruptedException e){
                 log.logger.info("Thread game closing");
             }
@@ -332,6 +333,8 @@ public class CLI implements UI {
 
         System.out.println("Press anything to return to Lobby.");
         (new Scanner(System.in)).nextLine();
+        System.out.println("Returning to Lobby");
+        printClear();
     }
 
     void printClear() {
@@ -344,7 +347,39 @@ public class CLI implements UI {
         bs.printStatus(cmm, clientController);
     }
 
-    private void getActionString(){
-        actionString = input.nextLine();
+    private void dealWithAction(){
+        try{
+            actionString = actionString.trim();
+            int lineNum = Integer.parseInt(actionString.substring(0, 1));
+            String template = clientController.getActions().get(lineNum);
+
+            // todo: complete
+            actionString = actionString.substring(1).trim();
+            switch (template.split(" ")[1]){
+                case ("Display card # effect") -> {
+                    bs.printClear();
+                    printStatus();
+                    System.out.println(CharacterCard.description(Integer.parseInt(actionString)));
+                }
+                case ("Move student X from CC to I #") -> {}
+                case ("Swap X from CC with Y from E") -> {}
+                case ("End selections") -> {}
+                case ("Swap X from E with Y from DR") -> {}
+                case ("Choose I # to place a NoEntry") -> {}
+                case ("Move student X to DR") -> {}
+                case ("Calculate influence in I #") -> {}
+                case ("Choose X to not influence") -> {}
+                case ("Choose X to remove from DR(s)") -> {}
+                case ("Activate A card #") -> {}
+                case ("Move student X from E to I #") -> {}
+                case ("Move student X from E to DR") -> {}
+                case ("Move MN of # steps") -> {}
+                case ("Choose cloud #") -> {}
+                case ("Activate card #") -> {}
+                default -> throw new IllegalStateException("Unexpected value: " + template.split(" ")[1]);
+            }
+        } catch (NumberFormatException e){
+            System.out.println("Not correctly formed action");
+        }
     }
 }

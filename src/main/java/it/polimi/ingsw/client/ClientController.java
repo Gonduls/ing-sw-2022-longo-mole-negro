@@ -21,6 +21,10 @@ public class ClientController {
     private GamePhase phase;
     private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     private int activeCharacterCard;
+    private boolean expert;
+    private List<String> actions;
+    private boolean finishedCardActions;
+
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
         this.ui = ui;
@@ -57,7 +61,7 @@ public class ClientController {
             case START_GAME -> {
                 int numberOfPlayers;
                 StartGame s = (StartGame) message;
-                boolean expert = s.expert();
+                expert = s.expert();
 
                 if(players[2] == null){
                     cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert);
@@ -106,6 +110,7 @@ public class ClientController {
                 playingPlayer = c.playingPlayer();
                 activeCharacterCard = -1;
                 ui.printStatus();
+                finishedCardActions = true;
             }
             case END_GAME -> ui.showMessage(message);
             default -> {
@@ -176,8 +181,66 @@ public class ClientController {
     }
 
     public List<String> getActions(){
-        // todo: define possible actions based on phase (Or use jline)
-        return Arrays.stream((new String[]{"1) show card # information", "2) move student ?"})).toList();
+        actions = new ArrayList<>();
+        if(!myTurn()){
+            if(expert)
+                actions.add(0 + ") Display card # effect");
+            else
+                actions.add("No possible actions");
+            return actions;
+        }
+
+        if(!finishedCardActions){
+            switch (activeCharacterCard){
+                case 0 -> actions.add(0 + ") Move student X from CC to I #");
+                case 2 -> {
+                    actions.add(0 + ") Swap X from CC with Y from E");
+                    actions.add(1 + ") End selections");
+                }
+                case 3 -> {
+                    actions.add(0 + ")Swap X from E with Y from DR");
+                    actions.add(1 + ") End selections");
+                }
+                case 5 -> actions.add(1 + ") Choose I # to place a NoEntry");
+                case 7 -> actions.add(1 + ") Move student X to DR");
+                case 8 -> actions.add(1 + ") Calculate influence in I #");
+                case 10 -> actions.add(1 + ") Choose X to not influence");
+                case 11 -> actions.add(1 + ")Choose X to remove from DR(s)");
+                default -> finishedCardActions = true;
+            }
+            return actions;
+        }
+
+        int i = 0;
+        switch (phase){
+            case PLANNING_PHASE -> {
+                actions.add(i + ") Activate A card #");
+                i++;
+            }
+            case ACTION_PHASE_ONE ->{
+                actions.add(i + ") Move student X from E to I #");
+                i++;
+                actions.add(i + ") Move student X from E to DR");
+                i++;
+            }
+            case ACTION_PHASE_TWO -> {
+                actions.add(i + ") Move MN of # steps");
+                i++;
+            }
+            case ACTION_PHASE_THREE -> {
+                actions.add(i + ") Choose cloud #");
+                i++;
+            }
+        }
+        if(expert){
+            if(activeCharacterCard == -1){
+                actions.add(i + ") Activate card #");
+                i++;
+            }
+            actions.add(i + ") Display card # effect");
+        }
+
+        return actions;
     }
 
     public int[] getAssistantCardsPlayed() {
