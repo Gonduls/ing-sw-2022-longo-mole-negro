@@ -10,14 +10,18 @@ public class Log {
     public final Logger logger;
     private FileHandler fh;
 
-    public Log(String file_name) throws IOException, SecurityException {
+    public Log(String file_name) throws SecurityException {
         File f = new File(file_name);
-
-        if(!f.exists())
-            f.createNewFile();
-
-        fh = new FileHandler(file_name, true);
         logger = Logger.getLogger("test");
+        try{
+            if(!f.exists()) {
+                f.createNewFile();
+            }
+            fh = new FileHandler(file_name, true);
+        } catch (IOException e){
+            logger.warning("Could not open file");
+            logger.severe(e.getMessage());
+        }
         logger.setUseParentHandlers(false);
         logger.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();

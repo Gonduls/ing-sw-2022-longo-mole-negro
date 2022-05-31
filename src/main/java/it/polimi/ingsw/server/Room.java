@@ -1,10 +1,10 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.messages.AddPlayer;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.PlayerDisconnect;
-import it.polimi.ingsw.messages.StartGame;
 
 import java.io.IOException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,6 +18,7 @@ public class Room {
     private final AtomicBoolean canLeave;
     private RoundController rc;
     private final RoomInfo info;
+    private final Log log;
 
     Room(int id, int numberOfPlayers, boolean expert){
         this.id = id;
@@ -26,6 +27,7 @@ public class Room {
         handlers = new ClientHandler[numberOfPlayers];
         info = Lobby.getInstance().getInfos().get(id);
         canLeave = new AtomicBoolean(false);
+        log = new Log("Room" + id + ".txt");
     }
 
     int getId() {
@@ -46,7 +48,7 @@ public class Room {
         handlers[present] = ch;
 
         sendBroadcast(new AddPlayer(player, present));
-        //System.out.println("present = " + present + " adding player: " + player);
+        log.logger.info("present = " + present + " adding player: " + player);
 
 
         info.addPlayer();
@@ -78,13 +80,13 @@ public class Room {
     }
 
     public void sendBroadcast(Message message) {
-        System.out.println(message.toString());
+        log.logger.info(message.toString());
         for(ClientHandler ch : handlers) {
             if (ch != null) {
                 try {
                     ch.sendMessage(message);
                 } catch (IOException e) {
-                    System.out.println("Could not send message to: " + ch.getUsername());
+                    log.logger.warning("Could not send message to: " + ch.getUsername());
                 }
             }
         }

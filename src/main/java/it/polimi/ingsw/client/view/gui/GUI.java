@@ -45,6 +45,8 @@ public class GUI extends Application implements UI{
 
     }
 
+    @Override
+    public void killGame(){
 
     @Override
     public void printStatus() {
@@ -69,5 +71,5 @@ public class GUI extends Application implements UI{
     public void createClientController(String ip, int port) throws IOException{
         cc = new ClientController(this, ip, port);
     }
-
+    }
 }

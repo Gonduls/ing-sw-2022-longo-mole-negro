@@ -184,7 +184,7 @@ public class Lobby {
 
         synchronized(players){
             for(Map.Entry<String,Integer> entry : players.entrySet()){
-                if(entry.getValue() == id)
+                if(entry.getValue() != null && entry.getValue() == id)
                     players.put(entry.getKey(), null);
             }
         }

@@ -58,18 +58,19 @@ public class BoardStatus {
             if (numberOfPlayers == 3)
                 clouds[2] = cloudsC[3];
         }
+        printClear();
     }
 
     public static void merge(){
         islands.remove(islandsRemove[islands.size() - 2]);
     }
 
-    public List<Coordinates> getIslands() {
+    public List<Coordinates> getIslandsCoords() {
         return islands;
     }
 
     public void printStatus(ClientModelManager cmm, ClientController cc){
-        //printClear();
+        printClearBoard();
 
         AnsiConsole.systemInstall();
         printClouds(cmm);
@@ -117,7 +118,7 @@ public class BoardStatus {
             ansi.cursorRight(3);
             if(ci.getTowers() >0){
                 switch (ci.getTc()) {
-                    case BLACK -> ansi.a("T:").bg(0xffffff).a(render(ci.getTowers(), 0x000000)).bgDefault();
+                    case BLACK -> ansi.a("T:").fgBrightBlack().a(ci.getTowers()).bgDefault();
                     case WHITE -> ansi.a("T:").a(render(ci.getTowers(), Ansi.Color.WHITE));
                     case GREY -> ansi.a("T:").a(render(ci.getTowers(), 0xa8a8a8));
                 }
@@ -180,14 +181,13 @@ public class BoardStatus {
             // todo: change tower colors
             if(cmm.getTowers(j) > 0){
                 switch (j) {
-                    case 0 -> ansi.a(render("T:" + cmm.getTowers(j), Ansi.Color.WHITE));
-                    case 1 -> ansi.a("T:").bg(0xffffff).a(render(cmm.getTowers(j), 0x000000)).bgDefault();
-                    default -> ansi.a("T:").a(render(cmm.getTowers(j), 0xa8a8a8a8));
+                    case 0 -> ansi.a(render("T: " + cmm.getTowers(j), Ansi.Color.WHITE));
+                    case 1 -> ansi.a("T: ").bg(0xffffff).a(render(cmm.getTowers(j), 0x000000)).bgDefault();
+                    default -> ansi.a("T: ").a(render(cmm.getTowers(j), 0xa8a8a8a8));
                 }
             }
-                //ansi.a(render("T" + cmm.getTowers(j), Ansi.Color.WHITE)).cursorLeft(2);
 
-            ansi.cursorRight(4).a(players[j]);
+            ansi.cursorRight(2).a(players[j]);
 
             AnsiConsole.out().print(ansi);
             j++;
@@ -346,7 +346,7 @@ public class BoardStatus {
                 }
 
                 if(index == 5) {
-                    ansi.a(cmm.getNoEntries());
+                    ansi.a(" No entries:" + cmm.getNoEntries());
                 }
 
                 ansi.cursorDownLine().cursorRight(10);
@@ -358,7 +358,18 @@ public class BoardStatus {
         AnsiConsole.out().print(ansi);
     }
 
-    void printClear() {
+    void printClearBoard() {
+        AnsiConsole.systemInstall();
+        Ansi ansi = Ansi.ansi();
+
+        ansi.cursor(0, 0);
+        for(int i = 0; i < 40 ; i++){
+            AnsiConsole.out().print(ansi().eraseLine(Ansi.Erase.FORWARD));
+        }
+        AnsiConsole.systemUninstall();
+    }
+
+    void printClear(){
         AnsiConsole.systemInstall();
         Ansi ansi = Ansi.ansi();
         System.out.println( ansi.eraseScreen() );

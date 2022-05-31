@@ -4,8 +4,10 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
@@ -24,25 +26,30 @@ public class CLI implements UI {
     private final PrintStream output;
     private final Scanner input;
     private String username;
-    boolean inARoom = false;
+    boolean inARoom = false, kill = false;
     int playersNumber;
     private ClientModelManager cmm;
     private BoardStatus bs;
+    private Thread game, action;
+    boolean logout = false;
+    Log log;
+    private String actionString;
 
     public CLI() {
         this.output = System.out;
         this.input = new Scanner(System.in);
+        log = new Log("CliLog.txt");
+
     }
 
     public void start(){
         AnsiConsole.systemInstall();
         printClear();
 
-        System.out.println("Welcome to /n");
+        System.out.println("Welcome to ");
         gameTitle();
         String ipAddress;
         int serverPort;
-
 
         try{
             Gson gson = new Gson();
@@ -81,17 +88,26 @@ public class CLI implements UI {
 
         do {
             preGame();
-            if(inARoom)
-                game();
+            if(inARoom) {
+
+                game = new Thread(this::game);
+                game.start();
+                try{
+                    game.join();
+                } catch (InterruptedException e){
+                    log.logger.info("Thread game closing");
+                }
+            }
             else
                 return;
-        } while(true);
+        } while(!logout);
     }
 
     public void preGame(){
         do{
+            printClear();
+            System.out.println("Hi " + username + ", what would you like to do?\n");
             System.out.println("""
-                    What would you like to do?\s
                     1. REFRESH AVAILABLE PUBLIC ROOMS\s
                     2. CREATE GAME\s
                     3. ACCESS ROOM\s
@@ -164,15 +180,17 @@ public class CLI implements UI {
                 case ("3") -> {
                     System.out.println("Enter the room ID: ");
                     int id = Integer.parseInt(input.nextLine());
-                    if (clientController.accessRoom(id)) {
+                    if (clientController.accessRoom(id))
                         inARoom = true;
-                    } else {
+                    else
                         System.out.println("Could not enter room, please try again");
-                    }
+
                 }
                 case ("4") -> {
-                    if (clientController.logout())
+                    if (clientController.logout()) {
+                        logout = true;
                         return;
+                    }
                     System.out.println("Could not logout");
                 }
                 default -> {
@@ -184,11 +202,27 @@ public class CLI implements UI {
     }
 
     public void game() {
-        printClear();
-        printStatus();
-        while(true){
-            if(input.nextLine().equals("close"))
-                return;
+        boolean exit = false;
+
+        while(!exit && !kill){
+
+            action = new Thread(() -> {
+                try {
+                    actionString = (new Scanner(System.in)).nextLine();
+                } catch (IndexOutOfBoundsException ignored){
+                    log.logger.info("Stopping listen");
+                }
+            });
+            action.start();
+            try{
+                action.join();
+                // todo: pass actionString
+            } catch (InterruptedException e){
+                log.logger.info("Thread game closing");
+            }
+            if(actionString != null && actionString.startsWith("close"))
+                exit = true;
+
             System.out.println(cmm);
         }
     }
@@ -265,25 +299,52 @@ public class CLI implements UI {
                 System.out.println("Game Over \n" +
                         "Winner/s: " );
                 EndGame eg = (EndGame) message;
-                for(int i = 0; i < eg.winners().length; i++)
-                {
+                for(int i = 0; i < eg.winners().length; i++) {
                     System.out.println((eg.winners()[i]));
                 }
+                killGame();
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
-                System.out.println("Player " + pd.username() + " has left the room \n" +"Press anything to return to Lobby. ");
-                input.nextLine();
-                // todo: kill "game process"
+                System.out.println("Player " + pd.username() + " has left the room");
+                killGame();
             }
             default ->
                 System.out.print(message.getMessageType());
         }
-
     }
 
-    protected void printClear() {
+    @Override
+    public void killGame(){
+        kill = true;
+        inARoom = false;
+        try{
+            if(action != null)
+                action.interrupt();
+        }catch (Exception ignored){}
+        try{
+            game.interrupt();
+        }catch (Exception ignored){}
+        game = null;
+        action = null;
+        log.logger.info("killed game");
+        log.logger.info("killed action");
+
+        System.out.println("Press anything to return to Lobby.");
+        (new Scanner(System.in)).nextLine();
+    }
+
+    void printClear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
+    }
+
+    void printClearMessages(){
+        printClear();
+        bs.printStatus(cmm, clientController);
+    }
+
+    private void getActionString(){
+        actionString = input.nextLine();
     }
 }

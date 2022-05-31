@@ -73,7 +73,6 @@ public class ClientController {
                 synchronized (cmm){
                     ui.createGame(numberOfPlayers, expert, cmm);
                 }
-                System.out.println("Started game!");
             }
             case NOTIFY_CHARACTER_CARD -> {
                 NotifyCharacterCard ncc = (NotifyCharacterCard) message;

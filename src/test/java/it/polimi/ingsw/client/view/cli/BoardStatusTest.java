@@ -11,14 +11,14 @@ class BoardStatusTest {
     @Test
     void merge() {
         bs.merge();
-        assertEquals(11, bs.getIslands().size());
+        assertEquals(11, bs.getIslandsCoords().size());
         bs.merge();
-        assertEquals(10, bs.getIslands().size());
+        assertEquals(10, bs.getIslandsCoords().size());
         bs.merge();
-        assertEquals(9, bs.getIslands().size());
+        assertEquals(9, bs.getIslandsCoords().size());
         bs.merge();
-        assertEquals(8, bs.getIslands().size());
+        assertEquals(8, bs.getIslandsCoords().size());
         bs.merge();
-        assertEquals(7, bs.getIslands().size());
+        assertEquals(7, bs.getIslandsCoords().size());
     }
 }
