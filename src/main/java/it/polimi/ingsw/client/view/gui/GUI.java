@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.messages.Message;
@@ -16,6 +17,14 @@ import java.util.List;
 
 
 public class GUI extends Application implements UI{
+    ClientController cc;
+    static GUI instance;
+    public static GUI getInstance(){
+        if(instance == null)
+            instance = new GUI();
+
+        return instance;
+    }
 
     public static void main(String[] args) {
         Application.launch(args);}
@@ -57,6 +66,8 @@ public class GUI extends Application implements UI{
 
     }
 
-
+    public void createClientController(String ip, int port) throws IOException{
+        cc = new ClientController(this, ip, port);
+    }
 
 }
