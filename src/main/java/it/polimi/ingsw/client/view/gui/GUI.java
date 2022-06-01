@@ -48,6 +48,11 @@ public class GUI extends Application implements UI{
     public void killGame(){}
 
     @Override
+    public void merge() {
+
+    }
+
+    @Override
     public void printStatus() {
 
     }
@@ -67,6 +72,8 @@ public class GUI extends Application implements UI{
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
 
     }
+
+
 
     public void createClientController(String ip, int port) throws IOException{
         cc = new ClientController(this, ip, port);

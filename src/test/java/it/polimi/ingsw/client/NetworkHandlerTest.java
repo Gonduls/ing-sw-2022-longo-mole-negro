@@ -29,7 +29,7 @@ class NetworkHandlerTest {
         new Thread(() -> lobby.listen()).start();
         // client setup
         try{
-            cc = new ClientController(new CLI(), "localhost", 9999);
+            cc = new ClientController(CLI.getInstance(), "localhost", 9999);
             nh = cc.nh;
         } catch (IOException e){
             fail();
@@ -99,6 +99,6 @@ class NetworkHandlerTest {
      * @return The NetworkHandler associated to the client
      */
     NetworkHandler newClient()throws IOException{
-        return (new ClientController(new CLI(), "localhost", 9999)).nh;
+        return (new ClientController(CLI.getInstance(), "localhost", 9999)).nh;
     }
 }

@@ -12,12 +12,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ClientController {
-    private int playingPlayer = -1;
-    private final UI ui;
+    // general control related
+    private String username;
     final NetworkHandler nh;
     private ClientModelManager cmm;
-    private final String[] players = new String[4];
-    private String username;
+    private final UI ui;
+
+    // single-game related
+    private int playingPlayer = -1;
+    private String[] players = new String[4];
     private GamePhase phase;
     private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     private int activeCharacterCard;
@@ -64,13 +67,13 @@ public class ClientController {
                 expert = s.expert();
 
                 if(players[2] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert);
+                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert, ui);
                     numberOfPlayers = 2;
                 }else if(players[3] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, expert);
+                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, expert, ui);
                     numberOfPlayers = 3;
                 } else {
-                    cmm = new ClientModelManager(players.clone(), expert);
+                    cmm = new ClientModelManager(players.clone(), expert, ui);
                     numberOfPlayers = 4;
                 }
 
@@ -214,7 +217,7 @@ public class ClientController {
         int i = 0;
         switch (phase){
             case PLANNING_PHASE -> {
-                actions.add(i + ") Activate A card #");
+                actions.add(i + ") Activate assistant card #");
                 i++;
             }
             case ACTION_PHASE_ONE ->{
@@ -233,7 +236,7 @@ public class ClientController {
             }
         }
         if(expert){
-            if(activeCharacterCard == -1){
+            if(activeCharacterCard == -1 && phase != GamePhase.PLANNING_PHASE){
                 actions.add(i + ") Activate card #");
                 i++;
             }
@@ -253,5 +256,12 @@ public class ClientController {
 
     public String[] getPlayers() {
         return players;
+    }
+
+    public void startOver(){
+        playingPlayer = -1;
+        players = new String[4];
+        phase = GamePhase.PLANNING_PHASE;
+        assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     }
 }

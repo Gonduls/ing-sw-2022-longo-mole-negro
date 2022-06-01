@@ -100,10 +100,11 @@ public class Room {
         for(int i = 0; i< players.length; i++){
             if (handlers[i] == handler)
                 handlers[i] = null;
+            else
+                handlers[i].diconnectFromRoom();
         }
 
-        sendBroadcast(new PlayerDisconnect(handler.getUsername()));
-
         Lobby.getInstance().eliminateRoom(id);
+        sendBroadcast(new PlayerDisconnect(handler.getUsername()));
     }
 }

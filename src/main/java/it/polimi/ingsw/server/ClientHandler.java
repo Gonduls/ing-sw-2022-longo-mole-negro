@@ -139,13 +139,10 @@ public class ClientHandler implements Runnable{
         for(RoomInfo info : lobby.getInfos().values()){
             if(complies(info, message)) {
                 result.add(info);
-                //System.out.println(info.getCurrentPlayers());
             }
         }
 
-        //System.out.println(result.size());
         output.writeObject(new PublicRooms(result));
-        //System.out.println("sent public rooms message");
     }
 
     private boolean complies(RoomInfo info, GetPublicRooms message){
@@ -208,5 +205,9 @@ public class ClientHandler implements Runnable{
 
     public String getUsername() {
         return username;
+    }
+
+    public void diconnectFromRoom(){
+        room = null;
     }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.cli.BoardStatus;
+import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
@@ -19,10 +19,12 @@ public class ClientModelManager {
     private final HashMap<Integer, Boolean> activated;
     private final HashMap<Integer, EnumMap<Color, Integer>> characterStudents;
     private int noEntries;
+    private final UI ui;
 
-    ClientModelManager(String[] players, boolean expert){
+    ClientModelManager(String[] players, boolean expert, UI ui){
         int numberOfPlayers = players.length;
         this.players = players;
+        this.ui = ui;
         motherNature = 0;
         islands = new ArrayList<>(12);
 
@@ -157,7 +159,7 @@ public class ClientModelManager {
                 moveTowers(mt.from(), mt.to(), mt.amount());
             }
             case MERGE_ISLANDS -> {
-                BoardStatus.merge();
+                ui.merge();
                 mergeIslands((MergeIslands) message);
             }
             case SET_PROFESSOR_TO -> {
