@@ -59,7 +59,8 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
-        //chiama un metodo da definire in lobbycontroller passandogli la lista che poi utilizza per compilare quella gfx
+        System.out.print(rooms);
+        LobbyController.getInstance().setPublicRooms(rooms);
 
     }
 
