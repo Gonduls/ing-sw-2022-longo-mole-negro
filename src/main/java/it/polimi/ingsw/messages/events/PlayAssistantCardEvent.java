@@ -8,9 +8,17 @@ public class PlayAssistantCardEvent extends GameEvent {
 
     String playerName;
     AssistantCard ac;
+
+    int playerNumber;
+    @Deprecated
     public PlayAssistantCardEvent(String playerName, AssistantCard ac){
         this.playerName=playerName;
         this.ac=ac;
+    }
+
+    public PlayAssistantCardEvent(AssistantCard ac, int playerNumber) {
+        this.ac = ac;
+        this.playerNumber = playerNumber;
     }
 
     @Override
@@ -21,6 +29,11 @@ public class PlayAssistantCardEvent extends GameEvent {
     @Override
     public String getPlayerName() {
         return playerName;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
     public AssistantCard getAssistantCard(){

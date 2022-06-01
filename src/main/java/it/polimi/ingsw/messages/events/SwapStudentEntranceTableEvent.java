@@ -7,13 +7,16 @@ public class SwapStudentEntranceTableEvent extends GameEvent {
 
 
     String playerName;
-
-
-
     Color studentFromEntrance;
     Color studentFromTable;
 
+    int playerNumber;
 
+    public SwapStudentEntranceTableEvent(Color studentFromEntrance, Color studentFromTable, int playerNumber) {
+        this.studentFromEntrance = studentFromEntrance;
+        this.studentFromTable = studentFromTable;
+        this.playerNumber = playerNumber;
+    }
 
     @Override
     public GameEventType getEventType() {
@@ -32,5 +35,10 @@ public class SwapStudentEntranceTableEvent extends GameEvent {
 
     public Color getStudentFromTable() {
         return studentFromTable;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 }

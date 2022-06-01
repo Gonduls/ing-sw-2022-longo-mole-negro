@@ -6,6 +6,13 @@ import it.polimi.ingsw.model.Color;
 public class ChooseColorEvent extends GameEvent {
     String player;
     Color color;
+    int playerNumber;
+
+    public ChooseColorEvent(Color color, int playerNumber) {
+        this.color = color;
+        this.playerNumber = playerNumber;
+    }
+
     @Override
     public GameEventType getEventType() {
         return GameEventType.CHOOSE_COLOR;
@@ -14,6 +21,11 @@ public class ChooseColorEvent extends GameEvent {
     @Override
     public String getPlayerName() {
         return player;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
 

@@ -8,6 +8,8 @@ public class MoveStudentFromCardToTableEvent extends GameEvent {
     String playerName;
     Color color;
 
+    int playerNumber;
+
 
     @Override
     public GameEventType getEventType() {
@@ -17,6 +19,11 @@ public class MoveStudentFromCardToTableEvent extends GameEvent {
     @Override
     public String getPlayerName() {
         return playerName;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
 

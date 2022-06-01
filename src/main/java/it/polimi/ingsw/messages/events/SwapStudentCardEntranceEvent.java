@@ -10,6 +10,13 @@ public class SwapStudentCardEntranceEvent extends GameEvent {
     Color studentFromCard;
     Color studentFromEntrance;
 
+    int playerNumber;
+
+    public SwapStudentCardEntranceEvent(Color studentFromCard, Color studentFromEntrance, int playerNumber) {
+        this.studentFromCard = studentFromCard;
+        this.studentFromEntrance = studentFromEntrance;
+        this.playerNumber = playerNumber;
+    }
 
     @Override
     public GameEventType getEventType() {
@@ -19,6 +26,11 @@ public class SwapStudentCardEntranceEvent extends GameEvent {
     @Override
     public String getPlayerName() {
         return playerName;
+    }
+
+    @Override
+    public int getPlayerNumber() {
+        return playerNumber;
     }
 
 

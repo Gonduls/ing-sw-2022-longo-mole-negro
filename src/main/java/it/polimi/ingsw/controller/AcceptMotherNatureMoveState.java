@@ -30,7 +30,8 @@ public class AcceptMotherNatureMoveState extends GameState {
             case MOVE_MOTHER_NATURE: {
                 MoveMotherNatureEvent eventCast = (MoveMotherNatureEvent) event;
 
-                Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                //Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int amount = eventCast.getAmount();
 
                if (context.gameManager.getUsedCard() == 1) {
@@ -76,7 +77,7 @@ public class AcceptMotherNatureMoveState extends GameState {
                     throw new Exception("You already activated a card");
                 }
 
-                if (context.getPlayerByUsername(eventCast.getPlayerName()).getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
+                if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
                     throw new Exception("You don't have enough coins");
                 }
 
