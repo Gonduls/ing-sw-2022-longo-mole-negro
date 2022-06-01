@@ -126,4 +126,7 @@ public class ModelObserver {
         room.sendBroadcast(new AddStudentTo("ISLAND:"+islandIndex, color));
     }
 
+    public void moveStudentFromCloudToPlayer(int cloudindex, int playerNumber, Color color){
+        room.sendBroadcast(new MoveStudent("CLOUD:"+cloudindex, "ENTRANCE:"+playerNumber, color));
+    }
 }

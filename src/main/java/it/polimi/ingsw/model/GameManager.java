@@ -227,7 +227,13 @@ public class GameManager {
      * @throws NoSuchStudentException if the cloud was empty
      */
     public void emptyCloudInPlayer(int cloudIndex, Player player) throws NoSpaceForStudentException, NoSuchStudentException {
+        for(Color c: Color.values()){
+            for (int i =0; i<clouds[cloudIndex].getStudentByColor(c);i++){
+                modelObserver.moveStudentFromCloudToPlayer(cloudIndex, player.getPlayerNumber(), c);
+            }
+        }
         clouds[cloudIndex].moveAllStudents(player);
+
     }
 
     /**
