@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.client.view.gui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -30,9 +31,8 @@ public class StartMenuController {
         stage.show();
     }
 
-    public void switchToLobby(ActionEvent event) throws IOException {
-        //TODO : chiedi filtri
-        root = FXMLLoader.load(getClass().getResource("/fxml/Lobby.fxml"));
+    public void switchToFilterSearch(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/fxml/FilterSearch.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
@@ -40,8 +40,7 @@ public class StartMenuController {
     }
 
     public void switchToConnection(ActionEvent event) throws IOException {
-
-        //TODO: in realtà il logout deve fare tutto il procedimento
+        GUI.getInstance().getClientController().logout();
         root = FXMLLoader.load(getClass().getResource("/fxml/Connection.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
