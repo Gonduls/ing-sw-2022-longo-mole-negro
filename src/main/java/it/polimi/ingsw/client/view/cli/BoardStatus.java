@@ -78,7 +78,7 @@ public class BoardStatus {
         printSchools(cmm, cc.getPlayers());
         printCards(cmm, cc);
         printInfo(cmm.getPlayers()[cc.getPlayingPlayer()], cc.getPhase(), cc.getActions());
-        AnsiConsole.out().print(Ansi.ansi().cursor(40, 10));
+        AnsiConsole.out().print(Ansi.ansi().cursor(40, 0));
         AnsiConsole.systemUninstall();
     }
 
@@ -374,6 +374,17 @@ public class BoardStatus {
         Ansi ansi = Ansi.ansi();
         System.out.println( ansi.eraseScreen() );
         System.out.println( ansi.cursor(0, 0) );
+        AnsiConsole.systemUninstall();
+    }
+    void printClearMessages(){
+        AnsiConsole.systemInstall();
+        Ansi ansi = Ansi.ansi();
+
+        ansi.cursor(40, 0);
+        for(int i = 0; i < 10 ; i++){
+            AnsiConsole.out().print(ansi().eraseLine(Ansi.Erase.FORWARD));
+        }
+        AnsiConsole.out().print(ansi.cursor(40, 0));
         AnsiConsole.systemUninstall();
     }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
@@ -129,6 +130,8 @@ public class ClientController {
     }
 
     boolean myTurn(){
+        if(playingPlayer == -1)
+            return false;
         return players[playingPlayer].equals(username);
     }
 
@@ -205,7 +208,7 @@ public class ClientController {
                     actions.add(1 + ") End selections");
                 }
                 case 5 -> actions.add(1 + ") Choose I # to place a NoEntry");
-                case 7 -> actions.add(1 + ") Move student X to DR");
+                case 7 -> actions.add(1 + ") Move X from CC to DR");
                 case 8 -> actions.add(1 + ") Calculate influence in I #");
                 case 10 -> actions.add(1 + ") Choose X to not influence");
                 case 11 -> actions.add(1 + ")Choose X to remove from DR(s)");
@@ -217,7 +220,7 @@ public class ClientController {
         int i = 0;
         switch (phase){
             case PLANNING_PHASE -> {
-                actions.add(i + ") Activate assistant card #");
+                actions.add(i + ") Play assistant card #");
                 i++;
             }
             case ACTION_PHASE_ONE ->{
@@ -263,5 +266,18 @@ public class ClientController {
         players = new String[4];
         phase = GamePhase.PLANNING_PHASE;
         assistantCardsPlayed = new int[]{-1, -1, -1, -1};
+    }
+
+    public Message performEvent(GameEvent event){
+        Message answer = new Nack("Could not get a proper answer from server");
+        try{
+            answer = nh.performEvent(event);
+        }catch (UnexpectedMessageException | IOException e){
+            Log log = new Log("ClientController.txt");
+            log.logger.severe(e.getMessage());
+            log.logger.severe(e.getLocalizedMessage());
+        }
+
+        return answer;
     }
 }

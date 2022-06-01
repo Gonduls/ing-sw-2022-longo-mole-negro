@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.gson.Gson;
 import it.polimi.ingsw.Log;
@@ -13,8 +14,13 @@ import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.ConfigServer;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.events.*;
+import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.server.RoomInfo;
+import org.fusesource.jansi.Ansi;
 import org.fusesource.jansi.AnsiConsole;
 
 
@@ -23,11 +29,9 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class CLI implements UI {
     private ClientController clientController;
-    private final PrintStream output;
     private final Scanner input;
     private String username;
     boolean inARoom = false, kill;
-    int playersNumber;
     private ClientModelManager cmm;
     private BoardStatus bs;
     private Thread game, action;
@@ -35,12 +39,12 @@ public class CLI implements UI {
     Log log;
     private String actionString;
     private static CLI instance;
+    private final AtomicBoolean gameRunning;
 
     private CLI() {
-        this.output = System.out;
         this.input = new Scanner(System.in);
         log = new Log("CliLog.txt");
-
+        gameRunning = new AtomicBoolean(false);
     }
 
     public void start(){
@@ -92,11 +96,23 @@ public class CLI implements UI {
             if(inARoom) {
                 kill = false;
                 game = new Thread(this::game);
+                synchronized (gameRunning){
+                    if(!gameRunning.get()) {
+                        try{
+                            gameRunning.wait();
+                        } catch (InterruptedException e){
+                            log.logger.severe("Problems with gameRunning");
+                            Thread.currentThread().interrupt();
+                            return;
+                        }
+                    }
+                }
                 game.start();
                 try{
                     game.join();
                 } catch (InterruptedException e){
                     log.logger.info("Thread game closing");
+                    Thread.currentThread().interrupt();
                 }
             }
             else
@@ -105,6 +121,7 @@ public class CLI implements UI {
     }
 
     public void preGame(){
+        int playersNumber;
         do{
             printClear();
             System.out.println("Hi " + username + ", what would you like to do?\n");
@@ -115,6 +132,7 @@ public class CLI implements UI {
                     4. LOGOUT\s
                     """);
             String chosenAction = input.nextLine();
+            System.out.println("line in preGame");
             switch (chosenAction) {
                 case ("1") -> {
                     System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
@@ -158,6 +176,8 @@ public class CLI implements UI {
                     } catch (NumberFormatException e) {
                         playersNumber = 2;
                     }
+                    if (playersNumber != 3 && playersNumber != 4)
+                        playersNumber = 2;
 
                     System.out.println("Is the mode expert? (true/false/ default: true) ");
                     isExpert = !input.nextLine().toLowerCase().startsWith("false");
@@ -201,29 +221,39 @@ public class CLI implements UI {
     }
 
     public void game() {
+        // todo: remove exit
         boolean exit = false;
 
         while(!exit && !kill){
 
             action = new Thread(() -> {
                 try {
+                    System.out.print("          > ");
                     actionString = (new Scanner(System.in)).nextLine();
+                    System.out.println("line in game");
                 } catch (IndexOutOfBoundsException ignored){
                     log.logger.info("Stopping listen");
                 }
             });
             action.start();
+
             try{
                 action.join();
-                dealWithAction();
             } catch (InterruptedException e){
-                log.logger.info("Thread game closing");
+                log.logger.severe("InterruptedException in action.join()");
+                Thread.currentThread().interrupt();
             }
+
+            // if kill game hase been called while I was waiting for a line
+            if(kill)
+                return;
+
+            dealWithAction();
             if(actionString != null && actionString.startsWith("close"))
                 exit = true;
 
-            System.out.println("ending game");
         }
+        System.out.println("ending game");
     }
 
     public void gameTitle() {
@@ -261,6 +291,11 @@ public class CLI implements UI {
     public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
         this.cmm = cmm;
         this.bs = new BoardStatus(numberOfPlayer, expert);
+        gameRunning.set(true);
+
+        synchronized (gameRunning){
+            gameRunning.notifyAll();
+        }
     }
 
     @Override
@@ -288,8 +323,11 @@ public class CLI implements UI {
 
     @Override
     public void showMessage(Message message) {
+        AnsiConsole.systemInstall();
+        AnsiConsole.out().print(Ansi.ansi().cursorRight(10));
+        AnsiConsole.systemUninstall();
         switch (message.getMessageType()) {
-            case NACK -> System.out.println("NACK: " + ((Nack) message).getErrorMessage());
+            case NACK -> System.out.println(((Nack) message).getErrorMessage());
             case ADD_PLAYER -> {
                 AddPlayer ap = (AddPlayer) message;
                 System.out.println("Player " + ap.username() +" joined! ");
@@ -309,8 +347,9 @@ public class CLI implements UI {
                 killGame();
             }
             default ->
-                System.out.print(message.getMessageType());
+                    System.out.print(message.getMessageType());
         }
+
     }
 
     @Override
@@ -318,21 +357,10 @@ public class CLI implements UI {
         kill = true;
         inARoom = false;
         clientController.startOver();
-        if(action != null) {
-            actionString = null;
-            action.interrupt();
-        }
+        gameRunning.set(false);
 
         printClear();
         System.out.println("Press anything to return to Lobby.");
-        (new Scanner(System.in)).nextLine();
-
-        game.interrupt();
-        game = null;
-        action = null;
-        log.logger.info("killed game");
-        log.logger.info("killed action");
-
     }
 
     @Override
@@ -346,52 +374,130 @@ public class CLI implements UI {
         return instance;
     }
 
-
     void printClear() {
         System.out.print("\033[H\033[2J");
         System.out.flush();
     }
 
-    void printClearMessages(){
-        printClear();
-        bs.printStatus(cmm, clientController);
-    }
-
     private void dealWithAction(){
         if(actionString == null)
             return;
-        try{
-            actionString = actionString.trim();
-            int lineNum = Integer.parseInt(actionString.substring(0, 1));
-            String template = clientController.getActions().get(lineNum);
+        GameEvent event = null;
 
-            // todo: complete
+        try{
+            // removing all extra spaces
+            actionString = actionString.trim().replaceAll(" +", " ");
+
+            // getting action template
+            int lineNum = Integer.parseInt(actionString.substring(0, 1));
+            List<String> actions = clientController.getActions();
+            if(lineNum >= actions.size() || lineNum < 0)
+                throw new NumberFormatException();
+            String template = actions.get(lineNum);
+
+            // isolating input information
             actionString = actionString.substring(1).trim();
-            switch (template.split(" ")[1]){
+            int player = clientController.getPlayingPlayer();
+            String[] inputs = actionString.split(" ");
+
+            switch (template.substring(3).trim()){
+                case ("Play assistant card #") -> {
+                    int index = Integer.parseInt(actionString);
+                    event = new PlayAssistantCardEvent(AssistantCard.values()[index], player);
+                }
+                case ("Move student X from E to I #") -> {
+
+                    if(inputs.length != 2)
+                        throw new NumberFormatException();
+
+                    Color x = parseColor(inputs[0]);
+                    int index = Integer.parseInt(inputs[1]);
+                    event = new MoveStudentFromEntranceToIslandEvent(x, index, player);
+                }
+                case ("Move student X from E to DR") -> {
+                    Color x = parseColor(actionString);
+                    event = new MoveStudentFromEntranceToTableEvent(x, player);
+                }
+                case ("Move MN of # steps") -> {
+                    int steps = Integer.parseInt(actionString);
+                    event = new MoveMotherNatureEvent(steps, player);
+                }
+                case ("Choose cloud #") -> {
+                    int index = Integer.parseInt(actionString);
+                    event = new ChooseCloudTileEvent(index, player);
+                }
+                case ("Activate card #") -> {
+                    int id = Integer.parseInt(actionString);
+                    event = new ActivateCharacterCard(id, player);
+                }
                 case ("Display card # effect") -> {
                     bs.printClear();
                     printStatus();
+                    System.out.print("          ");
                     System.out.println(CharacterCard.description(Integer.parseInt(actionString)));
                 }
-                case ("Move student X from CC to I #") -> {}
-                case ("Swap X from CC with Y from E") -> {}
-                case ("End selections") -> {}
-                case ("Swap X from E with Y from DR") -> {}
-                case ("Choose I # to place a NoEntry") -> {}
-                case ("Move student X to DR") -> {}
-                case ("Calculate influence in I #") -> {}
-                case ("Choose X to not influence") -> {}
-                case ("Choose X to remove from DR(s)") -> {}
-                case ("Activate A card #") -> {}
-                case ("Move student X from E to I #") -> {}
-                case ("Move student X from E to DR") -> {}
-                case ("Move MN of # steps") -> {}
-                case ("Choose cloud #") -> {}
-                case ("Activate card #") -> {}
+                case ("Move student X from CC to I #") -> {
+                    if(inputs.length != 2)
+                        throw new NumberFormatException();
+
+                    Color x = parseColor(inputs[0]);
+                    int index = Integer.parseInt(inputs[1]);
+                    event = new MoveStudentFromCardToIslandEvent(x, index, player);
+                }
+                case ("Swap X from CC with Y from E") -> {
+                    if(inputs.length != 2)
+                        throw new NumberFormatException();
+
+                    Color x = parseColor(inputs[0]);
+                    Color y = parseColor(inputs[1]);
+                    event = new SwapStudentCardEntranceEvent(x, y, player);
+                }
+                case ("End selections") -> event = new EndSelection(player);
+                case ("Swap X from E with Y from DR") -> {
+                    if(inputs.length != 2)
+                        throw new NumberFormatException();
+
+                    Color x = parseColor(inputs[0]);
+                    Color y = parseColor(inputs[1]);
+                    event = new SwapStudentEntranceTableEvent(x, y, player);
+                }
+                case ("Choose I # to place a NoEntry"), ("Calculate influence in I #") -> {
+                    int index = Integer.parseInt(actionString);
+                    event = new ChooseIslandEvent(index, player);
+                }
+                case ("Move X from CC to DR") -> {
+                    Color x = parseColor(actionString);
+                    event = new MoveStudentFromCardToTableEvent(x, player);
+                }
+                case ("Choose X to not influence"), ("Choose X to remove from DR(s)") -> {
+                    Color x = parseColor(actionString);
+                    event = new ChooseColorEvent(x, player);
+                }
                 default -> throw new IllegalStateException("Unexpected value: " + template.split(" ")[1]);
             }
         } catch (NumberFormatException e){
             System.out.println("Not correctly formed action");
         }
+
+        if(event != null) {
+            Message answer = clientController.performEvent(event);
+            if(answer.getMessageType() == MessageType.ACK) {
+                bs.printClearMessages();
+                action.interrupt();
+            }
+            if(answer.getMessageType() == MessageType.NACK){
+                showMessage(answer);
+                action.interrupt();
+            }
+        }
+    }
+
+    private Color parseColor(String s) throws NumberFormatException{
+        s = s.toUpperCase().trim();
+        for(Color c : Color.values()){
+            if(s.equals(c.name()))
+                return c;
+        }
+        throw new NumberFormatException();
     }
 }

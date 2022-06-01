@@ -74,10 +74,8 @@ public class NetworkHandler implements Runnable{
                 answer = (Message) input.readObject();
                 log.logger.info(answer.getMessageType().toString());
 
-                if(answer.getMessageType() == MessageType.NACK) {
+                if(answer.getMessageType() == MessageType.NACK)
                     log.logger.warning(((Nack) answer).getErrorMessage());
-                    clientController.showMessage(answer);
-                }
 
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
@@ -248,7 +246,6 @@ public class NetworkHandler implements Runnable{
     boolean leaveRoom() throws IOException, UnexpectedMessageException{
         return occupy(new LeaveRoom()).getMessageType() == MessageType.ACK;
     }
-
     /**
      * It calls occupy with event message, if nack is returned no event has happened.
      * The consequences of a correctly executed event are a nack and the asynchronous update of all models
