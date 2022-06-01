@@ -46,4 +46,13 @@ public class FilterSearchController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void switchToLobbyNoFilters(ActionEvent event) throws IOException {
+        GUI.getInstance().getClientController().getPublicRooms(new GetPublicRooms());
+        root = FXMLLoader.load(getClass().getResource("/fxml/Lobby.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene((root));
+        stage.setScene(scene);
+        stage.show();
+    }
 }

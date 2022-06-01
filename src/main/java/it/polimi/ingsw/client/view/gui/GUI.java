@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 public class GUI extends Application implements UI{
@@ -59,7 +60,8 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
-        System.out.print(rooms);
+        //System.out.print(rooms.toString());
+        //System.out.println("mmmmh");
         LobbyController.getInstance().setPublicRooms(rooms);
 
     }
