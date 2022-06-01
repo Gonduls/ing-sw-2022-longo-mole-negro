@@ -19,7 +19,6 @@ import java.util.List;
 public class AcceptAssistantCardState extends GameState {
 
 
-
     AssistantCard[] cardsPlayedThisTurn = new AssistantCard[context.getNumberOfPlayers()];
     List<Player> newPlayingOrder;
 
@@ -64,7 +63,7 @@ public class AcceptAssistantCardState extends GameState {
             player.pickCard(cardPlayed);
         }
 
-        cardsPlayedThisTurn[context.getNumberOfPlayers()- numberOfEvents ] = cardPlayed;
+        cardsPlayedThisTurn[context.getCurrentPlayer().getPlayerNumber()] = cardPlayed;
 
         //this sets the playing order
         if(newPlayingOrder.isEmpty()){
