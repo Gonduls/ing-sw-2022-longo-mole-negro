@@ -52,7 +52,8 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
         switch (event.getEventType()) {
             case MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND: {
                 MoveStudentFromEntranceToIslandEvent eventCast = (MoveStudentFromEntranceToIslandEvent) event;
-                Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+               // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
                 int indexIsland = eventCast.getIndexIsland();
                 try {
@@ -65,7 +66,8 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
 
             case MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE: {
                 MoveStudentFromEntranceToTableEvent eventCast = (MoveStudentFromEntranceToTableEvent) event;
-                Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+               // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
                 try {
                     context.gameManager.moveStudentFromEntranceToTable(player, color);

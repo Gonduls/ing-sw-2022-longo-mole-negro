@@ -30,7 +30,7 @@ public class AcceptMotherNatureMoveState extends GameState {
             case MOVE_MOTHER_NATURE: {
                 MoveMotherNatureEvent eventCast = (MoveMotherNatureEvent) event;
 
-                //Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                //Player player = context.FyUsername(eventCast.getPlayerName());
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int amount = eventCast.getAmount();
 

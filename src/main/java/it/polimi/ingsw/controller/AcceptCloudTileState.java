@@ -29,7 +29,8 @@ public class AcceptCloudTileState extends  GameState {
         switch (event.getEventType()) {
             case CHOOSE_CLOUD_TILE: {
                 ChooseCloudTileEvent eventCast = (ChooseCloudTileEvent) event;
-                Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                //Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int cloudIndex = eventCast.getCloudIndex();
 
                 try {
@@ -91,7 +92,7 @@ public class AcceptCloudTileState extends  GameState {
 
 
 
-                if (context.getPlayerByUsername(eventCast.getPlayerName()).getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
+                if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
                     throw new Exception("You don't have enough coins");
                 }
                 context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
@@ -99,7 +100,6 @@ public class AcceptCloudTileState extends  GameState {
                 context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
 
                 context.gameManager.findCardById(cardId).increasePrice();
-
 
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));

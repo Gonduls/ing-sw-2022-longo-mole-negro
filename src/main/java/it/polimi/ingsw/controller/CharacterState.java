@@ -28,7 +28,7 @@ public abstract class CharacterState extends  GameState{
     }
 
     @Override
-    public void executeEvent(GameEvent event)  throws NoSuchStudentException {
+    public void executeEvent(GameEvent event)  throws NoSuchStudentException,Exception {
 
     }
 }
