@@ -104,7 +104,7 @@ public class Room {
             if (handlers[i] == handler)
                 handlers[i] = null;
             else
-                handlers[i].diconnectFromRoom();
+                handlers[i].disconnectFromRoom();
         }
 
         Lobby.getInstance().eliminateRoom(id);

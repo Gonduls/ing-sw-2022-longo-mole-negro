@@ -49,7 +49,7 @@ public class CLI implements UI {
     }
 
     public void start(){
-        // initializing phase
+        // initializing connections
         AnsiConsole.systemInstall();
         printClear();
         AnsiConsole.systemUninstall();
@@ -59,6 +59,7 @@ public class CLI implements UI {
         String ipAddress;
         int serverPort;
 
+        // trying connection from config file parameters
         try{
             Gson gson = new Gson();
             ConfigServer config = gson.fromJson( new String(Files.readAllBytes(Paths.get("config.json"))), ConfigServer.class);
@@ -69,6 +70,7 @@ public class CLI implements UI {
             clientController = null;
         }
 
+        // trying connection from user input parameters
         while (clientController == null){
             System.out.println("Insert the Server IP: ");
             ipAddress = input.nextLine();
@@ -82,6 +84,7 @@ public class CLI implements UI {
             }
         }
 
+        // trying login
         boolean login = false;
         do {
             System.out.println("What's your nickname? ");
@@ -94,9 +97,9 @@ public class CLI implements UI {
             }
         } while (!login);
 
-
         // pre game and game phase
         do {
+            printClear();
             preGame();
             Thread game;
             if(inARoom) {
@@ -129,7 +132,6 @@ public class CLI implements UI {
     public void preGame(){
         int playersNumber;
         do{
-            printClear();
             System.out.println("Hi " + username + ", what would you like to do?\n");
             System.out.println("""
                     1. REFRESH AVAILABLE PUBLIC ROOMS\s
@@ -193,6 +195,7 @@ public class CLI implements UI {
                     CreateRoom message = new CreateRoom(playersNumber, isExpert, isPrivate);
                     int roomID = clientController.createRoom(message);
                     if (roomID < 0) {
+                        printClear();
                         System.out.println("Could not create room, please try again");
                         break;
                     }
@@ -201,8 +204,14 @@ public class CLI implements UI {
                     inARoom = true;
                 }
                 case ("3") -> {
+                    int id = 0;
                     System.out.println("Enter the room ID: ");
-                    int id = Integer.parseInt(input.nextLine());
+                    try{
+                        id = Integer.parseInt(input.nextLine());
+                    }catch (NumberFormatException e){
+                        printClear();
+                        System.out.println("Please enter a valid ID");
+                    }
                     if (clientController.accessRoom(id)) {
                         inARoom = true;
                     }

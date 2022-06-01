@@ -1,5 +1,6 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 
@@ -18,6 +19,7 @@ public class ClientHandler implements Runnable{
     private String username = null;
     private final Lobby lobby = Lobby.getInstance();
     private Room room = null;
+    private Log log;
 
     ClientHandler(Socket client){
         this.client = client;
@@ -57,6 +59,7 @@ public class ClientHandler implements Runnable{
 
             try{
                 message = (Message) input.readObject();
+                log.logger.info(message.getMessageType().toString());
             } catch (ClassNotFoundException | ClassCastException  e) {
                 output.writeObject(new Nack("Not a message"));
                 continue;
@@ -123,12 +126,12 @@ public class ClientHandler implements Runnable{
 
             if(lobby.insertNewPlayer(username)) {
                 output.writeObject(new Ack());
+                log = new Log(username + "_handler.txt");
                 return;
             }
 
             // resets loop condition
             username = null;
-            //System.out.println("Username was already taken");
             output.writeObject(new Nack("Username was already taken"));
         }
     }
@@ -168,6 +171,7 @@ public class ClientHandler implements Runnable{
         room = lobby.getFromInitializing(m.id());
         if(room == null){
             output.writeObject(new Nack("Not an initializing room"));
+            return;
         }
 
         if (lobby.addToRoom(m.id(), this)) {
@@ -207,7 +211,7 @@ public class ClientHandler implements Runnable{
         return username;
     }
 
-    public void diconnectFromRoom(){
+    public void disconnectFromRoom(){
         room = null;
     }
 }

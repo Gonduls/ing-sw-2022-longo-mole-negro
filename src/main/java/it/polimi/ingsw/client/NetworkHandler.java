@@ -213,6 +213,7 @@ public class NetworkHandler implements Runnable{
      * @throws IOException if the input/output stream are not correctly set up
      */
     void getPublicRooms(GetPublicRooms message) throws IOException{
+        log.logger.info("Sending getPublicRooms message");
         output.writeObject(message);
     }
 
