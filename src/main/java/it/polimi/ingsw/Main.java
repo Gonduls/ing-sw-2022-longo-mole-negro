@@ -10,32 +10,33 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-    final static String ERROR_VALID = "\nERROR: please insert a valid integer.\n";
+    static final String ERROR_VALID = "\nERROR: please insert a valid integer.\n";
 
     public static void main(String[] args) {
         boolean server = false;
-
+        Lobby lobby = null;
+        Log.setDebug(false);
 
         for(String s : args){
             if(s.startsWith("-s")){
                 server = true;
-
-
             } else if (s.startsWith("-c")) {
                 new Main().notmain(args);
                 return;
             } else if(server){
-                Lobby lobby;
                 try {
                     System.out.println(s);
                     lobby = Lobby.getInstance(Integer.parseInt(s));
                 } catch (NumberFormatException e){
                     lobby = Lobby.getInstance();
                 }
-                lobby.listen();
-            }
+            } else if(s.startsWith("-d"))
+                Log.setDebug(true);
+
         }
 
+        if(lobby != null)
+            lobby.listen();
 
         System.out.println("Please enter if you are a client or a server");
         System.out.println("1. SERVER");
@@ -61,7 +62,6 @@ public class Main {
         while (continueInput);
 
         if(role == 1){
-            Lobby lobby;
             try {
                 lobby = Lobby.getInstance(9999);
             } catch (NumberFormatException e){
@@ -86,29 +86,26 @@ public class Main {
 
         if (args != null) {
             for (String currentArgument : args) {
-                switch (currentArgument) {
-                    case "-cli":
-                        if (!viewModeArg) {
-                            viewModeArg = true;
-                            viewModeChoice = 1;
-                            System.out.println("CLIENT SETTINGS: <CLI> ON");
-                        } else {
+                if ("-cli".equals(currentArgument)) {
+                    if (!viewModeArg) {
+                        viewModeArg = true;
+                        viewModeChoice = 1;
+                        System.out.println("CLIENT SETTINGS: <CLI> ON");
+                    } else {
 //                            Double mode selected - choice during runtime
-                            viewModeArg = false;
-                            viewModeChoice = -1;
-                        }
-                        break;
-                    case "-gui":
-                        if (!viewModeArg) {
-                            viewModeArg = true;
-                            viewModeChoice = 2;
-                            System.out.println("CLIENT SETTINGS: <GUI> ON");
-                        } else {
+                        viewModeArg = false;
+                        viewModeChoice = -1;
+                    }
+                } else if ("-gui".equals(currentArgument)) {
+                    if (!viewModeArg) {
+                        viewModeArg = true;
+                        viewModeChoice = 2;
+                        System.out.println("CLIENT SETTINGS: <GUI> ON");
+                    } else {
 //                            Double mode selected - choice during runtime
-                            viewModeArg = false;
-                            viewModeChoice = -1;
-                        }
-                        break;
+                        viewModeArg = false;
+                        viewModeChoice = -1;
+                    }
                 }
             }
         }
@@ -141,17 +138,14 @@ public class Main {
         argsToForward.toArray(argsString);
 
         switch (viewModeChoice) {
-            case 1:
+            case 1 ->
                 //starts the cli
-                CLI.getInstance().start();
-                break;
-            case 2:
-                Application.launch(GUI.class, argsString);
-                break;
-            default:
+                    CLI.getInstance().start();
+            case 2 -> Application.launch(GUI.class, argsString);
+            default -> {
                 System.out.println("ERROR: please insert a valid integer.");
                 System.exit(0);
-                break;
+            }
         }
     }
 }

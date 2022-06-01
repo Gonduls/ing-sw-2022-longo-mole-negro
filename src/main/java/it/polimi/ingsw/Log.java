@@ -9,22 +9,32 @@ import java.util.logging.SimpleFormatter;
 public class Log {
     public final Logger logger;
     private FileHandler fh;
+    private static boolean debug;
 
-    public Log(String file_name) throws SecurityException {
-        File f = new File(file_name);
+    public Log(String fileName) throws SecurityException {
+        File f = new File(fileName);
         logger = Logger.getLogger("test");
+        logger.setUseParentHandlers(false);
+
+        if(!debug)
+            return;
+
         try{
             if(!f.exists()) {
                 f.createNewFile();
             }
-            fh = new FileHandler(file_name, true);
+            fh = new FileHandler(fileName, true);
         } catch (IOException e){
             logger.warning("Could not open file");
             logger.severe(e.getMessage());
         }
-        logger.setUseParentHandlers(false);
+
         logger.addHandler(fh);
         SimpleFormatter formatter = new SimpleFormatter();
         fh.setFormatter(formatter);
+    }
+
+    public static void setDebug(boolean value){
+        debug = value;
     }
 }
