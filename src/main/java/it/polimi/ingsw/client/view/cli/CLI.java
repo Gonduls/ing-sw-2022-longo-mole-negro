@@ -48,8 +48,10 @@ public class CLI implements UI {
     }
 
     public void start(){
+        // initializing phase
         AnsiConsole.systemInstall();
         printClear();
+        AnsiConsole.systemUninstall();
 
         System.out.println("Welcome to ");
         gameTitle();
@@ -91,8 +93,11 @@ public class CLI implements UI {
             }
         } while (!login);
 
+
+        // pre game and game phase
         do {
             preGame();
+
             if(inARoom) {
                 kill = false;
                 game = new Thread(this::game);
@@ -401,6 +406,8 @@ public class CLI implements UI {
             switch (template.substring(3).trim()){
                 case ("Play assistant card #") -> {
                     int index = Integer.parseInt(actionString);
+                    if(index < 1 || index > 10)
+                        throw new NumberFormatException();
                     event = new PlayAssistantCardEvent(AssistantCard.values()[index -1], player);
                 }
                 case ("Move student X from E to I #") -> {
@@ -497,5 +504,9 @@ public class CLI implements UI {
                 return c;
         }
         throw new NumberFormatException();
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
