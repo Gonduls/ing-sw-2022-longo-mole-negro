@@ -95,9 +95,9 @@ public class RoundController {
 
 
         // REMOVE
-        if( !playingOrder.get(playingOrderIndex).getUsername().equals(event.getPlayerName())){
+       /* if( !playingOrder.get(playingOrderIndex).getUsername().equals(event.getPlayerName())){
             throw new Exception("It's not your turn");
-        }
+        } */
 
         if(playingOrder.get(playingOrderIndex).getPlayerNumber() != event.getPlayerNumber()){
             throw new Exception("It's not your turn");
