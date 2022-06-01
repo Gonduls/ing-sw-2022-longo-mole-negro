@@ -174,7 +174,6 @@ public class ClientModelManager {
                 PlayAssistantCard pac = (PlayAssistantCard) message;
                 deck.remove(pac.assistantCard());
             }
-
             case ACTIVATE_CHARACTER_CARD -> {
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
                 activated.put(acc.characterCardIndex(), true);
@@ -202,11 +201,6 @@ public class ClientModelManager {
             }
             default -> throw(new UnexpectedMessageException("Message does not update the model"));
         }
-        //parsing message
-
-        //update model
-
-
     }
 
     void moveStudent(String from, String to, Color color){
@@ -241,6 +235,7 @@ public class ClientModelManager {
             ClientIsland island = islands.get(indexIslands);
             towers[indexPlayers] += amount;
             island.setTowers(island.getTowers() - amount);
+            island.setTc(null);
             return;
         }
 
@@ -249,6 +244,8 @@ public class ClientModelManager {
         ClientIsland island = islands.get(indexIslands);
         towers[indexPlayers] -= amount;
         island.setTowers(island.getTowers() + amount);
+        island.setTc(TowerColor.values()[indexPlayers]);
+
     }
 
     private EnumMap<Color, Integer> parsePosition(String pos){

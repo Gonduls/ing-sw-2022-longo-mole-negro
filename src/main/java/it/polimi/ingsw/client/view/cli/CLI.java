@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.gson.Gson;
@@ -34,7 +35,7 @@ public class CLI implements UI {
     boolean inARoom = false, kill;
     private ClientModelManager cmm;
     private BoardStatus bs;
-    private Thread game, action;
+    private Thread action;
     boolean logout = false;
     Log log;
     private String actionString;
@@ -97,7 +98,7 @@ public class CLI implements UI {
         // pre game and game phase
         do {
             preGame();
-
+            Thread game;
             if(inARoom) {
                 kill = false;
                 game = new Thread(this::game);
@@ -229,13 +230,14 @@ public class CLI implements UI {
         boolean exit = false;
 
         while(!exit && !kill){
-
             action = new Thread(() -> {
                 try {
-                    System.out.print("          > ");
+                    TimeUnit.MILLISECONDS.sleep(500);
+                    System.out.print("> ");
                     actionString = (new Scanner(System.in)).nextLine();
-                } catch (IndexOutOfBoundsException ignored){
+                } catch (IndexOutOfBoundsException | InterruptedException ignored){
                     log.logger.info("Stopping listen");
+                    Thread.currentThread().interrupt();
                 }
             });
             action.start();
@@ -247,7 +249,7 @@ public class CLI implements UI {
                 Thread.currentThread().interrupt();
             }
 
-            // if kill game hase been called while I was waiting for a line
+            // if kill game has been changed while I was waiting for a line
             if(kill)
                 return;
 
@@ -305,7 +307,10 @@ public class CLI implements UI {
     public void printStatus() {
         if(clientController.getPlayingPlayer() == -1)
             return;
+        printClear();
         bs.printStatus(cmm, clientController);
+        if(action != null)
+            action.interrupt();
     }
 
     @Override
@@ -326,9 +331,6 @@ public class CLI implements UI {
 
     @Override
     public void showMessage(Message message) {
-        AnsiConsole.systemInstall();
-        AnsiConsole.out().print(Ansi.ansi().cursorRight(10));
-        AnsiConsole.systemUninstall();
         switch (message.getMessageType()) {
             case NACK -> System.out.println(((Nack) message).getErrorMessage());
             case ADD_PLAYER -> {
@@ -352,7 +354,6 @@ public class CLI implements UI {
             default ->
                     System.out.print(message.getMessageType());
         }
-
     }
 
     @Override
@@ -425,6 +426,8 @@ public class CLI implements UI {
                 }
                 case ("Move MN of # steps") -> {
                     int steps = Integer.parseInt(actionString);
+                    if(steps < 1)
+                        throw new NumberFormatException();
                     event = new MoveMotherNatureEvent(steps, player);
                 }
                 case ("Choose cloud #") -> {
@@ -438,8 +441,9 @@ public class CLI implements UI {
                 case ("Display card # effect") -> {
                     bs.printClear();
                     printStatus();
-                    System.out.print("          ");
                     System.out.println(CharacterCard.description(Integer.parseInt(actionString)));
+                    System.out.print("            ");
+                    action.interrupt();
                 }
                 case ("Move student X from CC to I #") -> {
                     if(inputs.length != 2)
@@ -478,20 +482,32 @@ public class CLI implements UI {
                     Color x = parseColor(actionString);
                     event = new ChooseColorEvent(x, player);
                 }
-                default -> throw new IllegalStateException("Unexpected value: " + template.split(" ")[1]);
+                default -> {
+                    bs.printClear();
+                    printStatus();
+                    action.interrupt();
+                    return;
+                }
             }
         } catch (NumberFormatException e){
-            System.out.println("Not correctly formed action");
+            System.out.println("            Not correctly formed action");
+            System.out.println("            ");
         }
 
         if(event != null) {
             Message answer = clientController.performEvent(event);
             if(answer.getMessageType() == MessageType.ACK) {
-                bs.printClearMessages();
+                bs.printClear();
+                printStatus();
                 action.interrupt();
             }
             if(answer.getMessageType() == MessageType.NACK){
+                AnsiConsole.systemInstall();
+                AnsiConsole.out().print(Ansi.ansi().cursorRight(13));
                 showMessage(answer);
+                AnsiConsole.out().print(Ansi.ansi().cursorRight(13));
+
+                AnsiConsole.systemUninstall();
                 action.interrupt();
             }
         }

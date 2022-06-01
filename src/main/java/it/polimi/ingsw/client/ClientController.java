@@ -9,7 +9,6 @@ import it.polimi.ingsw.server.RoomInfo;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ClientController {
@@ -26,7 +25,6 @@ public class ClientController {
     private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     private int activeCharacterCard;
     private boolean expert;
-    private List<String> actions;
     private boolean finishedCardActions;
 
 
@@ -55,7 +53,6 @@ public class ClientController {
             throw(new UnexpectedMessageException("Did not receive a message that modifies the model"));
 
         boolean updates = false;
-        // todo: finish
         switch (message.getMessageType()){
 
             case ADD_PLAYER -> {
@@ -187,7 +184,7 @@ public class ClientController {
     }
 
     public List<String> getActions(){
-        actions = new ArrayList<>();
+        List<String> actions = new ArrayList<>();
         if(!myTurn()){
             if(expert)
                 actions.add(0 + ") Display card # effect");
@@ -224,9 +221,9 @@ public class ClientController {
                 i++;
             }
             case ACTION_PHASE_ONE ->{
-                actions.add(i + ") Move student X from E to I #");
-                i++;
                 actions.add(i + ") Move student X from E to DR");
+                i++;
+                actions.add(i + ") Move student X from E to I #");
                 i++;
             }
             case ACTION_PHASE_TWO -> {

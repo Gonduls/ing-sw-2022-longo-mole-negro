@@ -26,27 +26,27 @@ public class BoardStatus {
 
         for(int i = 0; i<12; i++){
             switch (i){
-                case 0 -> islands.add(new Coordinates(5, 62));
-                case 1 -> islands.add(new Coordinates(3, 77));
-                case 2 -> islands.add(new Coordinates(3, 93));
-                case 3 -> islands.add(new Coordinates(5, 108));
-                case 4 -> islands.add(new Coordinates(10, 120));
-                case 5 -> islands.add(new Coordinates(18, 120));
-                case 6 -> islands.add(new Coordinates(23, 108));
-                case 7 -> islands.add(new Coordinates(25, 93));
-                case 8 -> islands.add(new Coordinates(25, 77));
-                case 9 -> islands.add(new Coordinates(23, 62));
-                case 10 -> islands.add(new Coordinates(18, 49));
-                default -> islands.add(new Coordinates(10, 49));
+                case 0 -> islands.add(new Coordinates(5, 64));
+                case 1 -> islands.add(new Coordinates(3, 79));
+                case 2 -> islands.add(new Coordinates(3, 95));
+                case 3 -> islands.add(new Coordinates(5, 110));
+                case 4 -> islands.add(new Coordinates(10, 122));
+                case 5 -> islands.add(new Coordinates(18, 122));
+                case 6 -> islands.add(new Coordinates(23, 110));
+                case 7 -> islands.add(new Coordinates(25, 95));
+                case 8 -> islands.add(new Coordinates(25, 79));
+                case 9 -> islands.add(new Coordinates(23, 64));
+                case 10 -> islands.add(new Coordinates(18, 51));
+                default -> islands.add(new Coordinates(10, 51));
 
             }
         }
 
         for(int i = 0; i < numberOfPlayers; i++){
-            schools[i] = new Coordinates(1 + 8*i, 146);
+            schools[i] = new Coordinates(1 + 8*i, 148);
         }
 
-        Coordinates[] cloudsC = new Coordinates[]{new Coordinates(11, 73), new Coordinates(12, 95), new Coordinates(17, 73), new Coordinates(19, 97)};
+        Coordinates[] cloudsC = new Coordinates[]{new Coordinates(11, 75), new Coordinates(12, 97), new Coordinates(17, 75), new Coordinates(19, 99)};
         if(numberOfPlayers == 4){
             clouds[0] = cloudsC[0];
             clouds[1] = cloudsC[1];
@@ -78,7 +78,7 @@ public class BoardStatus {
         printSchools(cmm, cc.getPlayers());
         printCards(cmm, cc);
         printInfo(cmm.getPlayers()[cc.getPlayingPlayer()], cc.getPhase(), cc.getActions());
-        AnsiConsole.out().print(Ansi.ansi().cursor(40, 0));
+        AnsiConsole.out().print(Ansi.ansi().cursor(40, 13));
         AnsiConsole.systemUninstall();
     }
 
@@ -115,10 +115,10 @@ public class BoardStatus {
             }
 
             //printing Towers
-            ansi.cursorRight(3);
+            ansi.cursor(y + 2, x +8);
             if(ci.getTowers() >0 && ci.getTc() != null){
                 switch (ci.getTc()) {
-                    case BLACK -> ansi.a("T:").fgBrightBlack().a(ci.getTowers()).bgDefault();
+                    case BLACK -> ansi.a("T:").fgBrightBlack().a(ci.getTowers()).fgDefault();
                     case WHITE -> ansi.a("T:").a(render(ci.getTowers(), Ansi.Color.WHITE));
                     case GREY -> ansi.a("T:").a(render(ci.getTowers(), 0xa8a8a8));
                 }
@@ -144,6 +144,7 @@ public class BoardStatus {
             int x = c.column();
             int y = c.row();
 
+            // printing template
             List<String> lines = new ArrayList<>();
             lines.add(" ___________________");
             lines.add("| " + j + "                 |");
@@ -159,9 +160,11 @@ public class BoardStatus {
                 ansi.cursorDownLine().cursorRight(x).a(s);
             }
 
+            // printing username
             if (CLI.getInstance().getUsername().equals(players[j]))
                 ansi.cursor(y + 2, x +4).a("★");
 
+            // printing professors, dining rooms and entrances
             ansi.cursor(y + 2, x + 7);
             for(Color color : Color.values()){
                 if(cmm.getProfessors().get(color) == j)
@@ -176,15 +179,17 @@ public class BoardStatus {
 
             }
 
+            // printing coins
             ansi.cursor(y + 7, x + 3);
             if(expert)
                 ansi.a("$" + cmm.getCoins(j));
 
+            // printing towers
             ansi.cursorRight(1);
             if(cmm.getTowers(j) > 0){
                 switch (j) {
-                    case 0 -> ansi.a(render("T: " + cmm.getTowers(j), Ansi.Color.WHITE));
-                    case 1 -> ansi.a("T: ").bg(0xffffff).a(render(cmm.getTowers(j), 0x000000)).bgDefault();
+                    case 0 -> ansi.a("T: ").fgBrightBlack().a(cmm.getTowers(j)).fgDefault();
+                    case 1 -> ansi.a(render("T: " + cmm.getTowers(j), Ansi.Color.WHITE));
                     default -> ansi.a("T: ").a(render(cmm.getTowers(j), 0xa8a8a8a8));
                 }
             }
@@ -233,13 +238,13 @@ public class BoardStatus {
         Ansi ansi = Ansi.ansi();
 
         List<String> lines = new ArrayList<>();
-        lines.add(" _______________________________");
-        lines.add("| Turn:                         |");
-        lines.add("|-------------------------------|");
-        lines.add("| Phase:                        |");
-        lines.add("|-------------------------------|");
-        lines.add("| Possible actions:             |");
-        String empty = "|                               |";
+        lines.add(" _________________________________");
+        lines.add("| Turn:                           |");
+        lines.add("|---------------------------------|");
+        lines.add("| Phase:                          |");
+        lines.add("|---------------------------------|");
+        lines.add("| Possible actions:               |");
+        String empty = "|                                 |";
         lines.add(empty);
         lines.add(empty);
         lines.add(empty);
@@ -248,7 +253,7 @@ public class BoardStatus {
         lines.add(empty);
         lines.add(empty);
         lines.add(empty);
-        lines.add("|_______________________________|");
+        lines.add("|_________________________________|");
 
         ansi.cursor(2, 8);
         for (String s : lines) {
@@ -261,7 +266,7 @@ public class BoardStatus {
                 case PLANNING_PHASE -> phaseS = "Planning";
                 case ACTION_PHASE_ONE -> phaseS = "Move Students";
                 case ACTION_PHASE_TWO -> phaseS = "Move Mother Nature";
-                case ACTION_PHASE_THREE -> phaseS = "Chose Island";
+                case ACTION_PHASE_THREE -> phaseS = "Choose Island";
             }
 
         ansi.cursor(6, 20).a(phaseS);
@@ -279,14 +284,14 @@ public class BoardStatus {
 
         ansi.cursor(24, 0);
 
-        lines.add(" ______________________________ ");
-        lines.add("| Assistant card left:         |");
-        lines.add("|                              |");
-        lines.add("| Steps for assistant card:    |");
-        lines.add("|                              |");
-        lines.add("| Assistant played this turn:  |");
-        lines.add("|                              |");
-        lines.add("|______________________________|");
+        lines.add(" _________________________________ ");
+        lines.add("| Assistant card left:            |");
+        lines.add("|                                 |");
+        lines.add("| Steps for assistant card:       |");
+        lines.add("|                                 |");
+        lines.add("| Assistant played this turn:     |");
+        lines.add("|                                 |");
+        lines.add("|_________________________________|");
 
         for(String s : lines)
             ansi.cursorDownLine().cursorRight(8).a(s);
@@ -314,13 +319,13 @@ public class BoardStatus {
         if(expert){
             // adding expert part
             lines = new ArrayList<>();
-            lines.add(" ______________________________ ");
-            lines.add("| Card used in this turn:      |");
-            lines.add("| Available cards:             |");
-            lines.add("|   ) $                        |");
-            lines.add("|   ) $                        |");
-            lines.add("|   ) $                        |");
-            lines.add("|------------------------------|");
+            lines.add(" _________________________________ ");
+            lines.add("| Card used in this turn:         |");
+            lines.add("| Available cards:                |");
+            lines.add("|   ) $                           |");
+            lines.add("|   ) $                           |");
+            lines.add("|   ) $                           |");
+            lines.add("|---------------------------------|");
 
             // adding empty expert part
             ansi.cursor(18, 0);
@@ -377,17 +382,6 @@ public class BoardStatus {
         Ansi ansi = Ansi.ansi();
         System.out.println( ansi.eraseScreen() );
         System.out.println( ansi.cursor(0, 0) );
-        AnsiConsole.systemUninstall();
-    }
-    void printClearMessages(){
-        AnsiConsole.systemInstall();
-        Ansi ansi = Ansi.ansi();
-
-        ansi.cursor(40, 0);
-        for(int i = 0; i < 10 ; i++){
-            AnsiConsole.out().print(ansi().eraseLine(Ansi.Erase.FORWARD));
-        }
-        AnsiConsole.out().print(ansi.cursor(40, 0));
         AnsiConsole.systemUninstall();
     }
 
