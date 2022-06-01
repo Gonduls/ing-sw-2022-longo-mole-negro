@@ -31,7 +31,8 @@ public class CharacterThreeState extends CharacterState{
             context.changeState(nextState);
         } else{
             SwapStudentEntranceTableEvent eventCast = (SwapStudentEntranceTableEvent) event;
-            Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+          //  Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+            Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
 
             if (player.getSchool().getStudentsAtEntrance().getStudentByColor(eventCast.getStudentFromEntrance()) ==0)
                 throw new NoSuchStudentException("the player doesn't have this student in the entrance");

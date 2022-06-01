@@ -45,7 +45,8 @@ public class CharacterTwoState extends CharacterState{
         } else if(gameEvent.getEventType() == GameEventType.SWAP_STUDENT_CARD_ENTRANCE){
 
             SwapStudentCardEntranceEvent eventCast = (SwapStudentCardEntranceEvent) gameEvent;
-            Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+          //  Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+            Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
 
             if (cc.getStudentHolder().getStudentByColor(eventCast.getStudentFromCard()) ==0)
                 throw new NoSuchStudentException("the card doesn't have this student");

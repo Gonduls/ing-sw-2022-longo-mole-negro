@@ -33,7 +33,8 @@ public class CharacterSevenState extends CharacterState{
     public void executeEvent(GameEvent event) throws NoSuchStudentException {
         MoveStudentFromCardToTableEvent eventCast = (MoveStudentFromCardToTableEvent) event;
         Color color = eventCast.getColor();
-        Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+        //Player player = context.getPlayerByUsername(eventCast.getPlayerName());
+        Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
         try {
             cc.getStudentHolder().moveStudentTo(color, player.getSchool().getStudentsAtTables());
             Color newColor = context.gameManager.getBag().extractRandomStudent();
