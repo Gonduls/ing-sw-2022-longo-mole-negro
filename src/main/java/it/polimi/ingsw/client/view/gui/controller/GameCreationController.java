@@ -32,6 +32,12 @@ public class GameCreationController implements Initializable {
     private Spinner<Integer> mySpinner;
 
     @FXML
+    private Label newGameLabel;
+
+    @FXML
+    private Label playersNumberLabel;
+
+    @FXML
     private Label yourRoomID;
 
     @FXML
@@ -67,6 +73,8 @@ public class GameCreationController implements Initializable {
         checkPrivate.setVisible(false);
         checkExpert.setVisible(false);
         continueButton.setVisible(false);
+        newGameLabel.setVisible(false);
+        playersNumberLabel.setVisible(false);
         yourRoomID.setVisible(true);
         RoomID.setVisible(true);
         continueButton1.setVisible(true);
