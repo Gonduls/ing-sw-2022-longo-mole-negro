@@ -33,12 +33,9 @@ public class AcceptCloudTileState extends  GameState {
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int cloudIndex = eventCast.getCloudIndex();
 
-                try {
                     context.gameManager.emptyCloudInPlayer(cloudIndex, player);
                     numberOfEvents--;
-                } catch (NoSpaceForStudentException | NoSuchStudentException e) {
-                    //todo:  non dovrebbe essere possibile
-                }
+
 
                 if (numberOfEvents == 0) {
                     if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {

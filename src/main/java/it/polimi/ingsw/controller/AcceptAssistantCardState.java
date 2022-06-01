@@ -44,7 +44,7 @@ public class AcceptAssistantCardState extends GameState {
 
        // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
         Player  player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
-
+         boolean lastElement;
 
         if (player.getCardsLeft().contains(cardPlayed)){
             for(int i =0 ; i< context.getNumberOfPlayers(); i++){
@@ -78,17 +78,21 @@ public class AcceptAssistantCardState extends GameState {
 
         }
         else {
+            lastElement = true;
             for(int i = 0; i < newPlayingOrder.size();i++){
                 //this works on the hypothesis that the list is already ordered in ascending order
                 if(cardPlayed.getValue() < cardsPlayedThisTurn[newPlayingOrder.get(i).getPlayerNumber()].getValue()){
                     newPlayingOrder.add(i, player);
+                    lastElement = false;
                     break;
                 }
                 //in case we are inserting the  biggest element so far
-                if(i== newPlayingOrder.size()-1){
-                    newPlayingOrder.add(player);
-                }
             }
+
+            if (lastElement){
+                newPlayingOrder.add(player);
+            }
+
 
 
         }
@@ -108,7 +112,9 @@ public class AcceptAssistantCardState extends GameState {
 
             context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
 
-            context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
+
+
+            context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers() == 3?4:3 ));
 
             context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
         }
