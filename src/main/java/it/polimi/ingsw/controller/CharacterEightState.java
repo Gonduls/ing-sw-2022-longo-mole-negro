@@ -8,9 +8,6 @@ import it.polimi.ingsw.messages.GameEvent;
 public class CharacterEightState extends CharacterState{
     GameState nextState;
 
-    CharacterEightState(RoundController context, int numberOfEvents) {
-        super(context, numberOfEvents);
-    }
 
     public CharacterEightState(RoundController context, int numberOfEvents, GameState nextState) {
         super(context, numberOfEvents);

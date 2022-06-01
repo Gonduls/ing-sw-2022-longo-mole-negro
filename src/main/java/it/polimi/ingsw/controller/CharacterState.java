@@ -7,18 +7,15 @@ import it.polimi.ingsw.model.CharacterCard;
 public abstract class CharacterState extends  GameState{
 
 
-
+    //todo make actual use of inheritance and factor out nextState and cc in this class.
 
     CharacterState(RoundController context, int numberOfEvents) {
         super(context, numberOfEvents);
     }
 
-
+    // this is here only for templating reasons.
     CharacterState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc){
         super(context,numberOfEvents);
-
-
-
     }
 
 

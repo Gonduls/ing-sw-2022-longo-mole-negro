@@ -28,11 +28,11 @@ public class CharacterZeroState extends CharacterState {
     GameState nextState;
 
     public CharacterZeroState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc) {
-        super(context, numberOfEvents, nextState,cc);
+        super(context, numberOfEvents);
         this.nextState = nextState;
+        this.cc =cc;
         color = null;
         islandIndex = -1;
-        this.cc =cc;
     }
 
     @Override

@@ -11,9 +11,11 @@ import it.polimi.ingsw.model.Player;
 public class CharacterThreeState extends CharacterState{
 
     GameState nextState;
+    CharacterCard charCard;
     public CharacterThreeState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc) {
-        super(context, numberOfEvents, nextState, cc);
+        super(context, numberOfEvents);
         this.nextState=nextState;
+        this.charCard=cc;
 
     }
 

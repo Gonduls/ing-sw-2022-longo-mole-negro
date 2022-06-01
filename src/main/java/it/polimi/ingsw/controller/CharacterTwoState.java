@@ -22,11 +22,9 @@ public class CharacterTwoState extends CharacterState{
 
 
     public CharacterTwoState(RoundController context, int numberOfEvents, GameState nextState, CharacterCard cc) {
-        super(context,numberOfEvents,nextState,cc);
-        this.nextState = nextState;
-        this.context=context;
+        super(context,numberOfEvents);
         this.cc = cc;
-        this.numberOfEvents = numberOfEvents;
+        this.nextState = nextState;
     }
 
 
