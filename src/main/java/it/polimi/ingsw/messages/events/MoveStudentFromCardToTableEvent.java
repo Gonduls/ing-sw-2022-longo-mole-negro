@@ -10,6 +10,10 @@ public class MoveStudentFromCardToTableEvent extends GameEvent {
 
     int playerNumber;
 
+    public MoveStudentFromCardToTableEvent(Color color, int playerNumber) {
+        this.color = color;
+        this.playerNumber = playerNumber;
+    }
 
     @Override
     public GameEventType getEventType() {
