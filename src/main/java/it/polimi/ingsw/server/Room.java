@@ -98,6 +98,9 @@ public class Room {
 
     void playerDisconnect( ClientHandler handler){
         for(int i = 0; i< players.length; i++){
+            if(handlers[i] == null)
+                break;
+
             if (handlers[i] == handler)
                 handlers[i] = null;
             else
