@@ -24,12 +24,10 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
     @Override
     public boolean checkValidEvent(GameEvent event) {
         if (event.getEventType() == GameEventType.MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND) {
-            numberOfEvents--;
             return true;
         }
 
         if (event.getEventType() == GameEventType.MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE) {
-            numberOfEvents--;
             return true;
         }
 
