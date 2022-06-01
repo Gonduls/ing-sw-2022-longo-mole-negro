@@ -134,14 +134,11 @@ public class Main {
             while (continueInput);
         }
 
-        String[] argsString = new String[argsToForward.size()];
-        argsToForward.toArray(argsString);
-
         switch (viewModeChoice) {
             case 1 ->
                 //starts the cli
                     CLI.getInstance().start();
-            case 2 -> Application.launch(GUI.class, argsString);
+            case 2 -> Application.launch(GUI.class);
             default -> {
                 System.out.println("ERROR: please insert a valid integer.");
                 System.exit(0);

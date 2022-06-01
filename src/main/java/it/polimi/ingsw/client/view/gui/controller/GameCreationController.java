@@ -32,18 +32,6 @@ public class GameCreationController implements Initializable {
     private Spinner<Integer> mySpinner;
 
     @FXML
-    private Label newGameLabel;
-
-    @FXML
-    private Label playersNumberLabel;
-
-    @FXML
-    private Label yourRoomID;
-
-    @FXML
-    private Label RoomID;
-
-    @FXML
     private CheckBox checkPrivate;
 
     @FXML
@@ -53,7 +41,10 @@ public class GameCreationController implements Initializable {
     private Button continueButton;
 
     @FXML
-    private Button continueButton1;
+    private Label errorAccessRoom;
+
+    private static Integer roomID;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -67,19 +58,15 @@ public class GameCreationController implements Initializable {
         boolean expertGame = checkExpert.isSelected();
         boolean privateGame = checkPrivate.isSelected();
         CreateRoom createRoom = new CreateRoom(mySpinner.getValue(), expertGame, privateGame);
-        RoomID.setText(String.valueOf((GUI.getInstance().getClientController().createRoom(createRoom))));
-
-        mySpinner.setVisible(false);
-        checkPrivate.setVisible(false);
-        checkExpert.setVisible(false);
-        continueButton.setVisible(false);
-        newGameLabel.setVisible(false);
-        playersNumberLabel.setVisible(false);
-        yourRoomID.setVisible(true);
-        RoomID.setVisible(true);
-        continueButton1.setVisible(true);
-
-
+        roomID  = (GUI.getInstance().getClientController().createRoom(createRoom));
+        if(GUI.getInstance().getClientController().accessRoom(roomID)) {
+            errorAccessRoom.setText("ID: " + roomID + " Waiting for players...");
+            errorAccessRoom.setVisible(true);
+        } else {
+            errorAccessRoom.setText("Could not access Room. Try Again.");
+            errorAccessRoom.setVisible(true);
+        }
+        //TODO: deve anche creare il game effettivo -> implementa GUI
     }
 
     public void switchToJoinGame(ActionEvent event) throws IOException {
