@@ -301,7 +301,7 @@ public class BoardStatus {
                 ansi.a(ac.getSteps());
             }
         }
-        ansi.cursor(31, 10);
+        ansi.cursor(31, 11);
         for(int i = 0; i < 4; i++){
             if(cc.getAssistantCardsPlayed()[i] != -1) {
                 ansi.a("(" + i + ", " + cc.getAssistantCardsPlayed()[i] + ") ");

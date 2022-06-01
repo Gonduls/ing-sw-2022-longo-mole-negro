@@ -132,7 +132,6 @@ public class CLI implements UI {
                     4. LOGOUT\s
                     """);
             String chosenAction = input.nextLine();
-            System.out.println("line in preGame");
             switch (chosenAction) {
                 case ("1") -> {
                     System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
@@ -230,7 +229,6 @@ public class CLI implements UI {
                 try {
                     System.out.print("          > ");
                     actionString = (new Scanner(System.in)).nextLine();
-                    System.out.println("line in game");
                 } catch (IndexOutOfBoundsException ignored){
                     log.logger.info("Stopping listen");
                 }
@@ -403,7 +401,7 @@ public class CLI implements UI {
             switch (template.substring(3).trim()){
                 case ("Play assistant card #") -> {
                     int index = Integer.parseInt(actionString);
-                    event = new PlayAssistantCardEvent(AssistantCard.values()[index], player);
+                    event = new PlayAssistantCardEvent(AssistantCard.values()[index -1], player);
                 }
                 case ("Move student X from E to I #") -> {
 
