@@ -116,7 +116,7 @@ public class BoardStatus {
 
             //printing Towers
             ansi.cursorRight(3);
-            if(ci.getTowers() >0){
+            if(ci.getTowers() >0 && ci.getTc() != null){
                 switch (ci.getTc()) {
                     case BLACK -> ansi.a("T:").fgBrightBlack().a(ci.getTowers()).bgDefault();
                     case WHITE -> ansi.a("T:").a(render(ci.getTowers(), Ansi.Color.WHITE));
@@ -159,6 +159,9 @@ public class BoardStatus {
                 ansi.cursorDownLine().cursorRight(x).a(s);
             }
 
+            if (CLI.getInstance().getUsername().equals(players[j]))
+                ansi.cursor(y + 2, x +4).a("★");
+
             ansi.cursor(y + 2, x + 7);
             for(Color color : Color.values()){
                 if(cmm.getProfessors().get(color) == j)
@@ -178,7 +181,6 @@ public class BoardStatus {
                 ansi.a("$" + cmm.getCoins(j));
 
             ansi.cursorRight(1);
-            // todo: change tower colors
             if(cmm.getTowers(j) > 0){
                 switch (j) {
                     case 0 -> ansi.a(render("T: " + cmm.getTowers(j), Ansi.Color.WHITE));
@@ -188,6 +190,7 @@ public class BoardStatus {
             }
 
             ansi.cursorRight(2).a(players[j]);
+
 
             AnsiConsole.out().print(ansi);
             j++;
@@ -389,6 +392,13 @@ public class BoardStatus {
     }
 
     public Object renderColor(Object object, Color color){
+
+        if (object.getClass() == Integer.class){
+            int a = (Integer) object;
+            if (a == 0)
+                return " ";
+        }
+
         return switch (color) {
             case RED -> ansi().fgRgb(0xee2e2c).a(object).fgDefault();
             case BLUE -> ansi().fgBrightCyan().a(object).fgDefault();
