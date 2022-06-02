@@ -121,7 +121,7 @@ public class ClientModelManager {
     }
 
     public Integer getPrice(int cardId) {
-        return prices.get(cardId) + (activated.get(cardId)!= null && activated.get(cardId) ? 1 : 0);
+        return prices.get(cardId) + (activated.get(cardId) ? 1 : 0);
     }
 
     public int getTowers(int playerIndex) {
@@ -159,7 +159,7 @@ public class ClientModelManager {
                 moveTowers(mt.from(), mt.to(), mt.amount());
             }
             case MERGE_ISLANDS -> {
-                ui.merge();
+                ui.merge(((MergeIslands) message).secondIslandIndex());
                 mergeIslands((MergeIslands) message);
             }
             case SET_PROFESSOR_TO -> {
@@ -270,8 +270,10 @@ public class ClientModelManager {
     }
 
     void mergeIslands(MergeIslands message) {
-        ClientIsland island1 = islands.get(message.firstIslandIndex());
-        ClientIsland island2 = islands.get(message.secondIslandIndex());
+        int ind1 = message.firstIslandIndex();
+        int ind2 = message.secondIslandIndex();
+        ClientIsland island1 = islands.get(ind1);
+        ClientIsland island2 = islands.get(ind2);
 
         // moving all students and towers from one island to the other
         EnumMap<Color, Integer> students1 = island1.getStudents();
@@ -281,9 +283,9 @@ public class ClientModelManager {
         }
         island1.setTowers(island1.getTowers() + island2.getTowers());
 
-        // Only need one of the 2 islands in the list
-        islands.remove(message.secondIslandIndex());
 
+        // Only need one of the 2 islands in the list
+        islands.remove(ind2);
     }
 
 }

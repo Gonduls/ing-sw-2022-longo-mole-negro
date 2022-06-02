@@ -14,6 +14,6 @@ public interface UI {
     void showMessage(Message message);
     void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm);
     void killGame();
-    void merge();
+    void merge(int secondIsland);
 
 }

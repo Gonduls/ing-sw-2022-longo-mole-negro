@@ -10,15 +10,15 @@ class BoardStatusTest {
 
     @Test
     void merge() {
-        bs.merge();
+        bs.merge(0);
         assertEquals(11, bs.getIslandsCoords().size());
-        bs.merge();
+        bs.merge(0);
         assertEquals(10, bs.getIslandsCoords().size());
-        bs.merge();
+        bs.merge(0);
         assertEquals(9, bs.getIslandsCoords().size());
-        bs.merge();
+        bs.merge(0);
         assertEquals(8, bs.getIslandsCoords().size());
-        bs.merge();
+        bs.merge(0);
         assertEquals(7, bs.getIslandsCoords().size());
     }
 }

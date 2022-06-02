@@ -46,7 +46,7 @@ public class GUI extends Application implements UI{
     public void killGame(){}
 
     @Override
-    public void merge() {
+    public void merge(int secondIsland) {
 
     }
 

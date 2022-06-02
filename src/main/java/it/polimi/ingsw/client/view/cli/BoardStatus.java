@@ -16,7 +16,6 @@ import static org.fusesource.jansi.Ansi.ansi;
 public class BoardStatus {
     private final Coordinates[] clouds, schools;
     private final List<Coordinates> islands = new ArrayList<>();
-    private final int[] islandsRemove = new int[]{0,1,0,0,4,4,2,7,5,3,1};
     private final boolean expert;
 
     public BoardStatus(int numberOfPlayers, boolean expert){
@@ -61,8 +60,8 @@ public class BoardStatus {
         printClear();
     }
 
-    public void merge(){
-        islands.remove(islandsRemove[islands.size() - 2]);
+    public void merge(int a){
+        islands.remove(islands.get(a));
     }
 
     public List<Coordinates> getIslandsCoords() {

@@ -377,8 +377,8 @@ public class CLI implements UI {
     }
 
     @Override
-    public void merge(){
-        bs.merge();
+    public void merge(int secondIsland){
+        bs.merge(secondIsland);
     }
 
     public static CLI getInstance() {
