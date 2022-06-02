@@ -333,7 +333,7 @@ public class BoardStatus {
                 ansi.cursorDownLine().cursorRight(8).a(s);
 
             // filling expert part
-            ansi.cursor(20, 34).a(cc.getActiveCharacterCard() == -1 ? "  no" : cc.getActiveCharacterCard());
+            ansi.cursor(20, 36).a(cc.getActiveCharacterCard() == -1 ? "no" : cc.getActiveCharacterCard());
             Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
 
             ansi.cursor(21, 29).a(indexes[0]+ ", " + indexes[1]+ ", " + indexes[2]);

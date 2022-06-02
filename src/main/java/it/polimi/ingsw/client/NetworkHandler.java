@@ -82,7 +82,7 @@ public class NetworkHandler implements Runnable{
                 return;
             } catch (IOException e){
                 clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
-                e.printStackTrace();
+                log.logger.severe(e.getMessage());
                 System.out.println("player disconnecting");
                 return;
             }

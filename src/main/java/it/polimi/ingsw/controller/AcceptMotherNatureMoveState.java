@@ -1,6 +1,6 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.events.MoveMotherNatureEvent;
 import it.polimi.ingsw.messages.GameEvent;
@@ -64,7 +64,7 @@ public class AcceptMotherNatureMoveState extends GameState {
                     throw new Exception("You can't  use character card in easy mode");
                 }
 
-                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+                ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
 
                 int cardId = eventCast.getCardId();
 

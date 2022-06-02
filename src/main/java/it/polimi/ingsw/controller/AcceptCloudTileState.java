@@ -1,11 +1,9 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.ChooseCloudTileEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
-import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
-import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Player;
 
@@ -75,7 +73,7 @@ public class AcceptCloudTileState extends  GameState {
                 if (!context.isExpertMode()) {
                    throw new Exception("You can't  use character card in easy mode");
                 }
-                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+                ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
 
                 int cardId = eventCast.getCardId();
 

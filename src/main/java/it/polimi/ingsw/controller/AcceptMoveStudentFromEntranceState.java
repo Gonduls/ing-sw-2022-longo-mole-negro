@@ -1,7 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.messages.GameEvent;
-import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToIslandEvent;
 import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToTableEvent;
@@ -79,7 +79,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                     //todo send a nack
                 }
 
-                ActivateCharacterCard eventCast = (ActivateCharacterCard) event;
+                ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
                 int cardId = eventCast.getCardId();
 
                 if (!context.gameManager.isCardActive(eventCast.getCardId())){

@@ -16,7 +16,7 @@ import it.polimi.ingsw.client.ConfigServer;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.messages.events.*;
-import it.polimi.ingsw.messages.events.ActivateCharacterCard;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
@@ -445,7 +445,7 @@ public class CLI implements UI {
                 }
                 case ("Activate card #") -> {
                     int id = Integer.parseInt(actionString);
-                    event = new ActivateCharacterCard(id, player);
+                    event = new ActivateCharacterCardEvent(id, player);
                 }
                 case ("Display card # effect") -> {
                     bs.printClear();
@@ -500,7 +500,7 @@ public class CLI implements UI {
             }
         } catch (NumberFormatException e){
             System.out.println("            Not correctly formed action");
-            System.out.println("            ");
+            System.out.print("            ");
         }
 
         if(event != null) {

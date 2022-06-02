@@ -5,6 +5,8 @@ import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
+import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.server.RoomInfo;
 
 import java.io.IOException;
@@ -21,11 +23,11 @@ public class ClientController {
     // single-game related
     private int playingPlayer = -1;
     private String[] players = new String[4];
-    private GamePhase phase;
+    private GamePhase phase = GamePhase.PLANNING_PHASE;
     private int[] assistantCardsPlayed = new int[]{-1, -1, -1, -1};
     private int activeCharacterCard;
     private boolean expert;
-    private boolean finishedCardActions;
+    private int cardActions;
 
 
     public ClientController(UI ui, String serverIP, int serverPort) throws IOException {
@@ -111,7 +113,7 @@ public class ClientController {
                 playingPlayer = c.playingPlayer();
                 activeCharacterCard = -1;
                 ui.printStatus();
-                finishedCardActions = true;
+                cardActions = 0;
             }
             case END_GAME -> ui.showMessage(message);
             default -> {
@@ -193,7 +195,7 @@ public class ClientController {
             return actions;
         }
 
-        if(!finishedCardActions){
+        if(cardActions > 0){
             switch (activeCharacterCard){
                 case 0 -> actions.add(0 + ") Move student X from CC to I #");
                 case 2 -> {
@@ -209,7 +211,7 @@ public class ClientController {
                 case 8 -> actions.add(1 + ") Calculate influence in I #");
                 case 10 -> actions.add(1 + ") Choose X to not influence");
                 case 11 -> actions.add(1 + ")Choose X to remove from DR(s)");
-                default -> finishedCardActions = true;
+                default -> cardActions = 0;
             }
             return actions;
         }
@@ -275,6 +277,20 @@ public class ClientController {
             log.logger.severe(e.getLocalizedMessage());
         }
 
+        if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD){
+            int cardId = ((ActivateCharacterCardEvent) event).getCardId();
+            switch (cardId){
+                case 0, 5, 7, 8, 10, 11 -> cardActions = 1;
+                case 2 -> cardActions = 3;
+                case 3 -> cardActions = 2;
+            }
+        }
+
+        if(cardActions > 0){
+            cardActions --;
+            if(event.getEventType() == GameEventType.END_SELECTION)
+                cardActions = 0;
+        }
         return answer;
     }
 }

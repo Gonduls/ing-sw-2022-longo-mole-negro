@@ -2,9 +2,9 @@ package it.polimi.ingsw.messages.events;
 
 import it.polimi.ingsw.messages.GameEvent;
 
-public class ActivateCharacterCard extends GameEvent {
+public class ActivateCharacterCardEvent extends GameEvent {
 
-    public ActivateCharacterCard(int cardId, int playerNumber) {
+    public ActivateCharacterCardEvent(int cardId, int playerNumber) {
         this.cardId = cardId;
         this.playerNumber = playerNumber;
     }
