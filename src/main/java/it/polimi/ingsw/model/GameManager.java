@@ -299,6 +299,7 @@ public class GameManager {
 
         //when points are tied newTC is null
         if(newTC == null || (previousTC != null && previousTC == newTC)){
+            modelObserver.moveMotherNature(amount);
             return;
         }
 
@@ -332,9 +333,10 @@ public class GameManager {
         board.setMotherNaturePosition(positionAfterMerge);
 
         modelObserver.moveMotherNature(amount + (positionAfterMerge - position) );
-
-        System.out.println("the position of mother nature after the merge is: " + positionAfterMerge);
-
+        //used for debug, may be handy for future debug
+      /*  System.out.println("the position of mother nature after the merge is: " + positionAfterMerge +
+                ". The increment was " + amount + ", positionAfterMerge: " + positionAfterMerge + " position: " + position);
+      */
         checkEndConditions();
 
 
