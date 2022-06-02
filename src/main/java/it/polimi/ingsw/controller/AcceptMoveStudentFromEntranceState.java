@@ -90,6 +90,10 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                     throw new Exception("You already activated a card");
                 }
 
+                if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
+                    throw new Exception("You don't have enough coins");
+                }
+
                 //todo: refactor this functions in setUsedCard
                 context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
 
