@@ -121,7 +121,7 @@ public class ClientModelManager {
     }
 
     public Integer getPrice(int cardId) {
-        return prices.get(cardId);
+        return prices.get(cardId) + (activated.get(cardId)!= null && activated.get(cardId) ? 1 : 0);
     }
 
     public int getTowers(int playerIndex) {
@@ -176,8 +176,8 @@ public class ClientModelManager {
             }
             case ACTIVATE_CHARACTER_CARD -> {
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
+                coins[acc.player()] -= getPrice(acc.characterCardIndex());
                 activated.put(acc.characterCardIndex(), true);
-
             }
             case ADD_COIN -> {
                 AddCoin ac = (AddCoin) message;

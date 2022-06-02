@@ -95,8 +95,7 @@ public class ClientController {
             }
             case ACTIVATE_CHARACTER_CARD -> {
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
-                if(players[acc.player()].equals(username))
-                    updates = true;
+                updates = true;
 
                 activeCharacterCard = acc.characterCardIndex();
                 ui.printStatus();
@@ -122,10 +121,12 @@ public class ClientController {
             }
         }
 
-        if(updates)
-            synchronized (cmm){
+        if(updates) {
+            synchronized (cmm) {
                 cmm.updateModel(message);
             }
+            ui.printStatus();
+        }
     }
 
     boolean myTurn(){
