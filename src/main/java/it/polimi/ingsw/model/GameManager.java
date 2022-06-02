@@ -273,7 +273,6 @@ public class GameManager {
         board.moveMotherNature(amount);
         int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
-        modelObserver.moveMotherNature(amount);
 
         if(board.getIslands().get(position).getNoEntry()>0){
             board.getIslands().get(position).removeNoEntry();
@@ -308,6 +307,8 @@ public class GameManager {
 
         //if previousTC is not null it means that we have to put back the towers.
         Player newP = players[newTC.ordinal()];
+        currentIsland.setTowerColor(newTC);
+
         if(previousTC != null){
             Player previousP = players[previousTC.ordinal()];
             previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
@@ -326,9 +327,14 @@ public class GameManager {
 
 
         newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-        currentIsland.setTowerColor(newTC);
 
-        board.mergeIsland(position, modelObserver);
+        int positionAfterMerge = board.mergeIsland(position, modelObserver);
+        board.setMotherNaturePosition(positionAfterMerge);
+
+        modelObserver.moveMotherNature(amount + (positionAfterMerge - position) );
+
+        System.out.println("the position of mother nature after the merge is: " + positionAfterMerge);
+
         checkEndConditions();
 
 
@@ -441,11 +447,10 @@ public class GameManager {
             currentIsland.addTower();
             modelObserver.moveTowerToIsland(newP.getPlayerNumber(), islandIndex,1);
 
-
         }
 
         board.mergeIsland(islandIndex, modelObserver);
-
+        //sometimes it crashes because
         checkEndConditions();
 
     }

@@ -274,16 +274,21 @@ public class ClientModelManager {
         ClientIsland island1 = islands.get(message.firstIslandIndex());
         ClientIsland island2 = islands.get(message.secondIslandIndex());
 
-        // Only need one of the 2 islands in the list
-        islands.remove(message.firstIslandIndex());
-
         // moving all students and towers from one island to the other
         EnumMap<Color, Integer> students1 = island1.getStudents();
         EnumMap<Color, Integer> students2 = island2.getStudents();
         for(Color color : Color.values()){
-            students2.put(color, students1.get(color) + students1.get(color));
+            students1.put(color, students1.get(color) + students2.get(color));
         }
-        island2.setTowers(island1.getTowers() + island2.getTowers());
+        island1.setTowers(island1.getTowers() + island2.getTowers());
+
+        // Only need one of the 2 islands in the list
+        islands.remove(message.secondIslandIndex());
+
+        if (message.secondIslandIndex() > message.firstIslandIndex() && message.secondIslandIndex()!= islands.size()){
+            motherNature--;
+        }
+
 
     }
 }

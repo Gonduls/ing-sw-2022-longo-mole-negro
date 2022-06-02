@@ -69,6 +69,10 @@ public class Board {
         return motherNaturePosition;
     }
 
+    void setMotherNaturePosition(int motherNaturePosition){
+        this.motherNaturePosition = motherNaturePosition;
+    }
+
     /**
      * Checks if the indexes provided correspond to two islands with the same (not null) towerColor
      *
@@ -88,14 +92,14 @@ public class Board {
      *
      * @param indexCurrentIsland: the index of the island that could be merged with the previous or next island in list
      */
-    void mergeIsland(int indexCurrentIsland, ModelObserver modelObserver){
+    int mergeIsland(int indexCurrentIsland, ModelObserver modelObserver){
         int indexPreviousIsland = (indexCurrentIsland+ numberOfIslands-1) % numberOfIslands ;
         if (canBeMerged(indexCurrentIsland, indexPreviousIsland)){
             islands.get(indexCurrentIsland).unify(islands.get(indexPreviousIsland));
             islands.remove(indexPreviousIsland);
             numberOfIslands--;
             //the null check is useful when testing the model
-            if(modelObserver!=null) modelObserver.mergeIslands(indexPreviousIsland, indexCurrentIsland);
+            if(modelObserver!=null) modelObserver.mergeIslands(indexCurrentIsland, indexPreviousIsland);
             // indexCurrentIsland has to be corrected before next merge check
             indexCurrentIsland = indexPreviousIsland < indexCurrentIsland ? indexCurrentIsland - 1 : indexCurrentIsland;
         }
@@ -108,6 +112,9 @@ public class Board {
             //the null check is useful when testing the model
             if(modelObserver!=null)  modelObserver.mergeIslands(indexCurrentIsland, indexNextIsland);
         }
+
+        //the new position of motherNature
+        return indexCurrentIsland;
     }
 
     /**
