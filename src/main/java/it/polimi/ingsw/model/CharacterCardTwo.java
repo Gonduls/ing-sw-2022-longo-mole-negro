@@ -12,7 +12,7 @@ import it.polimi.ingsw.server.ModelObserver;
  */
 public class CharacterCardTwo extends  CharacterCard{
 
-    private  StudentHolder studentHolder;
+    final  private  StudentHolder studentHolder;
 
 
     public CharacterCardTwo(Bag bag, ModelObserver modelObserver) {
@@ -51,7 +51,7 @@ public class CharacterCardTwo extends  CharacterCard{
 
     @Override
     public StudentHolder getStudentHolder() {
-        return null;
+        return this.studentHolder;
     }
 
     @Override
