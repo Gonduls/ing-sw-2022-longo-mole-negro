@@ -556,7 +556,7 @@ public class GameManager {
 
     public void setUsedCard(int usedCard, int playerNumber) {
         this.usedCard = usedCard;
-        if(usedCard>0) {
+        if(usedCard>=0) {
             modelObserver.activateCharacterCard(usedCard, playerNumber);
         }
     }
