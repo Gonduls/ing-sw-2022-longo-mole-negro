@@ -73,15 +73,15 @@ class PlayerTest {
         playerBlack.addCoin();
         playerBlack.addCoin();
 
-        assertEquals(4, playerBlack.getCoinsOwned());
+        assertEquals(3, playerBlack.getCoinsOwned());
 
         int coinsNumber = 2;
 
         try{playerBlack.removeCoins(coinsNumber);} catch (InvalidParameterException e) {assert false;}
 
-        assertEquals(2, playerBlack.getCoinsOwned());
+        assertEquals(1, playerBlack.getCoinsOwned());
 
-        try{playerBlack.removeCoins(coinsNumber);} catch (InvalidParameterException e) {assert false;}
+        try{playerBlack.removeCoins(coinsNumber);} catch (InvalidParameterException e) {assert true;}
 
     }
 

@@ -12,6 +12,7 @@ class CoinObserverTest {
         CoinObserver CO = new CoinObserver(playerBlack);
 
         CO.update();
-        assertEquals(1, playerBlack.getCoinsOwned());
+        assertEquals(0, playerBlack.getCoinsOwned());
+
     }
 }

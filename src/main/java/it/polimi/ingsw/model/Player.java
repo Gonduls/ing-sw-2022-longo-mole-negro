@@ -31,8 +31,7 @@ public class Player {
         this.playerNumber = playerNumber;
         this.username = username;
         deck = new ArrayList<>(Arrays.asList(AssistantCard.values()));
-        coinsOwned = 1;
-
+        coinsOwned = 0;
         if(threePlayers) {
             towersLeft = 6;
             towerColor = TowerColor.values()[playerNumber];
