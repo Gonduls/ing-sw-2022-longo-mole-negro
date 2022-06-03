@@ -21,8 +21,8 @@ public class ModelObserver {
         room.sendBroadcast(new MoveStudent("ENTRANCE:"+player, "DININGROOM:" + player, color));
     }
 
-    public void moveMotherNature(int amount){
-        room.sendBroadcast(new MoveMotherNature(amount));
+    public void moveMotherNature(int position){
+        room.sendBroadcast(new MoveMotherNature(position));
     }
 
     public void moveTowerToPlayer(int player, int islandIndex,int numberOfTowers){
@@ -98,7 +98,7 @@ public class ModelObserver {
 
     public void payPrice(int amount, int playerNumber){
 
-        room.sendBroadcast(new PayPrice(amount, playerNumber));
+       // room.sendBroadcast(new PayPrice(amount, playerNumber));
     }
 
     public void addCoin(int playerNumber){

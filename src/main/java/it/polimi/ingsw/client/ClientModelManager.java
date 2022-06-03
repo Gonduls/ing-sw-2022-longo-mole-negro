@@ -7,6 +7,8 @@ import it.polimi.ingsw.model.*;
 
 import java.util.*;
 
+import static java.lang.Math.max;
+
 public class ClientModelManager {
     private final EnumMap<Color, Integer>[] entrances, diningRooms, clouds;
     private final List<AssistantCard> deck;
@@ -168,7 +170,9 @@ public class ClientModelManager {
             }
             case MOVE_MOTHER_NATURE -> {
                 MoveMotherNature mmn = (MoveMotherNature) message;
-                motherNature = (motherNature + mmn.steps()) % islands.size();
+                //motherNature = (motherNature + mmn.steps()) % islands.size();
+                // the name of the function is misleading. It's directly the new position of mother nature
+                motherNature = mmn.position();
             }
             case PLAY_ASSISTANT_CARD -> {
                 PlayAssistantCard pac = (PlayAssistantCard) message;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.messages;
 
-public record MoveMotherNature(int steps) implements Message{
+public record MoveMotherNature(int position) implements Message{
 
     @Override
     public MessageType getMessageType() {
