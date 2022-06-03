@@ -129,4 +129,9 @@ public class ModelObserver {
     public void moveStudentFromCloudToPlayer(int cloudindex, int playerNumber, Color color){
         room.sendBroadcast(new MoveStudent("CLOUD:"+cloudindex, "ENTRANCE:"+playerNumber, color));
     }
+
+
+    public void sendEndGame(String[] winners){
+        room.sendBroadcast(new EndGame(winners));
+    }
 }

@@ -108,7 +108,7 @@ public class RoundController {
             return;
         }
         */
-       if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD && isExpertMode()==false){
+       if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD && !isExpertMode()){
            throw new Exception("you cannot activate character cards in simple mode");
        }
         if (gameState.checkValidEvent(event)) {
@@ -183,6 +183,7 @@ public class RoundController {
     public Player getCurrentPlayer(){
         return playingOrder.get(playingOrderIndex);
     }
+
 
 
 }

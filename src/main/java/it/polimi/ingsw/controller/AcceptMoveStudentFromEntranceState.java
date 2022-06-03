@@ -75,9 +75,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD: {
-                if (!context.isExpertMode()) {
-                    //todo send a nack
-                }
+
 
                 ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
                 int cardId = eventCast.getCardId();

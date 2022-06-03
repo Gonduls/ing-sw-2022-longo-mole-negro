@@ -351,7 +351,7 @@ public class CLI implements UI {
                         "Winner/s: " );
                 EndGame eg = (EndGame) message;
                 for(int i = 0; i < eg.winners().length; i++) {
-                    System.out.println((eg.winners()[i]));
+                    System.out.println(eg.winners()[i]);
                 }
                 killGame();
             }
@@ -398,6 +398,8 @@ public class CLI implements UI {
         GameEvent event = null;
 
         try{
+            if(actionString.length() == 0)
+                throw new NumberFormatException();
             // removing all extra spaces
             actionString = actionString.trim().replaceAll(" +", " ");
 

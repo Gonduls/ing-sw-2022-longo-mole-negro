@@ -4,10 +4,7 @@ import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.server.ModelObserver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameManager {
 
@@ -337,7 +334,10 @@ public class GameManager {
       /*  System.out.println("the position of mother nature after the merge is: " + positionAfterMerge +
                 ". The increment was " + amount + ", positionAfterMerge: " + positionAfterMerge + " position: " + position);
       */
-        checkEndConditions();
+
+        if (parseWinResult(checkEndConditions()).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
+        }
 
 
         /*
@@ -453,7 +453,10 @@ public class GameManager {
 
         board.mergeIsland(islandIndex, modelObserver);
         //sometimes it crashes because
-        checkEndConditions();
+
+        if (parseWinResult(checkEndConditions()).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
+        }
 
     }
 
@@ -598,13 +601,6 @@ public class GameManager {
 
     }
 
-    public void setModelObserverOnCharacterCard(){
-
-        for(CharacterCard characterCard : activeCards){
-            characterCard.setModelObserver(modelObserver);
-        }
-    }
-
 
     public int[] getIdCards(){
         int[] cardIndexes = new int[3];
@@ -617,5 +613,13 @@ public class GameManager {
         }
 
         return  Arrays.copyOf(cardIndexes,3);
+
     }
+
+    public String[] parseWinResult(Player[] winners){
+        return  Arrays.stream(winners).sequential().filter(Objects::nonNull).map(Player::getUsername).toArray(String[]::new);
+        
+    }
+
+
 }
