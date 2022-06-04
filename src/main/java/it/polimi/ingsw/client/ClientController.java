@@ -204,14 +204,14 @@ public class ClientController {
                     actions.add(1 + ") End selections");
                 }
                 case 3 -> {
-                    actions.add(0 + ")Swap X from E with Y from DR");
+                    actions.add(0 + ") Swap X from E with Y from DR");
                     actions.add(1 + ") End selections");
                 }
                 case 5 -> actions.add(1 + ") Choose I # to place a NoEntry");
                 case 7 -> actions.add(1 + ") Move X from CC to DR");
                 case 8 -> actions.add(1 + ") Calculate influence in I #");
                 case 10 -> actions.add(1 + ") Choose X to not influence");
-                case 11 -> actions.add(1 + ")Choose X to remove from DR(s)");
+                case 11 -> actions.add(1 + ") Choose X to remove from DR(s)");
                 default -> cardActions = 0;
             }
             return actions;
@@ -285,9 +285,7 @@ public class ClientController {
                 case 2 -> cardActions = 3;
                 case 3 -> cardActions = 2;
             }
-        }
-
-        if(cardActions > 0){
+        } else if(cardActions > 0){
             cardActions --;
             if(event.getEventType() == GameEventType.END_SELECTION)
                 cardActions = 0;
