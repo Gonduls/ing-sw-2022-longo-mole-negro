@@ -32,6 +32,7 @@
                   <Font size="21.0" />
                </font>
             </Label>
+            <Label fx:id="errorAccessRoom" alignment="CENTER" layoutX="-1.0" layoutY="206.0" prefHeight="17.0" prefWidth="215.0" text="Label" visible="false" />
          </children>
         </AnchorPane>
     </children>

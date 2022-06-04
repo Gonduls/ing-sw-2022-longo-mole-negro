@@ -59,22 +59,15 @@ public class GameCreationController implements Initializable {
         boolean privateGame = checkPrivate.isSelected();
         CreateRoom createRoom = new CreateRoom(mySpinner.getValue(), expertGame, privateGame);
         roomID  = (GUI.getInstance().getClientController().createRoom(createRoom));
-        if(GUI.getInstance().getClientController().accessRoom(roomID)) {
-            errorAccessRoom.setText("ID: " + roomID + " Waiting for players...");
-            errorAccessRoom.setVisible(true);
-        } else {
+        if(roomID < 0) {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);
+        } else {
+            errorAccessRoom.setText("ID: " + roomID + " Waiting for players...");
+            errorAccessRoom.setVisible(true);
+            //GUI.getInstance().setInARoom(true);
+            //GUI.getInstance().gamePhase();
         }
-        //TODO: deve anche creare il game effettivo -> implementa GUI
-    }
-
-    public void switchToJoinGame(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/fxml/JoinGame.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.show();
     }
 
 }

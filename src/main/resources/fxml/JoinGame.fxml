@@ -22,7 +22,7 @@
                <font>
                   <Font size="14.0" />
                </font></Label>
-                <TextField fx:id="roo" layoutX="33.0" layoutY="77.0" promptText="####" />
+                <TextField fx:id="roomID" layoutX="33.0" layoutY="77.0" promptText="####" />
                 <Button fx:id="continueButton" layoutX="75.0" layoutY="151.0" mnemonicParsing="false" onAction="#accessChosenRoom" text="Continue" />
             <Label fx:id="cantAccessRoom" alignment="CENTER" layoutY="110.0" prefHeight="17.0" prefWidth="215.0" text="Could not access room. Try again." textFill="RED" visible="false" />
             </children>

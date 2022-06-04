@@ -4,6 +4,7 @@ import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -58,16 +59,18 @@ public class LobbyController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
                 roomIDChosen = Integer.parseInt(roomInfoListView.getSelectionModel().getSelectedItem().substring(4,8));
-                System.out.print(roomIDChosen);
-                enterGame(roomIDChosen);
             }
         });
     }
 
-    public void enterGame(int roomID) {
-        GUI.getInstance().getClientController().accessRoom(roomID);
+    public void enterGame(ActionEvent actionEvent) {
+        if(GUI.getInstance().getClientController().accessRoom(roomIDChosen))
+            GUI.getInstance().setInARoom(true);
+        else
+            System.out.println("error entering room");
+        //todo serve o non serve? mmh
+        //GUI.getInstance().gamePhase();
 
-        //GUI.getInstance().getClientController().accessRoom();
     }
 
 }
