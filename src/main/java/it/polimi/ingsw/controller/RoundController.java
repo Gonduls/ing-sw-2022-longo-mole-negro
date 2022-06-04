@@ -185,5 +185,31 @@ public class RoundController {
     }
 
 
+    void handleCard( GameState currentState , int cardId) throws Exception {
+        if (!gameManager.isCardActive(cardId)){
+            throw new Exception("This card is not present in the game");
+        }
+
+        if (gameManager.getUsedCard() != -1){
+            throw new Exception("You already activated a card");
+        }
+
+        if (getCurrentPlayer().getCoinsOwned() < gameManager.findCardById(cardId).getPrice()){
+            throw new Exception("You don't have enough coins");
+        }
+
+
+        gameManager.setUsedCard(cardId, getCurrentPlayer().getPlayerNumber());
+        //this could be put into setUsedCard
+        getCurrentPlayer().removeCoins(gameManager.findCardById(cardId).getPrice());
+        //this could be put inside setUsedCard
+        gameManager.findCardById(cardId).increasePrice();
+        //todo add in the abstract class 'character Card' the boolean function "has character state"
+        if(gameManager.findCardById(cardId).getCharacterState(this, currentState) != null){
+            changeState(gameManager.findCardById(cardId).getCharacterState(this, currentState));
+        }
+
+
+    }
 
 }

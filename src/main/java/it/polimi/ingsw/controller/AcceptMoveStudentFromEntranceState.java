@@ -80,7 +80,9 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
                 int cardId = eventCast.getCardId();
 
-                if (!context.gameManager.isCardActive(eventCast.getCardId())){
+                context.handleCard(this, cardId);
+
+               /* if (!context.gameManager.isCardActive(eventCast.getCardId())){
                     throw new Exception("This card is not present in the game");
                 }
 
@@ -92,7 +94,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                     throw new Exception("You don't have enough coins");
                 }
 
-                //todo: refactor this functions in setUsedCard
+                todo: refactor this functions in setUsedCard
                 context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
 
                 context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
@@ -102,7 +104,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
 
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
-                }
+                } */
 
                 break;
 

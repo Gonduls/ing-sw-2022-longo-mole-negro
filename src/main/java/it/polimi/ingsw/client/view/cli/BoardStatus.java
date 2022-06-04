@@ -265,7 +265,7 @@ public class BoardStatus {
                 case PLANNING_PHASE -> phaseS = "Planning";
                 case ACTION_PHASE_ONE -> phaseS = "Move Students";
                 case ACTION_PHASE_TWO -> phaseS = "Move Mother Nature";
-                case ACTION_PHASE_THREE -> phaseS = "Choose Island";
+                case ACTION_PHASE_THREE -> phaseS = "Choose Cloud";
             }
 
         ansi.cursor(6, 20).a(phaseS);

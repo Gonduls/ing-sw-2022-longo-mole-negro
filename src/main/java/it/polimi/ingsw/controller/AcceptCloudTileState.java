@@ -70,13 +70,12 @@ public class AcceptCloudTileState extends  GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD:{
-                if (!context.isExpertMode()) {
-                   throw new Exception("You can't  use character card in easy mode");
-                }
                 ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
 
                 int cardId = eventCast.getCardId();
 
+                context.handleCard(this,cardId);
+/*
                 if (!context.gameManager.isCardActive(eventCast.getCardId())){
                     throw new Exception("This card is not present in the game");
                 }
@@ -84,7 +83,6 @@ public class AcceptCloudTileState extends  GameState {
                 if (context.gameManager.getUsedCard() != -1){
                     throw new Exception("You already activated a card");
                 }
-
 
 
                 if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
@@ -99,7 +97,7 @@ public class AcceptCloudTileState extends  GameState {
                 if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
                     context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
                 }
-
+ */
                 break;
 
             }
