@@ -43,13 +43,11 @@ public class GameManager {
         for (int i = 0; i < size; i++) {
             clouds[i] = new Cloud(size == 3 ? 4 : 3, bag);
         }
-
+        activeCards = new ArrayList<>();
+        usedCard = -1;
+        //if we are in easy mode, the activeCards will be just an empty list
         if (expert) {
-            usedCard = -1;
-
-            activeCards = new ArrayList<>();// to change
             int randomInt;
-
             Random randomGen = new Random();
             boolean skip;
 
@@ -68,54 +66,24 @@ public class GameManager {
 
                     modelObserver.notifyCharacterCard(randomInt);
                     switch (randomInt) {
-                        case 0:
-                            activeCards.add(new CharacterCardZero(bag, modelObserver));
-                            break;
-                        case 1:
-                            activeCards.add(new CharacterCardOne(modelObserver));
-                            break;
-                        case 2:
-                            activeCards.add(new CharacterCardTwo(bag, modelObserver));
-                            break;
-                        case 3:
-                            activeCards.add(new CharacterCardThree(modelObserver));
-                            break;
-                        case 4:
-                            activeCards.add(new CharacterCardFour(modelObserver));
-                            break;
-                        case 5:
-                            activeCards.add(new CharacterCardFive(modelObserver));
-                            break;
-                        case 6:
-                            activeCards.add(new CharacterCardSix(modelObserver));
-                            break;
-                        case 7:
-                            activeCards.add(new CharacterCardSeven(bag, modelObserver));
-                            break;
-                        case 8:
-                            activeCards.add(new CharacterCardEight(modelObserver));
-                            break;
-                        case 9:
-                            activeCards.add(new CharacterCardNine(modelObserver));
-                            break;
-                        case 10:
-                            activeCards.add(new CharacterCardTen(modelObserver));
-                            break;
-                        case 11:
-                            activeCards.add(new CharacterCardEleven(modelObserver));
-                            break;
-                        default:
-                            break;
+                        case 0 -> activeCards.add(new CharacterCardZero(bag, modelObserver));
+                        case 1 -> activeCards.add(new CharacterCardOne(modelObserver));
+                        case 2 -> activeCards.add(new CharacterCardTwo(bag, modelObserver));
+                        case 3 -> activeCards.add(new CharacterCardThree(modelObserver));
+                        case 4 -> activeCards.add(new CharacterCardFour(modelObserver));
+                        case 5 -> activeCards.add(new CharacterCardFive(modelObserver));
+                        case 6 -> activeCards.add(new CharacterCardSix(modelObserver));
+                        case 7 -> activeCards.add(new CharacterCardSeven(bag, modelObserver));
+                        case 8 -> activeCards.add(new CharacterCardEight(modelObserver));
+                        case 9 -> activeCards.add(new CharacterCardNine(modelObserver));
+                        case 10 -> activeCards.add(new CharacterCardTen(modelObserver));
+                        case 11 -> activeCards.add(new CharacterCardEleven(modelObserver));
                     }
 
                 }
             }
         }
 
-        else{
-                activeCards = null;
-                usedCard = -1;
-            }
 
             // initialize entrances and tables for each player, observers for view needed?
             for (Player player : players) {
@@ -201,7 +169,7 @@ public class GameManager {
 
     /**
      * @param islandIndex: the index that designates the island in the list
-     * @return how many towers are contained in the island designated by the islandIndex
+     * @return how many towers are contained oonthe island designated by the islandIndex
      */
     public int getTowerNumber(int islandIndex) {
         return board.getIslands().get(islandIndex).getTowerNumber();
@@ -209,7 +177,7 @@ public class GameManager {
 
     /**
      * @param islandIndex: the index that designates the island in the list
-     * @return the color of the tower in the island. If non are present, null is returned
+     * @return the color of the tower on the island. If non are present, null is returned
      */
     public TowerColor getTowerColor(int islandIndex) {
         return board.getIslands().get(islandIndex).getTower();
@@ -277,7 +245,7 @@ public class GameManager {
             return;
         }
 
-        TowerColor newTC = null;
+        TowerColor newTC;
         TowerColor previousTC = currentIsland.getTower();
 
         if (usedCard == 6){
