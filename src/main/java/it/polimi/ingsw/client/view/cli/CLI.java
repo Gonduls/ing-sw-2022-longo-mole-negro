@@ -150,6 +150,7 @@ public class CLI implements UI {
                     }
                     System.out.println("Is the mode expert? (true/false/ default: all games) ");
                     String expert = input.nextLine();
+                    printClear();
                     if (expert.startsWith("true")) {
                         if (playersNumber == 0) {
                             clientController.getPublicRooms(new GetPublicRooms(true));
@@ -166,7 +167,6 @@ public class CLI implements UI {
                         clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
                         break;
                     }
-                    printClear();
                     if (playersNumber == 0) {
                         clientController.getPublicRooms(new GetPublicRooms());
                         break;
@@ -235,14 +235,11 @@ public class CLI implements UI {
     }
 
     public void game() {
-        // todo: remove exit
-        boolean exit = false;
 
-        while(!exit && !kill){
+        while(!kill){
             action = new Thread(() -> {
                 try {
                     TimeUnit.MILLISECONDS.sleep(500);
-                    System.out.print("> ");
                     actionString = (new Scanner(System.in)).nextLine();
                 } catch (IndexOutOfBoundsException | InterruptedException ignored){
                     log.logger.info("Stopping listen");
@@ -262,10 +259,8 @@ public class CLI implements UI {
             if(kill)
                 return;
 
-            dealWithAction();
-            if(actionString != null && actionString.startsWith("close"))
-                exit = true;
-
+            if(actionString!= null)
+                dealWithAction();
         }
         System.out.println("ending game");
     }
@@ -303,6 +298,7 @@ public class CLI implements UI {
 
     @Override
     public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+        printClear();
         this.cmm = cmm;
         this.bs = new BoardStatus(numberOfPlayer, expert);
         gameRunning.set(true);
@@ -354,6 +350,7 @@ public class CLI implements UI {
                     System.out.println(eg.winners()[i]);
                 }
                 killGame();
+                input.nextLine();
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
@@ -388,8 +385,7 @@ public class CLI implements UI {
     }
 
     void printClear() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
+        BoardStatus.printClear();
     }
 
     private void dealWithAction(){
@@ -406,8 +402,9 @@ public class CLI implements UI {
             // getting action template
             int lineNum = Integer.parseInt(actionString.substring(0, 1));
             List<String> actions = clientController.getActions();
-            if(lineNum >= actions.size() || lineNum < 0)
+            if(lineNum >= actions.size() || lineNum < 0) {
                 throw new NumberFormatException();
+            }
             String template = actions.get(lineNum);
 
             // isolating input information
@@ -450,10 +447,11 @@ public class CLI implements UI {
                     event = new ActivateCharacterCardEvent(id, player);
                 }
                 case ("Display card # effect") -> {
-                    bs.printClear();
+                    printClear();
                     printStatus();
                     System.out.println(CharacterCard.description(Integer.parseInt(actionString)));
-                    System.out.print("            ");
+                    System.out.print("            > ");
+
                     action.interrupt();
                 }
                 case ("Move student X from CC to I #") -> {
@@ -494,32 +492,37 @@ public class CLI implements UI {
                     event = new ChooseColorEvent(x, player);
                 }
                 default -> {
-                    bs.printClear();
+                    printClear();
                     printStatus();
-                    action.interrupt();
+                    if(action != null)
+                        action.interrupt();
                     return;
                 }
             }
         } catch (NumberFormatException e){
             System.out.println("            Not correctly formed action");
-            System.out.print("            ");
+            System.out.print("            > ");
         }
 
         if(event != null) {
             Message answer = clientController.performEvent(event);
             if(answer.getMessageType() == MessageType.ACK) {
-                bs.printClear();
+                printClear();
                 printStatus();
-                action.interrupt();
+                actionString = null;
+                if(action != null)
+                    action.interrupt();
             }
             if(answer.getMessageType() == MessageType.NACK){
                 AnsiConsole.systemInstall();
                 AnsiConsole.out().print(Ansi.ansi().cursorRight(13));
                 showMessage(answer);
-                AnsiConsole.out().print(Ansi.ansi().cursorRight(13));
+                AnsiConsole.out().print(Ansi.ansi().cursorRight(13).a("> "));
 
                 AnsiConsole.systemUninstall();
-                action.interrupt();
+                actionString = null;
+                if(action != null)
+                    action.interrupt();
             }
         }
     }
