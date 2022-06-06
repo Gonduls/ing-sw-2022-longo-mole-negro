@@ -97,10 +97,13 @@ public class GUI extends Application implements UI{
                 try {
                     Parent root;
                     Scene scene;
-                    root = FXMLLoader.load(getClass().getResource("/fxml/GameBoard.fxml"));
-                    scene = new Scene(root);
+                    root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
+                    scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
                     primaryStage.setFullScreen(true);
+                    primaryStage.setResizable(false);
+                    primaryStage.setHeight(768);
+                    primaryStage.setWidth(1366);
                     primaryStage.show();
                 } catch (IOException e) {
                     // boh

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.GameBoardController">
+   <children>
+      <ImageView fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/Ref.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="288.0" layoutY="10.0">
+         <children>
+            <ImageView fx:id="islandIndex0" fitHeight="150.0" fitWidth="150.0" layoutX="116.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex1" fitHeight="150.0" fitWidth="150.0" layoutX="259.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex2" fitHeight="150.0" fitWidth="150.0" layoutX="395.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex3" fitHeight="150.0" fitWidth="150.0" layoutX="537.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex4" fitHeight="150.0" fitWidth="150.0" layoutX="654.0" layoutY="130.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex5" fitHeight="150.0" fitWidth="150.0" layoutX="661.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex6" fitHeight="150.0" fitWidth="150.0" layoutX="534.0" layoutY="338.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex7" fitHeight="150.0" fitWidth="150.0" layoutX="391.0" layoutY="373.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex8" fitHeight="150.0" fitWidth="150.0" layoutX="260.0" layoutY="374.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex9" fitHeight="150.0" fitWidth="150.0" layoutX="117.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island2.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex10" fitHeight="150.0" fitWidth="150.0" layoutY="253.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island3.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="islandIndex11" fitHeight="150.0" fitWidth="150.0" layoutX="16.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Island1.png" />
+               </image>
+            </ImageView>
+            <AnchorPane layoutX="240.0" layoutY="144.0">
+               <children>
+                  <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/Cloud1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="147.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/Cloud1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="41.0" layoutY="109.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/Cloud1.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="190.0" layoutY="129.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/Cloud1.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <ImageView fitHeight="239.0" fitWidth="550.0" layoutX="408.0" layoutY="529.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/YourSchoolNG.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="95.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/Back1.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="200.0" fitWidth="200.0" layoutX="1067.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/ExtraBack.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>
