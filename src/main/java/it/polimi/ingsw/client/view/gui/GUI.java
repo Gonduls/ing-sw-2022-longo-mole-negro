@@ -3,10 +3,12 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,7 +24,7 @@ public class GUI extends Application implements UI{
     ClientController cc;
     ClientModelManager cmm;
     static boolean inARoom = false, kill;
-    private static Stage stage;
+    private static Stage primaryStage;
     static GUI instance;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     public static GUI getInstance(){
@@ -41,7 +43,7 @@ public class GUI extends Application implements UI{
         stage.setResizable(false);
         stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/images/Elements/Logo2.png"))));
         stage.show();
-
+        primaryStage = stage;
 
     }
 
@@ -56,6 +58,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void printStatus() {
+        //GameBoardController.getInstance.
 
     }
 
@@ -72,8 +75,6 @@ public class GUI extends Application implements UI{
 
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
-        Parent root;
-        Scene scene;
         this.cmm = cmm;
         /*if (expert) {
             switch (numberOfPlayers) {
@@ -89,26 +90,35 @@ public class GUI extends Application implements UI{
                 }
             }
         }*/
-        try {
-            root = FXMLLoader.load(getClass().getResource("/fxml/GameBoard.fxml"));
-            scene = new Scene(root);
-            this.stage.setScene(scene);
-            this.stage.setFullScreen(true);
-            this.stage.show();
-        } catch (IOException e) {
-            // boh
-        }
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
 
-        gameRunning.set(true);
+                try {
+                    Parent root;
+                    Scene scene;
+                    root = FXMLLoader.load(getClass().getResource("/fxml/GameBoard.fxml"));
+                    scene = new Scene(root);
+                    primaryStage.setScene(scene);
+                    primaryStage.setFullScreen(true);
+                    primaryStage.show();
+                } catch (IOException e) {
+                    // boh
+                }
+            }
+        });
+
+
+        /*gameRunning.set(true);
 
         synchronized (gameRunning) {
             gameRunning.notifyAll();
-        }
+        }*/
 
     }
 
     public void setStage(Stage stage) {
-        this.stage = stage;
+        primaryStage = stage;
     }
 
 
@@ -156,5 +166,9 @@ public class GUI extends Application implements UI{
 
     public void setInARoom(boolean value) {
         this.inARoom = value;
+    }
+
+    public Stage getStage() {
+        return primaryStage;
     }
 }

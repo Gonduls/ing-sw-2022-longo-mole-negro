@@ -6,17 +6,26 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 public class LobbyController implements Initializable {
+    private Parent root;
+    private Stage stage;
+    private Scene scene;
 
     static LobbyController instance;
     public static LobbyController getInstance(){
@@ -64,13 +73,11 @@ public class LobbyController implements Initializable {
     }
 
     public void enterGame(ActionEvent actionEvent) {
-        if(GUI.getInstance().getClientController().accessRoom(roomIDChosen))
+        if(GUI.getInstance().getClientController().accessRoom(roomIDChosen)) {
             GUI.getInstance().setInARoom(true);
+        }
         else
             System.out.println("error entering room");
-        //todo serve o non serve? mmh
-        //GUI.getInstance().gamePhase();
-
     }
 
 }

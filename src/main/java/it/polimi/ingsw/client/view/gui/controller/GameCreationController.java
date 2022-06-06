@@ -65,8 +65,7 @@ public class GameCreationController implements Initializable {
         } else {
             errorAccessRoom.setText("ID: " + roomID + " Waiting for players...");
             errorAccessRoom.setVisible(true);
-            //GUI.getInstance().setInARoom(true);
-            //GUI.getInstance().gamePhase();
+            GUI.getInstance().setInARoom(true);
         }
     }
 
