@@ -76,18 +76,20 @@ public class GUI extends Application implements UI{
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         this.cmm = cmm;
-        /*if (expert) {
-            switch (numberOfPlayers) {
-                case (2) -> {
-                    //todo:
-                    //switcha a board per 2 players
-                }
-                case (3) -> {
-                    //switcha a board per 3
-                }
-                case (4) -> {
-                    //switcha a board per 4
-                }
+        /*if (!expert) {
+            //charactercardsAnchor.setVisible(false);
+            //coins.setVisible(false)
+        }
+        switch (numberOfPlayers) {
+            case (2) -> {
+                //player.left & right .setVisible(false)
+                //devo mappare il player 2 alla scuola centrale
+            }
+            case (3) -> {
+                //player.centrale .setVisible(false)
+            }
+            case (4) -> {
+                //default
             }
         }*/
         Platform.runLater(new Runnable() {
@@ -134,12 +136,13 @@ public class GUI extends Application implements UI{
         return cc;
     }
 
-    public void gamePhase() {
-        //in realtà litiga coi thread
+    public ClientModelManager getClientModelManager() { return cmm; }
+
+    /*public void gamePhase() {
         Thread game;
         if (inARoom) {
             kill = false;
-            game = new Thread(this::game);
+            game = new Thread(this::);
             synchronized (gameRunning) {
                 if (!gameRunning.get()) {
                     try {
@@ -161,11 +164,8 @@ public class GUI extends Application implements UI{
             }
         } else
             return;
-    }
+    }*/
 
-    public void game() {
-        //qua prende le varie azioni
-    }
 
     public void setInARoom(boolean value) {
         this.inARoom = value;
