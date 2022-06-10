@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.gui;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
-import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
@@ -76,7 +75,7 @@ public class GUI extends Application implements UI{
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         this.cmm = cmm;
-        /*if (!expert) {
+        if (!expert) {
             //charactercardsAnchor.setVisible(false);
             //coins.setVisible(false)
         }
@@ -91,7 +90,7 @@ public class GUI extends Application implements UI{
             case (4) -> {
                 //default
             }
-        }*/
+        }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -138,11 +137,11 @@ public class GUI extends Application implements UI{
 
     public ClientModelManager getClientModelManager() { return cmm; }
 
-    /*public void gamePhase() {
+    public void gamePhase() {
         Thread game;
         if (inARoom) {
             kill = false;
-            game = new Thread(this::);
+            game = new Thread(this::game);
             synchronized (gameRunning) {
                 if (!gameRunning.get()) {
                     try {
@@ -164,7 +163,10 @@ public class GUI extends Application implements UI{
             }
         } else
             return;
-    }*/
+    }
+
+    private void game() {
+    }
 
 
     public void setInARoom(boolean value) {

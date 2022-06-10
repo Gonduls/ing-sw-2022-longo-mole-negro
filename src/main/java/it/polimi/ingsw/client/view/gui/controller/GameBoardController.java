@@ -39,8 +39,7 @@ public class GameBoardController implements Initializable {
         if(node.getId().startsWith("ISLAND"))
             setIsland((AnchorPane) node);
         else if(node.getId().startsWith("CLOUDS")) {
-            ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {
-            });
+            //(node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {});
 
         }
 
@@ -50,43 +49,56 @@ public class GameBoardController implements Initializable {
     private void setIsland(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("[\\D]", ""));
         int noEntriesNum = cmm.getIslands().get(islandIndex).getNoEntry();
-        node.getChildren().stream().filter(x -> x instanceof Node).forEach(b -> {
-            switch (b.getId()) {
-                case ("RED"):
-                    ((Label)b).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.RED).toString());
-                case ("YELLOW"):
-                    ((Label)b).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.YELLOW).toString());
-                case ("PINK"):
-                    ((Label)b).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
-                case ("GREEN"):
-                    ((Label)b).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
-                case ("BLUE"):
-                    ((Label)b).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
-                case ("TOWERNUM"):
-                    ((Label)b).setText(String.valueOf(cmm.getIslands().get(islandIndex).getTowers()));
-                case ("TOWER"):
-                    b.setVisible(cmm.getIslands().get(islandIndex).getTowers() > 0);
-                    switch (cmm.getIslands().get(islandIndex).getTc().toString()) {
-                        case ("BLACK"):
-                            Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/BlackTower.png")));
-                            ((ImageView)b).setImage(image);
-                        case ("WHITE"):
-                            Image image2 = new Image(String.valueOf(getClass().getResource("/images/Elements/WhiteTower.png")));
-                            ((ImageView)b).setImage(image2);
-                        case ("GREY"):
-                            Image image3 = new Image(String.valueOf(getClass().getResource("/images/Elements/GreyTower.png")));
-                            ((ImageView)b).setImage(image3);
-                    }
-                case ("NOENTRIESNUM"):
-                    ((Label)b).setText(String.valueOf(noEntriesNum));
-                case ("NOENTRY"):
-                    b.setVisible(noEntriesNum > 0);
-                case ("MOTHERNATURE"):
-                    b.setVisible(cmm.getMotherNature() == islandIndex);
-            }
-
-        });
+        node.getChildren().stream().filter(x -> x instanceof Node).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
     }
 
+    public void boardSwitch(Node node, int islandIndex, int noEntriesNum) {
+        switch (node.getId().replaceAll("[^A-Za-z]+", "")) {
+            case ("RED"):
+                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.RED).toString());
+            case ("YELLOW"):
+                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.YELLOW).toString());
+            case ("PINK"):
+                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
+            case ("GREEN"):
+                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
+            case ("BLUE"):
+                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
+            case ("TOWERNUM"):
+                ((Label)node).setText(String.valueOf(cmm.getIslands().get(islandIndex).getTowers()));
+                break;
+            case ("TOWER"): {
+                if (cmm.getIslands().get(islandIndex).getTowers() > 0) {
+                    node.setVisible(true);
+                    switch (cmm.getIslands().get(islandIndex).getTc().toString()) {
+                        case ("BLACK"):
+                            Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/MinBlackTower.png")));
+                            ((ImageView) node).setImage(image);
+                        case ("WHITE"):
+                            Image image2 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinWhiteTower.png")));
+                            ((ImageView) node).setImage(image2);
+                        case ("GREY"):
+                            Image image3 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinGreyTower.png")));
+                            ((ImageView) node).setImage(image3);
+                        default:
+                            //System.out.println("def tower switch");
+                    }
+                } else {
+                    return;
+                }
+            }
+            case ("NOENTRIESNUM"):
+                ((Label)node).setText(String.valueOf(noEntriesNum));
+            case ("NOENTRY"):
+                if(noEntriesNum > 0) {
+                    node.setVisible(true);}
+            case ("MOTHERNATURE"):
+                node.setVisible(cmm.getMotherNature() == islandIndex);
+            default:
+                //nothing
+
+        }
+
+    }
 
 }

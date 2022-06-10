@@ -22,77 +22,77 @@
                         <Image url="@../images/Elements/Island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="46.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P" fitHeight="40.0" fitWidth="40.0" layoutX="46.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G" fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="98.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B" fitHeight="40.0" fitWidth="40.0" layoutX="98.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="MOTHERNATURE" fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE0" fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="TOWER" fitHeight="50.0" fitWidth="50.0" layoutX="37.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER0" fitHeight="50.0" fitWidth="50.0" layoutX="37.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="NOENTRY" fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY0" fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="RED" layoutX="15.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED0" layoutX="15.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="YELLOW" layoutX="13.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW0" layoutX="13.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="PINK" layoutX="46.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK0" layoutX="46.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="GREEN" layoutX="108.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN0" layoutX="108.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="BLUE" layoutX="121.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE0" layoutX="121.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="TOWERNUM" layoutX="38.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM0" layoutX="38.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label fx:id="NOENTRIESNUM" layoutX="111.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM0" layoutX="111.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -106,77 +106,77 @@
                         <Image url="@../images/Elements/Island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="22.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R1" fitHeight="40.0" fitWidth="40.0" layoutX="22.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y1" fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P1" fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="89.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G1" fitHeight="40.0" fitWidth="40.0" layoutX="89.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="103.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B1" fitHeight="40.0" fitWidth="40.0" layoutX="103.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE1" fitHeight="50.0" fitWidth="50.0" layoutX="53.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="42.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER1" fitHeight="50.0" fitWidth="50.0" layoutX="42.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY1" fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="20.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED1" layoutX="20.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="18.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW1" layoutX="18.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="51.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK1" layoutX="51.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="113.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN1" layoutX="113.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="126.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE1" layoutX="126.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="43.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM1" layoutX="43.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="116.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM1" layoutX="116.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -190,77 +190,77 @@
                         <Image url="@../images/Elements/Island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R2" fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y2" fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="45.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P2" fitHeight="40.0" fitWidth="40.0" layoutX="45.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G2" fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="97.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B2" fitHeight="40.0" fitWidth="40.0" layoutX="97.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="47.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE2" fitHeight="50.0" fitWidth="50.0" layoutX="47.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER2" fitHeight="50.0" fitWidth="50.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="77.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY2" fitHeight="40.0" fitWidth="40.0" layoutX="77.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="14.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED2" layoutX="14.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="12.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW2" layoutX="12.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="45.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK2" layoutX="45.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="107.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN2" layoutX="107.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="120.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE2" layoutX="120.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="37.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM2" layoutX="37.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="110.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM2" layoutX="110.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -274,77 +274,77 @@
                         <Image url="@../images/Elements/Island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R3" fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y3" fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="45.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P3" fitHeight="40.0" fitWidth="40.0" layoutX="45.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G3" fitHeight="40.0" fitWidth="40.0" layoutX="83.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="97.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B3" fitHeight="40.0" fitWidth="40.0" layoutX="97.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="47.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE3" fitHeight="50.0" fitWidth="50.0" layoutX="47.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER3" fitHeight="50.0" fitWidth="50.0" layoutX="36.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="77.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY3" fitHeight="40.0" fitWidth="40.0" layoutX="77.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="14.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED3" layoutX="14.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="12.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW3" layoutX="12.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="45.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK3" layoutX="45.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="107.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN3" layoutX="107.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="120.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE3" layoutX="120.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="37.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM3" layoutX="37.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="110.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM3" layoutX="110.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -358,77 +358,77 @@
                         <Image url="@../images/Elements/Island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="23.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R4" fitHeight="40.0" fitWidth="40.0" layoutX="23.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="20.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y4" fitHeight="40.0" fitWidth="40.0" layoutX="20.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="52.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P4" fitHeight="40.0" fitWidth="40.0" layoutX="52.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="90.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G4" fitHeight="40.0" fitWidth="40.0" layoutX="90.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="104.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B4" fitHeight="40.0" fitWidth="40.0" layoutX="104.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="54.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE4" fitHeight="50.0" fitWidth="50.0" layoutX="54.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="43.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER4" fitHeight="50.0" fitWidth="50.0" layoutX="43.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY4" fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="21.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED4" layoutX="21.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="19.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW4" layoutX="19.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="52.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK4" layoutX="52.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="114.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN4" layoutX="114.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="127.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE4" layoutX="127.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="44.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM4" layoutX="44.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="117.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM4" layoutX="117.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -442,77 +442,77 @@
                         <Image url="@../images/Elements/Island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R5" fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y5" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="42.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P5" fitHeight="40.0" fitWidth="40.0" layoutX="42.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G5" fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="94.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B5" fitHeight="40.0" fitWidth="40.0" layoutX="94.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE5" fitHeight="50.0" fitWidth="50.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="33.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER5" fitHeight="50.0" fitWidth="50.0" layoutX="33.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="74.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY5" fitHeight="40.0" fitWidth="40.0" layoutX="74.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="11.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED5" layoutX="11.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="9.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW5" layoutX="9.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="42.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK5" layoutX="42.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN5" layoutX="104.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="117.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE5" layoutX="117.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="34.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM5" layoutX="34.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="107.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM5" layoutX="107.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -526,77 +526,77 @@
                         <Image url="@../images/Elements/Island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R6" fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y6" fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="48.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P6" fitHeight="40.0" fitWidth="40.0" layoutX="48.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="86.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G6" fitHeight="40.0" fitWidth="40.0" layoutX="86.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="100.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B6" fitHeight="40.0" fitWidth="40.0" layoutX="100.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="50.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE6" fitHeight="50.0" fitWidth="50.0" layoutX="50.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER6" fitHeight="50.0" fitWidth="50.0" layoutX="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY6" fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="17.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED6" layoutX="17.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="15.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW6" layoutX="15.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="48.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK6" layoutX="48.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="110.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN6" layoutX="110.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="123.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE6" layoutX="123.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="40.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM6" layoutX="40.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="113.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM6" layoutX="113.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -610,77 +610,77 @@
                         <Image url="@../images/Elements/Island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="21.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R7" fitHeight="40.0" fitWidth="40.0" layoutX="21.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="18.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y7" fitHeight="40.0" fitWidth="40.0" layoutX="18.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="50.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P7" fitHeight="40.0" fitWidth="40.0" layoutX="50.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="88.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G7" fitHeight="40.0" fitWidth="40.0" layoutX="88.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="102.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B7" fitHeight="40.0" fitWidth="40.0" layoutX="102.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE7" fitHeight="50.0" fitWidth="50.0" layoutX="52.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="41.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER7" fitHeight="50.0" fitWidth="50.0" layoutX="41.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="82.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY7" fitHeight="40.0" fitWidth="40.0" layoutX="82.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="19.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED7" layoutX="19.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="17.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW7" layoutX="17.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="50.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK7" layoutX="50.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="112.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN7" layoutX="112.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="125.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE7" layoutX="125.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="42.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM7" layoutX="42.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="115.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM7" layoutX="115.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -694,77 +694,77 @@
                         <Image url="@../images/Elements/Island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="11.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R8" fitHeight="40.0" fitWidth="40.0" layoutX="11.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="8.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y8" fitHeight="40.0" fitWidth="40.0" layoutX="8.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P8" fitHeight="40.0" fitWidth="40.0" layoutX="40.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G8" fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="92.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B8" fitHeight="40.0" fitWidth="40.0" layoutX="92.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="42.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE8" fitHeight="50.0" fitWidth="50.0" layoutX="42.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER8" fitHeight="50.0" fitWidth="50.0" layoutX="31.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="72.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY8" fitHeight="40.0" fitWidth="40.0" layoutX="72.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="9.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED8" layoutX="9.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="7.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW8" layoutX="7.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="40.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK8" layoutX="40.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="102.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN8" layoutX="102.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="115.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE8" layoutX="115.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="32.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM8" layoutX="32.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="105.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM8" layoutX="105.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -778,77 +778,77 @@
                         <Image url="@../images/Elements/Island2.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R9" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y9" fitHeight="40.0" fitWidth="40.0" layoutX="14.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="46.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P9" fitHeight="40.0" fitWidth="40.0" layoutX="46.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G9" fitHeight="40.0" fitWidth="40.0" layoutX="84.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="98.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B9" fitHeight="40.0" fitWidth="40.0" layoutX="98.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE9" fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="37.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER9" fitHeight="50.0" fitWidth="50.0" layoutX="37.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY9" fitHeight="40.0" fitWidth="40.0" layoutX="78.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="15.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED9" layoutX="15.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="13.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW9" layoutX="13.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="46.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK9" layoutX="46.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="108.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN9" layoutX="108.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="121.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE9" layoutX="121.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="38.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM9" layoutX="38.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="111.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM9" layoutX="111.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -862,77 +862,77 @@
                         <Image url="@../images/Elements/Island3.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R10" fitHeight="40.0" fitWidth="40.0" layoutX="19.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y10" fitHeight="40.0" fitWidth="40.0" layoutX="16.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="48.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P10" fitHeight="40.0" fitWidth="40.0" layoutX="48.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="86.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G10" fitHeight="40.0" fitWidth="40.0" layoutX="86.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="100.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B10" fitHeight="40.0" fitWidth="40.0" layoutX="100.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="50.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE10" fitHeight="50.0" fitWidth="50.0" layoutX="50.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER10" fitHeight="50.0" fitWidth="50.0" layoutX="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRY10" fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="17.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED10" layoutX="17.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="15.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW10" layoutX="15.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="48.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK10" layoutX="48.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="110.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN10" layoutX="110.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="123.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE10" layoutX="123.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="40.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM10" layoutX="40.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="113.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM10" layoutX="113.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -946,77 +946,77 @@
                         <Image url="@../images/Elements/Island1.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="R11" fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="Y11" fitHeight="40.0" fitWidth="40.0" layoutX="10.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="42.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="P11" fitHeight="40.0" fitWidth="40.0" layoutX="42.0" layoutY="94.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="G11" fitHeight="40.0" fitWidth="40.0" layoutX="80.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="94.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="B11" fitHeight="40.0" fitWidth="40.0" layoutX="94.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE11" fitHeight="50.0" fitWidth="50.0" layoutX="44.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="33.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="TOWER11" fitHeight="50.0" fitWidth="50.0" layoutX="33.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/BlackTower.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="74.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="NOENTRIES11" fitHeight="40.0" fitWidth="40.0" layoutX="74.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/NoEntry.png" />
                      </image>
                   </ImageView>
-                  <Label layoutX="11.0" layoutY="60.0" text="13">
+                  <Label fx:id="RED11" layoutX="11.0" layoutY="60.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="9.0" layoutY="98.0" text="13">
+                  <Label fx:id="YELLOW11" layoutX="9.0" layoutY="98.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="42.0" layoutY="118.0" text="13">
+                  <Label fx:id="PINK11" layoutX="42.0" layoutY="118.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="104.0" layoutY="111.0" text="13">
+                  <Label fx:id="GREEN11" layoutX="104.0" layoutY="111.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="117.0" layoutY="77.0" text="13">
+                  <Label fx:id="BLUE11" layoutX="117.0" layoutY="77.0" text="13">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="34.0" layoutY="8.0" text="13" visible="false">
+                  <Label fx:id="TOWERNUM11" layoutX="34.0" layoutY="8.0" text="13" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
                   </Label>
-                  <Label layoutX="107.0" layoutY="16.0" text="4" visible="false">
+                  <Label fx:id="NOENTRIESNUM11" layoutX="107.0" layoutY="16.0" text="4" visible="false">
                      <font>
                         <Font name="System Bold" size="12.0" />
                      </font>
@@ -1027,27 +1027,27 @@
                <children>
                   <AnchorPane fx:id="CLOUD_0">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="CLOUD" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/Cloud1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT10" fitHeight="40.0" fitWidth="40.0" layoutX="23.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundRed.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT20" fitHeight="40.0" fitWidth="40.0" layoutX="60.0" layoutY="28.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundPink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT30" fitHeight="40.0" fitWidth="40.0" layoutX="13.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundGreen.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT40" fitHeight="40.0" fitWidth="40.0" layoutX="51.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundYellow.png" />
                            </image>
@@ -1056,27 +1056,27 @@
                   </AnchorPane>
                   <AnchorPane fx:id="CLOUD_1" layoutX="147.0" layoutY="14.0">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="CLOUD1" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/Cloud1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT11" fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundRed.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT21" fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundPink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT31" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundGreen.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT41" fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundYellow.png" />
                            </image>
@@ -1085,27 +1085,27 @@
                   </AnchorPane>
                   <AnchorPane fx:id="CLOUD_2" layoutX="41.0" layoutY="109.0">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="CLOUD2" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/Cloud1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT12" fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundRed.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT22" fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundPink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT32" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundGreen.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT42" fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundYellow.png" />
                            </image>
@@ -1114,27 +1114,27 @@
                   </AnchorPane>
                   <AnchorPane fx:id="CLOUD_3" layoutX="190.0" layoutY="129.0">
                      <children>
-                        <ImageView fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="CLOUD3" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/Cloud1.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT13" fitHeight="40.0" fitWidth="40.0" layoutX="27.0" layoutY="16.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundRed.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT23" fitHeight="40.0" fitWidth="40.0" layoutX="64.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundPink.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT33" fitHeight="40.0" fitWidth="40.0" layoutX="17.0" layoutY="53.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundGreen.png" />
                            </image>
                         </ImageView>
-                        <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="STUDENT43" fitHeight="40.0" fitWidth="40.0" layoutX="55.0" layoutY="64.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../images/Elements/RoundYellow.png" />
                            </image>
