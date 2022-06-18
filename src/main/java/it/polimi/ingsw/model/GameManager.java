@@ -241,6 +241,7 @@ public class GameManager {
 
         if(board.getIslands().get(position).getNoEntry()>0){
             board.getIslands().get(position).removeNoEntry();
+            modelObserver.moveMotherNature(position);
             modelObserver.removeNoEntry(position);
             return;
         }
