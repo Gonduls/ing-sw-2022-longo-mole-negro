@@ -353,7 +353,7 @@ public class BoardStatus {
                 }
 
                 if(index == 5) {
-                    ansi.a(" No entries:" + cmm.getNoEntries());
+                    ansi.a("No entries: " + cmm.getNoEntries());
                 }
 
                 ansi.cursorDownLine().cursorRight(10);
