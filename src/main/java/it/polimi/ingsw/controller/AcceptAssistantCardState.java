@@ -61,6 +61,8 @@ public class AcceptAssistantCardState extends GameState {
             }
 
             player.pickCard(cardPlayed);
+        } else {
+            throw new Exception("you already played this card");
         }
 
         cardsPlayedThisTurn[context.getCurrentPlayer().getPlayerNumber()] = cardPlayed;
