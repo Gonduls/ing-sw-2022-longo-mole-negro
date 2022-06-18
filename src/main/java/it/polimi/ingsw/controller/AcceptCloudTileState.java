@@ -36,6 +36,8 @@ public class AcceptCloudTileState extends  GameState {
 
 
                 if (numberOfEvents == 0) {
+                    context.gameManager.setUsedCard(-1, context.getCurrentPlayer().getPlayerNumber());
+
                     if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {
                         //new round
                         context.setPlayingOrderIndex(0);
@@ -52,8 +54,6 @@ public class AcceptCloudTileState extends  GameState {
                         //new turn for the new player
                         context.setPlayingOrderIndex(context.getPlayingOrderIndex() + 1);
                         context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-
-                        context.gameManager.setUsedCard(-1, context.getCurrentPlayer().getPlayerNumber());
 
                         for(CharacterCard cc: context.gameManager.getActiveCards()){
                             cc.deactivateEffect();

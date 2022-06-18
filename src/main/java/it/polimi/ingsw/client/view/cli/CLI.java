@@ -343,13 +343,19 @@ public class CLI implements UI {
                 System.out.println("Player " + ap.username() +" joined! ");
             }
             case END_GAME -> {
+                kill = true;
+                inARoom = false;
+                clientController.startOver();
+                gameRunning.set(false);
+
+                printClear();
                 System.out.println("Game Over \n" +
                         "Winner/s: " );
                 EndGame eg = (EndGame) message;
                 for(int i = 0; i < eg.winners().length; i++) {
                     System.out.println(eg.winners()[i]);
                 }
-                killGame();
+                System.out.println("Press anything to return to Lobby.");
                 input.nextLine();
             }
             case PLAYER_DISCONNECT -> {
