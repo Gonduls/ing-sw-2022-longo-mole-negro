@@ -200,6 +200,10 @@ public class RoundController {
 
 
         gameManager.setUsedCard(cardId, getCurrentPlayer().getPlayerNumber());
+       if(cardId == 6) { // this is a bit junky, but it's the only card that needs this kind of information
+           CharacterCardSix cc6 = (CharacterCardSix) gameManager.findCardById(6);
+           cc6.setPlayer(getCurrentPlayer());
+       }
         //this could be put into setUsedCard
         getCurrentPlayer().removeCoins(gameManager.findCardById(cardId).getPrice());
         //this could be put inside setUsedCard
