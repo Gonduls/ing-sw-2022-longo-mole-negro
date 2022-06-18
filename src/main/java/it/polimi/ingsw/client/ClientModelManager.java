@@ -22,11 +22,13 @@ public class ClientModelManager {
     private final HashMap<Integer, EnumMap<Color, Integer>> characterStudents;
     private int noEntries;
     private final UI ui;
+    private boolean expert;
 
     ClientModelManager(String[] players, boolean expert, UI ui) {
         int numberOfPlayers = players.length;
         this.players = players;
         this.ui = ui;
+        this.expert = expert;
         motherNature = 0;
         islands = new ArrayList<>(12);
 
@@ -290,6 +292,10 @@ public class ClientModelManager {
 
         // Only need one of the 2 islands in the list
         islands.remove(ind2);
+    }
+
+    public boolean isExpert() {
+        return expert;
     }
 
 }
