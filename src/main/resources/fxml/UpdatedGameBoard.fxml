@@ -10,7 +10,7 @@
    <children>
       <ImageView fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Elements/Ref.png" />
+            <Image url="@../images/Elements/bg.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="ISLANDS" layoutX="288.0" layoutY="10.0">
@@ -1025,7 +1025,7 @@
             </AnchorPane>
             <AnchorPane fx:id="CLOUDS" layoutX="240.0" layoutY="144.0">
                <children>
-                  <AnchorPane fx:id="CLOUD_0">
+                  <AnchorPane fx:id="CLOUD_0" visible="false">
                      <children>
                         <ImageView fx:id="CLOUD" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1054,7 +1054,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="CLOUD_1" layoutX="147.0" layoutY="14.0">
+                  <AnchorPane fx:id="CLOUD_1" layoutX="147.0" layoutY="14.0" visible="false">
                      <children>
                         <ImageView fx:id="CLOUD1" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1083,7 +1083,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="CLOUD_2" layoutX="41.0" layoutY="109.0">
+                  <AnchorPane fx:id="CLOUD_2" layoutX="41.0" layoutY="109.0" visible="false">
                      <children>
                         <ImageView fx:id="CLOUD2" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1112,7 +1112,7 @@
                         </ImageView>
                      </children>
                   </AnchorPane>
-                  <AnchorPane fx:id="CLOUD_3" layoutX="190.0" layoutY="129.0">
+                  <AnchorPane fx:id="CLOUD_3" layoutX="190.0" layoutY="129.0" visible="false">
                      <children>
                         <ImageView fx:id="CLOUD3" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -1147,7 +1147,7 @@
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL" layoutX="408.0" layoutY="529.0">
          <children>
-            <ImageView fitHeight="239.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="schoolBg" fitHeight="239.0" fitWidth="550.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/YourSchoolNG.png" />
                </image>
@@ -1551,20 +1551,137 @@
             <Image url="@../images/Elements/Back1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="CHARACTERCARD" fitHeight="200.0" fitWidth="200.0" layoutX="1067.0" layoutY="550.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Elements/ExtraBack.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="ASSISTANTCARD" fitHeight="200.0" fitWidth="200.0" layoutX="95.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="ASSISTANTCARD" fitHeight="160.0" fitWidth="110.0" layoutX="140.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/Assistente1.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="COIN" fitHeight="50.0" fitWidth="50.0" layoutX="1000.0" layoutY="559.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="COIN" fitHeight="50.0" fitWidth="50.0" layoutX="965.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/Coin.png" />
          </image>
       </ImageView>
+      <Label fx:id="OWNEDCOINS" layoutX="976.0" layoutY="740.0" text="Label" />
+      <AnchorPane fx:id="CHARACTERCARDS" layoutX="1017.0" layoutY="401.0" prefHeight="335.0" prefWidth="326.0">
+         <children>
+            <ImageView fx:id="CC1" fitHeight="150.0" fitWidth="150.0" layoutX="83.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Personaggi/CC0.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="STUDENTSCC1" layoutX="108.0" layoutY="85.0" prefHeight="69.0" prefWidth="100.0">
+               <children>
+                  <ImageView fx:id="SCC11" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC12" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC13" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC14" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC15" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC16" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="CC2" fitHeight="150.0" fitWidth="150.0" layoutX="1.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Personaggi/CC0.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="STUDENTSCC2" layoutX="25.0" layoutY="259.0" prefHeight="69.0" prefWidth="100.0">
+               <children>
+                  <ImageView fx:id="SCC21" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC22" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC23" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC24" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC25" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC26" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="CC3" fitHeight="150.0" fitWidth="150.0" layoutX="166.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Personaggi/CC0.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="STUDENTSCC3" layoutX="191.0" layoutY="260.0" prefHeight="69.0" prefWidth="100.0">
+               <children>
+                  <ImageView fx:id="SCC31" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC32" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC33" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC34" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC35" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundGreen.png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fx:id="SCC36" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/Elements/RoundBlue.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

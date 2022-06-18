@@ -75,22 +75,7 @@ public class GUI extends Application implements UI{
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         this.cmm = cmm;
-        if (!expert) {
-            //charactercardsAnchor.setVisible(false);
-            //coins.setVisible(false)
-        }
-        switch (numberOfPlayers) {
-            case (2) -> {
-                //player.left & right .setVisible(false)
-                //devo mappare il player 2 alla scuola centrale
-            }
-            case (3) -> {
-                //player.centrale .setVisible(false)
-            }
-            case (4) -> {
-                //default
-            }
-        }
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
