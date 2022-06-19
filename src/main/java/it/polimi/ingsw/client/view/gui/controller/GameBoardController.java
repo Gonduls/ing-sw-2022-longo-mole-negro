@@ -17,6 +17,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class GameBoardController implements Initializable {
@@ -69,7 +70,7 @@ public class GameBoardController implements Initializable {
             //disables and sets as invisible all elements of the game that are part of the expert game mode
 
             //no entries
-            ISLANDS.getChildren().stream().filter(x -> x instanceof AnchorPane).forEach(this::notExpert);
+            ISLANDS.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::notExpert);
 
             //coins
             COIN.setVisible(false);
@@ -97,7 +98,7 @@ public class GameBoardController implements Initializable {
         }
 
         //parses through every element of the board
-        ISLANDS.getChildren().stream().filter(x -> x instanceof AnchorPane).forEach(this::setBoard);
+        ISLANDS.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
     }
 
     //calls all the methods that initialize or update the board depending on which part of the board we're considering
@@ -105,9 +106,9 @@ public class GameBoardController implements Initializable {
         if(node.getId().startsWith("ISLAND"))
             setIslands((AnchorPane) node);
         else if(node.getId().startsWith("CLOUDS"))
-            ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof AnchorPane).forEach(this::setClouds);
+            ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setClouds);
         else if(node.getId().startsWith("CHARACTERCARDS"))
-            ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof Node).forEach(this::setCharacterCards);
+            ((AnchorPane)node).getChildren().stream().filter(Objects::nonNull).forEach(this::setCharacterCards);
 
     }
 
@@ -123,7 +124,7 @@ public class GameBoardController implements Initializable {
             //if the current card has a sh, sets the sh
             if (CharacterCard.hasStudentHolder(indexes[indexesIterator])) {
                 Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
-                ((AnchorPane) node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {
+                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
                     setNumberOfStudents(sh);
                     setStudents(b);});
             } else {
@@ -139,12 +140,12 @@ public class GameBoardController implements Initializable {
     //sets the correct number of clouds per number of players
     private void setClouds(Node node) {
         int cloudsNumber = numberOfPlayers;
-        int cloudIndex = Integer.parseInt(node.getId().replaceAll("[\\D]", ""));
+        int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
         if (cloudIndex < cloudsNumber) {
             setNumberOfStudents(cmm.getCloud(cloudIndex));
             node.setVisible(true);
             node.setDisable(false);
-            ((AnchorPane) node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {
+            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
                 if (b.getId().startsWith("STUDENT")) {
                     studentNumber++;
                     if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
@@ -163,55 +164,44 @@ public class GameBoardController implements Initializable {
     }
 
     private void setIslands(AnchorPane node) {
-        int islandIndex = Integer.parseInt(node.getId().replaceAll("[\\D]", ""));
+        int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
+        System.out.println(islandIndex);
         int noEntriesNum = cmm.getIslands().get(islandIndex).getNoEntry();
-        node.getChildren().stream().filter(x -> x instanceof Node).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
+        node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
     }
 
     public void boardSwitch(Node node, int islandIndex, int noEntriesNum) {
         switch (node.getId().replaceAll("[^A-Za-z]+", "")) {
-            case ("RED"):
-                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.RED).toString());
-            case ("YELLOW"):
-                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.YELLOW).toString());
-            case ("PINK"):
-                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
-            case ("GREEN"):
-                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
-            case ("BLUE"):
-                ((Label)node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
-            case ("TOWERNUM"):
-                ((Label)node).setText(String.valueOf(cmm.getIslands().get(islandIndex).getTowers()));
-                break;
-            case ("TOWER"): {
-                if (cmm.getIslands().get(islandIndex).getTowers() > 0) {
-                    node.setVisible(true);
-                    switch (cmm.getIslands().get(islandIndex).getTc().toString()) {
-                        case ("BLACK"):
-                            Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/MinBlackTower.png")));
-                            ((ImageView) node).setImage(image);
-                        case ("WHITE"):
-                            Image image2 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinWhiteTower.png")));
-                            ((ImageView) node).setImage(image2);
-                        case ("GREY"):
-                            Image image3 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinGreyTower.png")));
-                            ((ImageView) node).setImage(image3);
-                        default:
-                            //System.out.println("def tower switch");
+            case ("RED") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.RED).toString());
+            case ("YELLOW") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.YELLOW).toString());
+            case ("PINK") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
+            case ("GREEN") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
+            case ("BLUE") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
+            case ("TOWERNUM") -> ((Label) node).setText(String.valueOf(cmm.getIslands().get(islandIndex).getTowers()));
+            case ("TOWER") -> {
+                if (cmm.getIslands().get(islandIndex).getTowers() <= 0)
+                    break;
+
+                node.setVisible(true);
+                switch (cmm.getIslands().get(islandIndex).getTc()) {
+                    case BLACK -> {
+                        Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/MinBlackTower.png")));
+                        ((ImageView) node).setImage(image);
                     }
-                } else {
-                    return;
+                    case WHITE -> {
+                        Image image2 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinWhiteTower.png")));
+                        ((ImageView) node).setImage(image2);
+                    }
+                    case GREY -> {
+                        Image image3 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinGreyTower.png")));
+                        ((ImageView) node).setImage(image3);
+                    }
                 }
             }
-            case ("NOENTRIESNUM"):
-                ((Label)node).setText(String.valueOf(noEntriesNum));
-            case ("NOENTRY"):
-                if(noEntriesNum > 0) {
-                    node.setVisible(true);}
-            case ("MOTHERNATURE"):
-                node.setVisible(cmm.getMotherNature() == islandIndex);
-            default:
-                //nothing
+            case ("NOENTRIESNUM") -> ((Label) node).setText(String.valueOf(noEntriesNum));
+            case ("NOENTRY") -> node.setVisible(noEntriesNum > 0);
+            case ("MOTHERNATURE") -> node.setVisible(cmm.getMotherNature() == islandIndex);
+            default -> System.out.println("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
 
         }
 
