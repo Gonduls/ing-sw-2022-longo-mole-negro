@@ -187,9 +187,15 @@ public class BoardStatus {
             ansi.cursorRight(1);
             if(cmm.getTowers(j) > 0){
                 switch (j) {
-                    case 0 -> ansi.a("T: ").fgBrightBlack().a(cmm.getTowers(j)).fgDefault();
-                    case 1 -> ansi.a(render("T: " + cmm.getTowers(j), Ansi.Color.WHITE));
-                    default -> ansi.a("T: ").a(render(cmm.getTowers(j), 0xa8a8a8a8));
+                    case 0 -> ansi.fgBrightBlack().a("T:B" + cmm.getTowers(j)).fgDefault();
+                    case 1 -> ansi.a(render("T:W" + cmm.getTowers(j), Ansi.Color.WHITE));
+                    default -> ansi.a(render("T:G" + cmm.getTowers(j), 0xa8a8a8a8));
+                }
+            } else {
+                if (j % 2 == 0) {
+                    ansi.fgBrightBlack().a("T:B").fgDefault();
+                } else {
+                    ansi.a("T:W");
                 }
             }
 
