@@ -42,14 +42,12 @@ public class GameBoardController implements Initializable {
     @FXML
     private AnchorPane CHARACTERCARDS;
 
-    private RedirectResources redirect;
-
     //used to change images of students
-    private int numberOfReds = 0;
-    private int numberOfBlues = 0;
-    private int numberOfGreens = 0;
-    private int numberOfYellows = 0;
-    private int numberOfPinks = 0;
+    private static int numberOfReds = 0;
+    private static int numberOfBlues = 0;
+    private static int numberOfGreens = 0;
+    private static int numberOfYellows = 0;
+    private static int numberOfPinks = 0;
 
 
 
@@ -59,9 +57,9 @@ public class GameBoardController implements Initializable {
     private int numberOfPlayers = cmm.getPlayers().length;
     private boolean expert = cmm.isExpert();
 
-    private int studentNumber = 0;
+    private static int studentNumber = 0;
     private Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
-    private int indexesIterator = 0;
+    private static int indexesIterator = 0;
 
 
     @Override
@@ -98,6 +96,7 @@ public class GameBoardController implements Initializable {
             }
         }
 
+        //parses through every element of the board
         ISLANDS.getChildren().stream().filter(x -> x instanceof AnchorPane).forEach(this::setBoard);
     }
 
@@ -108,40 +107,53 @@ public class GameBoardController implements Initializable {
         else if(node.getId().startsWith("CLOUDS"))
             ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof AnchorPane).forEach(this::setClouds);
         else if(node.getId().startsWith("CHARACTERCARDS"))
-            ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(this::setCharacterCards);
+            ((AnchorPane)node).getChildren().stream().filter(x -> x instanceof Node).forEach(this::setCharacterCards);
 
     }
 
     //sets the chosen character cards with their respective images and SHs
     private void setCharacterCards(Node node) {
+        System.out.println("sono in setCC");
         if (node.getId().startsWith("CC")) {
-            Image image = redirect.characterCardsImages(indexes[indexesIterator]);
+            //changes the image of the card
+            System.out.println("sono in CC" + indexesIterator +1);
+            Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
             ((ImageView) node).setImage(image);
         } else if (node.getId().startsWith("STUDENTS")) {
+            //if the current card has a sh, sets the sh
             if (CharacterCard.hasStudentHolder(indexes[indexesIterator])) {
                 Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
-                ((AnchorPane) node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> setStudents(b, sh));
+                ((AnchorPane) node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {
+                    setNumberOfStudents(sh);
+                    setStudents(b);});
             } else {
                 node.setDisable(true);
                 node.setVisible(false);
             }
+
+            //next CC
             indexesIterator++;
         }
     }
 
+    //sets the correct number of clouds per number of players
     private void setClouds(Node node) {
         int cloudsNumber = numberOfPlayers;
         int cloudIndex = Integer.parseInt(node.getId().replaceAll("[\\D]", ""));
         if (cloudIndex < cloudsNumber) {
+            setNumberOfStudents(cmm.getCloud(cloudIndex));
             node.setVisible(true);
+            node.setDisable(false);
             ((AnchorPane) node).getChildren().stream().filter(x -> x instanceof ImageView).forEach(b -> {
-                studentNumber++;
-                if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
-                    b.setVisible(false);
-                    studentNumber = 0;
-                } else {
-                    for (Color color : Color.values()) {
-                        cmm.getCloud(cloudIndex).get(color);
+                if (b.getId().startsWith("STUDENT")) {
+                    studentNumber++;
+                    if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
+                        b.setVisible(false);
+                        studentNumber = 0;
+                    } else {
+                        System.out.println("Sono in setClouds " + cloudIndex + "- student" + studentNumber);
+
+                        setStudents(b);
                     }
                 }
 
@@ -213,27 +225,35 @@ public class GameBoardController implements Initializable {
 
     }
 
-    public void setStudents(Node node, Map<Color,Integer> sh) {
-        setNumberOfStudents(sh);
+    public void setStudents(Node node) {
+        System.out.println("sono in setStdents");
 
         if (numberOfReds > 0) {
-            Image image = redirect.studentsImages("RED");
+            System.out.println(numberOfReds);
+            Image image = RedirectResources.studentsImages("RED");
             ((ImageView) node).setImage(image);
             numberOfReds--;
         } else if (numberOfBlues > 0) {
-            Image image = redirect.studentsImages("BLUE");
+            System.out.println(numberOfBlues);
+            Image image = RedirectResources.studentsImages("BLUE");
             ((ImageView) node).setImage(image);
             numberOfBlues--;
         } else if (numberOfGreens > 0) {
-            Image image = redirect.studentsImages("GREEN");
+            System.out.println(numberOfGreens);
+
+            Image image = RedirectResources.studentsImages("GREEN");
             ((ImageView) node).setImage(image);
             numberOfGreens--;
         } else if (numberOfPinks > 0) {
-            Image image = redirect.studentsImages("PINK");
+            System.out.println(numberOfPinks);
+
+            Image image = RedirectResources.studentsImages("PINK");
             ((ImageView) node).setImage(image);
             numberOfPinks--;
         } else if (numberOfYellows > 0) {
-            Image image = redirect.studentsImages("YELLOW");
+            System.out.println(numberOfYellows);
+
+            Image image = RedirectResources.studentsImages("YELLOW");
             ((ImageView) node).setImage(image);
             numberOfYellows--;
         }
