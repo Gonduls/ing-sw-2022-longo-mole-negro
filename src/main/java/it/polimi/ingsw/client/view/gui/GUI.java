@@ -24,8 +24,9 @@ public class GUI extends Application implements UI{
     ClientModelManager cmm;
     static boolean inARoom = false, kill;
     private static Stage primaryStage;
-    static GUI instance;
+    private String username;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
+    static GUI instance;
     public static GUI getInstance(){
         if(instance == null)
             instance = new GUI();
@@ -160,5 +161,13 @@ public class GUI extends Application implements UI{
 
     public Stage getStage() {
         return primaryStage;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getUsername() {
+        return username;
     }
 }
