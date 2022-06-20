@@ -48,14 +48,17 @@ public class RoundController {
 
         room.sendBroadcast(new StartGame(expertMode));
 
-        int playerToAdd = new Random().nextInt(playersNames.length);
+        int playerToAddNumber = new Random().nextInt(playersNames.length);
 
 
-
-        for(int i=playerToAdd; playingOrder.size()<playersNames.length; i= (i+1)%playersNames.length){
-            this.seatedPlayers[i] = new Player(i, playersNames[i], playersNames.length == 3);
-                playingOrder.add(seatedPlayers[i]);
+        while(playingOrder.size()< playersNames.length){
+            this.seatedPlayers[playerToAddNumber] = new Player(playerToAddNumber, playersNames[playerToAddNumber], playersNames.length == 3);
+            playingOrder.add(seatedPlayers[playerToAddNumber]);
+            playerToAddNumber = (playerToAddNumber +1) % playersNames.length;
         }
+
+
+
         playingOrderIndex=0;
         gameManager= new GameManager(this.seatedPlayers, expertMode,new ModelObserver(room));
         gameState = new AcceptAssistantCardState(this, seatedPlayers.length);
@@ -190,6 +193,11 @@ public class RoundController {
     }
 
 
-
+    int convertPlayerNumberToPlayingIndex (int numberPlayer){
+        for(int i =0; i< playingOrder.size(); i++){
+            if (playingOrder.get(i).getPlayerNumber() == numberPlayer) return i;
+        }
+        return -1;
+    }
 
 }

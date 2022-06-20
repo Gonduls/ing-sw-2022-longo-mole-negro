@@ -108,7 +108,7 @@ public class AcceptAssistantCardState extends GameState {
         }
         else {
             //next player ("clockwise direction")
-            context.setPlayingOrderIndex((context.getCurrentPlayer().getPlayerNumber()+1)% context.getNumberOfPlayers());
+            context.setPlayingOrderIndex(context.convertPlayerNumberToPlayingIndex((context.getCurrentPlayer().getPlayerNumber()+1) % context.getNumberOfPlayers()));
             context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
         }
 
