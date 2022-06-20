@@ -80,6 +80,10 @@ public class Room {
         if(message.getMessageType() == MessageType.END_GAME) {
             System.out.println("Eliminating room");
             Lobby.getInstance().eliminateRoom(id);
+            for(ClientHandler h : handlers){
+                if(h!= null)
+                    h.disconnectFromRoom();
+            }
         }
 
         for(ClientHandler ch : handlers) {

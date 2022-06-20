@@ -352,6 +352,7 @@ public class CLI implements UI {
                 clientController.startOver();
                 gameRunning.set(false);
 
+                killGame();
                 printClear();
                 System.out.println("Game Over \n" +
                         "Winner/s: " );
@@ -360,7 +361,7 @@ public class CLI implements UI {
                     System.out.println(eg.winners()[i]);
                 }
                 System.out.println("Press anything to return to Lobby.");
-                killGame();
+                input.nextLine();
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
