@@ -39,4 +39,24 @@ public final class RedirectResources {
         }
 
     }
+
+    public static Image minTowersImages(String color) {
+        switch (color) {
+            case "WHITE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinWhiteTower.png")));}
+            case "GREY" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinGreyTower.png")));}
+            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinBlackTower.png")));}
+
+        }
+
+    }
+
+    public static Image towersImages(String color) {
+        switch (color) {
+            case "WHITE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/WhiteTower.png")));}
+            case "GREY" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/GreyTower.png")));}
+            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/BlackTower.png")));}
+
+        }
+
+    }
 }

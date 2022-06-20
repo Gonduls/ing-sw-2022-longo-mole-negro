@@ -29,6 +29,7 @@ public class LoginController {
         try {
             boolean verifiedUsername = GUI.getInstance().getClientController().login(textUsername.getText());
             if(verifiedUsername) {
+                GUI.getInstance().setUsername(textUsername.getText());
                 root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
                 stage = (Stage)((Node)event.getSource()).getScene().getWindow();
                 scene = new Scene((root));
