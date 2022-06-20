@@ -27,7 +27,6 @@ public class AcceptCloudTileState extends  GameState {
         switch (event.getEventType()) {
             case CHOOSE_CLOUD_TILE: {
                 ChooseCloudTileEvent eventCast = (ChooseCloudTileEvent) event;
-                //Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int cloudIndex = eventCast.getCloudIndex();
 
@@ -59,7 +58,7 @@ public class AcceptCloudTileState extends  GameState {
                             cc.deactivateEffect();
                         }
 
-                        context.changeState(new AcceptMoveStudentFromEntranceState(context, 3));
+                        context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers()==3?4:3));
                         context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
 
                     }
@@ -75,29 +74,6 @@ public class AcceptCloudTileState extends  GameState {
                 int cardId = eventCast.getCardId();
 
                 context.handleCard(this,cardId);
-/*
-                if (!context.gameManager.isCardActive(eventCast.getCardId())){
-                    throw new Exception("This card is not present in the game");
-                }
-
-                if (context.gameManager.getUsedCard() != -1){
-                    throw new Exception("You already activated a card");
-                }
-
-
-                if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
-                    throw new Exception("You don't have enough coins");
-                }
-                context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
-
-                context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
-
-                context.gameManager.findCardById(cardId).increasePrice();
-
-                if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
-                    context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
-                }
- */
                 break;
 
             }

@@ -17,21 +17,12 @@ public class RoundController {
     //the order in which the players are "seated"
     private Player[] seatedPlayers;
     // in the first round is random, in the next rounds it qw
-    private int firstPlayerToPlayCard;
 
     //it's the order in which the players will do their turns.
     //it's established after playing the assistants cards
     private ArrayList<Player> playingOrder;
 
     private int playingOrderIndex;
-
-    private int[] maxSteps;
-
-
-    // it's the index of a player in seatedPlayers
-    private int currentPlayingPlayer;
-
-
 
     private final boolean expertMode;
 
@@ -55,17 +46,15 @@ public class RoundController {
         this.seatedPlayers = new Player[playersNames.length];
         this.room = room;
 
-
         room.sendBroadcast(new StartGame(expertMode));
 
+        int playerToAdd = new Random().nextInt(playersNames.length);
 
-        for(int i=0; i<playersNames.length; i++){
+
+
+        for(int i=playerToAdd; playingOrder.size()<playersNames.length; i= (i+1)%playersNames.length){
             this.seatedPlayers[i] = new Player(i, playersNames[i], playersNames.length == 3);
-            if(new Random().nextBoolean()){
                 playingOrder.add(seatedPlayers[i]);
-            } else {
-                playingOrder.add(0,seatedPlayers[i]);
-            }
         }
         playingOrderIndex=0;
         gameManager= new GameManager(this.seatedPlayers, expertMode,new ModelObserver(room));
@@ -94,20 +83,11 @@ public class RoundController {
     public void handleEvent(GameEvent event) throws Exception {
 
 
-        // REMOVE
-       /* if( !playingOrder.get(playingOrderIndex).getUsername().equals(event.getPlayerName())){
-            throw new Exception("It's not your turn");
-        } */
-
         if(playingOrder.get(playingOrderIndex).getPlayerNumber() != event.getPlayerNumber()){
             throw new Exception("It's not your turn");
         }
 
-       /*
-       if (event.getPlayerName()!= seatedPlayers[getCurrentPlayingPlayer()].getUsername()){
-            return;
-        }
-        */
+
        if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD && !isExpertMode()){
            throw new Exception("you cannot activate character cards in simple mode");
        }
@@ -118,8 +98,6 @@ public class RoundController {
         } else {
             throw new Exception("this move is not allowed at this stage of the game");
         }
-
-        firstPlayerToPlayCard = 0;
     }
 
 
@@ -145,10 +123,6 @@ public class RoundController {
 
     int getNumberOfPlayers(){
         return seatedPlayers.length;
-    }
-
-    int getCurrentPlayingPlayer (){
-        return currentPlayingPlayer;
     }
 
 
@@ -208,12 +182,14 @@ public class RoundController {
         getCurrentPlayer().removeCoins(gameManager.findCardById(cardId).getPrice());
         //this could be put inside setUsedCard
         gameManager.findCardById(cardId).increasePrice();
-        //todo add in the abstract class 'character Card' the boolean function "has character state"
         if(gameManager.findCardById(cardId).getCharacterState(this, currentState) != null){
             changeState(gameManager.findCardById(cardId).getCharacterState(this, currentState));
         }
 
 
     }
+
+
+
 
 }

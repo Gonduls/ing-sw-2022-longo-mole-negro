@@ -64,7 +64,6 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
 
             case MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE: {
                 MoveStudentFromEntranceToTableEvent eventCast = (MoveStudentFromEntranceToTableEvent) event;
-               // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
                 try {
@@ -75,37 +74,9 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             }
 
             case ACTIVATE_CHARACTER_CARD: {
-
-
                 ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
                 int cardId = eventCast.getCardId();
-
                 context.handleCard(this, cardId);
-
-               /* if (!context.gameManager.isCardActive(eventCast.getCardId())){
-                    throw new Exception("This card is not present in the game");
-                }
-
-                if (context.gameManager.getUsedCard() != -1){
-                    throw new Exception("You already activated a card");
-                }
-
-                if (context.getCurrentPlayer().getCoinsOwned() < context.gameManager.findCardById(eventCast.getCardId()).getPrice()){
-                    throw new Exception("You don't have enough coins");
-                }
-
-                todo: refactor this functions in setUsedCard
-                context.gameManager.setUsedCard(cardId,context.getCurrentPlayer().getPlayerNumber());
-
-                context.getCurrentPlayer().removeCoins(context.gameManager.findCardById(cardId).getPrice());
-
-                context.gameManager.findCardById(cardId).increasePrice();
-
-
-                if (context.gameManager.findCardById(cardId).getCharacterState(context, this) != null ) {
-                    context.changeState(context.gameManager.findCardById(cardId).getCharacterState(context, this));
-                } */
-
                 break;
 
             }
@@ -114,7 +85,6 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
 
 
         if (numberOfEvents == 0){
-
             context.changeState(new AcceptMotherNatureMoveState(context, 1));
             context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_TWO);
         }

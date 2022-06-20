@@ -39,12 +39,9 @@ public class AcceptAssistantCardState extends GameState {
     public void executeEvent(GameEvent event) throws Exception {
 
         PlayAssistantCardEvent eventCast = (PlayAssistantCardEvent) event;
-
         AssistantCard cardPlayed = eventCast.getAssistantCard();
-
-       // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
         Player  player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
-         boolean lastElement;
+        boolean lastElement;
 
         if (player.getCardsLeft().contains(cardPlayed)){
             for(int i =0 ; i< context.getNumberOfPlayers(); i++){
@@ -90,19 +87,13 @@ public class AcceptAssistantCardState extends GameState {
                 }
                 //in case we are inserting the  biggest element so far
             }
-
             if (lastElement){
                 newPlayingOrder.add(player);
             }
-
-
-
         }
 
         context.getPlayerMaxSteps().put(player, cardPlayed);
-
         context.gameManager.getModelObserver().playAssistantCard(cardPlayed,player.getPlayerNumber());
-
         numberOfEvents--;
 
     if (numberOfEvents ==0){
@@ -111,24 +102,15 @@ public class AcceptAssistantCardState extends GameState {
 
             //change state to moveStudentFromEntrance
             context.setPlayingOrderIndex(0);
-
             context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-
-
-
             context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers() == 3?4:3 ));
-
             context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
         }
         else {
-            //next player
-            context.setPlayingOrderIndex(context.getPlayingOrderIndex()+1);
-
+            //next player ("clockwise direction")
+            context.setPlayingOrderIndex((context.getCurrentPlayer().getPlayerNumber()+1)% context.getNumberOfPlayers());
             context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
         }
-
-
-
 
     }
 
