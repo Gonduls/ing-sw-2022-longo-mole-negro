@@ -117,12 +117,9 @@ public class Board {
             if(modelObserver!=null)  modelObserver.mergeIslands(indexCurrentIsland, indexNextIsland);
         }
 
-        if (modelObserver!= null) {
              for (int i = 0; i < noEntryToAdd; i++) {
                  islands.get(indexCurrentIsland).addNoEntry();
-                 modelObserver.addNoEntry(indexCurrentIsland);
              }
-         }
         //the new position of motherNature
         return indexCurrentIsland;
     }

@@ -289,6 +289,10 @@ public class ClientModelManager {
         }
         island1.setTowers(island1.getTowers() + island2.getTowers());
 
+        for (int i =0; i<island2.getNoEntry(); i++){
+            island1.addNoEntry();
+        }
+
 
         // Only need one of the 2 islands in the list
         islands.remove(ind2);
