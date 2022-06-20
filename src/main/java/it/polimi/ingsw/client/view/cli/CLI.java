@@ -37,14 +37,13 @@ public class CLI implements UI {
     private BoardStatus bs;
     private Thread action;
     boolean logout = false;
-    Log log;
     private String actionString;
     private static CLI instance;
     private final AtomicBoolean gameRunning;
 
     private CLI() {
         this.input = new Scanner(System.in);
-        log = new Log("CliLog.txt");
+        new Log("CliLog.txt");
         gameRunning = new AtomicBoolean(false);
     }
 
@@ -91,9 +90,12 @@ public class CLI implements UI {
             username = input.nextLine();
             try {
                 login = clientController.login(username);
-                System.out.println(login);
             } catch (UnexpectedMessageException e){
-                System.out.println("Could not login, unexpected message exception");
+                Log.logger.severe("Could not login, unexpected message exception");
+            } catch (IOException e){
+                Log.logger.severe("Could not login, IO exception");
+                Log.logger.severe(e.getMessage());
+                Thread.currentThread().interrupt();
             }
         } while (!login);
 
@@ -102,30 +104,32 @@ public class CLI implements UI {
             printClear();
             preGame();
             Thread game;
-            if(inARoom) {
-                kill = false;
-                game = new Thread(this::game);
-                synchronized (gameRunning){
-                    if(!gameRunning.get()) {
-                        try{
-                            gameRunning.wait();
-                        } catch (InterruptedException e){
-                            log.logger.severe("Problems with gameRunning");
-                            Thread.currentThread().interrupt();
-                            return;
-                        }
+
+            if(!inARoom)
+                return;
+
+            kill = false;
+            game = new Thread(this::game);
+            synchronized (gameRunning){
+                if(!gameRunning.get()) {
+                    try{
+                        gameRunning.wait();
+                    } catch (InterruptedException e){
+                        Log.logger.severe("Problems with gameRunning");
+                        Thread.currentThread().interrupt();
+                        return;
                     }
                 }
-                game.start();
-                try{
-                    game.join();
-                } catch (InterruptedException e){
-                    log.logger.info("Thread game closing");
-                    Thread.currentThread().interrupt();
-                }
             }
-            else
-                return;
+            game.start();
+            try{
+                game.join();
+            } catch (InterruptedException e){
+                Log.logger.info("Thread game closing");
+                Thread.currentThread().interrupt();
+            } finally{
+                inARoom = false;
+            }
         } while(!logout);
     }
 
@@ -242,7 +246,7 @@ public class CLI implements UI {
                     TimeUnit.MILLISECONDS.sleep(500);
                     actionString = (new Scanner(System.in)).nextLine();
                 } catch (IndexOutOfBoundsException | InterruptedException ignored){
-                    log.logger.info("Stopping listen");
+                    Log.logger.info("Stopping listen");
                     Thread.currentThread().interrupt();
                 }
             });
@@ -251,7 +255,7 @@ public class CLI implements UI {
             try{
                 action.join();
             } catch (InterruptedException e){
-                log.logger.severe("InterruptedException in action.join()");
+                Log.logger.severe("InterruptedException in action.join()");
                 Thread.currentThread().interrupt();
             }
 
@@ -356,7 +360,7 @@ public class CLI implements UI {
                     System.out.println(eg.winners()[i]);
                 }
                 System.out.println("Press anything to return to Lobby.");
-                input.nextLine();
+                killGame();
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;

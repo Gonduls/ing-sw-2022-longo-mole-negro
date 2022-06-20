@@ -7,13 +7,12 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Log {
-    public final Logger logger;
+    public static final Logger logger = Logger.getLogger("test");
     private FileHandler fh;
     private static boolean debug;
 
     public Log(String fileName) throws SecurityException {
         File f = new File(fileName);
-        logger = Logger.getLogger("test");
         logger.setUseParentHandlers(false);
 
         if(!debug)

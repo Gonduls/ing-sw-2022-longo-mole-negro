@@ -1,5 +1,7 @@
 package it.polimi.ingsw.server;
 
+import it.polimi.ingsw.Log;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -39,6 +41,7 @@ public class Lobby {
     }
 
     public void listen(){
+        new Log("Server.txt");
         System.out.println("Starting listen");
         while(!listenEnd.get()){
             try{

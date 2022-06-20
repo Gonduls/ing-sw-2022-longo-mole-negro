@@ -20,7 +20,6 @@ public class NetworkHandler implements Runnable{
     private final AtomicBoolean occupied = new AtomicBoolean(false);
     private boolean endCondition = false;
     private final ClientController clientController;
-    private final Log log;
 
     /**
      * Sets up the client-server connection
@@ -35,7 +34,6 @@ public class NetworkHandler implements Runnable{
         output = new ObjectOutputStream(server.getOutputStream());
         input = new ObjectInputStream(server.getInputStream());
         this.clientController = clientController;
-        log = new Log("nhlog.txt");
     }
 
     /**
@@ -72,17 +70,17 @@ public class NetworkHandler implements Runnable{
             // Reads the next message
             try {
                 answer = (Message) input.readObject();
-                log.logger.info(answer.getMessageType().toString());
+                Log.logger.info(answer.getMessageType().toString());
 
                 if(answer.getMessageType() == MessageType.NACK)
-                    log.logger.warning(((Nack) answer).getErrorMessage());
+                    Log.logger.warning(((Nack) answer).getErrorMessage());
 
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
                 return;
             } catch (IOException e){
                 clientController.showMessage(new PlayerDisconnect("Current user, please close everything and start over"));
-                log.logger.severe(e.getMessage());
+                Log.logger.severe(e.getMessage());
                 System.out.println("player disconnecting");
                 return;
             }
@@ -213,7 +211,7 @@ public class NetworkHandler implements Runnable{
      * @throws IOException if the input/output stream are not correctly set up
      */
     void getPublicRooms(GetPublicRooms message) throws IOException{
-        log.logger.info("Sending getPublicRooms message");
+        Log.logger.info("Sending getPublicRooms message");
         output.writeObject(message);
     }
 

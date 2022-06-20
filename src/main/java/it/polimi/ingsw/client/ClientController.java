@@ -37,17 +37,12 @@ public class ClientController {
 
     }
 
-    public boolean login(String username) throws UnexpectedMessageException {
-        try {
-            if(nh.login(username)){
-                this.username = username;
-                return true;
-            }
-            return false;
-        } catch (IOException e) {
-            // todo: gestire IO
-            return false;
+    public boolean login(String username) throws UnexpectedMessageException, IOException {
+        if(nh.login(username)){
+            this.username = username;
+            return true;
         }
+        return false;
     }
 
     void updateCModel(Message message) throws UnexpectedMessageException{
@@ -273,9 +268,8 @@ public class ClientController {
         try{
             answer = nh.performEvent(event);
         }catch (UnexpectedMessageException | IOException e){
-            Log log = new Log("ClientController.txt");
-            log.logger.severe(e.getMessage());
-            log.logger.severe(e.getLocalizedMessage());
+            Log.logger.severe(e.getMessage());
+            Log.logger.severe(e.getLocalizedMessage());
         }
 
         if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD){
@@ -284,6 +278,7 @@ public class ClientController {
                 case 0, 5, 7, 8, 10, 11 -> cardActions = 1;
                 case 2 -> cardActions = 3;
                 case 3 -> cardActions = 2;
+                default -> cardActions = 0;
             }
         } else if(cardActions > 0){
             cardActions --;

@@ -5,7 +5,6 @@ import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.server.Lobby;
 import javafx.application.Application;
 
-import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -21,7 +20,7 @@ public class Main {
             if(s.startsWith("-s")){
                 server = true;
             } else if (s.startsWith("-c")) {
-                new Main().notmain(args);
+                new Main().client(args);
                 return;
             } else if(server){
                 try {
@@ -42,24 +41,7 @@ public class Main {
         System.out.println("1. SERVER");
         System.out.println("2. CLIENT");
         Scanner input = new Scanner(System.in);
-        int role = 0;
-
-        boolean continueInput = true;
-        do {
-            try {
-                role = input.nextInt();
-                if (role != 1 && role != 2) {
-                    System.out.println(ERROR_VALID);
-                } else {
-                    continueInput = false;
-                }
-
-            } catch (InputMismatchException e) {
-                System.out.println(ERROR_VALID);
-            }
-
-        }
-        while (continueInput);
+        int role = getRole(input);
 
         if(role == 1){
             try {
@@ -70,7 +52,7 @@ public class Main {
             lobby.listen();
         }
         else {
-            new Main().notmain(args);
+            new Main().client(args);
         }
     }
 
@@ -78,11 +60,9 @@ public class Main {
      * Server program entry point, starts cli or gui
      * @param args used to choose between CLI and GUI.
      */
-    public void notmain(String[] args) {
+    public void client(String[] args) {
         boolean viewModeArg = false;
         int viewModeChoice = -1;
-
-        ArrayList<String> argsToForward = new ArrayList<>();
 
         if (args != null) {
             for (String currentArgument : args) {
@@ -116,22 +96,7 @@ public class Main {
             System.out.println("2. GUI (Suggested)");
             Scanner input = new Scanner(System.in);
 
-            boolean continueInput = true;
-            do {
-                try {
-                    viewModeChoice = input.nextInt();
-                    if (viewModeChoice != 1 && viewModeChoice != 2) {
-                        System.out.println(ERROR_VALID);
-                    } else {
-                        continueInput = false;
-                    }
-
-                } catch (InputMismatchException e) {
-                    System.out.println(ERROR_VALID);
-                }
-
-            }
-            while (continueInput);
+            viewModeChoice = getRole(input);
         }
 
         switch (viewModeChoice) {
@@ -144,5 +109,26 @@ public class Main {
                 System.exit(0);
             }
         }
+    }
+
+    private static int getRole(Scanner input) {
+        boolean continueInput = true;
+        int role = 0;
+        do {
+            try {
+                role = input.nextInt();
+                if (role != 1 && role != 2) {
+                    System.out.println(ERROR_VALID);
+                } else {
+                    continueInput = false;
+                }
+
+            } catch (InputMismatchException e) {
+                System.out.println(ERROR_VALID);
+            }
+
+        }
+        while (continueInput);
+        return role;
     }
 }

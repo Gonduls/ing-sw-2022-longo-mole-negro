@@ -19,7 +19,6 @@ public class ClientHandler implements Runnable{
     private String username = null;
     private final Lobby lobby = Lobby.getInstance();
     private Room room = null;
-    private Log log;
 
     ClientHandler(Socket client){
         this.client = client;
@@ -59,7 +58,7 @@ public class ClientHandler implements Runnable{
 
             try{
                 message = (Message) input.readObject();
-                log.logger.info(message.getMessageType().toString());
+                Log.logger.info(message.getMessageType().toString());
             } catch (ClassNotFoundException | ClassCastException  e) {
                 output.writeObject(new Nack("Not a message"));
                 continue;
@@ -126,7 +125,6 @@ public class ClientHandler implements Runnable{
 
             if(lobby.insertNewPlayer(username)) {
                 output.writeObject(new Ack());
-                log = new Log(username + "_handler.txt");
                 return;
             }
 
