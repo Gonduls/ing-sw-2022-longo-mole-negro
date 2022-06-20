@@ -304,86 +304,10 @@ public class GameManager {
                 ". The increment was " + amount + ", positionAfterMerge: " + positionAfterMerge + " position: " + position);
       */
 
-        if (parseWinResult(checkEndConditions()).length >0 ){
-            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
+        if (parseWinResult(checkEndConditions(positionAfterMerge)).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions(positionAfterMerge)));
         }
 
-
-        /*
-        if(usedCard != 6 && usedCard != 9 && usedCard != 10){ // the card number six is the one that changes the influence math
-            TowerColor newTC = board.calculateInfluence(position, professors);
-            TowerColor previousTC = currentIsland.getTower();
-
-            if(newTC == null || (previousTC != null && previousTC == newTC)){
-                return;
-            }
-
-            if(previousTC != null){
-                Player previousP = players[previousTC.ordinal()];
-                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
-            }
-            else{
-                currentIsland.addTower();
-            }
-
-            Player newP = players[newTC.ordinal()];
-            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-            currentIsland.setTowerColor(newTC);
-            board.mergeIsland(position);
-            checkEndConditions();
-
-        } else if (usedCard==6) {  // this is the card that add +2 to the current player
-            // this a stupid copy and paste -> a little bit of  refactoring could help
-            CharacterCardSix cc6 = (CharacterCardSix) findCardById(6);
-            TowerColor newTC = board.calculateInfluence(position, professors,cc6.getTowerColor());
-            TowerColor previousTC = currentIsland.getTower();
-
-            if(newTC == null || (previousTC != null && previousTC == newTC)){
-                return;
-            }
-
-            if(previousTC != null){
-                Player previousP = players[previousTC.ordinal()];
-                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
-            }
-            else{
-                currentIsland.addTower();
-            }
-
-            Player newP = players[newTC.ordinal()];
-            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-            currentIsland.setTowerColor(newTC);
-            board.mergeIsland(position);
-            checkEndConditions();
-
-
-
-        } else if (usedCard == 9){ // this is the card that doesn't count the towers!
-
-            TowerColor newTC = board.calculateInfluenceNoTowers(position, professors);
-            TowerColor previousTC = currentIsland.getTower();
-
-            if(newTC == null || (previousTC != null && previousTC == newTC)){
-                return;
-            }
-
-            if(previousTC != null){
-                Player previousP = players[previousTC.ordinal()];
-                previousP.setTowersNumber(previousP.getTowersLeft() + currentIsland.getTowerNumber());
-            }
-            else{
-                currentIsland.addTower();
-            }
-
-            Player newP = players[newTC.ordinal()];
-            newP.setTowersNumber(newP.getTowersLeft() - currentIsland.getTowerNumber());
-            currentIsland.setTowerColor(newTC);
-            board.mergeIsland(position);
-            checkEndConditions();
-
-        }
-
-         */
 
 
     }
@@ -423,8 +347,8 @@ public class GameManager {
         board.mergeIsland(islandIndex, modelObserver);
         //sometimes it crashes because
 
-        if (parseWinResult(checkEndConditions()).length >0 ){
-            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
+        if (parseWinResult(checkEndConditions(islandIndex)).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions(islandIndex)));
         }
 
     }
@@ -463,24 +387,20 @@ public class GameManager {
 
     }
 
-    public Player[] checkEndConditions() {
+    public Player[] checkEndConditions(int position) {
 
         Player[] winner = new Player[3];
-        int position = board.getMotherNaturePosition();
         Island currentIsland = board.getIslands().get(position);
         TowerColor currentTC = currentIsland.getTower();
         Player newP = players[currentTC.ordinal()];
 
-        if(newP.getTowersLeft() <= 0){
+        if(newP.getTowersLeft() <= 0){ // when a player has 0 towers remaining
             winner[0] = newP;
             winner[1] = null;
             winner[2] = null;
             if(players.length == 4)
                 winner[1] = players[currentTC.ordinal() + 2];
-        }
-        //TODO mandare messaggio al controller
-
-        else if(board.getNumberOfIslands() <= 3){
+        } else if(board.getNumberOfIslands() <= 3){ // when the numbers of islands is 3 or less
             int min = players[0].getTowersLeft();
             winner[0] = players[0];
 
