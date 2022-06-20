@@ -9,7 +9,7 @@ public final class RedirectResources {
     }
 
     public static Image characterCardsImages(int ccIndex) {
-        System.out.println("Sono in redirector CC");
+        //System.out.println("Sono in redirector CC");
         switch (ccIndex) {
             case 1 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC0.png")));}
             case 2 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC1.png")));}
@@ -27,7 +27,7 @@ public final class RedirectResources {
     }
 
     public static Image studentsImages(String color) {
-        System.out.println("sono in redirector Stud");
+        //System.out.println("sono in redirector Stud");
         switch (color) {
             case "RED" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundRed.png")));}
             case "BLUE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundBlue.png")));}

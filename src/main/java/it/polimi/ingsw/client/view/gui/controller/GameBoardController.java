@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
@@ -65,7 +66,7 @@ public class GameBoardController implements Initializable {
     private boolean expert = cmm.isExpert();
 
     private static int studentNumber = 0;
-    private Integer[] indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
+    private Integer[] indexes;
     private static int indexesIterator = 0;
 
 
@@ -89,6 +90,8 @@ public class GameBoardController implements Initializable {
             //character cards
             CHARACTERCARDS.setVisible(false);
             CHARACTERCARDS.setDisable(true);
+        } else{
+            indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
         }
 
         //enables and links adversaries school boards depending on the number of players
@@ -117,21 +120,21 @@ public class GameBoardController implements Initializable {
         else if(node.getId().startsWith("CLOUDS")) {
             ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setClouds);
             studentNumber = 0;
-            System.out.println("sono tornato in setBoard");
+            //System.out.println("sono tornato in setBoard");
         }
-        else if(node.getId().startsWith("CHARACTERCARDS")) {
-            System.out.println("son in CC");
+        else if(expert && node.getId().startsWith("CHARACTERCARDS")) {
+            //System.out.println("son in CC");
             ((AnchorPane) node).getChildren().stream().filter(Objects::nonNull).forEach(this::setCharacterCards);
         }
         else if(node.getId().startsWith("SCHOOL")) {
-            System.out.println("sono in school");
+            //System.out.println("sono in school");
             ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool);
         }
     }
 
     //sets all the elements of the Players' schools
     private void setSchool(Node node) {
-        System.out.println("sono in setScool");
+        //System.out.println("sono in setScool");
         if (node.getId().startsWith("DR")) {
             String[] s = node.getId().split("_");
             currentDRColor = cmm.getDiningRooms(getThisPlayerIndex()).get(Color.valueOf(s[1]));
@@ -159,7 +162,7 @@ public class GameBoardController implements Initializable {
 
     //shows the towers still present in the player's school
     private void setTowers(Node node) {
-        System.out.println("sono in setTowers");
+        //System.out.println("sono in setTowers");
         switch (getThisPlayerIndex()) {
             case 0 -> {
                 Image image = RedirectResources.minTowersImages("WHITE");
@@ -218,10 +221,10 @@ public class GameBoardController implements Initializable {
 
     //sets the chosen character cards with their respective images and SHs
     private void setCharacterCards(Node node) {
-        System.out.println("sono in setCC");
+        //System.out.println("sono in setCC");
         if (node.getId().startsWith("CC")) {
             //changes the image of the card
-            System.out.println("sono in CC" + indexesIterator +1);
+            //System.out.println("sono in CC" + indexesIterator);
             Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
             ((ImageView) node).setImage(image);
         } else if (node.getId().startsWith("STUDENTS")) {
@@ -238,6 +241,8 @@ public class GameBoardController implements Initializable {
 
             //next CC
             indexesIterator++;
+            if(indexesIterator > 2)
+                indexesIterator = 0;
         }
     }
 
@@ -256,7 +261,7 @@ public class GameBoardController implements Initializable {
                         b.setVisible(false);
                         studentNumber = 0;
                     } else {
-                        System.out.println("Sono in setClouds " + cloudIndex + "- student" + studentNumber);
+                        //System.out.println("Sono in setClouds " + cloudIndex + "- student" + studentNumber);
 
                         setStudents(b);
                     }
@@ -266,13 +271,13 @@ public class GameBoardController implements Initializable {
 
 
         }
-        System.out.println("sono a fine setclouds");
+        //System.out.println("sono a fine setclouds");
 
     }
 
     private void setIslands(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
-        System.out.println(islandIndex);
+        //System.out.println(islandIndex);
         int noEntriesNum = cmm.getIslands().get(islandIndex).getNoEntry();
         node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
     }
@@ -308,7 +313,7 @@ public class GameBoardController implements Initializable {
             case ("NOENTRIESNUM") -> ((Label) node).setText(String.valueOf(noEntriesNum));
             case ("NOENTRY") -> node.setVisible(noEntriesNum > 0);
             case ("MOTHERNATURE") -> node.setVisible(cmm.getMotherNature() == islandIndex);
-            default -> System.out.println("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
+            default -> Log.logger.info("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
 
         }
 
@@ -323,38 +328,38 @@ public class GameBoardController implements Initializable {
     }
 
     public void setStudents(Node node) {
-        System.out.println("sono in setStdents");
+        //System.out.println("sono in setStdents");
 
         if (numberOfReds > 0) {
-            System.out.println(numberOfReds);
+            //System.out.println(numberOfReds);
             Image image = RedirectResources.studentsImages("RED");
             ((ImageView) node).setImage(image);
             numberOfReds--;
         } else if (numberOfBlues > 0) {
-            System.out.println(numberOfBlues);
+            //System.out.println(numberOfBlues);
             Image image = RedirectResources.studentsImages("BLUE");
             ((ImageView) node).setImage(image);
             numberOfBlues--;
         } else if (numberOfGreens > 0) {
-            System.out.println(numberOfGreens);
+            //System.out.println(numberOfGreens);
 
             Image image = RedirectResources.studentsImages("GREEN");
             ((ImageView) node).setImage(image);
             numberOfGreens--;
         } else if (numberOfPinks > 0) {
-            System.out.println(numberOfPinks);
+            //System.out.println(numberOfPinks);
 
             Image image = RedirectResources.studentsImages("PINK");
             ((ImageView) node).setImage(image);
             numberOfPinks--;
         } else if (numberOfYellows > 0) {
-            System.out.println(numberOfYellows);
+            //System.out.println(numberOfYellows);
 
             Image image = RedirectResources.studentsImages("YELLOW");
             ((ImageView) node).setImage(image);
             numberOfYellows--;
         }
-        System.out.println("fine setStudent");
+        //System.out.println("fine setStudent");
     }
 
     private void setNumberOfStudents(Map<Color,Integer> sh) {

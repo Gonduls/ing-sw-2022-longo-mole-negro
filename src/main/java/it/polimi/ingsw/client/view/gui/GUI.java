@@ -28,9 +28,13 @@ public class GUI extends Application implements UI{
     private String username;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     static GUI instance;
+
+
     public static GUI getInstance(){
-        if(instance == null)
+        if(instance == null) {
             instance = new GUI();
+            new Log("GuiLog.txt");
+        }
 
         return instance;
     }
@@ -45,7 +49,6 @@ public class GUI extends Application implements UI{
         stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/images/Elements/Logo2.png"))));
         stage.show();
         primaryStage = stage;
-        new Log("GuiLog.txt");
     }
 
 
@@ -60,7 +63,31 @@ public class GUI extends Application implements UI{
     @Override
     public void printStatus() {
         //GameBoardController.getInstance.
+        if(cc.getPlayingPlayer() == -1)
+            return;
 
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+
+                try {
+                    Parent root;
+                    Scene scene;
+                    root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
+                    scene = new Scene(root, 1366, 768);
+                    primaryStage.setScene(scene);
+                    primaryStage.setFullScreen(true);
+                    primaryStage.setResizable(false);
+                    primaryStage.setHeight(768);
+                    primaryStage.setWidth(1366);
+                    primaryStage.show();
+
+                } catch (IOException e) {
+                    System.out.println(e.getMessage());
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -78,33 +105,11 @@ public class GUI extends Application implements UI{
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         this.cmm = cmm;
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
-
-                try {
-                    Parent root;
-                    Scene scene;
-                    root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
-                    scene = new Scene(root, 1366, 768);
-                    primaryStage.setScene(scene);
-                    primaryStage.setFullScreen(true);
-                    primaryStage.setResizable(false);
-                    primaryStage.setHeight(768);
-                    primaryStage.setWidth(1366);
-                    primaryStage.show();
-                } catch (IOException e) {
-                    // boh
-                }
-            }
-        });
-
-
-        /*gameRunning.set(true);
+        gameRunning.set(true);
 
         synchronized (gameRunning) {
             gameRunning.notifyAll();
-        }*/
+        }
 
     }
 

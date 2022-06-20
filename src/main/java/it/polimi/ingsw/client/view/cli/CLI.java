@@ -47,6 +47,12 @@ public class CLI implements UI {
         gameRunning = new AtomicBoolean(false);
     }
 
+    public static CLI getInstance() {
+        if(instance == null)
+            instance = new CLI();
+        return instance;
+    }
+
     public void start(){
         // initializing connections
         AnsiConsole.systemInstall();
@@ -365,8 +371,10 @@ public class CLI implements UI {
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
-                System.out.println("Player " + pd.username() + " has left the room");
                 killGame();
+                printClear();
+                System.out.println("Player " + pd.username() + " has left the room");
+                System.out.println("Press anything to return to Lobby.");
             }
             default ->
                     System.out.print(message.getMessageType());
@@ -389,11 +397,6 @@ public class CLI implements UI {
         bs.merge(secondIsland);
     }
 
-    public static CLI getInstance() {
-        if(instance == null)
-            instance = new CLI();
-        return instance;
-    }
 
     void printClear() {
         BoardStatus.printClear();

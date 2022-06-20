@@ -49,10 +49,7 @@ public class LobbyController implements Initializable {
     private static Integer roomIDChosen;
 
     public void setPublicRooms(List<RoomInfo> rooms) {
-        System.out.print(rooms);
         roomInfoList = rooms;
-        System.out.print(roomInfoList);
-        System.out.println(this);
 
     }
 
