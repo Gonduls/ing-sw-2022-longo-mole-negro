@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
@@ -44,7 +45,7 @@ public class GUI extends Application implements UI{
         stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/images/Elements/Logo2.png"))));
         stage.show();
         primaryStage = stage;
-
+        new Log("GuiLog.txt");
     }
 
 
@@ -125,30 +126,32 @@ public class GUI extends Application implements UI{
 
     public void gamePhase() {
         Thread game;
-        if (inARoom) {
-            kill = false;
-            game = new Thread(this::game);
-            synchronized (gameRunning) {
-                if (!gameRunning.get()) {
-                    try {
-                        gameRunning.wait();
-                    } catch (InterruptedException e) {
-                        //todo pop-up errore?
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
+        if(!inARoom)
+            return;
+
+        kill = false;
+        game = new Thread(this::game);
+        synchronized (gameRunning) {
+            if (!gameRunning.get()) {
+                try {
+                    gameRunning.wait();
+                } catch (InterruptedException e) {
+                    //todo pop-up errore?
+                    Thread.currentThread().interrupt();
+                    return;
                 }
             }
+        }
 
-            game.start();
-            try {
-                game.join();
-            } catch (InterruptedException e) {
-                //todo pop up thread closing
-                Thread.currentThread().interrupt();
-            }
-        } else
-            return;
+        game.start();
+        try {
+            game.join();
+        } catch (InterruptedException e) {
+            //todo pop up thread closing
+            Thread.currentThread().interrupt();
+        } finally {
+            inARoom = false;
+        }
     }
 
     private void game() {
