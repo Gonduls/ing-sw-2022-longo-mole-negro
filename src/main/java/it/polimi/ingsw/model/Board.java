@@ -93,8 +93,11 @@ public class Board {
      * @param indexCurrentIsland: the index of the island that could be merged with the previous or next island in list
      */
     int mergeIsland(int indexCurrentIsland, ModelObserver modelObserver){
+
         int indexPreviousIsland = (indexCurrentIsland+ numberOfIslands-1) % numberOfIslands ;
+        int noEntryToAdd =0;
         if (canBeMerged(indexCurrentIsland, indexPreviousIsland)){
+            noEntryToAdd += islands.get(indexPreviousIsland).getNoEntry();
             islands.get(indexCurrentIsland).unify(islands.get(indexPreviousIsland));
             islands.remove(indexPreviousIsland);
             numberOfIslands--;
@@ -106,6 +109,7 @@ public class Board {
 
         int indexNextIsland = (indexCurrentIsland+ numberOfIslands+1) % numberOfIslands;
         if (canBeMerged(indexCurrentIsland, indexNextIsland)){
+            noEntryToAdd += islands.get(indexNextIsland).getNoEntry();
             islands.get(indexCurrentIsland).unify(islands.get(indexNextIsland));
             islands.remove(indexNextIsland);
             numberOfIslands--;
@@ -113,6 +117,12 @@ public class Board {
             if(modelObserver!=null)  modelObserver.mergeIslands(indexCurrentIsland, indexNextIsland);
         }
 
+        if (modelObserver!= null) {
+             for (int i = 0; i < noEntryToAdd; i++) {
+                 islands.get(indexCurrentIsland).addNoEntry();
+                 modelObserver.addNoEntry(indexCurrentIsland);
+             }
+         }
         //the new position of motherNature
         return indexCurrentIsland;
     }
