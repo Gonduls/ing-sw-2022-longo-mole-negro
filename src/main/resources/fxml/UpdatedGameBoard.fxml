@@ -1546,16 +1546,30 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <ImageView fx:id="ASSISTANTCARDDECK" fitHeight="200.0" fitWidth="200.0" layoutX="95.0" layoutY="540.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Elements/Back1.png" />
-         </image>
-      </ImageView>
-      <ImageView fx:id="ASSISTANTCARD" fitHeight="160.0" fitWidth="110.0" layoutX="140.0" layoutY="560.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Elements/Assistente1.png" />
-         </image>
-      </ImageView>
+      <AnchorPane fx:id="ASSISTANT" layoutX="78.0" layoutY="540.0" prefHeight="200.0" prefWidth="232.0">
+         <children>
+            <ImageView fx:id="ASSISTANTCARDDECK" fitHeight="200.0" fitWidth="200.0" layoutX="16.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Back1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="ASSISTANTCARD" fitHeight="160.0" fitWidth="110.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/Assistente1.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="NEXTBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="203.0" layoutY="85.0" onMouseClicked="#nextAssistantCard" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/ButtonNext.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="PREVBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="-7.0" layoutY="85.0" onMouseClicked="#prevAssistantCard" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/ButtonPrev.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
       <ImageView fx:id="COIN" fitHeight="50.0" fitWidth="50.0" layoutX="965.0" layoutY="694.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/Coin.png" />

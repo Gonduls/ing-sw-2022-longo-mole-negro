@@ -6,20 +6,21 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
+import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
-import java.util.Map;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class GameBoardController implements Initializable {
     static GameBoardController instance;
@@ -37,6 +38,12 @@ public class GameBoardController implements Initializable {
 
     @FXML
     private ImageView COIN;
+
+    @FXML
+    private ImageView NEXTBUTTON;
+
+    @FXML
+    private ImageView ASSISTANTCARD;
 
     @FXML
     private Label OWNEDCOINS;
@@ -69,11 +76,12 @@ public class GameBoardController implements Initializable {
     private Integer[] indexes;
     private static int indexesIterator = 0;
 
-
-
+    private static ArrayList<Image> deck = new ArrayList<>();
+    private static int ACindex = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
         //setting board for game start
         if (!expert) {
             //disables and sets as invisible all elements of the game that are part of the expert game mode
@@ -94,6 +102,8 @@ public class GameBoardController implements Initializable {
             indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
         }
 
+        OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
+
         //enables and links adversaries school boards depending on the number of players
         switch (numberOfPlayers) {
             case (2) -> {
@@ -108,176 +118,41 @@ public class GameBoardController implements Initializable {
             }
         }
 
+        /*EventHandler<MouseEvent> nextACHandler = mouseEvent -> {
+            nextAssistantCard(mouseEvent);
+            mouseEvent.consume();
+        };
+
+        NEXTBUTTON.setOnMouseClicked(nextACHandler);*/
+
+
         //parses through every element of the board
         BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
         
     }
 
-    //calls all the methods that initialize or update the board depending on which part of the board we're considering
+
+    // Calls all the methods that initialize or update the board depending on which part of the board we're considering
     private void setBoard(Node node) {
         if(node.getId().startsWith("ISLANDS"))
             ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(x -> setIslands((AnchorPane) x));
         else if(node.getId().startsWith("CLOUDS")) {
             ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setClouds);
             studentNumber = 0;
-            //System.out.println("sono tornato in setBoard");
-        }
-        else if(expert && node.getId().startsWith("CHARACTERCARDS")) {
-            //System.out.println("son in CC");
-            ((AnchorPane) node).getChildren().stream().filter(Objects::nonNull).forEach(this::setCharacterCards);
         }
         else if(node.getId().startsWith("SCHOOL")) {
-            //System.out.println("sono in school");
             ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool);
         }
-    }
-
-    //sets all the elements of the Players' schools
-    private void setSchool(Node node) {
-        //System.out.println("sono in setScool");
-        if (node.getId().startsWith("DR")) {
-            String[] s = node.getId().split("_");
-            currentDRColor = cmm.getDiningRooms(getThisPlayerIndex()).get(Color.valueOf(s[1]));
-            ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setDiningRoom);
+        else if(expert && node.getId().startsWith("CHARACTERCARDS")) {
+            ((AnchorPane) node).getChildren().stream().filter(Objects::nonNull).forEach(this::setCharacterCards);
         }
-        else if (node.getId().startsWith("PROFESSORS"))
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setProfessors);
-        else if (node.getId().startsWith("ENTRANCE")){
-            setNumberOfStudents(cmm.getEntrance(getThisPlayerIndex()));
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(x -> {
-                if(studentNumber > 6 && numberOfPlayers != 3)
-                    return;
-                studentNumber++;
-                setStudents(x);
-                x.setVisible(true);
-                x.setDisable(false);
-
-            });
+        else if(node.getId().startsWith("ASSISTANT")) {
+            ((AnchorPane)node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setDeck);
         }
-        else if (node.getId().startsWith("TOWERS")) {
-            ((AnchorPane)node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setTowers);
-        }
-
-    }
-
-    //shows the towers still present in the player's school
-    private void setTowers(Node node) {
-        //System.out.println("sono in setTowers");
-        switch (getThisPlayerIndex()) {
-            case 0 -> {
-                Image image = RedirectResources.minTowersImages("WHITE");
-                ((ImageView) node).setImage(image);
-            }
-            case 1 -> {
-                Image image;
-                if (numberOfPlayers == 3)
-                    image = RedirectResources.minTowersImages("GREY");
-                else
-                    image = RedirectResources.minTowersImages("BLACK");
-
-                ((ImageView) node).setImage(image);
-            }
-            case 2 -> {
-                Image image;
-                if (numberOfPlayers == 3) {
-                    image = RedirectResources.minTowersImages("BLACK");
-                    ((ImageView) node).setImage(image);
-                } else
-                    return;
-            }
-            case 3 -> {
-                return;
-            }
-        }
-
-        currentTowerNumber = cmm.getTowers(getThisPlayerIndex());
-        if (iteratorTowers < currentTowerNumber) {
-            node.setVisible(true);
-            iteratorTowers++;
-        } else {
-            node.setDisable(true);
-            iteratorTowers = 0;
-        }
-    }
-
-    //checks and shows the professors a Player has
-    private void setProfessors(Node node) {
-        if (cmm.getProfessors().get(Color.valueOf(node.getId())) == getThisPlayerIndex())
-            node.setVisible(true);
-    }
-
-    //shows the state of the DiningRoom
-    private void setDiningRoom(Node node) {
-        if (iteratorDR < currentDRColor) {
-            node.setVisible(true);
-        }
-
-        iteratorDR++;
-
-        if (iteratorDR == 10) {
-            iteratorDR = 0;
-        }
-    }
-
-    //sets the chosen character cards with their respective images and SHs
-    private void setCharacterCards(Node node) {
-        //System.out.println("sono in setCC");
-        if (node.getId().startsWith("CC")) {
-            //changes the image of the card
-            //System.out.println("sono in CC" + indexesIterator);
-            Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
-            ((ImageView) node).setImage(image);
-        } else if (node.getId().startsWith("STUDENTS")) {
-            //if the current card has a sh, sets the sh
-            if (CharacterCard.hasStudentHolder(indexes[indexesIterator])) {
-                Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
-                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
-                    setNumberOfStudents(sh);
-                    setStudents(b);});
-            } else {
-                node.setDisable(true);
-                node.setVisible(false);
-            }
-
-            //next CC
-            indexesIterator++;
-            if(indexesIterator > 2)
-                indexesIterator = 0;
-        }
-    }
-
-    //sets the correct number of clouds per number of players
-    private void setClouds(Node node) {
-        int cloudsNumber = numberOfPlayers;
-        int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
-        if (cloudIndex < cloudsNumber) {
-            setNumberOfStudents(cmm.getCloud(cloudIndex));
-            node.setVisible(true);
-            node.setDisable(false);
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
-                if (b.getId().startsWith("STUDENT")) {
-                    studentNumber++;
-                    if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
-                        b.setVisible(false);
-                        studentNumber = 0;
-                    } else {
-                        //System.out.println("Sono in setClouds " + cloudIndex + "- student" + studentNumber);
-
-                        setStudents(b);
-                    }
-                }
-
-            });
-
-
-        }
-        //System.out.println("sono a fine setclouds");
-
     }
 
     private void setIslands(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
-        //System.out.println(islandIndex);
         int noEntriesNum = cmm.getIslands().get(islandIndex).getNoEntry();
         node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
     }
@@ -316,7 +191,180 @@ public class GameBoardController implements Initializable {
             default -> Log.logger.info("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
 
         }
+    }
 
+    //Sets the correct number of clouds per number of players
+    private void setClouds(Node node) {
+        int cloudsNumber = numberOfPlayers;
+        int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
+        if (cloudIndex < cloudsNumber) {
+            setNumberOfStudents(cmm.getCloud(cloudIndex));
+            node.setVisible(true);
+            node.setDisable(false);
+            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
+                if (b.getId().startsWith("STUDENT")) {
+                    studentNumber++;
+                    if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
+                        b.setVisible(false);
+                        studentNumber = 0;
+                    } else {
+                        setStudents(b);
+                    }
+                }
+            });
+        }
+    }
+
+    //Sets all the elements of the Players' schools
+    private void setSchool(Node node) {
+        if (node.getId().startsWith("DR")) {
+            String[] s = node.getId().split("_");
+            currentDRColor = cmm.getDiningRooms(getThisPlayerIndex()).get(Color.valueOf(s[1]));
+            ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setDiningRoom);
+        }
+        else if (node.getId().startsWith("PROFESSORS"))
+            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setProfessors);
+        else if (node.getId().startsWith("ENTRANCE")){
+            setNumberOfStudents(cmm.getEntrance(getThisPlayerIndex()));
+            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(x -> {
+                if(studentNumber > 6 && numberOfPlayers != 3)
+                    return;
+                studentNumber++;
+                setStudents(x);
+                x.setVisible(true);
+                x.setDisable(false);
+            });
+            studentNumber = 0;
+        }
+        else if (node.getId().startsWith("TOWERS")) {
+            ((AnchorPane)node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setTowers);
+            iteratorTowers = 0;
+        }
+
+    }
+
+    //Shows the towers still present in the player's school
+    private void setTowers(Node node) {
+        switch (getThisPlayerIndex()) {
+            case 0 -> {
+                Image image = RedirectResources.minTowersImages("WHITE");
+                ((ImageView) node).setImage(image);
+            }
+            case 1 -> {
+                Image image;
+                if (numberOfPlayers == 3)
+                    image = RedirectResources.minTowersImages("GREY");
+                else
+                    image = RedirectResources.minTowersImages("BLACK");
+
+                ((ImageView) node).setImage(image);
+            }
+            case 2 -> {
+                Image image;
+                if (numberOfPlayers == 3) {
+                    image = RedirectResources.minTowersImages("BLACK");
+                    ((ImageView) node).setImage(image);
+                } else
+                    return;
+            }
+            case 3 -> {
+                return;
+            }
+        }
+
+        currentTowerNumber = cmm.getTowers(getThisPlayerIndex());
+        if (iteratorTowers < currentTowerNumber) {
+            node.setVisible(true);
+            iteratorTowers++;
+        } else {
+            node.setDisable(true);
+        }
+    }
+
+    //Checks and shows the professors a Player has
+    private void setProfessors(Node node) {
+        if (cmm.getProfessors().get(Color.valueOf(node.getId())) == getThisPlayerIndex())
+            node.setVisible(true);
+    }
+
+    //Shows the state of the DiningRoom
+    private void setDiningRoom(Node node) {
+        if (iteratorDR < currentDRColor) {
+            node.setVisible(true);
+        }
+
+        iteratorDR++;
+
+        if (iteratorDR == 10) {
+            iteratorDR = 0;
+        }
+    }
+
+    //Sets the chosen character cards with their respective images and SHs
+    private void setCharacterCards(Node node) {
+        if (node.getId().startsWith("CC")) {
+            //Changes the image of the card
+            Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
+            ((ImageView) node).setImage(image);
+        } else if (node.getId().startsWith("STUDENTS")) {
+            //If the current card has a sh, sets the sh
+            if (CharacterCard.hasStudentHolder(indexes[indexesIterator])) {
+                Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
+                setNumberOfStudents(sh);
+                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
+            } else {
+                node.setDisable(true);
+                node.setVisible(false);
+            }
+
+            //Next CC
+            indexesIterator++;
+            if(indexesIterator > 2)
+                indexesIterator = 0;
+        }
+    }
+
+    //Sets the deck's back and currently shown card
+    private void setDeck(Node node) {
+        if (node.getId().startsWith("ASSISTANTCARDDECK")){
+            //cambia il colore del deck
+        }else if (node.getId().startsWith("ASSISTANTCARD")) {
+            initializeDeck();
+            showAssistantCard(node);
+        }
+    }
+
+    //Creates an ArrayList with Assistant Cards' images
+    private void initializeDeck() {
+        List<AssistantCard> assistantCards = cmm.getDeck();
+        for (AssistantCard ac : assistantCards) {
+            deck.add(RedirectResources.ACImages(ac.getValue()));
+        }
+    }
+
+    //Shows the currently selected Assistant Card
+    private void showAssistantCard(Node node) {
+        ((ImageView)node).setImage(deck.get(ACindex));
+    }
+
+    //Shows the next Assistant Card
+    @FXML
+    private void nextAssistantCard(MouseEvent e) {
+        showAssistantCard(ASSISTANTCARD);
+        e.consume();
+        ACindex++;
+        if(ACindex == deck.size() -1)
+            ACindex = 0;
+    }
+
+    //Shows previous Assistant Card
+    @FXML
+    private void prevAssistantCard(MouseEvent event) {
+        ACindex--;
+        if(ACindex == 0)
+            ACindex = deck.size() - 1;
+        showAssistantCard(ASSISTANTCARD);
+        event.consume();
     }
 
     public void notExpert(Node node) {
@@ -327,43 +375,33 @@ public class GameBoardController implements Initializable {
 
     }
 
+    //Sets the correct image for the Students when they're choosen randomly
     public void setStudents(Node node) {
-        //System.out.println("sono in setStdents");
-
         if (numberOfReds > 0) {
-            //System.out.println(numberOfReds);
             Image image = RedirectResources.studentsImages("RED");
             ((ImageView) node).setImage(image);
             numberOfReds--;
         } else if (numberOfBlues > 0) {
-            //System.out.println(numberOfBlues);
             Image image = RedirectResources.studentsImages("BLUE");
             ((ImageView) node).setImage(image);
             numberOfBlues--;
         } else if (numberOfGreens > 0) {
-            //System.out.println(numberOfGreens);
-
             Image image = RedirectResources.studentsImages("GREEN");
             ((ImageView) node).setImage(image);
             numberOfGreens--;
         } else if (numberOfPinks > 0) {
-            //System.out.println(numberOfPinks);
-
             Image image = RedirectResources.studentsImages("PINK");
             ((ImageView) node).setImage(image);
             numberOfPinks--;
         } else if (numberOfYellows > 0) {
-            //System.out.println(numberOfYellows);
-
             Image image = RedirectResources.studentsImages("YELLOW");
             ((ImageView) node).setImage(image);
             numberOfYellows--;
         }
-        //System.out.println("fine setStudent");
     }
 
+    //Initializes numbers of students per color from the given sh
     private void setNumberOfStudents(Map<Color,Integer> sh) {
-        //initializing numbers of students per color from the given sh
         numberOfReds = sh.get(Color.RED);
         numberOfBlues = sh.get(Color.BLUE);
         numberOfGreens = sh.get(Color.GREEN);
@@ -371,13 +409,13 @@ public class GameBoardController implements Initializable {
         numberOfPinks = sh.get(Color.PINK);
     }
 
+    //Returns the current board's player
     private int getThisPlayerIndex() {
         String[] players = cc.getPlayers();
         for (int i = 0; i < players.length; i++) {
             if(GUI.getInstance().getUsername().equals(players[i]))
                 return i;
         }
-
         return -1;
     }
 
