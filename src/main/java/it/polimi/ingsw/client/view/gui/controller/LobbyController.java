@@ -72,6 +72,7 @@ public class LobbyController implements Initializable {
     public void enterGame(ActionEvent actionEvent) {
         if(GUI.getInstance().getClientController().accessRoom(roomIDChosen)) {
             GUI.getInstance().setInARoom(true);
+            GUI.getInstance().printStatus();
         }
         else
             System.out.println("error entering room");
