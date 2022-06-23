@@ -6,17 +6,21 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
+import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.events.*;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
@@ -40,9 +44,6 @@ public class GameBoardController implements Initializable {
     private ImageView COIN;
 
     @FXML
-    private ImageView NEXTBUTTON;
-
-    @FXML
     private ImageView ASSISTANTCARD;
 
     @FXML
@@ -64,6 +65,7 @@ public class GameBoardController implements Initializable {
     private static int iteratorTowers = 0;
     private static int currentTowerNumber = 0;
 
+    private static int player;
 
 
     //getting an instance of ClientModelManager and ClientController from an instance of GUI in order to initialize the game
@@ -118,17 +120,13 @@ public class GameBoardController implements Initializable {
             }
         }
 
-        /*EventHandler<MouseEvent> nextACHandler = mouseEvent -> {
-            nextAssistantCard(mouseEvent);
-            mouseEvent.consume();
-        };
-
-        NEXTBUTTON.setOnMouseClicked(nextACHandler);*/
-
-
         //parses through every element of the board
         BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
         
+    }
+
+    private void reprint() {
+        BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
     }
 
 
@@ -172,15 +170,15 @@ public class GameBoardController implements Initializable {
                 node.setVisible(true);
                 switch (cmm.getIslands().get(islandIndex).getTc()) {
                     case BLACK -> {
-                        Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/MinBlackTower.png")));
+                        Image image = RedirectResources.minTowersImages("BLACK");
                         ((ImageView) node).setImage(image);
                     }
                     case WHITE -> {
-                        Image image2 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinWhiteTower.png")));
+                        Image image2 = RedirectResources.minTowersImages("WHITE");
                         ((ImageView) node).setImage(image2);
                     }
                     case GREY -> {
-                        Image image3 = new Image(String.valueOf(getClass().getResource("/images/Elements/MinGreyTower.png")));
+                        Image image3 = RedirectResources.minTowersImages("GREY");
                         ((ImageView) node).setImage(image3);
                     }
                 }
@@ -347,25 +345,7 @@ public class GameBoardController implements Initializable {
         ((ImageView)node).setImage(deck.get(ACindex));
     }
 
-    //Shows the next Assistant Card
-    @FXML
-    private void nextAssistantCard(MouseEvent e) {
-        showAssistantCard(ASSISTANTCARD);
-        e.consume();
-        ACindex++;
-        if(ACindex == deck.size() -1)
-            ACindex = 0;
-    }
 
-    //Shows previous Assistant Card
-    @FXML
-    private void prevAssistantCard(MouseEvent event) {
-        ACindex--;
-        if(ACindex == 0)
-            ACindex = deck.size() - 1;
-        showAssistantCard(ASSISTANTCARD);
-        event.consume();
-    }
 
     public void notExpert(Node node) {
         if (node.getId().startsWith("NOENTRY")) {
@@ -419,4 +399,209 @@ public class GameBoardController implements Initializable {
         return -1;
     }
 
+    //All functions called to manage player's actions
+
+    //Shows the next Assistant Card
+    @FXML
+    private void nextAssistantCard(MouseEvent e) {
+        showAssistantCard(ASSISTANTCARD);
+        e.consume();
+        ACindex++;
+        if(ACindex == deck.size() -1)
+            ACindex = 0;
+    }
+
+    //Shows previous Assistant Card
+    @FXML
+    private void prevAssistantCard(MouseEvent event) {
+        ACindex--;
+        if(ACindex == 0)
+            ACindex = deck.size() - 1;
+        showAssistantCard(ASSISTANTCARD);
+        event.consume();
+    }
+
+    @FXML
+    private void selectAssistantCard(MouseEvent event) {
+        String action = "Play AC";
+        String index = String.valueOf(ACindex);
+        dealWithAction(action, index, null);
+        //player = cc.getPlayingPlayer();
+        //dealWithAction(((Node)event.getSource()).getId(), null);
+        //gameEvent = new PlayAssistantCardEvent(AssistantCard.values()[ACindex], player);
+        event.consume();
+    }
+
+    @FXML
+    private void studentSelected(MouseEvent event) {
+        String s = ((ImageView)event.getSource()).getImage().getUrl();
+
+
+    }
+
+    @FXML
+    private void destinationIsland(MouseEvent event) {
+
+    }
+
+    /*First click on the source of the drag.
+    *It saves in the dragboard the Id of the node that is being moved (Source).
+    */
+    @FXML
+    private void startDrag(MouseEvent event) {
+        Dragboard db = ((Node)event.getSource()).startDragAndDrop(TransferMode.MOVE);
+
+        ClipboardContent content = new ClipboardContent();
+        String url = ((ImageView) event.getSource()).getImage().getUrl();
+        String s = RedirectResources.fromURLtoElement(url);
+
+        content.putString(s);
+        db.setContent(content);
+
+        event.consume();
+    }
+
+    /*Target node knows what to accept depending on the TransferMode*/
+    @FXML
+    private void dragOver(DragEvent event) {
+        if (event.getGestureSource() != event.getSource() &&
+                event.getDragboard().hasString()) {
+            /* allow for both copying and moving, whatever user chooses */
+            event.acceptTransferModes(TransferMode.MOVE);
+        }
+
+        event.consume();
+    }
+
+    /*Graphic feedback of the accessible destination
+     * for the element that's being moved
+     * */
+    @FXML
+    private void hover(DragEvent event) {
+        /* the drag-and-drop gesture entered the target */
+        /* show to the user that it is an actual gesture target */
+        if (event.getGestureSource() != event.getSource() &&
+                event.getDragboard().hasString()) {
+            ((Node)event.getSource()).setBlendMode(BlendMode.SOFT_LIGHT);
+        }
+
+        event.consume();
+    }
+
+    /*Graphic feedback of when the mouse leaves the possible destination*/
+    @FXML
+    private void exitHover(DragEvent event) {
+        /* mouse moved away, remove the graphical cues */
+        ((Node)event.getSource()).setBlendMode(BlendMode.SRC_OVER);
+
+        event.consume();
+
+    }
+
+    @FXML
+    private void dragDrop(DragEvent event) {
+        /* data dropped */
+        /* if there is a string data on dragboard, read it and use it */
+        Dragboard db = event.getDragboard();
+        boolean success = false;
+        if(((Node)event.getSource()).getId().startsWith("ISLAND")) {
+            if(((Node)event.getGestureSource()).getParent().getId().startsWith("ENTRANCE")) {
+                String action = "Move S from E to I";
+                String islandIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
+                dealWithAction(action, db.getString(), islandIndex);
+            }
+            else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
+                String action = "Move S from CC to I";
+                //dealWithAction(action, );
+            }
+            else if (((Node)event.getGestureSource()).getParent().getId().startsWith("ISLAND")) {
+                String action = "Move MN";
+                String currIndex = ((Node) event.getSource()).getId().replaceAll("\\D", "");
+                String prevIndex = ((Node) event.getGestureSource()).getId().replaceAll("\\D", "");
+                dealWithAction(action, currIndex, prevIndex);
+            }
+        }
+        else if (((Node)event.getSource()).getId().startsWith("DININGROOM")) {
+            if (((Node)event.getGestureSource()).getParent().getId().startsWith("ENTRANCE")) {
+                String action = "Move S from E to DR";
+                dealWithAction(action, db.getString(), null);
+            }
+            else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
+                String action = "Move S from CC to DR";
+            }
+
+        }
+        if (db.hasString()) {
+            event.getGestureSource();
+            //deve chiamare la funzione che faccia quello che deve fare -> cambiare numero studenti etc
+            //((Node)event.getSource());
+            success = true;
+        }
+        /* let the source know whether the string was successfully
+         * transferred and used */
+        event.setDropCompleted(success);
+
+        event.consume();
+    }
+
+    @FXML
+    private void dragDone(DragEvent event) {
+        /* the drag and drop gesture ended */
+        /* if the data was successfully moved, clear it */
+        if (event.getTransferMode() == TransferMode.MOVE) {
+            ((Node)event.getSource()).setVisible(false);
+        }
+        event.consume();
+    }
+
+    @FXML
+    private void chooseCloud(MouseEvent event) {
+        String action = "Choose cloud";
+        String cloudIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
+        dealWithAction(action, cloudIndex, null);
+    }
+
+    private void dealWithAction(String action, String param1, String param2) {
+        GameEvent gameEvent = null;
+
+        switch (action) {
+            case "Play AC" -> {
+                int index = Integer.parseInt(param1);
+                gameEvent = new PlayAssistantCardEvent(AssistantCard.values()[index], cc.getPlayingPlayer());
+            }
+            case "Move S from E to I" -> {
+                Color color = Color.valueOf(param1);
+                int islandIndex = Integer.parseInt(param2);
+                gameEvent = new MoveStudentFromEntranceToIslandEvent(color, islandIndex, cc.getPlayingPlayer());
+            }
+            case "Move S from E to DR" -> {
+                Color color = Color.valueOf(param1);
+                gameEvent = new MoveStudentFromEntranceToTableEvent(color, cc.getPlayingPlayer());
+            }
+            case "Move MN" -> {
+                int currIndex = Integer.parseInt(param1);
+                int prevIndex = Integer.parseInt(param2);
+                gameEvent = new MoveMotherNatureEvent(currIndex-prevIndex, cc.getPlayingPlayer());
+            }
+            case "Choose cloud" -> {
+                int cloudIndex = Integer.parseInt(param1);
+                gameEvent = new ChooseCloudTileEvent(cloudIndex, cc.getPlayingPlayer());
+            }
+            case "Activate CC" -> {
+                //gameEvent = new ActivateCharacterCardEvent();
+            }
+            default -> gameEvent = null;
+
+        }
+
+        if (gameEvent != null) {
+            Message answer = cc.performEvent(gameEvent);
+            if(answer.getMessageType() == MessageType.ACK) {
+                //reprint();
+            }
+            if(answer.getMessageType() == MessageType.NACK){
+                //errore
+            }
+        }
+    }
 }

@@ -22,7 +22,7 @@ public final class RedirectResources {
             case 8 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC8.png")));}
             case 9 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC9.png")));}
             case 10 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC10.png")));}
-            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC11.png")));}
+            default -> {return null;}
         }
     }
 
@@ -34,7 +34,7 @@ public final class RedirectResources {
             case "GREEN" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundGreen.png")));}
             case "PINK" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundPink.png")));}
             case "YELLOW" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundYellow.png")));}
-            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundRed.png")));}
+            default -> {return null;}
 
         }
 
@@ -44,21 +44,22 @@ public final class RedirectResources {
         switch (color) {
             case "WHITE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinWhiteTower.png")));}
             case "GREY" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinGreyTower.png")));}
-            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinBlackTower.png")));}
+            case "BLACK" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/MinBlackTower.png")));}
+            default -> {return null;}
 
         }
 
     }
 
-    public static Image towersImages(String color) {
+    /*public static Image towersImages(String color) {
         switch (color) {
             case "WHITE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/WhiteTower.png")));}
             case "GREY" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/GreyTower.png")));}
-            default -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/BlackTower.png")));}
-
+            case "BLACK" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/BlackTower.png")));}
+            default -> {return null;}
         }
 
-    }
+    }*/
 
     public static Image ACImages(int acIndex) {
         //System.out.println("Sono in redirector CC");
@@ -73,6 +74,24 @@ public final class RedirectResources {
             case 8 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente8.png")));}
             case 9 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente9.png")));}
             case 10 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente10.png")));}
+            default -> {return null;}
+        }
+    }
+
+    public static String fromURLtoElement(String url) {
+        int index = url.lastIndexOf('/');
+        String name = url.substring(index+1);
+        if (name.indexOf(".") > 0)
+            name = name.substring(0, name.lastIndexOf("."));
+
+        switch (name) {
+            case "RoundRed"-> {return "RED";}
+            case "RoundPink" -> {return "PINK";}
+            case "RoundYellow" -> {return "YELLOW";}
+            case "RoundBlue" -> {return "BLUE";}
+            case "RoundGreen" -> {return "GREEN";}
+            case "MotherNature" -> {return "MOTHERNATURE";}
+            case "NoEntry" -> {return "NOENTRY";}
             default -> {return null;}
         }
     }

@@ -15,7 +15,7 @@
       </ImageView>
       <AnchorPane fx:id="ISLANDS" layoutX="288.0" layoutY="5.0">
          <children>
-            <AnchorPane fx:id="ISLAND_0" layoutX="116.0" layoutY="27.0">
+            <AnchorPane fx:id="ISLAND_0" layoutX="116.0" layoutY="27.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex0" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -47,7 +47,7 @@
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="MOTHERNATURE0" fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="MOTHERNATURE0" fitHeight="50.0" fitWidth="50.0" layoutX="48.0" layoutY="45.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/MotherNature.png" />
                      </image>
@@ -99,7 +99,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_1" layoutX="259.0">
+            <AnchorPane fx:id="ISLAND_1" layoutX="259.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex1" fitHeight="150.0" fitWidth="150.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -183,7 +183,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_2" layoutX="395.0">
+            <AnchorPane fx:id="ISLAND_2" layoutX="395.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex2" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -267,7 +267,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_3" layoutX="537.0" layoutY="27.0">
+            <AnchorPane fx:id="ISLAND_3" layoutX="537.0" layoutY="27.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex3" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -351,7 +351,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_4" layoutX="654.0" layoutY="130.0">
+            <AnchorPane fx:id="ISLAND_4" layoutX="654.0" layoutY="130.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex4" fitHeight="150.0" fitWidth="150.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -435,7 +435,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_5" layoutX="661.0" layoutY="255.0">
+            <AnchorPane fx:id="ISLAND_5" layoutX="661.0" layoutY="255.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex5" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -519,7 +519,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_6" layoutX="534.0" layoutY="338.0">
+            <AnchorPane fx:id="ISLAND_6" layoutX="534.0" layoutY="338.0" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex6" fitHeight="150.0" fitWidth="150.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -603,7 +603,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_7" layoutX="391.0" layoutY="374.0">
+            <AnchorPane fx:id="ISLAND_7" layoutX="391.0" layoutY="374.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex7" fitHeight="150.0" fitWidth="150.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -687,7 +687,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_8" layoutX="260.0" layoutY="374.0">
+            <AnchorPane fx:id="ISLAND_8" layoutX="260.0" layoutY="374.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex8" fitHeight="150.0" fitWidth="150.0" layoutY="5.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -771,7 +771,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_9" layoutX="117.0" layoutY="336.0">
+            <AnchorPane fx:id="ISLAND_9" layoutX="117.0" layoutY="336.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex9" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -855,7 +855,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_10" layoutY="254.0">
+            <AnchorPane fx:id="ISLAND_10" layoutY="254.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex10" fitHeight="150.0" fitWidth="150.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -939,7 +939,7 @@
                   </Label>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ISLAND_11" layoutX="16.0" layoutY="124.0">
+            <AnchorPane fx:id="ISLAND_11" layoutX="16.0" layoutY="124.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver" onMouseClicked="#destinationIsland">
                <children>
                   <ImageView fx:id="islandIndex11" fitHeight="150.0" fitWidth="150.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1027,7 +1027,7 @@
       </AnchorPane>
       <AnchorPane fx:id="CLOUDS" layoutX="528.0" layoutY="154.0">
          <children>
-            <AnchorPane fx:id="CLOUD_0" visible="false">
+            <AnchorPane fx:id="CLOUD_0" onMouseClicked="#chooseCloud" visible="false">
                <children>
                   <ImageView fx:id="CLOUD" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1056,7 +1056,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="CLOUD_1" layoutX="147.0" layoutY="14.0" visible="false">
+            <AnchorPane fx:id="CLOUD_1" layoutX="147.0" layoutY="14.0" onMouseClicked="#chooseCloud" visible="false">
                <children>
                   <ImageView fx:id="CLOUD1" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1085,7 +1085,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="CLOUD_2" layoutX="41.0" layoutY="109.0" visible="false">
+            <AnchorPane fx:id="CLOUD_2" layoutX="41.0" layoutY="109.0" onMouseClicked="#chooseCloud" visible="false">
                <children>
                   <ImageView fx:id="CLOUD2" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1114,7 +1114,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="CLOUD_3" layoutX="190.0" layoutY="129.0" visible="false">
+            <AnchorPane fx:id="CLOUD_3" layoutX="190.0" layoutY="129.0" onMouseClicked="#chooseCloud" visible="false">
                <children>
                   <ImageView fx:id="CLOUD3" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -1152,274 +1152,278 @@
                   <Image url="@../images/Elements/YourSchoolNG.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="DR_GREEN" layoutX="99.0" layoutY="26.0">
+            <AnchorPane fx:id="DININGROOM" layoutX="99.0" layoutY="26.0" onDragDropped="#dragDrop" onDragEntered="#hover" onDragExited="#exitHover" onDragOver="#dragOver">
                <children>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundGreen.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="DR_RED" layoutX="99.0" layoutY="65.0">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundRed.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="DR_YELLOW" layoutX="99.0" layoutY="105.0">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundYellow.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="DR_PINK" layoutX="99.0" layoutY="144.0">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundPink.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="DR_BLUE" layoutX="99.0" layoutY="182.0">
-               <children>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
-                  <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../images/Elements/MinRoundBlue.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane fx:id="DR_GREEN">
+                     <children>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView disable="true" fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundGreen.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="DR_RED" layoutY="39.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundRed.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="DR_YELLOW" layoutY="79.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundYellow.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="DR_PINK" layoutY="118.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundPink.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane fx:id="DR_BLUE" layoutY="156.0">
+                     <children>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="27.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="53.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="105.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="131.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="157.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="183.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="210.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                        <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="236.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                           <image>
+                              <Image url="@../images/Elements/MinRoundBlue.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="PROFESSORS" layoutX="357.0" layoutY="27.0" prefHeight="189.0" prefWidth="30.0">
@@ -1453,47 +1457,47 @@
             </AnchorPane>
             <AnchorPane fx:id="ENTRANCE" layoutX="15.0" layoutY="26.0">
                <children>
-                  <ImageView fx:id="E_STUDENT_8" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_8" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="156.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_7" fitHeight="30.0" fitWidth="30.0" layoutY="156.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_7" fitHeight="30.0" fitWidth="30.0" layoutY="156.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_6" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_6" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="118.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_5" fitHeight="30.0" fitWidth="30.0" layoutY="118.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_5" fitHeight="30.0" fitWidth="30.0" layoutY="118.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_3" fitHeight="30.0" fitWidth="30.0" layoutY="79.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_3" fitHeight="30.0" fitWidth="30.0" layoutY="79.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_4" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_4" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="81.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_2" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_2" fitHeight="30.0" fitWidth="30.0" layoutX="31.0" layoutY="39.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_1" fitHeight="30.0" fitWidth="30.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_1" fitHeight="30.0" fitWidth="30.0" layoutY="39.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="E_STUDENT_0" fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                  <ImageView fx:id="E_STUDENT_0" fitHeight="30.0" fitWidth="30.0" onDragDetected="#startDrag" onDragDone="#dragDone" onMouseClicked="#studentSelected" pickOnBounds="true" preserveRatio="true" visible="false">
                      <image>
                         <Image url="@../images/Elements/RoundYellow.png" />
                      </image>
@@ -1553,7 +1557,7 @@
                   <Image url="@../images/Elements/Back1.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="ASSISTANTCARD" fitHeight="160.0" fitWidth="110.0" layoutX="61.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="ASSISTANTCARD" fitHeight="160.0" fitWidth="110.0" layoutX="61.0" layoutY="20.0" onMouseClicked="#selectAssistantCard" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/Assistente1.png" />
                </image>
@@ -1575,7 +1579,7 @@
             <Image url="@../images/Elements/Coin.png" />
          </image>
       </ImageView>
-      <Label fx:id="OWNEDCOINS" layoutX="976.0" layoutY="740.0" text="Label" />
+      <Label fx:id="OWNEDCOINS" alignment="CENTER" contentDisplay="CENTER" layoutX="976.0" layoutY="740.0" text="Label" />
       <AnchorPane fx:id="CHARACTERCARDS" layoutX="1017.0" layoutY="401.0" prefHeight="335.0" prefWidth="326.0">
          <children>
             <ImageView fx:id="CC1" fitHeight="150.0" fitWidth="150.0" layoutX="83.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
