@@ -63,6 +63,8 @@ public class GameCreationController implements Initializable {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);
         } else {
+            errorAccessRoom.setText("Room ID: " + roomID + " Waiting for players...");
+            errorAccessRoom.setVisible(true);
             GUI.getInstance().setInARoom(true);
             GUI.getInstance().printStatus();
         }
