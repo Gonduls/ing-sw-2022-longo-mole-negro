@@ -53,7 +53,7 @@ public class GameCreationController implements Initializable {
 
     }
 
-    public void generateRoomID(ActionEvent event) throws IOException {
+    public void generateRoomID(ActionEvent event) {
 
         boolean expertGame = checkExpert.isSelected();
         boolean privateGame = checkPrivate.isSelected();

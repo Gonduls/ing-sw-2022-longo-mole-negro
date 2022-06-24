@@ -47,10 +47,16 @@ public class GameBoardController implements Initializable {
     private ImageView ASSISTANTCARD;
 
     @FXML
+    private ImageView ASSISTANTCARDDECK;
+
+    @FXML
     private Label OWNEDCOINS;
 
     @FXML
     private AnchorPane CHARACTERCARDS;
+
+    @FXML
+    private Label MESSAGES;
 
     //used to change images of students
     private static int numberOfReds = 0;
@@ -80,6 +86,7 @@ public class GameBoardController implements Initializable {
 
     private static ArrayList<Image> deck = new ArrayList<>();
     private static int ACindex = 0;
+    private static int totalStudentsNumber = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -170,15 +177,15 @@ public class GameBoardController implements Initializable {
                 node.setVisible(true);
                 switch (cmm.getIslands().get(islandIndex).getTc()) {
                     case BLACK -> {
-                        Image image = RedirectResources.minTowersImages("BLACK");
+                        Image image = RedirectResources.towersImages("BLACK");
                         ((ImageView) node).setImage(image);
                     }
                     case WHITE -> {
-                        Image image2 = RedirectResources.minTowersImages("WHITE");
+                        Image image2 = RedirectResources.towersImages("WHITE");
                         ((ImageView) node).setImage(image2);
                     }
                     case GREY -> {
-                        Image image3 = RedirectResources.minTowersImages("GREY");
+                        Image image3 = RedirectResources.towersImages("GREY");
                         ((ImageView) node).setImage(image3);
                     }
                 }
@@ -215,10 +222,12 @@ public class GameBoardController implements Initializable {
 
     //Sets all the elements of the Players' schools
     private void setSchool(Node node) {
-        if (node.getId().startsWith("DR")) {
-            String[] s = node.getId().split("_");
-            currentDRColor = cmm.getDiningRooms(getThisPlayerIndex()).get(Color.valueOf(s[1]));
-            ((AnchorPane) node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setDiningRoom);
+        if (node.getId().startsWith("DININGROOM")) {
+            ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
+                String[] s = b.getId().split("_");
+                currentDRColor = cmm.getDiningRooms(getThisPlayerIndex()).get(Color.valueOf(s[1]));
+                ((AnchorPane) b).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setDiningRoom);
+            });
         }
         else if (node.getId().startsWith("PROFESSORS"))
             ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setProfessors);
@@ -245,22 +254,17 @@ public class GameBoardController implements Initializable {
     private void setTowers(Node node) {
         switch (getThisPlayerIndex()) {
             case 0 -> {
-                Image image = RedirectResources.minTowersImages("WHITE");
+                Image image = RedirectResources.minTowersImages("BLACK");
                 ((ImageView) node).setImage(image);
             }
             case 1 -> {
-                Image image;
-                if (numberOfPlayers == 3)
-                    image = RedirectResources.minTowersImages("GREY");
-                else
-                    image = RedirectResources.minTowersImages("BLACK");
-
+                Image image = RedirectResources.minTowersImages("WHITE");
                 ((ImageView) node).setImage(image);
             }
             case 2 -> {
                 Image image;
                 if (numberOfPlayers == 3) {
-                    image = RedirectResources.minTowersImages("BLACK");
+                    image = RedirectResources.minTowersImages("GREY");
                     ((ImageView) node).setImage(image);
                 } else
                     return;
@@ -325,7 +329,22 @@ public class GameBoardController implements Initializable {
     //Sets the deck's back and currently shown card
     private void setDeck(Node node) {
         if (node.getId().startsWith("ASSISTANTCARDDECK")){
-            //cambia il colore del deck
+            switch(getThisPlayerIndex()) {
+                case 0 -> {
+                    Image image = RedirectResources.getDeckImages(0);
+                    ASSISTANTCARDDECK.setImage(image);}
+                case 1 -> {
+                    Image image = RedirectResources.getDeckImages(1);
+                    ASSISTANTCARDDECK.setImage(image);}
+                case 2 -> {
+                    Image image = RedirectResources.getDeckImages(2);
+                    ASSISTANTCARDDECK.setImage(image);
+                }
+                case 3 -> {
+                    Image image = RedirectResources.getDeckImages(3);
+                    ASSISTANTCARDDECK.setImage(image);
+                }
+            }
         }else if (node.getId().startsWith("ASSISTANTCARD")) {
             initializeDeck();
             showAssistantCard(node);
@@ -426,17 +445,12 @@ public class GameBoardController implements Initializable {
         String action = "Play AC";
         String index = String.valueOf(ACindex);
         dealWithAction(action, index, null);
-        //player = cc.getPlayingPlayer();
-        //dealWithAction(((Node)event.getSource()).getId(), null);
-        //gameEvent = new PlayAssistantCardEvent(AssistantCard.values()[ACindex], player);
         event.consume();
     }
 
     @FXML
     private void studentSelected(MouseEvent event) {
         String s = ((ImageView)event.getSource()).getImage().getUrl();
-
-
     }
 
     @FXML
@@ -532,7 +546,7 @@ public class GameBoardController implements Initializable {
 
         }
         if (db.hasString()) {
-            event.getGestureSource();
+            //event.getGestureSource();
             //deve chiamare la funzione che faccia quello che deve fare -> cambiare numero studenti etc
             //((Node)event.getSource());
             success = true;
@@ -597,10 +611,11 @@ public class GameBoardController implements Initializable {
         if (gameEvent != null) {
             Message answer = cc.performEvent(gameEvent);
             if(answer.getMessageType() == MessageType.ACK) {
-                //reprint();
+                reprint();
             }
             if(answer.getMessageType() == MessageType.NACK){
-                //errore
+                MESSAGES.setText("Error! Action not allowed!");
+                MESSAGES.setVisible(true);
             }
         }
     }

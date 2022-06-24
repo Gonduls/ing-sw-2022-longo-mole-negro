@@ -51,7 +51,7 @@ public final class RedirectResources {
 
     }
 
-    /*public static Image towersImages(String color) {
+    public static Image towersImages(String color) {
         switch (color) {
             case "WHITE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/WhiteTower.png")));}
             case "GREY" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/GreyTower.png")));}
@@ -59,7 +59,7 @@ public final class RedirectResources {
             default -> {return null;}
         }
 
-    }*/
+    }
 
     public static Image ACImages(int acIndex) {
         //System.out.println("Sono in redirector CC");
@@ -76,6 +76,25 @@ public final class RedirectResources {
             case 10 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente10.png")));}
             default -> {return null;}
         }
+    }
+
+    public static Image getDeckImages(int index) {
+        switch (index) {
+            case 0 -> {
+                return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Back1.png")));
+            }
+            case 1 -> {
+                return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Back2.png")));
+            }
+            case 2 -> {
+                return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Back3.png")));
+            }
+            case 3 -> {
+                return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Back4.png")));
+            }
+            default -> {return null;}
+        }
+
     }
 
     public static String fromURLtoElement(String url) {
