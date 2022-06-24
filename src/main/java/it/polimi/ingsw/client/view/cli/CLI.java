@@ -367,7 +367,7 @@ public class CLI implements UI {
                     System.out.println(eg.winners()[i]);
                 }
                 System.out.println("Press anything to return to Lobby.");
-                input.nextLine();
+                new Scanner(System.in).nextLine();
             }
             case PLAYER_DISCONNECT -> {
                 PlayerDisconnect pd = (PlayerDisconnect) message;
