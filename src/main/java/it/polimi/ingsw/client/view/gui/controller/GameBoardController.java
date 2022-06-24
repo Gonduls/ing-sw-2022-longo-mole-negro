@@ -4,11 +4,13 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
+import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.Nack;
 import it.polimi.ingsw.messages.events.*;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
@@ -439,7 +441,6 @@ public class GameBoardController implements Initializable {
             ACindex = -1;
         }
         ACindex++;
-        System.out.println(ACindex);
         showAssistantCard(ASSISTANTCARD);
         e.consume();
     }
@@ -451,7 +452,6 @@ public class GameBoardController implements Initializable {
             ACindex = deck.size();
         }
         ACindex--;
-        System.out.println(ACindex);
         showAssistantCard(ASSISTANTCARD);
         event.consume();
     }
@@ -459,7 +459,10 @@ public class GameBoardController implements Initializable {
     @FXML
     private void selectAssistantCard(MouseEvent event) {
         String action = "Play AC";
-        String index = String.valueOf(ACindex);
+        String url = deck.get(ACindex).getUrl();
+        String index = url.substring(url.length() - 5, url.length() - 4);
+        if(index.equals("0"))
+            index = "10";
         dealWithAction(action, index, null);
         event.consume();
     }
@@ -538,7 +541,13 @@ public class GameBoardController implements Initializable {
             if(((Node)event.getGestureSource()).getParent().getId().startsWith("ENTRANCE")) {
                 String action = "Move S from E to I";
                 String islandIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
-                dealWithAction(action, db.getString(), islandIndex);
+                int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
+                if(actualIsland == -1) {
+                    System.out.println("Selected a nonvalid island");
+                    return;
+                }
+
+                dealWithAction(action, db.getString(), Integer.toString(actualIsland));
             }
             else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
                 String action = "Move S from CC to I";
@@ -597,7 +606,7 @@ public class GameBoardController implements Initializable {
         switch (action) {
             case "Play AC" -> {
                 int index = Integer.parseInt(param1);
-                gameEvent = new PlayAssistantCardEvent(AssistantCard.values()[index], cc.getPlayingPlayer());
+                gameEvent = new PlayAssistantCardEvent(AssistantCard.values()[index - 1], cc.getPlayingPlayer());
             }
             case "Move S from E to I" -> {
                 Color color = Color.valueOf(param1);
@@ -626,11 +635,9 @@ public class GameBoardController implements Initializable {
 
         if (gameEvent != null) {
             Message answer = cc.performEvent(gameEvent);
-            if(answer.getMessageType() == MessageType.ACK) {
-                reprint();
-            }
+            reprint();
             if(answer.getMessageType() == MessageType.NACK){
-                MESSAGES.setText("Error! Action not allowed!");
+                MESSAGES.setText(((Nack) answer).getErrorMessage());
                 MESSAGES.setVisible(true);
             }
         }
