@@ -84,7 +84,7 @@ public class GameBoardController implements Initializable {
     private Integer[] indexes;
     private static int indexesIterator = 0;
 
-    private static ArrayList<Image> deck = new ArrayList<>();
+    private static ArrayList<Image> deck;
     private static int ACindex = 0;
     private static int totalStudentsNumber = 0;
 
@@ -322,8 +322,8 @@ public class GameBoardController implements Initializable {
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
             } else if(indexesIterator == 5) {
-                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
-                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));
+                /*((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
+                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));*/
             } else {
                 node.setDisable(true);
                 node.setVisible(false);
@@ -364,6 +364,8 @@ public class GameBoardController implements Initializable {
     //Creates an ArrayList with Assistant Cards' images
     private void initializeDeck() {
         List<AssistantCard> assistantCards = cmm.getDeck();
+
+        deck  =new ArrayList<>();
         for (AssistantCard ac : assistantCards) {
             deck.add(RedirectResources.ACImages(ac.getValue()));
         }
@@ -371,7 +373,7 @@ public class GameBoardController implements Initializable {
 
     //Shows the currently selected Assistant Card
     private void showAssistantCard(Node node) {
-        ((ImageView)node).setImage(deck.get(ACindex));
+        ((ImageView)node).setImage(deck.get(ACindex % deck.size()));
     }
 
 
@@ -433,9 +435,11 @@ public class GameBoardController implements Initializable {
     //Shows the next Assistant Card
     @FXML
     private void nextAssistantCard(MouseEvent e) {
+        if(ACindex == deck.size() -1) {
+            ACindex = -1;
+        }
         ACindex++;
-        if(ACindex == deck.size() -1)
-            ACindex = 0;
+        System.out.println(ACindex);
         showAssistantCard(ASSISTANTCARD);
         e.consume();
     }
@@ -443,9 +447,11 @@ public class GameBoardController implements Initializable {
     //Shows previous Assistant Card
     @FXML
     private void prevAssistantCard(MouseEvent event) {
+        if(ACindex == 0) {
+            ACindex = deck.size();
+        }
         ACindex--;
-        if(ACindex == 0)
-            ACindex = deck.size() - 1;
+        System.out.println(ACindex);
         showAssistantCard(ASSISTANTCARD);
         event.consume();
     }
