@@ -28,7 +28,7 @@ public class GUI extends Application implements UI{
     private String username;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     static GUI instance;
-
+    private final boolean[] merged = new boolean[12];
 
     public static GUI getInstance(){
         if(instance == null) {
@@ -57,7 +57,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void merge(int secondIsland) {
-
+        merged[getIsland12Index(secondIsland)] = true;
     }
 
     @Override
@@ -104,6 +104,9 @@ public class GUI extends Application implements UI{
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         this.cmm = cmm;
+
+        for(int i = 0; i< 12; i ++)
+            merged[i] = false;
 
         gameRunning.set(true);
 
@@ -177,5 +180,34 @@ public class GUI extends Application implements UI{
 
     public String getUsername() {
         return username;
+    }
+
+    public boolean wasMerged(int island12Index){
+        return merged[island12Index];
+    }
+
+    public int getIsland12Index(int islandModelIndex){
+        int i = 0;
+        while(i < 12){
+            if(merged[i])
+                islandModelIndex++;
+            else if (i == islandModelIndex) {
+                return islandModelIndex;
+            }
+            i ++;
+        }
+        return -1;
+    }
+
+    public int getIslandModelIndex(int island12Index){
+        if(merged[island12Index])
+            return -1;
+
+        int result = island12Index;
+        for(int i = 0; i < island12Index; i++){
+            if(merged[i])
+                result --;
+        }
+        return result;
     }
 }

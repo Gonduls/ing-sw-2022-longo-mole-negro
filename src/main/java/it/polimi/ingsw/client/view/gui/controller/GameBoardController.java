@@ -158,8 +158,15 @@ public class GameBoardController implements Initializable {
 
     private void setIslands(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
-        int noEntriesNum = cmm.getIslands().get(islandIndex).getNoEntry();
-        node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, islandIndex, noEntriesNum));
+
+        if(GUI.getInstance().wasMerged(islandIndex)){
+            // todo: set visible to false
+            return;
+        }
+
+        int modelIndex = GUI.getInstance().getIslandModelIndex(islandIndex);
+        int noEntriesNum = cmm.getIslands().get(modelIndex).getNoEntry();
+        node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, modelIndex, noEntriesNum));
     }
 
     public void boardSwitch(Node node, int islandIndex, int noEntriesNum) {
