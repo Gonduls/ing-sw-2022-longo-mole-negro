@@ -321,6 +321,9 @@ public class GameBoardController implements Initializable {
                 Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
+            } else if(indexesIterator == 5) {
+                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
+                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));
             } else {
                 node.setDisable(true);
                 node.setVisible(false);
@@ -430,11 +433,11 @@ public class GameBoardController implements Initializable {
     //Shows the next Assistant Card
     @FXML
     private void nextAssistantCard(MouseEvent e) {
-        showAssistantCard(ASSISTANTCARD);
-        e.consume();
         ACindex++;
         if(ACindex == deck.size() -1)
             ACindex = 0;
+        showAssistantCard(ASSISTANTCARD);
+        e.consume();
     }
 
     //Shows previous Assistant Card
@@ -625,5 +628,15 @@ public class GameBoardController implements Initializable {
                 MESSAGES.setVisible(true);
             }
         }
+    }
+
+    public void merge(int secondIsland) {
+        /*//todo non funziona
+        ISLANDS.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
+            int currentIsland = Integer.parseInt(b.getId().replaceAll("\\D", ""));
+            if(currentIsland == secondIsland)
+                b.setVisible(false);
+                b.setDisable(true);
+        });*/
     }
 }
