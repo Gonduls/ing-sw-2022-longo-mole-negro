@@ -118,9 +118,6 @@ public class GameBoardController implements Initializable {
             //character cards
             CHARACTERCARDS.setVisible(false);
             CHARACTERCARDS.setDisable(true);
-        } else{
-            instance.OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
-            instance.OWNEDCOINS.setVisible(true);
         }
 
 
@@ -228,6 +225,9 @@ public class GameBoardController implements Initializable {
             default -> Log.logger.info("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
 
         }
+        OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
+        OWNEDCOINS.setVisible(true);
+
     }
 
     // if no students of that color are present => don't show student piece
