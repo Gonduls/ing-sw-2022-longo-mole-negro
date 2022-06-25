@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.events.MoveMotherNatureEvent;
@@ -7,7 +8,8 @@ import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.Player;
 
 /**
- * Second step in Action Phase
+ * Second step in Action Phase.
+ * The only allowed moves are moving mother nature and activating a character card.
  *
  */
 public class AcceptMotherNatureMoveState extends GameState {
@@ -24,7 +26,7 @@ public class AcceptMotherNatureMoveState extends GameState {
 
 
     @Override
-    public void executeEvent(GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws GameException {
 
         switch(event.getEventType()){
             case MOVE_MOTHER_NATURE: {
@@ -35,18 +37,18 @@ public class AcceptMotherNatureMoveState extends GameState {
 
                if (context.gameManager.getUsedCard() == 1) {
                    if (amount > context.getPlayerMaxSteps().get(player).getSteps() +2 ) {
-                       throw new Exception("you cannot move mother nature more than " + (context.getPlayerMaxSteps().get(player).getSteps() + 2 ));
+                       throw new GameException("you cannot move mother nature more than " + (context.getPlayerMaxSteps().get(player).getSteps() + 2 ));
                    }
                } else {
                    if (amount > context.getPlayerMaxSteps().get(player).getSteps()) {
-                       throw new Exception("you cannot move mother nature more than " + context.getPlayerMaxSteps().get(player).getSteps());
+                       throw new GameException("you cannot move mother nature more than " + context.getPlayerMaxSteps().get(player).getSteps());
                    }
                }
 
                try{
                     context.gameManager.moveMotherNature(amount);
                 } catch (IllegalArgumentException e) {
-                    throw new Exception("this should be impossible, we already check the legality of the move");
+                    throw new GameException("this should be impossible, we already check the legality of the move");
                 }
 
                 numberOfEvents--;

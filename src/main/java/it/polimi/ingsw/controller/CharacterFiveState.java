@@ -35,14 +35,12 @@ public class CharacterFiveState extends  CharacterState{
     public void executeEvent(GameEvent event) throws NoSuchStudentException {
 
 
-        if (cc.getNoEntryToken() ==0) {
-           //todo -> this was a stupid move player
-        } else {
+        if (cc.getNoEntryToken() > 0) {
             ChooseIslandEvent eventCast = (ChooseIslandEvent) event;
             context.gameManager.addNoEntry(eventCast.getIslandIndex());
             numberOfEvents--;
             cc.removeNoEntryToken();
-        }
+        } // if the player activate the card with 0 token left, that's his fault, not mine.
 
 
         if(numberOfEvents == 0){

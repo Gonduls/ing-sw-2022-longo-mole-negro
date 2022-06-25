@@ -30,15 +30,9 @@ public class CharacterCardThree extends CharacterCard{
         return price;
     }
 
-    @Override
-    public void activateEffect() {
 
-    }
 
-    @Override
-    public void applyEffect() {
 
-    }
 
     @Override
     public StudentHolder getStudentHolder() {

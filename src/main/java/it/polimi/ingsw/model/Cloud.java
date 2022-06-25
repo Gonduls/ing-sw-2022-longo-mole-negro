@@ -20,7 +20,7 @@ public class Cloud extends StudentHolder{
 
     /**
      * Empties the Cloud in the entrance of the target School
-     * @param school: the target School
+     * @param player: The player that owns the entrance
      * @throws NoSpaceForStudentException if the entrance of the target School is still full
      * @throws NoSuchStudentException if the cloud was already empty
      */

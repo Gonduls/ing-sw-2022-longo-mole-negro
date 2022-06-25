@@ -1,20 +1,20 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.messages.events.PlayAssistantCardEvent;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.Player;
 
-import java.security.InvalidParameterException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Planning Phase.
- * The first step is handled in the constructor.
+ * The refilling  step is handled automatically in the constructor.
  * The second one is handled by the PLAY_ASSISTANT_CARD event.
+ *
  */
 public class AcceptAssistantCardState extends GameState {
 
@@ -36,12 +36,43 @@ public class AcceptAssistantCardState extends GameState {
     }
 
     @Override
-    public void executeEvent(GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws GameException {
 
         PlayAssistantCardEvent eventCast = (PlayAssistantCardEvent) event;
         AssistantCard cardPlayed = eventCast.getAssistantCard();
         Player  player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
-        boolean lastElement;
+
+        checkAssistantCard(player, cardPlayed);
+
+        addPlayerToPlayingOrder(player,cardPlayed);
+
+        numberOfEvents--;
+
+    if (numberOfEvents ==0){
+            //shallow copy->this should help with the garbage collection
+            context.setPlayingOrder(new ArrayList<>(newPlayingOrder));
+
+            //change state to moveStudentFromEntrance
+            context.setPlayingOrderIndex(0);
+            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+            context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers() == 3?4:3 ));
+            context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
+        }
+        else {
+            //next player ("clockwise direction")
+            context.setPlayingOrderIndex(context.convertPlayerNumberToPlayingIndex((context.getCurrentPlayer().getPlayerNumber()+1) % context.getNumberOfPlayers()));
+            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+        }
+
+    }
+
+    /**
+     *
+     * @param player
+     * @param cardPlayed
+     * @throws GameException
+     */
+    void checkAssistantCard(Player player, AssistantCard cardPlayed) throws  GameException{
 
         if (player.getCardsLeft().contains(cardPlayed)){
             for(int i =0 ; i< context.getNumberOfPlayers(); i++){
@@ -52,19 +83,31 @@ public class AcceptAssistantCardState extends GameState {
                     //checks that the current player has only cards that are in cardsPlayedThisTurn
                     for(AssistantCard ac : player.getCardsLeft()){
                         if(ac.getValue() != cardsPlayedThisTurn[i].getValue())
-                            throw new Exception("You can't play this Assistant Card.");
+                            throw new GameException("You can't play this Assistant Card.");
                     }
                 }
             }
 
             player.pickCard(cardPlayed);
         } else {
-            throw new Exception("you already played this card");
+            throw new GameException("you already played this card");
         }
 
         cardsPlayedThisTurn[context.getCurrentPlayer().getPlayerNumber()] = cardPlayed;
+        context.getPlayerMaxSteps().put(player, cardPlayed);
 
-        //this sets the playing order
+
+    }
+
+
+    /**
+     *
+     * @param player
+     * @param cardPlayed
+     */
+    void addPlayerToPlayingOrder(Player player, AssistantCard cardPlayed){
+        boolean lastElement;
+
         if(newPlayingOrder.isEmpty()){
             newPlayingOrder.add(player);
         } else if (newPlayingOrder.size()==1) {
@@ -92,26 +135,7 @@ public class AcceptAssistantCardState extends GameState {
             }
         }
 
-        context.getPlayerMaxSteps().put(player, cardPlayed);
         context.gameManager.getModelObserver().playAssistantCard(cardPlayed,player.getPlayerNumber());
-        numberOfEvents--;
-
-    if (numberOfEvents ==0){
-            //shallow copy->this should help with the garbage collection
-            context.setPlayingOrder(new ArrayList<>(newPlayingOrder));
-
-            //change state to moveStudentFromEntrance
-            context.setPlayingOrderIndex(0);
-            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-            context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers() == 3?4:3 ));
-            context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
-        }
-        else {
-            //next player ("clockwise direction")
-            context.setPlayingOrderIndex(context.convertPlayerNumberToPlayingIndex((context.getCurrentPlayer().getPlayerNumber()+1) % context.getNumberOfPlayers()));
-            context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-        }
-
     }
 
 }

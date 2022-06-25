@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.ChooseCloudTileEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
@@ -8,7 +9,8 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Player;
 
 /**
- * Third step in Action Phase
+ * Third step in Action Phase.
+ * The only allowed moves are choosing a cloud and activating a character card.
  *
  */
 public class AcceptCloudTileState extends  GameState {
@@ -23,7 +25,7 @@ public class AcceptCloudTileState extends  GameState {
     }
 
     @Override
-    public void executeEvent(GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws GameException {
         switch (event.getEventType()) {
             case CHOOSE_CLOUD_TILE: {
                 ChooseCloudTileEvent eventCast = (ChooseCloudTileEvent) event;

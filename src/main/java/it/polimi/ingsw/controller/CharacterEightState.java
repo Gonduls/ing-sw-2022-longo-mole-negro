@@ -5,6 +5,10 @@ import it.polimi.ingsw.messages.events.ChooseIslandEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
 
+/**
+ *
+ *
+ */
 public class CharacterEightState extends CharacterState{
     GameState nextState;
 

@@ -35,15 +35,9 @@ public class CharacterCardZero extends CharacterCard {
         return price;
     }
 
-    @Override
-    public void activateEffect() {
 
-    }
 
-    @Override
-    public void applyEffect() {
 
-    }
 
 
     @Override

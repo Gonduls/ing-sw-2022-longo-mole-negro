@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
@@ -11,8 +12,9 @@ import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
 /**
- * First step of Action Phase
- * @Author Marco Mole
+ * First step of Action Phase.
+ * The only allowed moves are: moving students from entrance and activating a character card.
+ *
  */
 public class AcceptMoveStudentFromEntranceState extends  GameState {
 
@@ -35,22 +37,15 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
             return true;
         }
 
-
         return false;
     }
 
 
-    public void executeEvent(GameEvent event) throws Exception {
-        if (!checkValidEvent(event)) {
-            return;
-        }
-
-
+    public void executeEvent(GameEvent event) throws GameException {
 
         switch (event.getEventType()) {
             case MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND: {
                 MoveStudentFromEntranceToIslandEvent eventCast = (MoveStudentFromEntranceToIslandEvent) event;
-               // Player player = context.getPlayerByUsername(eventCast.getPlayerName());
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
                 int indexIsland = eventCast.getIndexIsland();
@@ -66,10 +61,10 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 MoveStudentFromEntranceToTableEvent eventCast = (MoveStudentFromEntranceToTableEvent) event;
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
-                try {
-                    context.gameManager.moveStudentFromEntranceToTable(player, color);
-                    numberOfEvents--;
-                } catch (NoSpaceForStudentException | NoSuchStudentException e) { /*send error*/}
+
+                context.gameManager.moveStudentFromEntranceToTable(player, color);
+                numberOfEvents--;
+
                 break;
             }
 

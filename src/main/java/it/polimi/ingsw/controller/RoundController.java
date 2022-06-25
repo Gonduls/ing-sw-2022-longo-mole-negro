@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.ChangePhase;
 import it.polimi.ingsw.messages.ChangeTurn;
 import it.polimi.ingsw.messages.GameEvent;
@@ -11,6 +12,15 @@ import it.polimi.ingsw.server.Room;
 
 import java.util.*;
 
+
+/**
+ * The main class of the controller.
+ * This class follows the "state" pattern.
+ * The controller has a reference to a Game State that represent the possible actions that can be taken
+ * in the game in a precise moment.
+ *
+ */
+
 public class RoundController {
 
 
@@ -20,7 +30,7 @@ public class RoundController {
 
     //it's the order in which the players will do their turns.
     //it's established after playing the assistants cards
-    private ArrayList<Player> playingOrder;
+    private List<Player> playingOrder;
 
     private int playingOrderIndex;
 
@@ -39,7 +49,15 @@ public class RoundController {
 
     Room room;
 
-
+    /**
+     * The main and only constructor of the round controller. It creates the gameManager, which is the representation
+     * of the model. By doing so it also creates the players objects.
+     * It also sets the initial order of the round  starts with a random player and then proceeds
+     * to follow the order of the players based on their number.
+     * @param playersNames The names of the players in this game.
+     * @param expertMode The rule set used for this game
+     * @param room The room in which the players are.
+     */
     public RoundController(String[] playersNames, boolean expertMode, Room room) {
         this.playingOrder = new ArrayList<>();
         this.expertMode = expertMode;
@@ -68,116 +86,131 @@ public class RoundController {
         room.sendBroadcast(new ChangePhase(GamePhase.PLANNING_PHASE));
     }
 
+    /**
+     * Changes the state of the Round Controller to a new One.
+     *
+     * @param newGameState the new state of the controller
+     */
     void changeState(GameState newGameState) {
         this.gameState = newGameState;
     }
 
+    /**
+     *
+     * @return An array of Players. The order is the order in which the players are "seated".
+     */
     public Player[] getSeatedPlayers() {
         return seatedPlayers;
     }
 
     /**
-     * This is access point for the view.
-     * The virtual View will send events to the controller via this method
-     *
-     * @param event
+     * This is access point of the controller.
+     * All the events, i.e. moves made by the players, are handled by this method.
+     * The actual handling of the event is done in the gameState.
+     * @param event The event to process.
      */
 
     public void handleEvent(GameEvent event) throws Exception {
 
 
         if(playingOrder.get(playingOrderIndex).getPlayerNumber() != event.getPlayerNumber()){
-            throw new Exception("It's not your turn");
+            throw new GameException("It's not your turn");
         }
 
 
        if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD && !isExpertMode()){
-           throw new Exception("you cannot activate character cards in simple mode");
+           throw new GameException("you cannot activate character cards in simple mode");
        }
         if (gameState.checkValidEvent(event)) {
 
             gameState.executeEvent(event);
 
         } else {
-            throw new Exception("this move is not allowed at this stage of the game");
+            throw new GameException("this move is not allowed at this stage of the game");
         }
     }
 
 
-
-
-    Player getPlayerByUsername(String username) {
-        for (Player p : seatedPlayers) {
-            if (p.getUsername().equals(username)) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    int getPlayerIndex(Player player) {
-
-        for (int i = 0; i < seatedPlayers.length; i++) {
-            if (seatedPlayers[i] == player) return i;
-        }
-
-        return -1;
-    }
-
+    /**
+     * Returns the number of players in this game.
+     * @return the number of players in this game.
+     */
     int getNumberOfPlayers(){
         return seatedPlayers.length;
     }
 
-
-    public int getPlayingOrderIndex() {
-        return playingOrderIndex;
-    }
-
-
-    public void setPlayingOrderIndex(int playingOrderIndex) {
-        this.playingOrderIndex = playingOrderIndex;
-    }
-
-    public ArrayList<Player> getPlayingOrder() {
-        return playingOrder;
-    }
-
-    public void setPlayingOrder(ArrayList<Player> playingOrder) {
+    /**
+     * Sets the playingOrder, that is the list that contains the order of the players for this round.
+     * @param playingOrder  A List of Player that represent the order of the players for this round.
+     */
+    public void setPlayingOrder(List<Player> playingOrder) {
         this.playingOrder = playingOrder;
     }
 
 
+    /**
+     *
+     * @return The current player's index in the playingOrder list.
+     */
+    public int getPlayingOrderIndex() {
+        return playingOrderIndex;
+    }
 
+    /**
+     * Sets the new playingOrderIndex, that is the index of the list that store the round order of the players.
+     * @param playingOrderIndex The index of the next player in the round.
+     */
+    public void setPlayingOrderIndex(int playingOrderIndex) {
+        this.playingOrderIndex = playingOrderIndex;
+    }
+
+
+    /**
+     *
+     * @return Return the Map that contains the mapping between Player and AssistantCard for this round.
+     */
     public Map<Player, AssistantCard> getPlayerMaxSteps() {
         return playerMaxSteps;
     }
 
+    /**
+     * Resets the Map that contains the mapping between Player and AssistantCard for this round with an empty Map.
+     */
     public void resetPlayerMaxSteps(){
         this.playerMaxSteps = new HashMap<>();
     }
 
-
+    /**
+     * @return The current Player, i.e. the player whose turn it is.
+     */
     public Player getCurrentPlayer(){
         return playingOrder.get(playingOrderIndex);
     }
 
 
-    void handleCard( GameState currentState , int cardId) throws Exception {
+    /**
+     *  It handles the activation of Character Cards.
+     * @param currentState The GameState from which this method is called.
+     * @param cardId The id of the card activated
+     * @throws GameException if the activation of the card was not legal
+     */
+    void handleCard(GameState currentState , int cardId) throws GameException {
         if (!gameManager.isCardActive(cardId)){
-            throw new Exception("This card is not present in the game");
+            throw new GameException("This card is not present in the game");
         }
 
         if (gameManager.getUsedCard() != -1){
-            throw new Exception("You already activated a card");
+            throw new GameException("You already activated a card");
         }
 
         if (getCurrentPlayer().getCoinsOwned() < gameManager.findCardById(cardId).getPrice()){
-            throw new Exception("You don't have enough coins");
+            throw new GameException("You don't have enough coins");
         }
 
 
         gameManager.setUsedCard(cardId, getCurrentPlayer().getPlayerNumber());
-       if(cardId == 6) { // this is a bit junky, but it's the only card that needs this kind of information
+       //todo maybe i can move this in a state.
+        if(cardId == 6) { // this is a bit junky, but it's the only card that needs this kind of information
            CharacterCardSix cc6 = (CharacterCardSix) gameManager.findCardById(6);
            cc6.setPlayer(getCurrentPlayer());
        }

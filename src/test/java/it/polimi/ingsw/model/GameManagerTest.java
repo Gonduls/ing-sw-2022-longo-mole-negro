@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.server.DummyRoom;
@@ -73,7 +74,7 @@ class GameManagerTest {
         assertEquals(7,game.getPlayers()[0].getTowersLeft());
 
         if(game.getPlayers()[1].getSchool().getStudentsAtEntrance().getStudentByColor(Color.BLUE) != 0)
-            try{game.moveStudentFromEntranceToIsland(game.getPlayers()[1],Color.BLUE, 2);} catch (NoSuchStudentException | IllegalArgumentException e) {assert false;}
+            try{game.moveStudentFromEntranceToIsland(game.getPlayers()[1],Color.BLUE, 2);} catch (GameException e) {assert false;}
         else {
             try{
                 game.getIslands().get(2).addStudent(Color.BLUE);
@@ -104,18 +105,18 @@ class GameManagerTest {
         if(game.getPlayers()[0].getSchool().getStudentsAtEntrance().getStudentByColor(Color.RED) == 0) {
             try {
                 game.moveStudentFromEntranceToIsland(players[0], Color.RED, 1);
-            } catch (IllegalArgumentException | NoSuchStudentException e) {
+            } catch (IllegalArgumentException | GameException e) {
                 assert true;
             }
         } else {
             try {
                 game.moveStudentFromEntranceToIsland(players[0], Color.RED, 1);
-            } catch (IllegalArgumentException | NoSuchStudentException e) {
+            } catch (IllegalArgumentException | GameException e) {
                 assert false;
             }
             try {
                 game.moveStudentFromEntranceToIsland(players[0], Color.RED, -1);
-            } catch (IllegalArgumentException | NoSuchStudentException e) {
+            } catch (IllegalArgumentException | GameException e) {
                 assert true;
             }
 

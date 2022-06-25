@@ -18,15 +18,8 @@ public class CharacterCardFour extends  CharacterCard{
         return this.price;
     }
 
-    @Override
-    public void activateEffect() {
 
-    }
 
-    @Override
-    public void applyEffect() {
-
-    }
 
     @Override
     public StudentHolder getStudentHolder() {

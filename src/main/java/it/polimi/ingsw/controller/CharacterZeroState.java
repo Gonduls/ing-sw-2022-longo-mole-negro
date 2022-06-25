@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.events.ChooseColorEvent;
 import it.polimi.ingsw.messages.events.ChooseIslandEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
@@ -41,7 +42,7 @@ public class CharacterZeroState extends CharacterState {
     }
 //TODO CHECKS THAT THIS WORKS AND THE REMOVE LEGACY CODE
     @Override
-    public void executeEvent(GameEvent event) throws Exception {
+    public void executeEvent(GameEvent event) throws GameException {
         switch( event.getEventType()){
 
             //to remove
@@ -83,7 +84,7 @@ public class CharacterZeroState extends CharacterState {
                 this.islandIndex=eventCast.getIslandIndex();
 
                 if(color == null || (islandIndex<0 || islandIndex > context.gameManager.getIslands().size() )){
-                    throw new Exception("wrong parameters");
+                    throw new GameException("wrong parameters");
                 }
 
                 try {

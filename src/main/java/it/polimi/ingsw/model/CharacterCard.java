@@ -13,8 +13,6 @@ public abstract class CharacterCard {
     ModelObserver modelObserver;
 
     public abstract int getPrice();
-    public abstract void activateEffect();
-    public abstract void applyEffect();
     public abstract StudentHolder getStudentHolder();
     public abstract void deactivateEffect();
 

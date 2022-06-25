@@ -31,7 +31,10 @@ public class CharacterElevenState extends CharacterState{
 
                 try {
                     p.getSchool().getStudentsAtTables().moveStudentTo(eventCast.getColor(),context.gameManager.getBag());
-                } catch (NoSpaceForStudentException ignored) {}
+                } catch (NoSpaceForStudentException ignored) {
+                    //this was left empty on purpose. The card dictates to do nothing   if the player has n
+                    // no more students of that color left
+                }
             }
         }
 
