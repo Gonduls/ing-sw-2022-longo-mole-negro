@@ -173,11 +173,16 @@ public class GameBoardController implements Initializable {
 
     public void boardSwitch(Node node, int islandIndex, int noEntriesNum) {
         switch (node.getId().replaceAll("[^A-Za-z]+", "")) {
-            case ("RED") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.RED).toString());
-            case ("YELLOW") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.YELLOW).toString());
-            case ("PINK") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
-            case ("GREEN") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
-            case ("BLUE") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
+            case("R") -> setStudentPieceInIsland(node, Color.RED, islandIndex);
+            case("B") -> setStudentPieceInIsland(node, Color.BLUE, islandIndex);
+            case("G") -> setStudentPieceInIsland(node, Color.GREEN, islandIndex);
+            case("P") -> setStudentPieceInIsland(node, Color.PINK, islandIndex);
+            case("Y") -> setStudentPieceInIsland(node, Color.YELLOW, islandIndex);
+            case ("RED") -> setStudentNumberInIsland(node, Color.RED, islandIndex);
+            case ("YELLOW") -> setStudentNumberInIsland(node, Color.YELLOW, islandIndex);
+            case ("PINK") -> setStudentNumberInIsland(node, Color.PINK, islandIndex);
+            case ("GREEN") -> setStudentNumberInIsland(node, Color.GREEN, islandIndex);
+            case ("BLUE") -> setStudentNumberInIsland(node, Color.BLUE, islandIndex);
             case ("TOWERNUM") -> {
                 int num = cmm.getIslands().get(islandIndex).getTowers();
                 if(num < 2)
@@ -212,6 +217,23 @@ public class GameBoardController implements Initializable {
 
         }
     }
+
+    public void setStudentPieceInIsland(Node node, Color color, int islandIndex){
+        int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
+        if(num == 0) {
+            node.setVisible(false);
+        }
+    }
+
+    public void setStudentNumberInIsland(Node node, Color color, int islandIndex){
+        int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
+        if(num < 2) {
+            node.setVisible(false);
+            return;
+        }
+        ((Label) node).setText(Integer.toString(num));
+    }
+
 
     //Sets the correct number of clouds per number of players
     private void setClouds(Node node) {
