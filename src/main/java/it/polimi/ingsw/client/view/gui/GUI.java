@@ -4,6 +4,7 @@ import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.server.RoomInfo;
@@ -29,6 +30,7 @@ public class GUI extends Application implements UI{
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     static GUI instance;
     private final boolean[] merged = new boolean[12];
+    private boolean setScene = false; //todo: when exiting game, set back to false
 
     public static GUI getInstance(){
         if(instance == null) {
@@ -66,6 +68,12 @@ public class GUI extends Application implements UI{
         if(cc.getPlayingPlayer() == -1)
             return;
 
+
+        if(setScene){
+            GameBoardController.getInstance().reprint();
+            return;
+        }
+
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
@@ -76,12 +84,12 @@ public class GUI extends Application implements UI{
                     root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
                     scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
-                    primaryStage.setFullScreen(true);
+                    primaryStage.setFullScreen(false);
                     primaryStage.setResizable(false);
                     primaryStage.setHeight(768);
                     primaryStage.setWidth(1366);
                     primaryStage.show();
-
+                    setScene = true;
                 } catch (IOException e) {
                     System.out.println(e.getMessage());
                     e.printStackTrace();
@@ -115,12 +123,6 @@ public class GUI extends Application implements UI{
         }
 
     }
-
-    public void setStage(Stage stage) {
-        primaryStage = stage;
-    }
-
-
 
     public void createClientController(String ip, int port) throws IOException{
         cc = new ClientController(this, ip, port);
@@ -172,6 +174,10 @@ public class GUI extends Application implements UI{
 
     public Stage getStage() {
         return primaryStage;
+    }
+
+    public void setStage(Stage stage) {
+        primaryStage = stage;
     }
 
     public void setUsername(String username) {

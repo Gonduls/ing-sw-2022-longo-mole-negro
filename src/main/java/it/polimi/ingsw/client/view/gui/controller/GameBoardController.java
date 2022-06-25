@@ -14,6 +14,7 @@ import it.polimi.ingsw.messages.events.*;
 import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -28,7 +29,7 @@ import java.net.URL;
 import java.util.*;
 
 public class GameBoardController implements Initializable {
-    static GameBoardController instance;
+    private static GameBoardController instance;
     public static GameBoardController getInstance(){
         if(instance == null)
             instance = new GameBoardController();
@@ -60,37 +61,46 @@ public class GameBoardController implements Initializable {
     private Label MESSAGES;
 
     //used to change images of students
-    private static int numberOfReds = 0;
-    private static int numberOfBlues = 0;
-    private static int numberOfGreens = 0;
-    private static int numberOfYellows = 0;
-    private static int numberOfPinks = 0;
+    private int numberOfReds = 0;
+    private int numberOfBlues = 0;
+    private int numberOfGreens = 0;
+    private int numberOfYellows = 0;
+    private int numberOfPinks = 0;
 
-    private static int currentDRColor = 0;
-    private static int iteratorDR = 0;
+    private int currentDRColor = 0;
+    private int iteratorDR = 0;
 
-    private static int iteratorTowers = 0;
-    private static int currentTowerNumber = 0;
+    private int iteratorTowers = 0;
 
-    private static int player;
+    private int player;
 
 
     //getting an instance of ClientModelManager and ClientController from an instance of GUI in order to initialize the game
-    private ClientModelManager cmm = GUI.getInstance().getClientModelManager();
-    private ClientController cc = GUI.getInstance().getClientController();
-    private int numberOfPlayers = cmm.getPlayers().length;
-    private boolean expert = cmm.isExpert();
+    private final ClientModelManager cmm = GUI.getInstance().getClientModelManager();
+    private final ClientController cc = GUI.getInstance().getClientController();
+    private final int numberOfPlayers = cmm.getPlayers().length;
+    private final boolean expert = cmm.isExpert();
 
-    private static int studentNumber = 0;
+    private int studentNumber = 0;
     private Integer[] indexes;
-    private static int indexesIterator = 0;
+    private int indexesIterator = 0;
 
-    private static ArrayList<Image> deck;
-    private static int ACindex = 0;
-    private static int totalStudentsNumber = 0;
+    private ArrayList<Image> deck;
+    private int ACindex = 0;
+    private int totalStudentsNumber = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
+        instance = new GameBoardController();
+        instance.BOARD = this.BOARD;
+        instance.ISLANDS = this.ISLANDS;
+        instance.COIN = this.COIN;
+        instance.OWNEDCOINS = this.OWNEDCOINS;
+        instance.ASSISTANTCARD = this.ASSISTANTCARD;
+        instance.ASSISTANTCARDDECK = this.ASSISTANTCARDDECK;
+        instance.CHARACTERCARDS = this.CHARACTERCARDS;
+        instance.MESSAGES = this.MESSAGES;
 
         //setting board for game start
         if (!expert) {
@@ -110,9 +120,10 @@ public class GameBoardController implements Initializable {
             CHARACTERCARDS.setDisable(true);
         } else{
             indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
+            OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
+            OWNEDCOINS.setVisible(true);
         }
 
-        OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
 
         //enables and links adversaries school boards depending on the number of players
         switch (numberOfPlayers) {
@@ -133,8 +144,11 @@ public class GameBoardController implements Initializable {
         
     }
 
-    private void reprint() {
-        BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
+    public void reprint() {
+        // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
+        Platform.runLater(
+                () -> BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard)
+        );
     }
 
 
@@ -220,9 +234,7 @@ public class GameBoardController implements Initializable {
     // if no students of that color are present => don't show student piece
     public void setStudentPieceInIsland(Node node, Color color, int islandIndex){
         int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
-        if(num == 0) {
-            node.setVisible(false);
-        }
+        node.setVisible(num != 0);
     }
 
     // if non number is needed for that color => don't show number, else set number
@@ -232,16 +244,16 @@ public class GameBoardController implements Initializable {
             node.setVisible(false);
             return;
         }
+        node.setVisible(true);
         ((Label) node).setText(Integer.toString(num));
     }
 
 
     //Sets the correct number of clouds per number of players
     private void setClouds(Node node) {
-        int cloudsNumber = numberOfPlayers;
         int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
 
-        if(cloudIndex >= cloudsNumber)
+        if(cloudIndex >= numberOfPlayers)
             return;
 
         setNumberOfStudents(cmm.getCloud(cloudIndex));
@@ -278,8 +290,9 @@ public class GameBoardController implements Initializable {
                     return;
                 studentNumber++;
                 setStudents(x);
+                /*
                 x.setVisible(true);
-                x.setDisable(false);
+                x.setDisable(false);*/
             });
             studentNumber = 0;
         }
@@ -314,7 +327,7 @@ public class GameBoardController implements Initializable {
             }
         }
 
-        currentTowerNumber = cmm.getTowers(getThisPlayerIndex());
+        int currentTowerNumber = cmm.getTowers(getThisPlayerIndex());
         if (iteratorTowers < currentTowerNumber) {
             node.setVisible(true);
             iteratorTowers++;
@@ -420,6 +433,7 @@ public class GameBoardController implements Initializable {
 
     //Sets the correct image for the Students when they're choosen randomly
     public void setStudents(Node node) {
+        node.setVisible(true);
         if (numberOfReds > 0) {
             Image image = RedirectResources.studentsImages("RED");
             ((ImageView) node).setImage(image);
@@ -623,6 +637,7 @@ public class GameBoardController implements Initializable {
             ((Node)event.getSource()).setVisible(false);
         }
         event.consume();
+        reprint();
     }
 
     @FXML
@@ -671,6 +686,8 @@ public class GameBoardController implements Initializable {
             if(answer.getMessageType() == MessageType.NACK){
                 MESSAGES.setText(((Nack) answer).getErrorMessage());
                 MESSAGES.setVisible(true);
+            } else {
+                MESSAGES.setVisible(false);
             }
         }
     }
