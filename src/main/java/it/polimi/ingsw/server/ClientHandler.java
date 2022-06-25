@@ -109,7 +109,6 @@ public class ClientHandler implements Runnable{
             }
         }
     }
-
     /**
      * Listens for a Login message at the start of a connection. It loops until a unique username is given.
      * @throws IOException if the input/output stream does not function properly

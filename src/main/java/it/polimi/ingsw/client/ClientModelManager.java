@@ -7,8 +7,6 @@ import it.polimi.ingsw.model.*;
 
 import java.util.*;
 
-import static java.lang.Math.max;
-
 public class ClientModelManager {
     private final EnumMap<Color, Integer>[] entrances, diningRooms, clouds;
     private final List<AssistantCard> deck;
@@ -22,7 +20,7 @@ public class ClientModelManager {
     private final HashMap<Integer, EnumMap<Color, Integer>> characterStudents;
     private int noEntries;
     private final UI ui;
-    private boolean expert;
+    private final boolean expert;
 
     ClientModelManager(String[] players, boolean expert, UI ui) {
         int numberOfPlayers = players.length;
@@ -170,12 +168,7 @@ public class ClientModelManager {
                 SetProfessorTo spt = (SetProfessorTo) message;
                 professors.put(spt.color(), spt.player());
             }
-            case MOVE_MOTHER_NATURE -> {
-                MoveMotherNature mmn = (MoveMotherNature) message;
-                //motherNature = (motherNature + mmn.steps()) % islands.size();
-                // the name of the function is misleading. It's directly the new position of mother nature
-                motherNature = mmn.position();
-            }
+            case MOVE_MOTHER_NATURE -> motherNature = ((MoveMotherNature) message).position();
             case PLAY_ASSISTANT_CARD -> {
                 PlayAssistantCard pac = (PlayAssistantCard) message;
                 deck.remove(pac.assistantCard());

@@ -19,7 +19,7 @@ public class JoinGameController {
         boolean canAccessRoom = GUI.getInstance().getClientController().accessRoom(Integer.parseInt(roomID.getText()));
         if(canAccessRoom) {
             GUI.getInstance().setInARoom(true);
-            GUI.getInstance().printStatus();
+            GUI.getInstance().refresh();
         }else
             cantAccessRoom.setVisible(true);
 

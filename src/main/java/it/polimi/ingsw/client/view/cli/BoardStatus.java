@@ -13,11 +13,19 @@ import java.util.*;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
+/**
+ * Takes care of all the board related prints in CLI
+ */
 public class BoardStatus {
     private final Coordinates[] clouds, schools;
     private final List<Coordinates> islands = new ArrayList<>();
     private final boolean expert;
 
+    /**
+     * Initializes the board status by setting coordinates and items based on parameters passed.
+     * @param numberOfPlayers The number of playing players, 2, 3 or 4
+     * @param expert True if the game is expert mode, false otherwise
+     */
     public BoardStatus(int numberOfPlayers, boolean expert){
         this.expert = expert;
         clouds = new Coordinates[numberOfPlayers];
@@ -60,14 +68,19 @@ public class BoardStatus {
         printClear();
     }
 
-    public void merge(int a){
-        islands.remove(islands.get(a));
+    /**
+     * Removes the island coordinates at the target index, from the list containing all islands' coordinates
+     * @param islandIndex The target island to be removed from the view
+     */
+    public void merge(int islandIndex){
+        islands.remove(islands.get(islandIndex));
     }
 
-    public List<Coordinates> getIslandsCoords() {
-        return islands;
-    }
-
+    /**
+     * Refreshes the board by clearing all the target lines and printing back on top
+     * @param cmm Has the pieces of information regarding students, towers and professors
+     * @param cc Has the pieces of information regarding Assistant Cards, Character Cards, phase, turn, players
+     */
     public void printStatus(ClientModelManager cmm, ClientController cc){
         printClearBoard();
 
@@ -81,6 +94,10 @@ public class BoardStatus {
         AnsiConsole.systemUninstall();
     }
 
+    /**
+     * For all islands in the model, prints island content
+     * @param cmm The model containing needed information
+     */
     void printIslands(ClientModelManager cmm){
         Ansi ansi = Ansi.ansi();
         int i = 0;
@@ -104,7 +121,7 @@ public class BoardStatus {
 
             // printing noEntries
             if(ci.getNoEntry() > 0){
-                ansi.cursor(y + 1, x + 7).a(render("X", Ansi.Color.RED));
+                ansi.cursor(y + 1, x + 7).a(render("X", 0xff0000));
             }
 
             // printing MN
@@ -118,7 +135,7 @@ public class BoardStatus {
             if(ci.getTowers() >0 && ci.getTc() != null){
                 switch (ci.getTc()) {
                     case BLACK -> ansi.a("T:").fgBrightBlack().a(ci.getTowers()).fgDefault();
-                    case WHITE -> ansi.a("T:").a(render(ci.getTowers(), Ansi.Color.WHITE));
+                    case WHITE -> ansi.a("T:" + ci.getTowers());
                     case GREY -> ansi.a("T:").a(render(ci.getTowers(), 0xa8a8a8));
                 }
             }
@@ -135,6 +152,11 @@ public class BoardStatus {
         }
     }
 
+    /**
+     * Prints all schools with relative player name and coins
+     * @param cmm The model containing needed information
+     * @param players The playing players' names
+     */
     void printSchools(ClientModelManager cmm, String[] players){
         Ansi ansi = Ansi.ansi();
         int j = 0;
@@ -188,7 +210,7 @@ public class BoardStatus {
             if(cmm.getTowers(j) > 0){
                 switch (j) {
                     case 0 -> ansi.fgBrightBlack().a("T:B" + cmm.getTowers(j)).fgDefault();
-                    case 1 -> ansi.a(render("T:W" + cmm.getTowers(j), Ansi.Color.WHITE));
+                    case 1 -> ansi.a("T:W" + cmm.getTowers(j));
                     default -> ansi.a(render("T:G" + cmm.getTowers(j), 0xa8a8a8a8));
                 }
             } else {
@@ -208,6 +230,10 @@ public class BoardStatus {
         }
     }
 
+    /**
+     * For all clouds in the model, prints cloud content
+     * @param cmm The model containing needed information
+     */
     void printClouds(ClientModelManager cmm){
         Ansi ansi = Ansi.ansi();
         int i = 0;
@@ -239,6 +265,13 @@ public class BoardStatus {
         }
     }
 
+    /**
+     * Prints the player that is playing the turn, the phase that he is in and
+     * the possible actions available at that given point
+     * @param player The player that has to play the turn
+     * @param phase The phase the playing player is in
+     * @param actions The actions currently available
+     */
     public void printInfo(String player, GamePhase phase, List<String> actions){
         Ansi ansi = Ansi.ansi();
 
@@ -283,6 +316,12 @@ public class BoardStatus {
         AnsiConsole.out().print(ansi);
     }
 
+    /**
+     * Prints Assistant card deck with relative maximum step per card,
+     * if the mode is expert prints information relative to character cards
+     * @param cmm The model containing needed information
+     * @param cc Contains cards played during current turn
+     */
     void printCards(ClientModelManager cmm, ClientController cc){
         Ansi ansi = Ansi.ansi();
         List<String> lines = new ArrayList<>();
@@ -371,6 +410,9 @@ public class BoardStatus {
         AnsiConsole.out().print(ansi);
     }
 
+    /**
+     * Clears out all rows containing board elements
+     */
     void printClearBoard() {
         AnsiConsole.systemInstall();
         Ansi ansi = Ansi.ansi();
@@ -382,6 +424,9 @@ public class BoardStatus {
         AnsiConsole.systemUninstall();
     }
 
+    /**
+     * erases everything
+     */
     static void printClear(){
         AnsiConsole.systemInstall();
         Ansi ansi = Ansi.ansi();
@@ -390,7 +435,13 @@ public class BoardStatus {
         AnsiConsole.systemUninstall();
     }
 
-    public Object renderColor(Object object, Color color){
+    /**
+     * Creates an ansi object based on the color passed, " " if the passed object is 0
+     * @param object The object that is to be converted to an ansi colored object
+     * @param color The chosen color
+     * @return An ansi object based on the color passed
+     */
+    private Object renderColor(Object object, Color color){
 
         if (object.getClass() == Integer.class){
             int a = (Integer) object;
@@ -406,10 +457,14 @@ public class BoardStatus {
             case YELLOW -> ansi().fgBrightYellow().a(object).fgDefault();
         };
     }
-    public Object render(Object object, Ansi.Color color){
-        return ansi().fgBright(color).a(object).fgDefault();
-    }
-    public Object render(Object object, int hexadecimal){
+
+    /**
+     * Renders an object into an ansi colored object
+     * @param object The object to be rendered
+     * @param hexadecimal The color of the rendering
+     * @return The rendered object
+     */
+    private Object render(Object object, int hexadecimal){
         return ansi().fgRgb(hexadecimal).a(object).fgDefault();
     }
 }

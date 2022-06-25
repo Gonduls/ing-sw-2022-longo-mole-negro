@@ -53,17 +53,13 @@ public class GUI extends Application implements UI{
         primaryStage = stage;
     }
 
-
-    @Override
-    public void killGame(){}
-
     @Override
     public void merge(int secondIsland) {
         merged[getIsland12Index(secondIsland)] = true;
     }
 
     @Override
-    public void printStatus() {
+    public void refresh() {
         //GameBoardController.getInstance.
         if(cc.getPlayingPlayer() == -1)
             return;

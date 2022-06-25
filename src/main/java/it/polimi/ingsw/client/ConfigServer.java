@@ -1,22 +1,23 @@
 package it.polimi.ingsw.client;
 
+/**
+ * Class needed to read config json file
+ */
 public class ConfigServer {
-    String address;
-    int port;
+    private String address;
+    private int port;
 
+    /**
+     * @return port
+     */
     public int getPort() {
         return port;
     }
 
+    /**
+     * @return ip address
+     */
     public String getAddress() {
         return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setPort(int port) {
-        this.port = port;
     }
 }

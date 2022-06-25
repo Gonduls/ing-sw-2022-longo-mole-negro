@@ -27,13 +27,15 @@ import org.fusesource.jansi.AnsiConsole;
 
 import static org.fusesource.jansi.Ansi.ansi;
 
-
+/**
+ * Deals with user inputs and outputs if the player chose to play with the CLI option
+ */
 public class CLI implements UI {
     private ClientController clientController;
+    private ClientModelManager cmm;
     private final Scanner input;
     private String username;
     boolean inARoom = false, kill;
-    private ClientModelManager cmm;
     private BoardStatus bs;
     private Thread action;
     boolean logout = false;
@@ -41,23 +43,31 @@ public class CLI implements UI {
     private static CLI instance;
     private final AtomicBoolean gameRunning;
 
+    /**
+     * Sets log file and final fields
+     */
     private CLI() {
         this.input = new Scanner(System.in);
         new Log("CliLog.txt");
         gameRunning = new AtomicBoolean(false);
     }
 
+    /**
+     * Implements singleton pattern
+     * @return the one and only cli instance
+     */
     public static CLI getInstance() {
         if(instance == null)
             instance = new CLI();
         return instance;
     }
 
+    /**
+     * Cli main function, after connection and login alternates pregame with game function
+     */
     public void start(){
         // initializing connections
-        AnsiConsole.systemInstall();
         printClear();
-        AnsiConsole.systemUninstall();
 
         System.out.println("Welcome to ");
         gameTitle();
@@ -139,6 +149,9 @@ public class CLI implements UI {
         } while(!logout);
     }
 
+    /**
+     * Pre game phase, loops until player joins/creates a room or logs out
+     */
     public void preGame(){
         int playersNumber;
         do{
@@ -244,6 +257,9 @@ public class CLI implements UI {
         }while(!inARoom);
     }
 
+    /**
+     * Game phase, loops while game is running listening for user inputs
+     */
     public void game() {
 
         while(!kill){
@@ -272,11 +288,12 @@ public class CLI implements UI {
             if(actionString!= null)
                 dealWithAction();
         }
-        System.out.println("ending game");
     }
 
+    /**
+     * Prints game title in ascii art
+     */
     public void gameTitle() {
-        AnsiConsole.systemInstall();
         System.out.print("""
                                                                                                                                                                      \s
                         ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                      \s
@@ -300,17 +317,19 @@ public class CLI implements UI {
                                                                                                                                   .....~B&&&Y~^:^^7!.....            \s
                                                                                                                                   ......:!Y5P5?7!^:.....             \s
                 """);
-
-
-        AnsiConsole.systemUninstall();
-
     }
 
+    /**
+     * Sets game starting parameters and sets gameRunning to true, notifying all on gameRunning
+     * @param numberOfPlayers Either 2, 3, or 4
+     * @param expert True if game is expert mode, false otherwise
+     * @param cmm The ClientModelManager connected to the starting game
+     */
     @Override
-    public void createGame(int numberOfPlayer, boolean expert, ClientModelManager cmm){
+    public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm){
         printClear();
         this.cmm = cmm;
-        this.bs = new BoardStatus(numberOfPlayer, expert);
+        this.bs = new BoardStatus(numberOfPlayers, expert);
         gameRunning.set(true);
 
         synchronized (gameRunning){
@@ -318,8 +337,11 @@ public class CLI implements UI {
         }
     }
 
+    /**
+     * Refreshes view starting from the first turn change, to avoid waiting for useless prints
+     */
     @Override
-    public void printStatus() {
+    public void refresh() {
         if(clientController.getPlayingPlayer() == -1)
             return;
         printClear();
@@ -328,6 +350,10 @@ public class CLI implements UI {
             action.interrupt();
     }
 
+    /**
+     * Prints out all public rooms to the player
+     * @param rooms The room info relative to the public rooms
+     */
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
         System.out.println(ansi().render("@|bg_black,bold,fg_yellow Public Games:|@").bgDefault().fgDefault());
@@ -344,6 +370,10 @@ public class CLI implements UI {
 
     }
 
+    /**
+     * Prints NACK, ADD_PLAYER, END_GAME, PLAYER_DISCONNECT message to the player
+     * @param message the message to be printed
+     */
     @Override
     public void showMessage(Message message) {
         switch (message.getMessageType()) {
@@ -381,7 +411,18 @@ public class CLI implements UI {
         }
     }
 
+    /**
+     * Calls BoardStatus merge()
+     * @param secondIsland The index of the island that was removed in the model
+     */
     @Override
+    public void merge(int secondIsland){
+        bs.merge(secondIsland);
+    }
+
+    /**
+     * Sets kill parameters to make game phase come to an end
+     */
     public void killGame(){
         kill = true;
         inARoom = false;
@@ -392,16 +433,18 @@ public class CLI implements UI {
         System.out.println("Press anything to return to Lobby.");
     }
 
-    @Override
-    public void merge(int secondIsland){
-        bs.merge(secondIsland);
-    }
-
-
+    /**
+     * Clears the screen
+     */
     void printClear() {
         BoardStatus.printClear();
     }
 
+    /**
+     * Based on the action string received and the actions available from clientController.getActions(),
+     * checks if action string is valid and then creates and sends GameEvent accordingly,
+     * printing error message or cleaning error messages if needed
+     */
     private void dealWithAction(){
         if(actionString == null)
             return;
@@ -462,7 +505,7 @@ public class CLI implements UI {
                 }
                 case ("Display card # effect") -> {
                     printClear();
-                    printStatus();
+                    refresh();
                     System.out.println(CharacterCard.description(Integer.parseInt(actionString)));
                     System.out.print("            > ");
 
@@ -507,7 +550,7 @@ public class CLI implements UI {
                 }
                 default -> {
                     printClear();
-                    printStatus();
+                    refresh();
                     if(action != null)
                         action.interrupt();
                     return;
@@ -522,10 +565,7 @@ public class CLI implements UI {
             Message answer = clientController.performEvent(event);
             if(answer.getMessageType() == MessageType.ACK) {
                 printClear();
-                printStatus();
-                actionString = null;
-                if(action != null)
-                    action.interrupt();
+                refresh();
             }
             if(answer.getMessageType() == MessageType.NACK){
                 AnsiConsole.systemInstall();
@@ -534,17 +574,25 @@ public class CLI implements UI {
                 AnsiConsole.out().print(Ansi.ansi().cursorRight(13).a("> "));
 
                 AnsiConsole.systemUninstall();
-                actionString = null;
-                if(action != null)
-                    action.interrupt();
             }
+
+            actionString = null;
+            if(action != null)
+                action.interrupt();
         }
     }
 
-    private Color parseColor(String s) throws NumberFormatException{
-        s = s.toUpperCase().trim();
+    /**
+     * Helps dealWithAction function by parsing the color name given,
+     * throwing an exception if a non-matching string is given
+     * @param colorName The string containing one of the possible Color values
+     * @return The Color value corresponding to the name
+     * @throws NumberFormatException If the name passed does not correspond to any of the color values
+     */
+    private Color parseColor(String colorName) throws NumberFormatException{
+        colorName = colorName.toUpperCase().trim();
         for(Color c : Color.values()){
-            if(s.equals(c.name()))
+            if(colorName.equals(c.name()))
                 return c;
         }
         throw new NumberFormatException();
