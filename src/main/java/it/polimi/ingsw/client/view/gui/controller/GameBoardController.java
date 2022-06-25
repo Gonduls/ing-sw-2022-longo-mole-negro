@@ -4,7 +4,6 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
-import it.polimi.ingsw.client.view.cli.CLI;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
 import it.polimi.ingsw.messages.GameEvent;
@@ -218,6 +217,7 @@ public class GameBoardController implements Initializable {
         }
     }
 
+    // if no students of that color are present => don't show student piece
     public void setStudentPieceInIsland(Node node, Color color, int islandIndex){
         int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
         if(num == 0) {
@@ -225,6 +225,7 @@ public class GameBoardController implements Initializable {
         }
     }
 
+    // if non number is needed for that color => don't show number, else set number
     public void setStudentNumberInIsland(Node node, Color color, int islandIndex){
         int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
         if(num < 2) {
@@ -239,22 +240,24 @@ public class GameBoardController implements Initializable {
     private void setClouds(Node node) {
         int cloudsNumber = numberOfPlayers;
         int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
-        if (cloudIndex < cloudsNumber) {
-            setNumberOfStudents(cmm.getCloud(cloudIndex));
-            node.setVisible(true);
-            node.setDisable(false);
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
-                if (b.getId().startsWith("STUDENT")) {
-                    studentNumber++;
-                    if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
-                        b.setVisible(false);
-                        studentNumber = 0;
-                    } else {
-                        setStudents(b);
-                    }
+
+        if(cloudIndex >= cloudsNumber)
+            return;
+
+        setNumberOfStudents(cmm.getCloud(cloudIndex));
+        node.setVisible(true);
+        node.setDisable(false);
+        ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(b -> {
+            if (b.getId().startsWith("STUDENT")) {
+                studentNumber++;
+                if ((studentNumber == 4) && (numberOfPlayers == 2 || numberOfPlayers == 4)) {
+                    b.setVisible(false);
+                    studentNumber = 0;
+                } else {
+                    setStudents(b);
                 }
-            });
-        }
+            }
+        });
     }
 
     //Sets all the elements of the Players' schools
@@ -437,6 +440,8 @@ public class GameBoardController implements Initializable {
             Image image = RedirectResources.studentsImages("YELLOW");
             ((ImageView) node).setImage(image);
             numberOfYellows--;
+        } else{
+            node.setVisible(false);
         }
     }
 
@@ -628,7 +633,7 @@ public class GameBoardController implements Initializable {
     }
 
     private void dealWithAction(String action, String param1, String param2) {
-        GameEvent gameEvent = null;
+        GameEvent gameEvent;
 
         switch (action) {
             case "Play AC" -> {
@@ -653,9 +658,9 @@ public class GameBoardController implements Initializable {
                 int cloudIndex = Integer.parseInt(param1);
                 gameEvent = new ChooseCloudTileEvent(cloudIndex, cc.getPlayingPlayer());
             }
-            case "Activate CC" -> {
-                //gameEvent = new ActivateCharacterCardEvent();
-            }
+            /*case "Activate CC" -> {
+                gameEvent = new ActivateCharacterCardEvent();
+            }*/
             default -> gameEvent = null;
 
         }
