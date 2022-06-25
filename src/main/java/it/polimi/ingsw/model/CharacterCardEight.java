@@ -8,7 +8,9 @@ import it.polimi.ingsw.controller.RoundController;
 import it.polimi.ingsw.server.ModelObserver;
 
 /**
- * scegli un isola e calcola la sua influenza come se madre natura fosse caduta lì.
+ *
+ * Choose an island calculate the influence as if mother nature was on it.
+ * This card generates a Character State.
  */
 public class CharacterCardEight extends CharacterCard {
 

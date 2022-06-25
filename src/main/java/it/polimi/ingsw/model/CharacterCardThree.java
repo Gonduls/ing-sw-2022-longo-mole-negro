@@ -8,7 +8,6 @@ import it.polimi.ingsw.server.ModelObserver;
 
 
 /**
- *
  * When activated it swaps up to two students from the entrance to the dining room and vice-versa.
  * It moves up to 4 students.
  */
@@ -41,7 +40,7 @@ public class CharacterCardThree extends CharacterCard{
 
     @Override
     public void deactivateEffect() {
-
+        // there is nothing to deactivate
     }
 
     @Override

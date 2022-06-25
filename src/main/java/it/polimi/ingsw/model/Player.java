@@ -101,8 +101,9 @@ public class Player {
     /**
      * Removes the picked card from the ones left in the player's deck
      * 
-     * @param card: The assistant card picked
-     * @throws InvalidParameterException: if the deck does not contain the designated card
+     * @param card: The assistant card picked.
+     * @throws InvalidParameterException if the card was already played
+     *
      */
     public void pickCard(AssistantCard card) throws InvalidParameterException{
         if(deck.contains(card))
@@ -120,8 +121,8 @@ public class Player {
     }
 
     /**
-     * @param coinsNumber: the amount of coins that the player paid
-     * @throws InvalidParameterException: if the player does not have enough coins to be able to pay
+     * @param coinsNumber: the amount of coins that the player paid.
+     * @throws InvalidParameterException Thrown if the player has less than coinsNumber coins.
      */
     public void removeCoins(int coinsNumber) throws InvalidParameterException {
         if(coinsNumber > coinsOwned)

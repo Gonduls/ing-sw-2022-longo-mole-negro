@@ -5,6 +5,7 @@ import it.polimi.ingsw.server.ModelObserver;
 
 /**
  * It has 4 for no entry token on it. When activated a player can choose an island on which put a token from the card.
+ * This card generates a Character State.
  *
  */
 public class CharacterCardFive extends CharacterCard{
@@ -24,10 +25,6 @@ public class CharacterCardFive extends CharacterCard{
         return this.price;
     }
 
-
-
-
-
     @Override
     public StudentHolder getStudentHolder() {
         return null;
@@ -35,9 +32,8 @@ public class CharacterCardFive extends CharacterCard{
 
     @Override
     public void deactivateEffect() {
-
+    // there is nothing to deactivate
     }
-
 
     public int getNoEntryToken() {
         return noEntryToken;

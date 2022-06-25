@@ -6,9 +6,8 @@ import it.polimi.ingsw.server.ModelObserver;
 import java.util.EnumMap;
 
 /**
- *
- *
- * durante il calcolo dell’influenza, chi ha attivato la carta, ha +2 sul calcolo dell’influenza
+ * During the calculation for the influence, the current player has +2 bonus.
+ *  This card doesn't generate a Character State.
 */
 public class CharacterCardSix extends CharacterCard{
 

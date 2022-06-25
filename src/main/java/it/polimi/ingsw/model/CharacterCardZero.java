@@ -7,7 +7,8 @@ import it.polimi.ingsw.server.ModelObserver;
 /**
  *  It's a card with 4 students on.
  *  When activated the player chooses a student on the card and moves it into an island.
- *  Then a new student is moved from the bag to the card
+ *  Then a new student is drawn from the bag to the card.
+ *
  */
 public class CharacterCardZero extends CharacterCard {
 
@@ -25,6 +26,7 @@ public class CharacterCardZero extends CharacterCard {
                 studentHolder.addStudent(colorTemp);
                 this.modelObserver.addStudentToCard(this.id, colorTemp );
             } catch (NoSpaceForStudentException ignored) {
+                //there is always room for students
             }
 
         }
@@ -37,9 +39,6 @@ public class CharacterCardZero extends CharacterCard {
 
 
 
-
-
-
     @Override
     public StudentHolder getStudentHolder() {
         return studentHolder;
@@ -47,9 +46,10 @@ public class CharacterCardZero extends CharacterCard {
 
     @Override
     public void deactivateEffect() {
-
+        //there is nothing to deactivate
     }
 
+    @Override
     public CharacterState getCharacterState(RoundController context, GameState nextState){
 
         return new CharacterZeroState(context,2,nextState, this);

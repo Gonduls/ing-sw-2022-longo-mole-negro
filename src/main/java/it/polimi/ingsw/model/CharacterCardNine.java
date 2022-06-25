@@ -4,8 +4,8 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.server.ModelObserver;
 
 /**
- *
- *durante il conteggio dell’influenza, le torri non vengono calcolate
+ * Towers do not count towards the influence.
+ * This card doesn't generate a Character State.
  *
  */
 
@@ -33,6 +33,6 @@ public class CharacterCardNine extends  CharacterCard{
 
     @Override
     public void deactivateEffect() {
-
+    // there is nothing to deactivate
     }
 }

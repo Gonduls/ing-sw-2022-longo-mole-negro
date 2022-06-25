@@ -8,8 +8,8 @@ import it.polimi.ingsw.server.ModelObserver;
 
 /**
  *
- * scegli un colore, in questo turno il colore scelto non fornisce influenza
- *
+ * Choose a color, in this turn the chosen color will not count towards the influence.
+ *  This card  generates a Character State.
  */
 
 public class CharacterCardTen extends  CharacterCard{
@@ -46,6 +46,7 @@ public class CharacterCardTen extends  CharacterCard{
         this.color = color;
     }
 
+    @Override
     public CharacterState getCharacterState(RoundController context, GameState nextState){
 
         return new CharacterTenState(context,1,nextState,this);

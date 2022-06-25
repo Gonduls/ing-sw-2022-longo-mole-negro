@@ -8,10 +8,9 @@ import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.server.ModelObserver;
 
 /**
- *
- * è una carta con 4 studenti.
- * prendi 1 studente dalla carta e mettilo nella tua sala.
- * Pesca un nuovo studente per la carta
+ * It's a card with 4 students on it.
+ * The player can pick a student from the card and put it into the entrance.
+ *  This card  generates a Character State.
  */
 
 public class CharacterCardSeven extends  CharacterCard{
@@ -30,7 +29,7 @@ public class CharacterCardSeven extends  CharacterCard{
                modelObserver.addStudentToCard(this.id, colorTemp);
            }
            catch (NoSpaceForStudentException ignored){
-
+                //there is always space in the card.
            }
 
        }
@@ -51,7 +50,7 @@ public class CharacterCardSeven extends  CharacterCard{
 
     @Override
     public void deactivateEffect() {
-
+    // there is nothing to deactivate
     }
 
     @Override

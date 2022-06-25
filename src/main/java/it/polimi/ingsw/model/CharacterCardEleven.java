@@ -8,7 +8,10 @@ import it.polimi.ingsw.server.ModelObserver;
 
 /**
  *
- * le scelte possibili sono: isole, studenti sulla carta, studenti fuori dalla carta, colore
+ *  Choose a color, then every player must return 3 students of that type from
+ *  their dining room to the bag.
+ *  This card generates a Character State.
+ *
  */
 
 public class CharacterCardEleven extends CharacterCard{
@@ -33,10 +36,10 @@ public class CharacterCardEleven extends CharacterCard{
 
     @Override
     public void deactivateEffect() {
-
+        // there's nothing to deactivate
     }
 
-
+    @Override
     public CharacterState getCharacterState(RoundController controller, GameState nextState){
 
         return new CharacterElevenState(controller,1, nextState,this);
