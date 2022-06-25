@@ -57,7 +57,21 @@ This message has no arguments.
  - Nack: the client was not correctly logged out.
 
 
-### 1.5. CreateRoom
+
+### 1.5 PlayerDisconnect
+This message is sent from the server to all clients when a player is disconnected from the server.
+#### Arguments
+- player: the player's username
+
+#### Possible responses
+
+This message has no responses.
+
+
+
+
+
+### 1.6. CreateRoom
 
 This message is sent from the client to the server to create and access a new room.
 
@@ -72,7 +86,7 @@ This message is sent from the client to the server to create and access a new ro
  - Ack: when the room was correctly created
  - Nack: when there were errors in the making of the room
 
-### 1.6. RoomId
+### 1.7. RoomId
 
 This message is sent from the server to the client that creates a game, in order to communicate the roomId. This information is necessary for other clients in order to access the created game.
 
@@ -85,7 +99,7 @@ This message is sent from the server to the client that creates a game, in order
  This message has no responses.
 
 
-### 1.7. GetPublicRooms 
+### 1.8. GetPublicRooms 
 
 This message is sent from the client to the server to get a list of all public rooms currently initializing, along with the number of players that that room will hold and if the game played in the room will be in expert mode.
 
@@ -100,7 +114,7 @@ This message can have optional parameters to filter through all games:
  - PublicRooms: if the parameters where not illegal
  - Nack: if number of player is not in (2, 3, 4)
 
-### 1.8. PublicRooms 
+### 1.9. PublicRooms 
 
 This message is sent from the server to the client after he logs in, or in response to a GetPublicRooms message. It holds a list of all public games (or the ones that meet the criterias of the request) and their relative information.
 
@@ -113,7 +127,7 @@ This message is sent from the server to the client after he logs in, or in respo
 This message has no responses. 
 
 
-### 1.9. AccessRoom 
+### 1.10. AccessRoom 
 
 This message is sent from the client to the server, in order to access a room.
 
@@ -127,7 +141,7 @@ This message is sent from the client to the server, in order to access a room.
  - Nack: if the room does not exist or if the room is already full
 
 
-### 1.10. AddPlayer 
+### 1.11. AddPlayer 
 
 This message is sent from the server to the client, while the client is in a room, in response to players being added to the room.
 
@@ -141,7 +155,7 @@ This message is sent from the server to the client, while the client is in a roo
 
 This message has no responses.
 
-### 1.11. StartGame 
+### 1.12. StartGame 
 
 This message is sent from the server to all clients in a room when all playing players have been added to the room, to indicate that the game can start.
 
@@ -153,7 +167,7 @@ This message has no arguments.
 
 This message has no responses.
 
-### 1.12. MoveStudent 
+### 1.13. MoveStudent 
 
 This message is sent from the server to all clients in a room in order to communicate the movement of a student, as a consequence of a GameEvent or an internal event.
 
@@ -168,7 +182,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.13. AddStudentTo 
+### 1.14. AddStudentTo 
 
 This message is sent from the server to all clients in a room in order to communicate the placement of a student, as a consequence of a GameEvent or an internal event.
 
@@ -182,7 +196,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.14. MoveTower 
+### 1.15. MoveTower 
 
 This message is sent from the server to all clients in a room in order to communicate the movement of a tower, as a consequence of a GameEvent or an internal event.
 
@@ -196,7 +210,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.15. MergeIslands 
+### 1.16. MergeIslands 
 
 This message is sent from the server to all clients in a room in order to communicate the merging of two islands.
 
@@ -209,7 +223,7 @@ This message is sent from the server to all clients in a room in order to commun
 
 This message has no responses.
 
-### 1.16. SetProfessorTo 
+### 1.17. SetProfessorTo 
 
 This message is sent from the server to all clients in a room when the ownership of a professor is changed.
 
@@ -223,7 +237,7 @@ This message is sent from the server to all clients in a room when the ownership
 This message has no responses.
 
 
-### 1.17. MoveMotherNature
+### 1.18. MoveMotherNature
 
 This message is sent from the server to all clients in a room when Mother Nature needs to be moved.
 
@@ -235,7 +249,7 @@ This message is sent from the server to all clients in a room when Mother Nature
 
 This message has no responses.
 
-### 1.18. PlayAssistanCard 
+### 1.19. PlayAssistantCard 
 
 This message is sent from the server to all clients in a room in order to communicate that the current playing player has played a card.
 
@@ -247,7 +261,7 @@ This message is sent from the server to all clients in a room in order to commun
 
 This message has no responses.
 
-### 1.19. ActivateCharacterCard 
+### 1.20. ActivateCharacterCard 
 
 This message is sent from the server to all clients in a room in order to communicate the activation of a CharacterCard.
 
@@ -260,7 +274,7 @@ This message is sent from the server to all clients in a room in order to commun
 This message has no responses.
 
 
-### 1.20. AddCoin
+### 1.21. AddCoin
 
 This message is sent from the server to all clients in a room when a coin is given to a player.
 
@@ -273,20 +287,44 @@ This message is sent from the server to all clients in a room when a coin is giv
 This message has no responses.
 
 
-### 1.21. RemoveCoin
 
-This message is sent from the server to all clients in a room when a coin is taken from a player.
 
+
+### 1.22 NoEntry
+This message is sent from the server to all clients when a no entry token is put or removed from an island.
 #### Arguments
+- islandIndex: the island where the token has to be put
+- add: if true it's a "put" action, else it's a "remove" action.
+#### Possible responses
 
- - player: the username of the player that loses the coin
+This message has no responses.
+
+
+### 1.23 NotifyCharacterCard
+This message is sent from the server to all clients when Character Card is activated.
+#### Arguments
+- card: the card's id.
 
 #### Possible responses
 
 This message has no responses.
 
 
-### 1.22. ChangePhase 
+
+### 1.24 PayPrice
+This message is sent from the server to all clients a player pays the price for a card.
+#### Arguments
+- amount: the number of coins paid
+- player: the id of the player
+
+#### Possible responses
+
+This message has no responses.
+
+
+
+
+### 1.25. ChangePhase 
 
 This message is sent from the server to all clients in a room when the phase changes.
 
@@ -299,7 +337,7 @@ This message is sent from the server to all clients in a room when the phase cha
 This message has no responses.
 
 
-### 1.23. ChangeTurn
+### 1.26. ChangeTurn
 
 This message is sent from the server to all clients in a room when the turn changes.
 
@@ -312,9 +350,9 @@ This message is sent from the server to all clients in a room when the turn chan
 This message has no responses.
 
 
-### 1.24. GameEvent 
+### 1.27. GameEvent 
 
-This is a message sent from the client ot the server specifing the game action that the player took. Each type of game event has its own arguments. The server uses the enum value to operate a cast in order to access the values of the event.
+This is a message sent from the client ot the server specifying the game action that the player took. Each type of game event has its own arguments. The server uses the enum value to operate a cast in order to access the values of the event.
 
 
 
@@ -333,20 +371,20 @@ This is a message sent from the client ot the server specifing the game action t
     1. SWAP_STUDENT_CARD_ENTRANCE //CardRelated
     1. SWAP_STUDENT_ENTRANCE_TABLE //CardRelated
  - (opt) AssistantCardValue: the assistant card played (only in type 1)
- - (opt) Color: the  firstcolor chosen (2,3,7,8,10,11)
+ - (opt) Color: the  first color chosen (2,3,7,8,10,11)
  - (opt) Island index: the island chosen in (9)
  - (opt) MoveAmount: the movement done by mother nature in (4)
  - (opt) Color2: the second color chosen in (10,11)
  - (opt) ActivatedCard: specifies which card is being activated in (6)
- - (opt) Cloud index: the cloud choosen in (5)
+ - (opt) Cloud index: the cloud chosen in (5)
 
 #### Possible responses
 
  - Nack: if the event was illegal at the moment it was sent or if it had illegal arguments
- - Messages from 1.11 to 1.21 rappresent the type of message that will be received by all clients if the event was successful
+ - Messages from 1.11 to 1.26 represent the type of message that will be received by all clients if the event was successful
+ - Ack: if the event was legal and the model updates triggered by the move are ended.
 
-
-### 1.25. EndGame 
+### 1.28. EndGame 
 
 This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
 
@@ -358,7 +396,7 @@ This message is sent from the server to all clients in a room when the game ends
 
 This message has no responses.
 
-### 1.26. LeaveRoom 
+### 1.29. LeaveRoom 
 
 This message is sent from the client to the server, after the game ends, in order to exit the room.
 
@@ -383,7 +421,7 @@ To better describe what happens in the "Game Access" phase, since we decided to 
 
 <img src="Login.png">
 
-Given that the Username univocally identifies the player, the login phase makes sure that the player cannot log in until a unique name is given. We can see the ack/nack mechanic shown in this diagram: such aspect of the protocol is used in all scenarios, but for simplicity, we will omit it from this point forth.
+Given that the Username univocal identifies the player, the login phase makes sure that the player cannot log in until a unique name is given. We can see the ack/nack mechanic shown in this diagram: such aspect of the protocol is used in all scenarios, but for simplicity, we will omit it from this point forth.
 
 #### 2.1.2 Accessing a Room
 
