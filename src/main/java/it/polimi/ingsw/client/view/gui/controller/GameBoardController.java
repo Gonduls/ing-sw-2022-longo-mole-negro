@@ -162,7 +162,7 @@ public class GameBoardController implements Initializable {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
 
         if(GUI.getInstance().wasMerged(islandIndex)){
-            // todo: set visible to false
+            merge(islandIndex);
             return;
         }
 
@@ -178,7 +178,13 @@ public class GameBoardController implements Initializable {
             case ("PINK") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.PINK).toString());
             case ("GREEN") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.GREEN).toString());
             case ("BLUE") -> ((Label) node).setText(cmm.getIslands().get(islandIndex).getStudents().get(Color.BLUE).toString());
-            case ("TOWERNUM") -> ((Label) node).setText(String.valueOf(cmm.getIslands().get(islandIndex).getTowers()));
+            case ("TOWERNUM") -> {
+                int num = cmm.getIslands().get(islandIndex).getTowers();
+                if(num < 2)
+                    break;
+                ((Label) node).setText(String.valueOf(num));
+                node.setVisible(true);
+            }
             case ("TOWER") -> {
                 if (cmm.getIslands().get(islandIndex).getTowers() <= 0)
                     break;
@@ -377,7 +383,6 @@ public class GameBoardController implements Initializable {
     private void showAssistantCard(Node node) {
         ((ImageView)node).setImage(deck.get(ACindex % deck.size()));
     }
-
 
 
     public void notExpert(Node node) {
@@ -644,12 +649,12 @@ public class GameBoardController implements Initializable {
     }
 
     public void merge(int secondIsland) {
-        /*//todo non funziona
         ISLANDS.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
             int currentIsland = Integer.parseInt(b.getId().replaceAll("\\D", ""));
-            if(currentIsland == secondIsland)
+            if(currentIsland == secondIsland) {
                 b.setVisible(false);
                 b.setDisable(true);
-        });*/
+            }
+        });
     }
 }
