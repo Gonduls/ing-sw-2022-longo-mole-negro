@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.CharacterCardsController">
+   <children>
+      <ImageView fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/CCbg.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="DescCC" fitHeight="303.0" fitWidth="200.0" layoutX="223.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Personaggi/DescCC0.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="DESCRIPTIONCC" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="446.0" layoutY="233.0" prefHeight="165.0" prefWidth="710.0" text="Description">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="ACTIVATECC" layoutX="775.0" layoutY="491.0" mnemonicParsing="false" onAction="#activateCC" text="Button" />
+   </children>
+</AnchorPane>

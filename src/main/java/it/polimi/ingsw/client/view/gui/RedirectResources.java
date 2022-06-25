@@ -9,7 +9,6 @@ public final class RedirectResources {
     }
 
     public static Image characterCardsImages(int ccIndex) {
-        //System.out.println("Sono in redirector CC");
         switch (ccIndex) {
             case 0 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC0.png")));}
             case 1 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC1.png")));}
@@ -22,12 +21,30 @@ public final class RedirectResources {
             case 8 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC8.png")));}
             case 9 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC9.png")));}
             case 10 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC10.png")));}
+            case 11 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/CC11.png")));}
+            default -> {return null;}
+        }
+    }
+
+    public static Image characterCardsDescImages(int ccIndex) {
+        switch (ccIndex) {
+            case 0 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC0.png")));}
+            case 1 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC1.png")));}
+            case 2 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC2.png")));}
+            case 3 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC3.png")));}
+            case 4 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC4.png")));}
+            case 5 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC5.png")));}
+            case 6 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC6.png")));}
+            case 7 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC7.png")));}
+            case 8 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC8.png")));}
+            case 9 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC9.png")));}
+            case 10 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC10.png")));}
+            case 11 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Personaggi/DescCC11.png")));}
             default -> {return null;}
         }
     }
 
     public static Image studentsImages(String color) {
-        //System.out.println("sono in redirector Stud");
         switch (color) {
             case "RED" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundRed.png")));}
             case "BLUE" -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/RoundBlue.png")));}
@@ -97,6 +114,10 @@ public final class RedirectResources {
 
     }
 
+    public static Image getNoEntryImage() {
+        return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/NoEntry.png")));
+    }
+
     public static String fromURLtoElement(String url) {
         int index = url.lastIndexOf('/');
         String name = url.substring(index+1);
@@ -111,6 +132,8 @@ public final class RedirectResources {
             case "RoundGreen" -> {return "GREEN";}
             case "MotherNature" -> {return "MOTHERNATURE";}
             case "NoEntry" -> {return "NOENTRY";}
+            case "CC0" -> {return "";}
+
             default -> {return null;}
         }
     }
