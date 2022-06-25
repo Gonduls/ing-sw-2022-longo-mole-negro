@@ -119,9 +119,8 @@ public class GameBoardController implements Initializable {
             CHARACTERCARDS.setVisible(false);
             CHARACTERCARDS.setDisable(true);
         } else{
-            indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
-            OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
-            OWNEDCOINS.setVisible(true);
+            instance.OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
+            instance.OWNEDCOINS.setVisible(true);
         }
 
 
@@ -357,8 +356,12 @@ public class GameBoardController implements Initializable {
 
     //Sets the chosen character cards with their respective images and SHs
     private void setCharacterCards(Node node) {
+        if(indexes == null)
+            indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
+
         if (node.getId().startsWith("CC")) {
             //Changes the image of the card
+
             Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
             ((ImageView) node).setImage(image);
         } else if (node.getId().startsWith("STUDENTS")) {
