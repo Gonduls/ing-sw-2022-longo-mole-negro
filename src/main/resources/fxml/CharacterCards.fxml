@@ -25,5 +25,10 @@
          </font>
       </Label>
       <Button fx:id="ACTIVATECC" layoutX="775.0" layoutY="491.0" mnemonicParsing="false" onAction="#activateCC" text="Button" />
+      <ImageView fx:id="RETURN" fitHeight="30.0" fitWidth="30.0" layoutX="52.0" layoutY="40.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/ButtonPrev.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

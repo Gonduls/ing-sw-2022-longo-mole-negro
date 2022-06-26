@@ -1543,7 +1543,7 @@
             <Image url="@../images/Elements/Coin.png" />
          </image>
       </ImageView>
-      <Label fx:id="OWNEDCOINS" alignment="CENTER" contentDisplay="CENTER" layoutX="975.0" layoutY="740.0" prefHeight="17.0" prefWidth="30.0" text="0" />
+      <Label fx:id="OWNEDCOINS" alignment="CENTER" contentDisplay="CENTER" layoutX="975.0" layoutY="677.0" prefHeight="17.0" prefWidth="30.0" text="0" />
       <AnchorPane fx:id="CHARACTERCARDS" layoutX="1017.0" layoutY="401.0" prefHeight="335.0" prefWidth="326.0">
          <children>
             <ImageView fx:id="CC1" fitHeight="150.0" fitWidth="150.0" layoutX="83.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
@@ -1665,6 +1665,11 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="MESSAGES" alignment="CENTER" layoutX="46.0" layoutY="329.0" prefHeight="17.0" prefWidth="165.0" text="MEX" visible="false" />
+      <Label fx:id="MESSAGES" alignment="CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="329.0" prefHeight="112.0" prefWidth="218.0" text="MEX" visible="false" />
+      <Label fx:id="TURN" alignment="CENTER" layoutX="57.0" layoutY="37.0" prefHeight="30.0" prefWidth="172.0" text="YOUR TURN" textFill="#ffd600">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
