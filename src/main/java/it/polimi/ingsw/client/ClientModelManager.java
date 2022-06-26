@@ -1,12 +1,14 @@
 package it.polimi.ingsw.client;
 
-import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.exceptions.UnexpectedMessageException;
 import it.polimi.ingsw.messages.*;
 import it.polimi.ingsw.model.*;
 
 import java.util.*;
 
+/**
+ * Client side model
+ */
 public class ClientModelManager {
     private final EnumMap<Color, Integer>[] entrances, diningRooms, clouds;
     private final List<AssistantCard> deck;
@@ -19,13 +21,16 @@ public class ClientModelManager {
     private final HashMap<Integer, Boolean> activated;
     private final HashMap<Integer, EnumMap<Color, Integer>> characterStudents;
     private int noEntries;
-    private final UI ui;
     private final boolean expert;
 
-    ClientModelManager(String[] players, boolean expert, UI ui) {
+    /**
+     * Creates the game starting from passed information, character cards are excluded and are added afterwards
+     * @param players The name of the players
+     * @param expert The difficulty of the game
+     */
+    ClientModelManager(String[] players, boolean expert) {
         int numberOfPlayers = players.length;
         this.players = players;
-        this.ui = ui;
         this.expert = expert;
         motherNature = 0;
         islands = new ArrayList<>(12);
@@ -80,7 +85,11 @@ public class ClientModelManager {
         }
     }
 
-    void putSHInCharacterCard(int cardId) {
+    /**
+     * Adds a CharacterCard to the game, only done in expert mode
+     * @param cardId The identifier of the card
+     */
+    void insertCharacterCard(int cardId) {
         prices.put(cardId, cardId / 4 + 1);
         activated.put(cardId, false);
 
@@ -96,56 +105,108 @@ public class ClientModelManager {
             noEntries = 4;
     }
 
+    /**
+     * Returns the students in the entrance of the school owned by the specified player
+     * @param playerIndex The target player (in order of entrance in the room)
+     * @return A copy of the desired students
+     */
     public Map<Color, Integer> getEntrance(int playerIndex) {
         return new EnumMap<>(entrances[playerIndex]);
     }
 
+    /**
+     * Returns the students in the dining room of the school owned by the specified player
+     * @param playerIndex The target player (in order of entrance in the room)
+     * @return A copy of the desired students
+     */
     public Map<Color, Integer> getDiningRooms(int playerIndex) {
         return new EnumMap<>(diningRooms[playerIndex]);
     }
 
+    /**
+     * Returns the students contained in the specified cloud
+     * @param index The cloud number
+     * @return A copy of the desired students
+     */
     public Map<Color, Integer> getCloud(int index) {
         return new EnumMap<>(clouds[index]);
     }
 
+    /**
+     * Returns the students contained in the specified card
+     * @param cardId The card identifier
+     * @return The desired students
+     */
     public Map<Color, Integer> getCharacterStudents(int cardId) {
         return characterStudents.get(cardId);
     }
 
+    /**
+     * @return A copy of the cards contained in the deck of Assistant Cards owned by the player
+     */
     public List<AssistantCard> getDeck() {
         return new ArrayList<>(deck);
     }
 
+    /**
+     * @param playerIndex The target player (in order of entrance in the room)
+     * @return The coins owned by the player
+     */
     public Integer getCoins(int playerIndex) {
         if (coins != null)
             return coins[playerIndex];
         return null;
     }
 
+    /**
+     * @param cardId The desired Character Card
+     * @return The current price of the character card, considering its eventual previous activation inside the game
+     */
     public Integer getPrice(int cardId) {
         return prices.get(cardId) + (activated.get(cardId) ? 1 : 0);
     }
 
+    /**
+     * @param playerIndex The target player (in order of entrance in the room)
+     * @return The number of towers still inside the player school
+     */
     public int getTowers(int playerIndex) {
         return towers[playerIndex];
     }
 
+    /**
+     * @return A copy of professors
+     */
     public Map<Color, Integer> getProfessors() {
         return new EnumMap<>(professors);
     }
 
+    /**
+     * @return All islands currently in the model
+     */
     public List<ClientIsland> getIslands() {
         return islands;
     }
 
+    /**
+     * @return Mother nature's island's index
+     */
     public int getMotherNature() {
         return motherNature;
     }
 
+    /**
+     * @return All playing players' names
+     */
     public String[] getPlayers() {
         return players;
     }
 
+    /**
+     * Modifies client model depending on message received
+     * @param message The message containing information on how to modify the model
+     * @throws UnexpectedMessageException If the message does not modify the model
+     */
     void updateModel(Message message) throws UnexpectedMessageException {
         switch (message.getMessageType()) {
             case MOVE_STUDENT -> {
@@ -160,28 +221,19 @@ public class ClientModelManager {
                 MoveTowers mt = (MoveTowers) message;
                 moveTowers(mt.from(), mt.to(), mt.amount());
             }
-            case MERGE_ISLANDS -> {
-                ui.merge(((MergeIslands) message).secondIslandIndex());
-                mergeIslands((MergeIslands) message);
-            }
+            case MERGE_ISLANDS -> mergeIslands((MergeIslands) message);
             case SET_PROFESSOR_TO -> {
                 SetProfessorTo spt = (SetProfessorTo) message;
                 professors.put(spt.color(), spt.player());
             }
             case MOVE_MOTHER_NATURE -> motherNature = ((MoveMotherNature) message).position();
-            case PLAY_ASSISTANT_CARD -> {
-                PlayAssistantCard pac = (PlayAssistantCard) message;
-                deck.remove(pac.assistantCard());
-            }
+            case PLAY_ASSISTANT_CARD -> deck.remove(((PlayAssistantCard) message).assistantCard());
             case ACTIVATE_CHARACTER_CARD -> {
                 ActivateCharacterCard acc = (ActivateCharacterCard) message;
                 coins[acc.player()] -= getPrice(acc.characterCardIndex());
                 activated.put(acc.characterCardIndex(), true);
             }
-            case ADD_COIN -> {
-                AddCoin ac = (AddCoin) message;
-                coins[ac.player()] += 1;
-            }
+            case ADD_COIN -> coins[((AddCoin) message).player()] += 1;
             case PAY_PRICE -> {
                 PayPrice pp = (PayPrice) message;
                 coins[pp.player()] -= pp.amount();
@@ -201,11 +253,22 @@ public class ClientModelManager {
         }
     }
 
+    /**
+     * Move a single student from one place to the other
+     * @param from Where the student is to be taken from
+     * @param to Where the student is to be placed
+     * @param color The color of the student
+     */
     void moveStudent(String from, String to, Color color) {
         removeStudent(from, color);
         addStudent(to, color);
     }
 
+    /**
+     * Removes a single student from a target place
+     * @param from Where the student is to be removed from
+     * @param color The color of the student
+     */
     void removeStudent(String from, Color color) {
         EnumMap<Color, Integer> position = parsePosition(from);
         if (position == null)
@@ -215,6 +278,11 @@ public class ClientModelManager {
         position.put(color, result);
     }
 
+    /**
+     * Adds a single student to a target place
+     * @param to Where the student is to be added
+     * @param color The color of the student
+     */
     void addStudent(String to, Color color) {
         EnumMap<Color, Integer> position = parsePosition(to);
         if (position == null) {
@@ -225,6 +293,12 @@ public class ClientModelManager {
         position.put(color, result);
     }
 
+    /**
+     * Moves a determined amount of towers from a place to another
+     * @param from Where the towers are to be taken from
+     * @param to Where the towers are to be added to
+     * @param amount The amount of towers to move
+     */
     void moveTowers(String from, String to, int amount) {
         if (from.startsWith("ISLAND")) {
             int indexIslands = Integer.parseInt(from.split(":")[1]);
@@ -246,8 +320,16 @@ public class ClientModelManager {
 
     }
 
-    private EnumMap<Color, Integer> parsePosition(String pos) {
-        String[] splitPos = pos.split(":");
+    /**
+     * Returns the students specified by the string position.
+     * Position has to be in the form of: "place:index", where place can be one of:
+     * ISLAND, CLOUD, ENTRANCE, DININGROOM, CARD
+     * And index has to refer to one of the possible places
+     * @param position A string determining the students' position
+     * @return The students needed
+     */
+    private EnumMap<Color, Integer> parsePosition(String position) {
+        String[] splitPos = position.split(":");
         int index = Integer.parseInt(splitPos[1]);
 
         return switch (splitPos[0]) {
@@ -260,14 +342,24 @@ public class ClientModelManager {
         };
     }
 
+    /**
+     * @return No entries still on top of the card
+     */
     public int getNoEntries() {
         return noEntries;
     }
 
+    /**
+     * @return The indexes of the cards available in this game
+     */
     public Set<Integer> getCharactersIndexes() {
         return prices.keySet();
     }
 
+    /**
+     * Merges the two islands identified in the message
+     * @param message The message that merges two islands
+     */
     void mergeIslands(MergeIslands message) {
         int ind1 = message.firstIslandIndex();
         int ind2 = message.secondIslandIndex();
@@ -287,12 +379,14 @@ public class ClientModelManager {
         }
 
 
-        // Only need one of the 2 islands in the list
+        // Only need one of the two islands in the list
         islands.remove(ind2);
     }
 
+    /**
+     * @return The difficulty of the game
+     */
     public boolean isExpert() {
         return expert;
     }
-
 }

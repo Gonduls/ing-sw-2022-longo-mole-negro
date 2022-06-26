@@ -10,6 +10,9 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Handles all communication with the server
+ */
 public class NetworkHandler implements Runnable{
     private final Socket server;
     private final ObjectOutputStream output;
@@ -23,7 +26,6 @@ public class NetworkHandler implements Runnable{
 
     /**
      * Sets up the client-server connection
-     *
      * @param serverIP the server IP address
      * @param serverPort the server Port
      * @param clientController the client side controller, that receives model-update messages
@@ -215,11 +217,26 @@ public class NetworkHandler implements Runnable{
         output.writeObject(message);
     }
 
+    /**
+     * It calls occupy with AccessRoom message, if nack is returned room could not be accessed.
+     * @param id The identifier of the room to be accessed
+     * @return true if AccessRoom was successful, false otherwise
+     * @throws IOException if the input/output stream are not correctly set up
+     * @throws UnexpectedMessageException if a different message from ack/nack is received
+     */
     boolean accessRoom(int id) throws IOException, UnexpectedMessageException{
         Message returnValue = occupy(new AccessRoom(id));
         return returnValue.getMessageType() == MessageType.ACK;
     }
 
+    /**
+     * Synchronizes functions on lockAnswer, sends the passed message to the server and
+     * waits until a ROOM_ID message is received.
+     *
+     * @param message The CreateRoom message that is sent to the server
+     * @return The identifier of the room created
+     * @throws IOException if the input/output stream are not correctly set up
+     */
     int createRoom(CreateRoom message) throws IOException{
         synchronized (lockAnswer){
             output.writeObject(message);
@@ -234,17 +251,24 @@ public class NetworkHandler implements Runnable{
                     return -1;
                 }
             }
+            lockAnswer.notifyAll();
 
             int id = ((RoomId) answer).id();
             answer = null;
-            lockAnswer.notifyAll();
             return id;
         }
     }
 
+    /**
+     * It calls occupy with LeaveRoom message, if nack is returned room could not be left.
+     * @return true if LeaveRoom was successful, false otherwise
+     * @throws IOException if the input/output stream are not correctly set up
+     * @throws UnexpectedMessageException if a different message from ack/nack is received
+     */
     boolean leaveRoom() throws IOException, UnexpectedMessageException{
         return occupy(new LeaveRoom()).getMessageType() == MessageType.ACK;
     }
+
     /**
      * It calls occupy with event message, if nack is returned no event has happened.
      * The consequences of a correctly executed event are a nack and the asynchronous update of all models

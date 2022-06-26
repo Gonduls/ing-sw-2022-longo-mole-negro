@@ -63,263 +63,6 @@ public class CLI implements UI {
     }
 
     /**
-     * Cli main function, after connection and login alternates pregame with game function
-     */
-    public void start(){
-        // initializing connections
-        printClear();
-
-        System.out.println("Welcome to ");
-        gameTitle();
-        String ipAddress;
-        int serverPort;
-
-        // trying connection from config file parameters
-        try{
-            Gson gson = new Gson();
-            ConfigServer config = gson.fromJson( new String(Files.readAllBytes(Paths.get("config.json"))), ConfigServer.class);
-            if(config != null) {
-                clientController = new ClientController(this, config.getAddress(), config.getPort());
-            }
-        } catch (IOException e){
-            clientController = null;
-        }
-
-        // trying connection from user input parameters
-        while (clientController == null){
-            System.out.println("Insert the Server IP: ");
-            ipAddress = input.nextLine();
-            System.out.println("Insert the Server Port: ");
-            serverPort = input.nextInt();
-            input.nextLine();
-            try {
-                clientController = new ClientController(this, ipAddress, serverPort);
-            } catch (IOException e){
-                System.out.println("Could not connect");
-            }
-        }
-
-        // trying login
-        boolean login = false;
-        do {
-            System.out.println("What's your nickname? ");
-            username = input.nextLine();
-            try {
-                login = clientController.login(username);
-            } catch (UnexpectedMessageException e){
-                Log.logger.severe("Could not login, unexpected message exception");
-            } catch (IOException e){
-                Log.logger.severe("Could not login, IO exception");
-                Log.logger.severe(e.getMessage());
-                Thread.currentThread().interrupt();
-            }
-        } while (!login);
-
-        // pre game and game phase
-        do {
-            printClear();
-            preGame();
-            Thread game;
-
-            if(!inARoom)
-                return;
-
-            kill = false;
-            game = new Thread(this::game);
-            synchronized (gameRunning){
-                if(!gameRunning.get()) {
-                    try{
-                        gameRunning.wait();
-                    } catch (InterruptedException e){
-                        Log.logger.severe("Problems with gameRunning");
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
-                }
-            }
-            game.start();
-            try{
-                game.join();
-            } catch (InterruptedException e){
-                Log.logger.info("Thread game closing");
-                Thread.currentThread().interrupt();
-            } finally{
-                inARoom = false;
-            }
-        } while(!logout);
-    }
-
-    /**
-     * Pre game phase, loops until player joins/creates a room or logs out
-     */
-    public void preGame(){
-        int playersNumber;
-        do{
-            System.out.println("Hi " + username + ", what would you like to do?\n");
-            System.out.println("""
-                    1. REFRESH AVAILABLE PUBLIC ROOMS\s
-                    2. CREATE GAME\s
-                    3. ACCESS ROOM\s
-                    4. LOGOUT\s
-                    """);
-            String chosenAction = input.nextLine();
-            switch (chosenAction) {
-                case ("1") -> {
-                    System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
-                    try {
-                        playersNumber = Integer.parseInt(input.nextLine());
-                    } catch (NumberFormatException e) {
-                        playersNumber = 0;
-                    }
-                    System.out.println("Is the mode expert? (true/false/ default: all games) ");
-                    String expert = input.nextLine();
-                    printClear();
-                    if (expert.startsWith("true")) {
-                        if (playersNumber == 0) {
-                            clientController.getPublicRooms(new GetPublicRooms(true));
-                            break;
-                        }
-                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, true));
-                        break;
-                    }
-                    if (expert.startsWith("false")) {
-                        if (playersNumber == 0) {
-                            clientController.getPublicRooms(new GetPublicRooms(false));
-                            break;
-                        }
-                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
-                        break;
-                    }
-                    if (playersNumber == 0) {
-                        clientController.getPublicRooms(new GetPublicRooms());
-                        break;
-                    }
-                    clientController.getPublicRooms(new GetPublicRooms(playersNumber));
-                }
-                case ("2") -> {
-                    boolean isPrivate;
-                    boolean isExpert;
-
-                    System.out.println("Enter the number of players (2/3/4/ default: 2): ");
-                    try {
-                        playersNumber = Integer.parseInt(input.nextLine());
-                    } catch (NumberFormatException e) {
-                        playersNumber = 2;
-                    }
-                    if (playersNumber != 3 && playersNumber != 4)
-                        playersNumber = 2;
-
-                    System.out.println("Is the mode expert? (true/false/ default: true) ");
-                    isExpert = !input.nextLine().toLowerCase().startsWith("false");
-
-                    System.out.println("Is your game private? (true/false/ default: false) ");
-                    isPrivate = Boolean.parseBoolean(input.nextLine());
-
-                    CreateRoom message = new CreateRoom(playersNumber, isExpert, isPrivate);
-                    int roomID = clientController.createRoom(message);
-                    if (roomID < 0) {
-                        printClear();
-                        System.out.println("Could not create room, please try again");
-                        break;
-                    }
-                    printClear();
-                    System.out.println("Your room ID is: " + roomID);
-                    inARoom = true;
-                }
-                case ("3") -> {
-                    int id = 0;
-                    System.out.println("Enter the room ID: ");
-                    try{
-                        id = Integer.parseInt(input.nextLine());
-                    }catch (NumberFormatException e){
-                        printClear();
-                        System.out.println("Please enter a valid ID");
-                    }
-                    if (clientController.accessRoom(id)) {
-                        inARoom = true;
-                    }
-                    else
-                        System.out.println("Could not enter room, please try again");
-
-                }
-                case ("4") -> {
-                    if (clientController.logout()) {
-                        logout = true;
-                        return;
-                    }
-                    System.out.println("Could not logout");
-                }
-                default -> {
-                    printClear();
-                    System.out.println("Please enter a valid choice");
-                }
-            }
-        }while(!inARoom);
-    }
-
-    /**
-     * Game phase, loops while game is running listening for user inputs
-     */
-    public void game() {
-
-        while(!kill){
-            action = new Thread(() -> {
-                try {
-                    TimeUnit.MILLISECONDS.sleep(500);
-                    actionString = (new Scanner(System.in)).nextLine();
-                } catch (IndexOutOfBoundsException | InterruptedException ignored){
-                    Log.logger.info("Stopping listen");
-                    Thread.currentThread().interrupt();
-                }
-            });
-            action.start();
-
-            try{
-                action.join();
-            } catch (InterruptedException e){
-                Log.logger.severe("InterruptedException in action.join()");
-                Thread.currentThread().interrupt();
-            }
-
-            // if kill game has been changed while I was waiting for a line
-            if(kill)
-                return;
-
-            if(actionString!= null)
-                dealWithAction();
-        }
-    }
-
-    /**
-     * Prints game title in ascii art
-     */
-    public void gameTitle() {
-        System.out.print("""
-                                                                                                                                                                     \s
-                        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                      \s
-                     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                       \s
-                   .?YPJ~:.   ?G#&&?        .:!G&#P7                    ?@&&&&G                                            .PB.                                      \s
-                  ^PP#!      JG&&&&?            :YBGJ                   .JGG5!.                                           :5G#.                                      \s
-                  PG#J      :##&&&&7   :^~!!!~.   .!Y. .:::.    .^::.    .^^:            ..:^^^^::     .::.    .:^:.   .^75B&B~^~.  .^~~.     .!?!^    .:~~~~^::^!:  \s
-                 .P##~      :B&&&&&~.^?5PGPY555^     .~?5PP?  ^?YPP5J: ^?YPP5J.       :~JYYJJ5PPPP.  ^7YP5J  :7YPP5Y^ :JYG#&&GYJ?..~?PBGY~.  ~PB&#57. ~?5YYY5PP55Y.  \s
-                 .5#B!      .G&&&&#7?P#BJ^.  ?B!    ~?JB&##5^75B&&&&B^~!^Y&&&G:     ^75BB7:.^#&&&P.:??G&&&P~!5B#&&&#?  .:G&&&G: .!JG#&@@&G7. ^J#&&&G?~G&P~....!GG:   \s
-                  J##J.     .G&&#&BP&B?.     ~?.    :.^B&##5JY~:P&&G~    ?&&&B:   .7Y#&G:   ^B&&&P....G&&&GJP?:!#&&&J   .P&&&P. ~!~:.^P&&&B?:  :G&&&J~#&BY?!^:...    \s
-                  .P&P7:    .G#&&&&&P:                :G&&#P7. .PG!.     J#&&B:   !5#&#~    ^B#&&P.  .P&&&BY:  ~#&&&J   .P&&&P.       .Y&&&G?:  J&&5..J&&&&#G5J7^.   \s
-                   .Y#GJ!:. .G###&&G.               . :B&&&5.  .^.       J#&&B:  .J#&&B~    ~B&&&P.  .P&&&B:   ~#&&&?.. .P&&&P.        .J#&&G?^^5#J. ..:?G#&&&&#GJ^  \s
-                     :7JJ!!^.G###&#7              .!?.:B&&&5.            J#&&G:  .P&&&B7::~?JB&&&5.  .P&&&B:   ~#&&#J   .P&&&G. .:.     .?&&&G??G?. .??^ ..~JP#&&B7  \s
-                            .P#&&&B:             .!J^ .P&&&J.            7#&&P:.:.?&&&&#GGG5!G&&&Y..:.J&&&P.   :B&&#7.:..5&&&5:~!!.      .7#&&BY~  ..7B?^..  .^P&#^  \s
-                            .Y&&&&G:         ..:^JP~  .5&#P~             :B&&G~^: .J#&&&#Y^  7#&&J~^..?&&#7    .5&&&!^:. ~&&&BJ!.  .   ... ~#&Y. .....Y#GJ!^^^~5P~.  \s
-                         .:^?#&&&&&J~^^^:^^^~7YG##~   .^!:.               .!?!:     :!7~.     :!7~.   ^7^.      .!7!:.   .^77~.        ....^GJ.........:~!!~^^:.     \s
-                         ..:~~~~~~~~^^:::::^^~~~~:                                                                                    ...:?BJ.........               \s
-                                                                                                                                     ...^Y&G......                   \s
-                                                                                                                                    ...^P&&?..........               \s
-                                                                                                                                   ....?&&&5:.....:~^...             \s
-                                                                                                                                  .....~B&&&Y~^:^^7!.....            \s
-                                                                                                                                  ......:!Y5P5?7!^:.....             \s
-                """);
-    }
-
-    /**
      * Sets game starting parameters and sets gameRunning to true, notifying all on gameRunning
      * @param numberOfPlayers Either 2, 3, or 4
      * @param expert True if game is expert mode, false otherwise
@@ -421,9 +164,277 @@ public class CLI implements UI {
     }
 
     /**
+     * @return The player's username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * Cli main function, after connection and login alternates pregame with game function
+     */
+    public void start(){
+        // initializing connections
+        printClear();
+
+        System.out.println("Welcome to ");
+        gameTitle();
+        String ipAddress;
+        int serverPort;
+
+        // trying connection from config file parameters
+        try{
+            Gson gson = new Gson();
+            ConfigServer config = gson.fromJson( new String(Files.readAllBytes(Paths.get("config.json"))), ConfigServer.class);
+            if(config != null) {
+                clientController = new ClientController(this, config.getAddress(), config.getPort());
+            }
+        } catch (IOException e){
+            clientController = null;
+        }
+
+        // trying connection from user input parameters
+        while (clientController == null){
+            System.out.println("Insert the Server IP: ");
+            ipAddress = input.nextLine();
+            System.out.println("Insert the Server Port: ");
+            serverPort = input.nextInt();
+            input.nextLine();
+            try {
+                clientController = new ClientController(this, ipAddress, serverPort);
+            } catch (IOException e){
+                System.out.println("Could not connect");
+            }
+        }
+
+        // trying login
+        boolean login = false;
+        do {
+            System.out.println("What's your nickname? ");
+            username = input.nextLine();
+            try {
+                login = clientController.login(username);
+            } catch (UnexpectedMessageException e){
+                Log.logger.severe("Could not login, unexpected message exception");
+            } catch (IOException e){
+                Log.logger.severe("Could not login, IO exception");
+                Log.logger.severe(e.getMessage());
+                Thread.currentThread().interrupt();
+            }
+        } while (!login);
+
+        // pre game and game phase
+        do {
+            printClear();
+            preGame();
+            Thread game;
+
+            if(!inARoom)
+                return;
+
+            kill = false;
+            game = new Thread(this::game);
+            synchronized (gameRunning){
+                if(!gameRunning.get()) {
+                    try{
+                        gameRunning.wait();
+                    } catch (InterruptedException e){
+                        Log.logger.severe("Problems with gameRunning");
+                        Thread.currentThread().interrupt();
+                        return;
+                    }
+                }
+            }
+            game.start();
+            try{
+                game.join();
+            } catch (InterruptedException e){
+                Log.logger.info("Thread game closing");
+                Thread.currentThread().interrupt();
+            } finally{
+                inARoom = false;
+            }
+        } while(!logout);
+    }
+
+    /**
+     * Prints game title in ascii art
+     */
+    private void gameTitle() {
+        System.out.print("""
+                                                                                                                                                                     \s
+                        ..:^~~!~!!??!!77!!!!!!!!!7.                      ^!!!~.                                                                                      \s
+                     .!?YYYYJJJGPB#P??JJ??Y5GBBBBG?                     7GGBBPP                                             .^                                       \s
+                   .?YPJ~:.   ?G#&&?        .:!G&#P7                    ?@&&&&G                                            .PB.                                      \s
+                  ^PP#!      JG&&&&?            :YBGJ                   .JGG5!.                                           :5G#.                                      \s
+                  PG#J      :##&&&&7   :^~!!!~.   .!Y. .:::.    .^::.    .^^:            ..:^^^^::     .::.    .:^:.   .^75B&B~^~.  .^~~.     .!?!^    .:~~~~^::^!:  \s
+                 .P##~      :B&&&&&~.^?5PGPY555^     .~?5PP?  ^?YPP5J: ^?YPP5J.       :~JYYJJ5PPPP.  ^7YP5J  :7YPP5Y^ :JYG#&&GYJ?..~?PBGY~.  ~PB&#57. ~?5YYY5PP55Y.  \s
+                 .5#B!      .G&&&&#7?P#BJ^.  ?B!    ~?JB&##5^75B&&&&B^~!^Y&&&G:     ^75BB7:.^#&&&P.:??G&&&P~!5B#&&&#?  .:G&&&G: .!JG#&@@&G7. ^J#&&&G?~G&P~....!GG:   \s
+                  J##J.     .G&&#&BP&B?.     ~?.    :.^B&##5JY~:P&&G~    ?&&&B:   .7Y#&G:   ^B&&&P....G&&&GJP?:!#&&&J   .P&&&P. ~!~:.^P&&&B?:  :G&&&J~#&BY?!^:...    \s
+                  .P&P7:    .G#&&&&&P:                :G&&#P7. .PG!.     J#&&B:   !5#&#~    ^B#&&P.  .P&&&BY:  ~#&&&J   .P&&&P.       .Y&&&G?:  J&&5..J&&&&#G5J7^.   \s
+                   .Y#GJ!:. .G###&&G.               . :B&&&5.  .^.       J#&&B:  .J#&&B~    ~B&&&P.  .P&&&B:   ~#&&&?.. .P&&&P.        .J#&&G?^^5#J. ..:?G#&&&&#GJ^  \s
+                     :7JJ!!^.G###&#7              .!?.:B&&&5.            J#&&G:  .P&&&B7::~?JB&&&5.  .P&&&B:   ~#&&#J   .P&&&G. .:.     .?&&&G??G?. .??^ ..~JP#&&B7  \s
+                            .P#&&&B:             .!J^ .P&&&J.            7#&&P:.:.?&&&&#GGG5!G&&&Y..:.J&&&P.   :B&&#7.:..5&&&5:~!!.      .7#&&BY~  ..7B?^..  .^P&#^  \s
+                            .Y&&&&G:         ..:^JP~  .5&#P~             :B&&G~^: .J#&&&#Y^  7#&&J~^..?&&#7    .5&&&!^:. ~&&&BJ!.  .   ... ~#&Y. .....Y#GJ!^^^~5P~.  \s
+                         .:^?#&&&&&J~^^^:^^^~7YG##~   .^!:.               .!?!:     :!7~.     :!7~.   ^7^.      .!7!:.   .^77~.        ....^GJ.........:~!!~^^:.     \s
+                         ..:~~~~~~~~^^:::::^^~~~~:                                                                                    ...:?BJ.........               \s
+                                                                                                                                     ...^Y&G......                   \s
+                                                                                                                                    ...^P&&?..........               \s
+                                                                                                                                   ....?&&&5:.....:~^...             \s
+                                                                                                                                  .....~B&&&Y~^:^^7!.....            \s
+                                                                                                                                  ......:!Y5P5?7!^:.....             \s
+                """);
+    }
+
+    /**
+     * Pre game phase, loops until player joins/creates a room or logs out
+     */
+    private void preGame(){
+        int playersNumber;
+        do{
+            System.out.println("Hi " + username + ", what would you like to do?\n");
+            System.out.println("""
+                    1. REFRESH AVAILABLE PUBLIC ROOMS\s
+                    2. CREATE GAME\s
+                    3. ACCESS ROOM\s
+                    4. LOGOUT\s
+                    """);
+            String chosenAction = input.nextLine();
+            switch (chosenAction) {
+                case ("1") -> {
+                    System.out.println("Do you want to specify the number of players (2/3/4/ default: all games): ");
+                    try {
+                        playersNumber = Integer.parseInt(input.nextLine());
+                    } catch (NumberFormatException e) {
+                        playersNumber = 0;
+                    }
+                    System.out.println("Is the mode expert? (true/false/ default: all games) ");
+                    String expert = input.nextLine();
+                    printClear();
+                    if (expert.startsWith("true")) {
+                        if (playersNumber == 0) {
+                            clientController.getPublicRooms(new GetPublicRooms(true));
+                            break;
+                        }
+                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, true));
+                        break;
+                    }
+                    if (expert.startsWith("false")) {
+                        if (playersNumber == 0) {
+                            clientController.getPublicRooms(new GetPublicRooms(false));
+                            break;
+                        }
+                        clientController.getPublicRooms(new GetPublicRooms(playersNumber, false));
+                        break;
+                    }
+                    if (playersNumber == 0) {
+                        clientController.getPublicRooms(new GetPublicRooms());
+                        break;
+                    }
+                    clientController.getPublicRooms(new GetPublicRooms(playersNumber));
+                }
+                case ("2") -> {
+                    boolean isPrivate;
+                    boolean isExpert;
+
+                    System.out.println("Enter the number of players (2/3/4/ default: 2): ");
+                    try {
+                        playersNumber = Integer.parseInt(input.nextLine());
+                    } catch (NumberFormatException e) {
+                        playersNumber = 2;
+                    }
+                    if (playersNumber != 3 && playersNumber != 4)
+                        playersNumber = 2;
+
+                    System.out.println("Is the mode expert? (true/false/ default: true) ");
+                    isExpert = !input.nextLine().toLowerCase().startsWith("false");
+
+                    System.out.println("Is your game private? (true/false/ default: false) ");
+                    isPrivate = Boolean.parseBoolean(input.nextLine());
+
+                    CreateRoom message = new CreateRoom(playersNumber, isExpert, isPrivate);
+                    int roomID = clientController.createRoom(message);
+                    if (roomID < 0) {
+                        printClear();
+                        System.out.println("Could not create room, please try again");
+                        break;
+                    }
+                    printClear();
+                    System.out.println("Your room ID is: " + roomID);
+                    inARoom = true;
+                }
+                case ("3") -> {
+                    int id = 0;
+                    System.out.println("Enter the room ID: ");
+                    try{
+                        id = Integer.parseInt(input.nextLine());
+                    }catch (NumberFormatException e){
+                        printClear();
+                        System.out.println("Please enter a valid ID");
+                    }
+                    if (clientController.accessRoom(id)) {
+                        inARoom = true;
+                    }
+                    else
+                        System.out.println("Could not enter room, please try again");
+
+                }
+                case ("4") -> {
+                    if (clientController.logout()) {
+                        logout = true;
+                        return;
+                    }
+                    if(clientController.leaveRoom() && clientController.logout()){
+                        logout = true;
+                        return;
+                    }
+                    System.out.println("Could not logout");
+                }
+                default -> {
+                    printClear();
+                    System.out.println("Please enter a valid choice");
+                }
+            }
+        }while(!inARoom);
+    }
+
+    /**
+     * Game phase, loops while game is running listening for user inputs
+     */
+    private void game() {
+
+        while(!kill){
+            action = new Thread(() -> {
+                try {
+                    TimeUnit.MILLISECONDS.sleep(500);
+                    actionString = (new Scanner(System.in)).nextLine();
+                } catch (IndexOutOfBoundsException | InterruptedException ignored){
+                    Log.logger.info("Stopping listen");
+                    Thread.currentThread().interrupt();
+                }
+            });
+            action.start();
+
+            try{
+                action.join();
+            } catch (InterruptedException e){
+                Log.logger.severe("InterruptedException in action.join()");
+                Thread.currentThread().interrupt();
+            }
+
+            // if kill game has been changed while I was waiting for a line
+            if(kill)
+                return;
+
+            if(actionString!= null)
+                dealWithAction();
+        }
+    }
+
+    /**
      * Sets kill parameters to make game phase come to an end
      */
-    public void killGame(){
+    private void killGame(){
         kill = true;
         inARoom = false;
         clientController.startOver();
@@ -436,7 +447,7 @@ public class CLI implements UI {
     /**
      * Clears the screen
      */
-    void printClear() {
+    private void printClear() {
         BoardStatus.printClear();
     }
 
@@ -596,9 +607,5 @@ public class CLI implements UI {
                 return c;
         }
         throw new NumberFormatException();
-    }
-
-    public String getUsername() {
-        return username;
     }
 }

@@ -68,13 +68,13 @@ public class ClientController {
                 expert = s.expert();
 
                 if(players[2] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert, ui);
+                    cmm = new ClientModelManager(new String[]{players[0], players[1]}, expert);
                     numberOfPlayers = 2;
                 }else if(players[3] == null){
-                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, expert, ui);
+                    cmm = new ClientModelManager(new String[]{players[0], players[1], players[2]}, expert);
                     numberOfPlayers = 3;
                 } else {
-                    cmm = new ClientModelManager(players.clone(), expert, ui);
+                    cmm = new ClientModelManager(players.clone(), expert);
                     numberOfPlayers = 4;
                 }
 
@@ -84,7 +84,11 @@ public class ClientController {
             }
             case NOTIFY_CHARACTER_CARD -> {
                 NotifyCharacterCard ncc = (NotifyCharacterCard) message;
-                cmm.putSHInCharacterCard(ncc.card());
+                cmm.insertCharacterCard(ncc.card());
+            }
+            case MERGE_ISLANDS -> {
+                updates = true;
+                ui.merge(((MergeIslands) message).secondIslandIndex());
             }
             case PLAY_ASSISTANT_CARD -> {
                 PlayAssistantCard pac = (PlayAssistantCard) message;
@@ -210,6 +214,20 @@ public class ClientController {
     }
 
     /**
+     * Calls NetworkHandler leaveRoom function
+     * @return True if logout was successful, false otherwise
+     */
+    public boolean leaveRoom() {
+        try {
+            return nh.leaveRoom();
+        } catch (IOException | UnexpectedMessageException e) {
+            System.out.println("There was an error leaving room!");
+            return false;
+        }
+    }
+
+
+    /**
      * Calls NetworkHandler getPublicRooms function passing "message"
      * @param message The GetPublicRooms message to be passed
      */
@@ -226,7 +244,7 @@ public class ClientController {
      * if the event activated a Character card, it sets the number of actions needed to fulfill the card activation,
      * else if this number of actions is greater than 0, then it gradually reduces it back to 0
      * @param event The event to be performed
-     * @return
+     * @return The response sent from the server (Ack / Nack)
      */
     public Message performEvent(GameEvent event){
         Message answer = new Nack("Could not get a proper answer from server");

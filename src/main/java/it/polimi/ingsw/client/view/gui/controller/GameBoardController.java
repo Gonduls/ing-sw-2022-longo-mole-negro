@@ -86,12 +86,11 @@ public class GameBoardController implements Initializable {
     private int indexesIterator = 0;
 
     private ArrayList<Image> deck;
-    private int ACindex = 0;
+    private int ACindex;
     private int totalStudentsNumber = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         instance = new GameBoardController();
         instance.BOARD = this.BOARD;
         instance.ISLANDS = this.ISLANDS;
@@ -135,13 +134,15 @@ public class GameBoardController implements Initializable {
             }
         }
 
+        initializeDeck();
         //parses through every element of the board
         BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
-        
+
     }
 
     public void reprint() {
         // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
+        initializeDeck();
         Platform.runLater(
                 () -> BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard)
         );
@@ -404,9 +405,6 @@ public class GameBoardController implements Initializable {
                     ASSISTANTCARDDECK.setImage(image);
                 }
             }
-        }else if (node.getId().startsWith("ASSISTANTCARD")) {
-            initializeDeck();
-            showAssistantCard(node);
         }
     }
 
@@ -421,8 +419,8 @@ public class GameBoardController implements Initializable {
     }
 
     //Shows the currently selected Assistant Card
-    private void showAssistantCard(Node node) {
-        ((ImageView)node).setImage(deck.get(ACindex % deck.size()));
+    private void showAssistantCard() {
+        ASSISTANTCARD.setImage(deck.get((ACindex) % deck.size()));
     }
 
 
@@ -490,7 +488,7 @@ public class GameBoardController implements Initializable {
             ACindex = -1;
         }
         ACindex++;
-        showAssistantCard(ASSISTANTCARD);
+        showAssistantCard();
         e.consume();
     }
 
@@ -501,7 +499,7 @@ public class GameBoardController implements Initializable {
             ACindex = deck.size();
         }
         ACindex--;
-        showAssistantCard(ASSISTANTCARD);
+        showAssistantCard();
         event.consume();
     }
 
@@ -514,6 +512,7 @@ public class GameBoardController implements Initializable {
             index = "10";
         dealWithAction(action, index, null);
         event.consume();
+        showAssistantCard();
     }
 
     @FXML
