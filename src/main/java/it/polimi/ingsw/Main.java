@@ -24,7 +24,6 @@ public class Main {
                 return;
             } else if(server){
                 try {
-                    System.out.println(s);
                     lobby = Lobby.getInstance(Integer.parseInt(s));
                 } catch (NumberFormatException e){
                     lobby = Lobby.getInstance();

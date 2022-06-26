@@ -35,7 +35,7 @@ public class ClientHandler implements Runnable{
             return;
         }
 
-        System.out.println("Connected to " + client.getInetAddress());
+        System.out.println("Connected to " + client.getInetAddress() + "/" + client.getPort());
 
         try {
             handleClientConnection();
@@ -180,13 +180,10 @@ public class ClientHandler implements Runnable{
     }
 
     private void leaveRoom() throws IOException{
-        if(room.removePlayer()){
-            room = null;
-            lobby.addToRoom(0, this);
-            output.writeObject(new Ack());
-            return;
-        }
-        output.writeObject(new Nack("Cannot leave the room at the moment"));
+        room.playerDisconnect(this);
+        room = null;
+        lobby.addToRoom(0, this);
+        output.writeObject(new Ack());
     }
 
     private boolean logout() throws IOException{
