@@ -322,7 +322,7 @@ public class GameBoardController implements Initializable {
                 } else
                     return;
             }
-            case 3 -> {
+            default -> {
                 return;
             }
         }
@@ -332,6 +332,7 @@ public class GameBoardController implements Initializable {
             node.setVisible(true);
             iteratorTowers++;
         } else {
+            node.setVisible(false);
             node.setDisable(true);
         }
     }
