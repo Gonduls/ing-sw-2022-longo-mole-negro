@@ -26,61 +26,51 @@ public class AcceptCloudState extends  GameState {
 
     @Override
     public void executeEvent(GameEvent event) throws GameException {
-        switch (event.getEventType()) {
-            case CHOOSE_CLOUD: {
-                ChooseCloudEvent eventCast = (ChooseCloudEvent) event;
-                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
-                int cloudIndex = eventCast.getCloudIndex();
+        GameEventType eventType = event.getEventType();
+        if (eventType == GameEventType.CHOOSE_CLOUD) {
+            ChooseCloudEvent eventCast = (ChooseCloudEvent) event;
+            Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
+            int cloudIndex = eventCast.getCloudIndex();
 
-                    context.gameManager.emptyCloudInPlayer(cloudIndex, player);
-                    numberOfEvents--;
-
-
-                if (numberOfEvents == 0) {
-                    context.gameManager.setUsedCard(-1, context.getCurrentPlayer().getPlayerNumber());
-
-                    if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {
-                        //new round
-                        context.setPlayingOrderIndex(0);
-
-                        context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-
-                        context.changeState(new AcceptAssistantCardState(context, context.getNumberOfPlayers()));
-
-                        context.gameManager.getModelObserver().changePhase(GamePhase.PLANNING_PHASE);
+            context.gameManager.emptyCloudInPlayer(cloudIndex, player);
+            numberOfEvents--;
 
 
+            if (numberOfEvents == 0) {
+                context.gameManager.setUsedCard(-1, context.getCurrentPlayer().getPlayerNumber());
 
-                    } else {
-                        //new turn for the new player
-                        context.setPlayingOrderIndex(context.getPlayingOrderIndex() + 1);
-                        context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+                if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {
+                    //new round
+                    context.setPlayingOrderIndex(0);
 
-                        for(CharacterCard cc: context.gameManager.getActiveCards()){
-                            cc.deactivateEffect();
-                        }
+                    context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
 
-                        context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers()==3?4:3));
-                        context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
+                    context.changeState(new AcceptAssistantCardState(context, context.getNumberOfPlayers()));
 
+                    context.gameManager.getModelObserver().changePhase(GamePhase.PLANNING_PHASE);
+
+
+                } else {
+                    //new turn for the new player
+                    context.setPlayingOrderIndex(context.getPlayingOrderIndex() + 1);
+                    context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
+
+                    for (CharacterCard cc : context.gameManager.getActiveCards()) {
+                        cc.deactivateEffect();
                     }
+
+                    context.changeState(new AcceptMoveStudentFromEntranceState(context, context.getNumberOfPlayers() == 3 ? 4 : 3));
+                    context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_ONE);
 
                 }
 
-            break;
             }
+        } else if (eventType == GameEventType.ACTIVATE_CHARACTER_CARD) {
+            ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
 
-            case ACTIVATE_CHARACTER_CARD:{
-                ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
+            int cardId = eventCast.getCardId();
 
-                int cardId = eventCast.getCardId();
-
-                context.handleCard(this,cardId);
-                break;
-
-            }
+            context.handleCard(this, cardId);
         }
-
     }
-
 }

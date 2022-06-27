@@ -28,45 +28,38 @@ public class AcceptMotherNatureMoveState extends GameState {
     @Override
     public void executeEvent(GameEvent event) throws GameException {
 
-        switch(event.getEventType()){
-            case MOVE_MOTHER_NATURE: {
-                MoveMotherNatureEvent eventCast = (MoveMotherNatureEvent) event;
+        GameEventType eventType = event.getEventType();
+        if (eventType == GameEventType.MOVE_MOTHER_NATURE) {
+            MoveMotherNatureEvent eventCast = (MoveMotherNatureEvent) event;
 
-                Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
-                int amount = eventCast.getAmount();
+            Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
+            int amount = eventCast.getAmount();
 
-               if (context.gameManager.getUsedCard() == 1) {
-                   if (amount > context.getPlayerMaxSteps().get(player).getSteps() +2 ) {
-                       throw new GameException("you cannot move mother nature more than " + (context.getPlayerMaxSteps().get(player).getSteps() + 2 ));
-                   }
-               } else {
-                   if (amount > context.getPlayerMaxSteps().get(player).getSteps()) {
-                       throw new GameException("you cannot move mother nature more than " + context.getPlayerMaxSteps().get(player).getSteps());
-                   }
-               }
-
-               try{
-                    context.gameManager.moveMotherNature(amount);
-                } catch (IllegalArgumentException e) {
-                    throw new GameException("this should be impossible, we already check the legality of the move");
+            if (context.gameManager.getUsedCard() == 1) {
+                if (amount > context.getPlayerMaxSteps().get(player).getSteps() + 2) {
+                    throw new GameException("you cannot move mother nature more than " + (context.getPlayerMaxSteps().get(player).getSteps() + 2));
                 }
-
-                numberOfEvents--;
-                if(numberOfEvents == 0){
-                    context.changeState(new AcceptCloudState(context,1));
-                    context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_THREE);
+            } else {
+                if (amount > context.getPlayerMaxSteps().get(player).getSteps()) {
+                    throw new GameException("you cannot move mother nature more than " + context.getPlayerMaxSteps().get(player).getSteps());
                 }
-                break;
             }
 
-            case ACTIVATE_CHARACTER_CARD:{
-                ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
-                int cardId = eventCast.getCardId();
-                context.handleCard(this,cardId);
-                break;
+            try {
+                context.gameManager.moveMotherNature(amount);
+            } catch (IllegalArgumentException e) {
+                throw new GameException("this should be impossible, we already check the legality of the move");
             }
 
-
+            numberOfEvents--;
+            if (numberOfEvents == 0) {
+                context.changeState(new AcceptCloudState(context, 1));
+                context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_THREE);
+            }
+        } else if (eventType == GameEventType.ACTIVATE_CHARACTER_CARD) {
+            ActivateCharacterCardEvent eventCast = (ActivateCharacterCardEvent) event;
+            int cardId = eventCast.getCardId();
+            context.handleCard(this, cardId);
         }
     }
 }
