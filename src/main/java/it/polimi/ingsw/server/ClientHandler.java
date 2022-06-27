@@ -49,7 +49,7 @@ public class ClientHandler implements Runnable{
             handleClientConnection();
             client.close();
             System.out.println("client " + client.getInetAddress() + "/" + client.getPort() + " disconnected");
-        } catch (IOException | UnexpectedMessageException e) {
+        } catch (IOException | UnexpectedMessageException | NullPointerException e) {
             System.out.println("client " + client.getInetAddress() + "/" + client.getPort() + " connection dropped");
             if(room != null)
                 room.playerDisconnect(this);
