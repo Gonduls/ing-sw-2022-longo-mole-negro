@@ -129,7 +129,6 @@ public class Player {
             throw new InvalidParameterException("There are not enough coins to execute this action");
 
         coinsOwned -= coinsNumber;
-        modelObserver.payPrice(coinsNumber, this.getPlayerNumber());
     }
 
     /**

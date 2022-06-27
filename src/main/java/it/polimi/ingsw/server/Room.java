@@ -20,7 +20,6 @@ public class Room {
     private final boolean expert;
     private int present = 0;
     private RoundController rc;
-    private final RoomInfo info;
 
     /**
      * Creates a room setting starting parameters
@@ -33,7 +32,6 @@ public class Room {
         this.expert = expert;
         players = new String[numberOfPlayers];
         handlers = new ClientHandler[numberOfPlayers];
-        info = Lobby.getInstance().getInfos().get(id);
     }
 
     /**
@@ -64,7 +62,7 @@ public class Room {
         sendBroadcast(new AddPlayer(player, present));
         Log.logger.info("present = " + present + " adding player: " + player);
 
-        info.addPlayer();
+        Lobby.getInstance().getInfos().get(id).addPlayer();
         present++;
 
         if(present == players.length) {

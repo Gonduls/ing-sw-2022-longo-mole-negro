@@ -234,10 +234,6 @@ public class ClientModelManager {
                 activated.put(acc.characterCardIndex(), true);
             }
             case ADD_COIN -> coins[((AddCoin) message).player()] += 1;
-            case PAY_PRICE -> {
-                PayPrice pp = (PayPrice) message;
-                coins[pp.player()] -= pp.amount();
-            }
             case NO_ENTRY -> {
                 NoEntry ne = (NoEntry) message;
                 if (ne.add()) {
