@@ -75,7 +75,7 @@ public class NetworkHandler implements Runnable{
                 Log.logger.info(answer.getMessageType().toString());
 
                 if(answer.getMessageType() == MessageType.NACK)
-                    Log.logger.warning(((Nack) answer).getErrorMessage());
+                    Log.logger.warning(((Nack) answer).errorMessage());
 
             } catch (ClassNotFoundException | ClassCastException e) {
                 e.printStackTrace();
@@ -95,7 +95,7 @@ public class NetworkHandler implements Runnable{
             // If that fails, the answer must be read by another function in network handler
             synchronized (lockAnswer){
                 if(answer.getMessageType() == MessageType.PUBLIC_ROOMS){
-                    clientController.showPublicRooms(((PublicRooms) answer).getRooms());
+                    clientController.showPublicRooms(((PublicRooms) answer).rooms());
                     answer = null;
                     continue;
                 }

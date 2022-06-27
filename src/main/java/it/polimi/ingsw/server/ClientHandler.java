@@ -132,7 +132,7 @@ public class ClientHandler implements Runnable{
     private void login() throws IOException{
         while(username == null){
             try{
-                username = ((Login) input.readObject()).getUsername();
+                username = ((Login) input.readObject()).username();
             } catch (ClassNotFoundException | ClassCastException  e) {
                 output.writeObject(new Nack("Login message missing"));
                 continue;

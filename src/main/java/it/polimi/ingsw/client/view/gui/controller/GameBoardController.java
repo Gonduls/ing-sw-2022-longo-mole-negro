@@ -687,7 +687,7 @@ public class GameBoardController implements Initializable {
             Message answer = cc.performEvent(gameEvent);
             reprint();
             if(answer.getMessageType() == MessageType.NACK){
-                MESSAGES.setText(((Nack) answer).getErrorMessage());
+                MESSAGES.setText(((Nack) answer).errorMessage());
                 MESSAGES.setVisible(true);
             } else {
                 MESSAGES.setVisible(false);

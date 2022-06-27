@@ -1,18 +1,16 @@
 package it.polimi.ingsw.messages;
 
-public class Nack implements Message{
-    private final String errorMessage;
+/**
+ * Message that states that the previous message was not valid
+ * @param errorMessage A string explaining why the message was not valid
+ */
+public record Nack(String errorMessage) implements Message {
 
-    public Nack(String errorMessage){
-        this.errorMessage = errorMessage;
-    }
-
+    /**
+     * @return The MessageType of this message (NACK)
+     */
     @Override
     public MessageType getMessageType() {
         return MessageType.NACK;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
     }
 }

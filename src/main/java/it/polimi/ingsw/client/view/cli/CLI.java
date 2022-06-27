@@ -120,7 +120,7 @@ public class CLI implements UI {
     @Override
     public void showMessage(Message message) {
         switch (message.getMessageType()) {
-            case NACK -> System.out.println(((Nack) message).getErrorMessage());
+            case NACK -> System.out.println(((Nack) message).errorMessage());
             case ADD_PLAYER -> {
                 AddPlayer ap = (AddPlayer) message;
                 System.out.println("Player " + ap.username() +" joined! ");
@@ -133,12 +133,8 @@ public class CLI implements UI {
 
                 killGame();
                 printClear();
-                System.out.println("Game Over \n" +
-                        "Winner/s: " );
-                EndGame eg = (EndGame) message;
-                for(int i = 0; i < eg.winners().length; i++) {
-                    System.out.println(eg.winners()[i]);
-                }
+                System.out.println("Game Over");
+                System.out.println(message);
                 System.out.println("Press anything to return to Lobby.");
                 new Scanner(System.in).nextLine();
             }

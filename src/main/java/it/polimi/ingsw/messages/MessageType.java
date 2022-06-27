@@ -1,5 +1,8 @@
 package it.polimi.ingsw.messages;
 
+/**
+ * Specifies all possible message types
+ */
 public enum MessageType {
     LOGIN,
     LOGOUT,
@@ -30,6 +33,10 @@ public enum MessageType {
     LEAVE_ROOM,
     PLAYER_DISCONNECT;
 
+    /**
+     * @param type The type of message to check
+     * @return True if message can be sent form the server, false otherwise
+     */
     public static boolean isServerMessage(MessageType type){
         return (type != MessageType.LOGIN &&
                 type != MessageType.LOGOUT &&
@@ -40,10 +47,18 @@ public enum MessageType {
                 type != MessageType.LEAVE_ROOM);
     }
 
+    /**
+     * @param type The type of message to check
+     * @return True if message can be sent form the client, false otherwise
+     */
     public static boolean isClientMessage(MessageType type){
         return (!isServerMessage(type));
     }
 
+    /**
+     * @param type The type of message to check
+     * @return True if message can update the client model, false otherwise
+     */
     public static boolean doesUpdate(MessageType type){
         return (type != MessageType.ACK &&
                 type != MessageType.NACK &&

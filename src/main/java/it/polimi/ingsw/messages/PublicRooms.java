@@ -4,20 +4,18 @@ import it.polimi.ingsw.server.RoomInfo;
 
 import java.util.List;
 
-public class PublicRooms implements Message{
-    private List<RoomInfo> rooms;
+/**
+ * Message that holds all public rooms available that fitted the previous request
+ * @param rooms The info requested
+ */
+public record PublicRooms(List<RoomInfo> rooms) implements Message {
 
-    public PublicRooms(List<RoomInfo> rooms){
-        this.rooms = rooms;
-    }
-
+    /**
+     * @return The MessageType of this message (PUBLIC_ROOMS)
+     */
     @Override
     public MessageType getMessageType() {
         return MessageType.PUBLIC_ROOMS;
-    }
-
-    public List<RoomInfo> getRooms() {
-        return rooms;
     }
 }
 
