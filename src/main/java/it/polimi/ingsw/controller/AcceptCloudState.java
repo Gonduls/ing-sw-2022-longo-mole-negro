@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
-import it.polimi.ingsw.messages.events.ChooseCloudTileEvent;
+import it.polimi.ingsw.messages.events.ChooseCloudEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCard;
@@ -13,22 +13,22 @@ import it.polimi.ingsw.model.Player;
  * The only allowed moves are choosing a cloud and activating a character card.
  *
  */
-public class AcceptCloudTileState extends  GameState {
-    AcceptCloudTileState(RoundController context, int numberOfEvents) {
+public class AcceptCloudState extends  GameState {
+    AcceptCloudState(RoundController context, int numberOfEvents) {
         super(context, numberOfEvents);
     }
 
     @Override
     public boolean checkValidEvent(GameEvent event) {
-        return event.getEventType() == GameEventType.CHOOSE_CLOUD_TILE ||
+        return event.getEventType() == GameEventType.CHOOSE_CLOUD ||
                 event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD;
     }
 
     @Override
     public void executeEvent(GameEvent event) throws GameException {
         switch (event.getEventType()) {
-            case CHOOSE_CLOUD_TILE: {
-                ChooseCloudTileEvent eventCast = (ChooseCloudTileEvent) event;
+            case CHOOSE_CLOUD: {
+                ChooseCloudEvent eventCast = (ChooseCloudEvent) event;
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 int cloudIndex = eventCast.getCloudIndex();
 

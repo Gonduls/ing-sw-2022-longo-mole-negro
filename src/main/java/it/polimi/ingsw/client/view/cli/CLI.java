@@ -504,7 +504,7 @@ public class CLI implements UI {
                 }
                 case ("Choose cloud #") -> {
                     int index = Integer.parseInt(actionString);
-                    event = new ChooseCloudTileEvent(index, player);
+                    event = new ChooseCloudEvent(index, player);
                 }
                 case ("Activate card #") -> {
                     int id = Integer.parseInt(actionString);

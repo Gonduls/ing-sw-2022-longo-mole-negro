@@ -53,7 +53,7 @@ public class AcceptMotherNatureMoveState extends GameState {
 
                 numberOfEvents--;
                 if(numberOfEvents == 0){
-                    context.changeState(new AcceptCloudTileState(context,1));
+                    context.changeState(new AcceptCloudState(context,1));
                     context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_THREE);
                 }
                 break;

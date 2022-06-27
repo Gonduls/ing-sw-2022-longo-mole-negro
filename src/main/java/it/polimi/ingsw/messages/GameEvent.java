@@ -21,11 +21,6 @@ public  abstract class GameEvent implements Message {
     public abstract GameEventType getEventType();
 
     /**
-     * @return The player's username
-     */
-    public abstract String getPlayerName();
-
-    /**
      * @return The index of the player
      */
     public abstract int getPlayerNumber();

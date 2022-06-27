@@ -674,7 +674,7 @@ public class GameBoardController implements Initializable {
             }
             case "Choose cloud" -> {
                 int cloudIndex = Integer.parseInt(param1);
-                gameEvent = new ChooseCloudTileEvent(cloudIndex, cc.getPlayingPlayer());
+                gameEvent = new ChooseCloudEvent(cloudIndex, cc.getPlayingPlayer());
             }
             /*case "Activate CC" -> {
                 gameEvent = new ActivateCharacterCardEvent();
