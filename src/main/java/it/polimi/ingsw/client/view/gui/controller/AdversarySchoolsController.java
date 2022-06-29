@@ -217,8 +217,10 @@ public class AdversarySchoolsController implements Initializable {
     private void returnToGame(MouseEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
+        scene = new Scene(root);
         stage.setScene(scene);
+        scene.getWindow().setHeight(768);
         stage.show();
+
     }
 }

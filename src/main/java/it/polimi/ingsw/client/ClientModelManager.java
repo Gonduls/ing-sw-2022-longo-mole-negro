@@ -203,6 +203,15 @@ public class ClientModelManager {
     }
 
     /**
+     * @param cardId The desired Character Card
+     * @return True if tha card has been activated during this game, false otherwise
+     */
+    public boolean wasActivated(int cardId){
+        if(!activated.containsKey(cardId)) return false;
+        return activated.get(cardId);
+    }
+
+    /**
      * Modifies client model depending on message received
      * @param message The message containing information on how to modify the model
      * @throws UnexpectedMessageException If the message does not modify the model

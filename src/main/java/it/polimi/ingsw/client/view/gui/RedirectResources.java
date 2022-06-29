@@ -124,6 +124,7 @@ public final class RedirectResources {
         if (name.indexOf(".") > 0)
             name = name.substring(0, name.lastIndexOf("."));
 
+        name = name.replace("Min", "");
         switch (name) {
             case "RoundRed"-> {return "RED";}
             case "RoundPink" -> {return "PINK";}

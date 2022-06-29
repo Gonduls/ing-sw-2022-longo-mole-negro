@@ -72,6 +72,9 @@ public class GameBoardController implements Initializable {
     @FXML
     private Label MESSAGES;
 
+    @FXML
+    private Button ENDACTION;
+
     //used to change images of students
     private int numberOfReds = 0;
     private int numberOfBlues = 0;
@@ -101,6 +104,7 @@ public class GameBoardController implements Initializable {
     private int ACindex;
     private int totalStudentsNumber = 0;
     private static int choosenCCindex  = 0;
+    private final String[] swap = new String[2];
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -113,6 +117,7 @@ public class GameBoardController implements Initializable {
         instance.ASSISTANTCARDDECK = this.ASSISTANTCARDDECK;
         instance.CHARACTERCARDS = this.CHARACTERCARDS;
         instance.MESSAGES = this.MESSAGES;
+        instance.ENDACTION = this.ENDACTION;
 
         //setting board for game start
         if (!expert) {
@@ -142,8 +147,16 @@ public class GameBoardController implements Initializable {
     public void reprint() {
         // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
         initializeDeck();
-        Platform.runLater(
-                () -> BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard)
+        Platform.runLater( () -> {
+                    ENDACTION.setVisible(false);
+                    cc.getActions().forEach(string -> {
+                        if(string.endsWith("End selections")) {
+                            ENDACTION.setVisible(true);
+                        }
+                        System.out.println(string);
+                    });
+                    BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
+                }
         );
     }
 
@@ -519,7 +532,10 @@ public class GameBoardController implements Initializable {
 
     @FXML
     private void studentSelected(MouseEvent event) {
-        String s = ((ImageView)event.getSource()).getImage().getUrl();
+        String url = ((ImageView)event.getSource()).getImage().getUrl();
+        int card = cc.getActiveCharacterCard();
+        if(card == 2 || card == 3)
+            instance.putSwap(RedirectResources.fromURLtoElement(url), ((ImageView) event.getSource()).getId());
     }
 
     @FXML
@@ -528,8 +544,8 @@ public class GameBoardController implements Initializable {
     }
 
     /*First click on the source of the drag.
-    *It saves in the dragboard the Id of the node that is being moved (Source).
-    */
+     *It saves in the dragboard the Id of the node that is being moved (Source).
+     */
     @FXML
     private void startDrag(MouseEvent event) {
         Dragboard db = ((Node)event.getSource()).startDragAndDrop(TransferMode.MOVE);
@@ -688,6 +704,16 @@ public class GameBoardController implements Initializable {
                 Color color = Color.valueOf(param1);
                 gameEvent = new MoveStudentFromCardToIslandEvent(color, Integer.parseInt(param2), cc.getPlayingPlayer());
             }
+            case ("Swap X from CC with Y from E") -> {
+                Color x = Color.valueOf(param1);
+                Color y = Color.valueOf(param1);
+                gameEvent = new SwapStudentCardEntranceEvent(x, y, cc.getPlayingPlayer());
+            }
+            case ("Swap X from E with Y from DR") -> {
+                Color x = Color.valueOf(param1);
+                Color y = Color.valueOf(param1);
+                gameEvent = new SwapStudentEntranceTableEvent(x, y, cc.getPlayingPlayer());
+            }
             default -> gameEvent = null;
 
         }
@@ -725,6 +751,7 @@ public class GameBoardController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
+        scene.getWindow().setHeight(768 - 0.001);
         stage.show();
 
     }
@@ -739,23 +766,46 @@ public class GameBoardController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
+        scene.getWindow().setHeight(768 - 0.001);
         stage.show();
     }
 
     @FXML
     public void endAction(ActionEvent event) {
-        ((Button)event.getSource()).setText("End Action");
-        GameEvent gameEvent;
+        GameEvent gameEvent= new EndSelection(cc.getPlayingPlayer());
 
-        gameEvent = new EndSelection(cc.getPlayingPlayer());
-
-        if (gameEvent != null) {
-            Message answer = cc.performEvent(gameEvent);
-            if (answer.getMessageType() == MessageType.NACK) {
-                MESSAGES.setText(((Nack) answer).errorMessage());
-                MESSAGES.setVisible(true);
-            }
+        Message answer = cc.performEvent(gameEvent);
+        if (answer.getMessageType() == MessageType.NACK) {
+            MESSAGES.setText(((Nack) answer).errorMessage());
+            MESSAGES.setVisible(true);
         }
     }
 
+    private void putSwap(String color, String id){
+        switch (cc.getActiveCharacterCard()){
+            case 2 -> {
+                swap[0] = id.startsWith("SCC") ? color : swap[0];
+                swap[1] = id.startsWith("E_STUDENT_") ? color : swap[1];
+                if(swap[0] != null && swap[1] != null){
+                    System.out.println(Arrays.toString(swap));
+                    dealWithAction("Swap X from CC with Y from E", swap[0], swap[1]);
+                    clearSwap();
+                }
+            }
+            case 3 -> {
+                swap[0] = id.startsWith("E_STUDENT_") ? color : swap[0];
+                swap[1] = id.startsWith("DR_") ? color : swap[1];
+                if(swap[0] != null && swap[1] != null){
+                    dealWithAction("Swap X from E with Y from DR", swap[0], swap[1]);
+                    clearSwap();
+                }
+            }
+            default -> clearSwap();
+        }
+    }
+
+    public void clearSwap(){
+        instance.swap[0] = null;
+        instance.swap[1] = null;
+    }
 }

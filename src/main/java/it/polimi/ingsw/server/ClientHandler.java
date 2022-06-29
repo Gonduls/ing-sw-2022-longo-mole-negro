@@ -115,6 +115,7 @@ public class ClientHandler implements Runnable{
                         room.getRoundController().handleEvent((GameEvent) message);
                     } catch (Exception e) {
                         output.writeObject(new Nack(e.getMessage()));
+                        Log.logger.info(e.getMessage());
                         break;
                     }
                     output.writeObject(new Ack());
