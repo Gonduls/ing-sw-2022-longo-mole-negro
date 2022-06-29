@@ -8,7 +8,9 @@ import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.messages.Nack;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
+import it.polimi.ingsw.messages.events.ChooseColorEvent;
 import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.Color;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -42,20 +45,32 @@ public class CharacterCardsController implements Initializable{
     @FXML
     private Label MESSAGES;
 
+    @FXML
+    private AnchorPane COLORS;
+
     Parent root;
     Stage stage;
     Scene scene;
 
+    private int choosenCCIndex = 0;
+    private Color choosenColor = null;
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        int choosenCCIndex = GameBoardController.getInstance().getChoosenCC();
+        choosenCCIndex = GameBoardController.getInstance().getChoosenCC();
         String desc = CharacterCard.description(choosenCCIndex);
         Image CCImage = RedirectResources.characterCardsDescImages(choosenCCIndex);
 
         DescCC.setImage(CCImage);
         DESCRIPTIONCC.setText(desc);
         ACTIVATECC.setText("Activate");
+
+        if(choosenCCIndex == 10 || choosenCCIndex == 11) {
+            COLORS.setVisible(true);
+            COLORS.setDisable(false);
+        }
+
     }
 
     public void activateCC(ActionEvent actionEvent) throws IOException {
@@ -69,6 +84,15 @@ public class CharacterCardsController implements Initializable{
                 MESSAGES.setText(((Nack) answer).errorMessage());
                 MESSAGES.setVisible(true);
             } else {
+                if((choosenCCIndex == 10 || choosenCCIndex == 11) && choosenColor != null) {
+                    gameEvent = new ChooseColorEvent(choosenColor,cc.getPlayingPlayer());
+                    answer = cc.performEvent(gameEvent);
+                    if(answer.getMessageType() == MessageType.NACK){
+                        MESSAGES.setText(((Nack) answer).errorMessage());
+                        MESSAGES.setVisible(true);
+                    }
+                }
+
                 //todo riattiva solo carta da usare
                 root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
                 stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
@@ -90,5 +114,8 @@ public class CharacterCardsController implements Initializable{
 
     }
 
-
+    @FXML
+    public void chooseColor(MouseEvent event) {
+        choosenColor = Color.valueOf(((ImageView)event.getSource()).getId());
+    }
 }

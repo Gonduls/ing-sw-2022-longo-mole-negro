@@ -9,23 +9,55 @@
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.CharacterCardsController">
    <children>
-      <ImageView fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bg" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/CCbg.png" />
          </image>
       </ImageView>
       <ImageView fx:id="DescCC" fitHeight="303.0" fitWidth="200.0" layoutX="223.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="DESCRIPTIONCC" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="446.0" layoutY="233.0" prefHeight="165.0" prefWidth="710.0" text="Description" textAlignment="CENTER" wrapText="true">
+      <Label fx:id="DESCRIPTIONCC" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="446.0" layoutY="233.0" prefHeight="189.0" prefWidth="710.0" text="Description" textAlignment="CENTER" textFill="#cf7b30" wrapText="true">
          <font>
-            <Font size="20.0" />
+            <Font name="Segoe UI Black Italic" size="23.0" />
          </font>
       </Label>
-      <Button fx:id="ACTIVATECC" layoutX="775.0" layoutY="491.0" mnemonicParsing="false" onAction="#activateCC" text="Button" />
+      <Button fx:id="ACTIVATECC" layoutX="771.0" layoutY="530.0" mnemonicParsing="false" onAction="#activateCC" prefHeight="25.0" prefWidth="61.0" text="Button" />
       <ImageView fx:id="RETURN" fitHeight="30.0" fitWidth="30.0" layoutX="52.0" layoutY="40.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/ButtonPrev.png" />
          </image>
       </ImageView>
-      <Label fx:id="MESSAGES" alignment="CENTER" contentDisplay="CENTER" layoutX="517.0" layoutY="450.0" prefHeight="17.0" prefWidth="569.0" text="Label" />
+      <Label fx:id="MESSAGES" alignment="CENTER" contentDisplay="CENTER" layoutX="475.0" layoutY="473.0" prefHeight="30.0" prefWidth="653.0" textAlignment="CENTER" wrapText="true">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
+      <AnchorPane fx:id="COLORS" disable="true" layoutX="625.0" layoutY="422.0" visible="false">
+         <children>
+            <ImageView fx:id="RED" fitHeight="40.0" fitWidth="40.0" onMouseClicked="#chooseColor" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/RoundRed.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="PINK" fitHeight="40.0" fitWidth="40.0" layoutX="76.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/RoundPink.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="YELLOW" fitHeight="40.0" fitWidth="40.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/RoundYellow.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="GREEN" fitHeight="40.0" fitWidth="40.0" layoutX="234.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/RoundGreen.png" />
+               </image>
+            </ImageView>
+            <ImageView fx:id="BLUE" fitHeight="40.0" fitWidth="40.0" layoutX="308.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/Elements/RoundBlue.png" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>
