@@ -15,12 +15,14 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
@@ -371,7 +373,9 @@ public class GameBoardController implements Initializable {
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
             } else if(indexesIterator == 5) {
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
-                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));
+                        b -> {
+                            b.setVisible(true);
+                            ((ImageView) b).setImage(RedirectResources.getNoEntryImage());});
             } else {
                 node.setDisable(true);
                 node.setVisible(false);
@@ -738,5 +742,20 @@ public class GameBoardController implements Initializable {
         stage.show();
     }
 
+    @FXML
+    public void endAction(ActionEvent event) {
+        ((Button)event.getSource()).setText("End Action");
+        GameEvent gameEvent;
+
+        gameEvent = new EndSelection(cc.getPlayingPlayer());
+
+        if (gameEvent != null) {
+            Message answer = cc.performEvent(gameEvent);
+            if (answer.getMessageType() == MessageType.NACK) {
+                MESSAGES.setText(((Nack) answer).errorMessage());
+                MESSAGES.setVisible(true);
+            }
+        }
+    }
 
 }
