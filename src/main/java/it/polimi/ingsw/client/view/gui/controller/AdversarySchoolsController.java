@@ -72,53 +72,58 @@ public class AdversarySchoolsController implements Initializable {
             }
         }*/
 
-        ADVERSARYBOARD.getChildren().stream().filter(Objects::nonNull).forEach(this::setSchool);
+        ADVERSARYBOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool);
 
     }
 
     private void setSchool(Node node) {
-        if(playerIndex > cmm.getPlayers().length) {
+
+        if(playerIndex >= cmm.getPlayers().length) {
             node.setVisible(false);
             return;
         }
 
-        if (node.getId().startsWith("DR")) {
-            ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
-                String[] s = b.getId().split("_");
-                currentDRColor = cmm.getDiningRooms(playerIndex).get(Color.valueOf(s[1]));
-                ((AnchorPane) b).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setDiningRoom);
-            });
-        }
-        else if (node.getId().startsWith("PROFESSORS"))
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setProfessors);
-        else if (node.getId().startsWith("ENTRANCE")){
-            setNumberOfStudents(cmm.getEntrance(playerIndex));
-            ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(x -> {
-                if(studentNumber > 6 && numberOfPlayers != 3)
-                    return;
-                studentNumber++;
-                setStudents(x);
-            });
-            studentNumber = 0;
-        }
-        else if (node.getId().startsWith("TOWERS")) {
-            ((AnchorPane)node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setTowers);
-            iteratorTowers = 0;
-        }
-        else if (node.getId().startsWith("USERNAME")) {
-            ((Label)node).setText(cmm.getPlayers()[playerIndex]);
-            node.setVisible(true);
-        }
-        else if (node.getId().startsWith("TURN")) {
-            if(cc.myTurn() == true) {
-                node.setVisible(true);
+        ((AnchorPane)node).getChildren().stream().filter(Objects::nonNull).forEach(x -> {
+            if (x.getId().startsWith("DR")) {
+                ((AnchorPane)x).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
+                    String[] s = b.getId().split("_");
+                    currentDRColor = cmm.getDiningRooms(playerIndex).get(Color.valueOf(s[1]));
+                    ((AnchorPane) b).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setDiningRoom);
+                });
             }
-        }
-        else if (node.getId().startsWith("COINNUM")) {
-            int coins = cmm.getCoins(playerIndex);
-            ((Label)node).setText(String.valueOf(coins));
-        }
+            else if (x.getId().startsWith("PROFESSORS"))
+                ((AnchorPane) x).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setProfessors);
+            else if (x.getId().startsWith("ENTRANCE")){
+                setNumberOfStudents(cmm.getEntrance(playerIndex));
+                ((AnchorPane) x).getChildren().stream().filter(ImageView.class::isInstance).forEach(c -> {
+                    if(studentNumber > 6 && numberOfPlayers != 3)
+                        return;
+                    studentNumber++;
+                    setStudents(c);
+                });
+                studentNumber = 0;
+            }
+            else if (x.getId().startsWith("TOWERS")) {
+                ((AnchorPane)x).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setTowers);
+                iteratorTowers = 0;
+            }
+            else if (x.getId().startsWith("USERNAME")) {
+                ((Label)x).setText(cmm.getPlayers()[playerIndex]);
+                x.setVisible(true);
+            }
+            else if (x.getId().startsWith("TURN")) {
+                /*if(cc.myTurn() == true) {
+                    x.setVisible(true);
+                }*/
+            }
+            else if (x.getId().startsWith("COINNUM")) {
+                int coins = cmm.getCoins(playerIndex);
+                ((Label)x).setText(String.valueOf(coins));
+            }
+        });
+
         playerIndex++;
+
     }
 
     private void setTowers(Node node) {
@@ -143,7 +148,9 @@ public class AdversarySchoolsController implements Initializable {
                 return;
             }
         }
+
         int currentTowerNumber = cmm.getTowers(playerIndex);
+
         if (iteratorTowers < currentTowerNumber) {
             node.setVisible(true);
             iteratorTowers++;
@@ -189,7 +196,8 @@ public class AdversarySchoolsController implements Initializable {
     }
 
     private void setProfessors(Node node) {
-        if (cmm.getProfessors().get(Color.valueOf(node.getId())) == playerIndex)
+        String[] s = node.getId().split("_");
+        if (cmm.getProfessors().get(Color.valueOf(s[0])) == playerIndex)
             node.setVisible(true);
     }
 

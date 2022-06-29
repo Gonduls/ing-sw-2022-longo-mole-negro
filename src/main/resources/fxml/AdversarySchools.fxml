@@ -12,6 +12,11 @@
             <Image url="@../images/Elements/AdversarySchools.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="BACKBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="70.0" layoutY="29.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/ButtonPrev.png" />
+         </image>
+      </ImageView>
       <AnchorPane fx:id="SCHOOL0" layoutX="169.0" layoutY="95.0">
          <children>
             <ImageView fx:id="SCHOOL_0" fitHeight="220.0" fitWidth="455.0" layoutX="40.0" layoutY="41.0" pickOnBounds="true" preserveRatio="true">
@@ -295,27 +300,27 @@
             </AnchorPane>
             <AnchorPane fx:id="PROFESSORS_0" layoutX="341.0" layoutY="87.0" prefHeight="148.0" prefWidth="20.0">
                <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="BLUE_0" fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="PINK_0" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="YELLOW_0" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="RED_0" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="GREEN_0" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexGreen.png" />
                      </image>
@@ -358,7 +363,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_0" layoutX="6.0" layoutY="202.0" text="Label" />
+            <Label fx:id="COINNUM_0" contentDisplay="CENTER" layoutX="6.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL1" layoutX="169.0" layoutY="367.0">
@@ -644,27 +649,27 @@
             </AnchorPane>
             <AnchorPane fx:id="PROFESSORS_1" layoutX="341.0" layoutY="89.0" prefHeight="148.0" prefWidth="20.0">
                <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="BLUE_1" fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="PINK_1" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="YELLOW_1" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="RED_1" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="GREEN_1" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexGreen.png" />
                      </image>
@@ -707,7 +712,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_1" layoutX="6.0" layoutY="205.0" text="Label" />
+            <Label fx:id="COINNUM_1" contentDisplay="CENTER" layoutX="6.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL2" layoutX="703.0" layoutY="95.0">
@@ -993,27 +998,27 @@
             </AnchorPane>
             <AnchorPane fx:id="PROFESSORS_2" layoutX="302.0" layoutY="87.0" prefHeight="148.0" prefWidth="20.0">
                <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="BLUE_2" fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="PINK_2" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="YELLOW_2" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="RED_2" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="GREEN_2" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexGreen.png" />
                      </image>
@@ -1056,7 +1061,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_2" layoutX="461.0" layoutY="202.0" text="Label" />
+            <Label fx:id="COINNUM_2" contentDisplay="CENTER" layoutX="461.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL3" layoutX="703.0" layoutY="367.0">
@@ -1342,27 +1347,27 @@
             </AnchorPane>
             <AnchorPane fx:id="PROFESSORS_3" layoutX="301.0" layoutY="89.0" prefHeight="148.0" prefWidth="20.0">
                <children>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="BLUE_3" fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="PINK_3" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexPink.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="YELLOW_3" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexYellow.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="RED_3" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" layoutY="33.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexRed.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
+                  <ImageView fx:id="GREEN_3" fitHeight="20.0" fitWidth="20.0" layoutX="21.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
                         <Image url="@../images/Elements/HexGreen.png" />
                      </image>
@@ -1393,13 +1398,8 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_3" layoutX="461.0" layoutY="205.0" text="Label" />
+            <Label fx:id="COINNUM_3" contentDisplay="CENTER" layoutX="461.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
-      <ImageView fx:id="BACKBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="70.0" layoutY="29.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Elements/ButtonPrev.png" />
-         </image>
-      </ImageView>
    </children>
 </AnchorPane>

@@ -274,7 +274,7 @@ public class ClientController {
     /**
      * @return true if it is the turn of the player controlled
      */
-    public boolean myTurn(){
+    boolean myTurn(){
         if(playingPlayer == -1)
             return false;
         return players[playingPlayer].equals(username);
