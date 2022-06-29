@@ -370,8 +370,8 @@ public class GameBoardController implements Initializable {
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
             } else if(indexesIterator == 5) {
-                /*((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
-                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));*/
+                ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
+                        b -> ((ImageView) b).setImage(RedirectResources.getNoEntryImage()));
             } else {
                 node.setDisable(true);
                 node.setVisible(false);

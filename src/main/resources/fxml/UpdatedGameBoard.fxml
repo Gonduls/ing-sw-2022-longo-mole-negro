@@ -1553,32 +1553,32 @@
             </ImageView>
             <AnchorPane fx:id="STUDENTSCC1" layoutX="108.0" layoutY="85.0" prefHeight="69.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="SCC11" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC11" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC12" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC12" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC13" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC13" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC14" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC14" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC15" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC15" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC16" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC16" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
@@ -1592,32 +1592,32 @@
             </ImageView>
             <AnchorPane fx:id="STUDENTSCC2" layoutX="25.0" layoutY="259.0" prefHeight="69.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="SCC21" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC21" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC22" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC22" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC23" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC23" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC24" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC24" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC25" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC25" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC26" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC26" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
@@ -1631,32 +1631,32 @@
             </ImageView>
             <AnchorPane fx:id="STUDENTSCC3" layoutX="191.0" layoutY="260.0" prefHeight="69.0" prefWidth="100.0">
                <children>
-                  <ImageView fx:id="SCC31" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC31" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC32" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC32" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC33" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC33" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="-2.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC34" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC34" fitHeight="40.0" fitWidth="40.0" layoutX="-5.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC35" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC35" fitHeight="40.0" fitWidth="40.0" layoutX="29.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundGreen.png" />
                      </image>
                   </ImageView>
-                  <ImageView fx:id="SCC36" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="SCC36" fitHeight="40.0" fitWidth="40.0" layoutX="63.0" layoutY="32.0" onDragDetected="#startDrag" onDragDone="#dragDone" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../images/Elements/RoundBlue.png" />
                      </image>
