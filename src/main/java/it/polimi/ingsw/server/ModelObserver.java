@@ -237,6 +237,12 @@ public class ModelObserver {
         room.sendBroadcast(new MoveStudent("CLOUD:"+ cloudIndex, "ENTRANCE:"+player, color));
     }
 
+    public void moveStudentFromTableToEntrance(int player, Color color){
+        room.sendBroadcast(new MoveStudent("DININGROOM:"+player, "ENTRANCE:" + player, color));
+
+    }
+
+
     /**
      * Creates and sends a EndGame message
      * @param winners The array containing the winners' names
