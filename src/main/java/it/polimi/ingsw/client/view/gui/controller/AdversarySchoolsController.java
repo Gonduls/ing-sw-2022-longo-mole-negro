@@ -120,6 +120,15 @@ public class AdversarySchoolsController implements Initializable {
                 int coins = cmm.getCoins(playerIndex);
                 ((Label)x).setText(String.valueOf(coins));
             }
+            else if (x.getId().startsWith("ACPLAYED")) {
+                int ACplayed = cc.getAssistantCardsPlayed()[playerIndex];
+                if(ACplayed != -1) {
+                    Image image = RedirectResources.ACImages(ACplayed);
+                    ((ImageView) x).setImage(image);
+                    x.setVisible(true);
+                }
+            }
+
         });
 
         playerIndex++;
