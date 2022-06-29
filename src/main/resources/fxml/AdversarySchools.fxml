@@ -7,7 +7,7 @@
 
 <AnchorPane fx:id="ADVERSARYBOARD" prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.AdversarySchoolsController">
    <children>
-      <ImageView fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="bg" fitHeight="768.0" fitWidth="1366.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/AdversarySchools.png" />
          </image>
@@ -361,14 +361,14 @@
             <Label fx:id="COINNUM_0" layoutX="6.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="SCHOOL1" layoutX="169.0" layoutY="182.0">
+      <AnchorPane fx:id="SCHOOL1" layoutX="169.0" layoutY="367.0">
          <children>
-            <ImageView fx:id="SCHOOL_1" fitHeight="220.0" fitWidth="455.0" layoutX="40.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="SCHOOL_1" fitHeight="220.0" fitWidth="455.0" layoutX="40.0" layoutY="42.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/AdversarySchool.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="DR_1" layoutX="124.0" layoutY="274.0">
+            <AnchorPane fx:id="DR_1" layoutX="124.0" layoutY="89.0">
                <children>
                   <AnchorPane fx:id="DR_GREEN_01">
                      <children>
@@ -642,7 +642,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PROFESSORS_1" layoutX="341.0" layoutY="274.0" prefHeight="148.0" prefWidth="20.0">
+            <AnchorPane fx:id="PROFESSORS_1" layoutX="341.0" layoutY="89.0" prefHeight="148.0" prefWidth="20.0">
                <children>
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
@@ -671,7 +671,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="TOWERS_1" layoutX="896.0">
+            <AnchorPane fx:id="TOWERS_1" layoutX="401.0" layoutY="89.0">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" />
@@ -683,7 +683,7 @@
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ENTRANCE_1" layoutX="47.0" layoutY="270.0">
+            <AnchorPane fx:id="ENTRANCE_1" layoutX="47.0" layoutY="85.0">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="28.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
@@ -696,28 +696,28 @@
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
-            <Label fx:id="USERNAME_1" alignment="CENTER" layoutX="397.0" layoutY="244.0" prefHeight="17.0" prefWidth="69.0" text="Label" visible="false" />
-            <ImageView fx:id="TURN_1" fitHeight="50.0" fitWidth="50.0" layoutX="408.0" layoutY="185.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Label fx:id="USERNAME_1" alignment="CENTER" layoutX="397.0" layoutY="59.0" prefHeight="17.0" prefWidth="69.0" text="Label" visible="false" />
+            <ImageView fx:id="TURN_1" fitHeight="50.0" fitWidth="50.0" layoutX="408.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../images/Elements/TurnCrown.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="COIN_1" fitHeight="40.0" fitWidth="40.0" layoutY="407.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="COIN_1" fitHeight="40.0" fitWidth="40.0" layoutY="222.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_1" layoutX="6.0" layoutY="390.0" text="Label" />
+            <Label fx:id="COINNUM_1" layoutX="6.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
-      <AnchorPane fx:id="SCHOOL2" layoutX="570.0" layoutY="95.0">
+      <AnchorPane fx:id="SCHOOL2" layoutX="703.0" layoutY="95.0">
          <children>
-            <ImageView fx:id="SCHOOL_2" fitHeight="220.0" fitWidth="455.0" layoutX="133.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="SCHOOL_2" fitHeight="220.0" fitWidth="455.0" layoutY="40.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/AdversarySchool.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="DR_2" layoutX="217.0" layoutY="87.0">
+            <AnchorPane fx:id="DR_2" layoutX="84.0" layoutY="87.0">
                <children>
                   <AnchorPane fx:id="DR_GREEN_2">
                      <children>
@@ -991,7 +991,7 @@
                   </AnchorPane>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="PROFESSORS_2" layoutX="435.0" layoutY="87.0" prefHeight="148.0" prefWidth="20.0">
+            <AnchorPane fx:id="PROFESSORS_2" layoutX="302.0" layoutY="87.0" prefHeight="148.0" prefWidth="20.0">
                <children>
                   <ImageView fitHeight="20.0" fitWidth="20.0" layoutX="20.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" visible="false">
                      <image>
@@ -1020,7 +1020,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="TOWERS_2" layoutY="361.0">
+            <AnchorPane fx:id="TOWERS_2" layoutX="362.0" layoutY="87.0">
                <children>
                   <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" pickOnBounds="true" preserveRatio="true" />
@@ -1032,7 +1032,7 @@
                   <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="35.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="ENTRANCE_2" layoutX="141.0" layoutY="83.0">
+            <AnchorPane fx:id="ENTRANCE_2" layoutX="8.0" layoutY="83.0">
                <children>
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutY="128.0" pickOnBounds="true" preserveRatio="true" />
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="28.0" layoutY="127.0" pickOnBounds="true" preserveRatio="true" />
@@ -1045,18 +1045,18 @@
                   <ImageView fitHeight="30.0" fitWidth="30.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true" />
                </children>
             </AnchorPane>
-            <Label fx:id="USERNAME_2" alignment="CENTER" layoutX="489.0" layoutY="57.0" prefHeight="17.0" prefWidth="69.0" text="Label" visible="false" />
-            <ImageView fx:id="TURN_2" fitHeight="50.0" fitWidth="50.0" layoutX="499.0" pickOnBounds="true" preserveRatio="true" visible="false">
+            <Label fx:id="USERNAME_2" alignment="CENTER" layoutX="356.0" layoutY="57.0" prefHeight="17.0" prefWidth="69.0" text="Label" visible="false" />
+            <ImageView fx:id="TURN_2" fitHeight="50.0" fitWidth="50.0" layoutX="366.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
                   <Image url="@../images/Elements/TurnCrown.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="COIN_2" fitHeight="40.0" fitWidth="40.0" layoutX="588.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="COIN_2" fitHeight="40.0" fitWidth="40.0" layoutX="455.0" layoutY="219.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_2" layoutX="594.0" layoutY="202.0" text="Label" />
+            <Label fx:id="COINNUM_2" layoutX="461.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL3" layoutX="703.0" layoutY="367.0">
@@ -1396,5 +1396,10 @@
             <Label fx:id="COINNUM_3" layoutX="461.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
+      <ImageView fx:id="BACKBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="70.0" layoutY="29.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/ButtonPrev.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
