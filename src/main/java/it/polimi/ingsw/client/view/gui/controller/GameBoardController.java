@@ -597,7 +597,9 @@ public class GameBoardController implements Initializable {
             }
             else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
                 String action = "Move S from CC to I";
-                //dealWithAction(action, );
+                String islandIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
+                int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
+                dealWithAction(action, db.getString(), Integer.toString((actualIsland)));
             }
             else if (((Node)event.getGestureSource()).getParent().getId().startsWith("ISLAND")) {
                 String action = "Move MN";
@@ -613,6 +615,7 @@ public class GameBoardController implements Initializable {
             }
             else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
                 String action = "Move S from CC to DR";
+                dealWithAction(action, db.getString(),null);
             }
 
         }
@@ -673,9 +676,14 @@ public class GameBoardController implements Initializable {
                 int cloudIndex = Integer.parseInt(param1);
                 gameEvent = new ChooseCloudEvent(cloudIndex, cc.getPlayingPlayer());
             }
-            /*case "Activate CC" -> {
-                gameEvent = new ActivateCharacterCardEvent();
-            }*/
+            case "Move S from CC to DR" -> {
+                Color color = Color.valueOf(param1);
+                gameEvent = new MoveStudentFromCardToTableEvent(color, cc.getPlayingPlayer());
+            }
+            case "Move S from CC to I" -> {
+                Color color = Color.valueOf(param1);
+                gameEvent = new MoveStudentFromCardToIslandEvent(color, Integer.parseInt(param2), cc.getPlayingPlayer());
+            }
             default -> gameEvent = null;
 
         }
