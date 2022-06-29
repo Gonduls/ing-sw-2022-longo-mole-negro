@@ -4,13 +4,16 @@ import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.messages.CreateRoom;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -57,11 +60,22 @@ public class GameCreationController implements Initializable {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);
         } else {
+            continueButton.setVisible(false);
+            continueButton.setDisable(true);
             errorAccessRoom.setText("Room ID: " + roomID + " Waiting for players...");
             errorAccessRoom.setVisible(true);
             GUI.getInstance().setInARoom(true);
             GUI.getInstance().refresh();
         }
+    }
+
+    public void returnToPreviousScene(ActionEvent event) throws IOException {
+        root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene((root));
+        stage.setScene(scene);
+        stage.show();
+
     }
 
 }
