@@ -255,6 +255,9 @@ public class ClientController {
             Log.logger.severe(e.getLocalizedMessage());
         }
 
+        if (answer.getMessageType() == MessageType.NACK)
+            return answer;
+
         if(event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD){
             int cardId = ((ActivateCharacterCardEvent) event).getCardId();
             switch (cardId){
