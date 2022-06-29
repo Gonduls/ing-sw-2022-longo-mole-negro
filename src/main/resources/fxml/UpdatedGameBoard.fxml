@@ -1546,7 +1546,7 @@
       <Label fx:id="OWNEDCOINS" alignment="CENTER" contentDisplay="CENTER" layoutX="975.0" layoutY="677.0" prefHeight="17.0" prefWidth="30.0" text="0" />
       <AnchorPane fx:id="CHARACTERCARDS" layoutX="1017.0" layoutY="401.0" prefHeight="335.0" prefWidth="326.0">
          <children>
-            <ImageView fx:id="CC1" fitHeight="150.0" fitWidth="150.0" layoutX="83.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="CC1" fitHeight="150.0" fitWidth="150.0" layoutX="83.0" layoutY="4.0" onMouseClicked="#chooseCC" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Personaggi/CC0.png" />
                </image>
@@ -1585,7 +1585,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="CC2" fitHeight="150.0" fitWidth="150.0" layoutX="1.0" layoutY="178.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="CC2" fitHeight="150.0" fitWidth="150.0" layoutX="1.0" layoutY="178.0" onMouseClicked="#chooseCC" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Personaggi/CC0.png" />
                </image>
@@ -1624,7 +1624,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <ImageView fx:id="CC3" fitHeight="150.0" fitWidth="150.0" layoutX="166.0" layoutY="179.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="CC3" fitHeight="150.0" fitWidth="150.0" layoutX="166.0" layoutY="179.0" onMouseClicked="#chooseCC" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Personaggi/CC0.png" />
                </image>
@@ -1671,5 +1671,10 @@
             <Font name="Bookman Old Style" size="18.0" />
          </font>
       </Label>
+      <ImageView fx:id="PLAYERS" fitHeight="50.0" fitWidth="50.0" layoutX="29.0" layoutY="179.0" onMouseClicked="#openSchools" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/TurnCrown.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

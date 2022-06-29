@@ -132,9 +132,7 @@ public final class RedirectResources {
             case "RoundGreen" -> {return "GREEN";}
             case "MotherNature" -> {return "MOTHERNATURE";}
             case "NoEntry" -> {return "NOENTRY";}
-            case "CC0" -> {return "";}
-
-            default -> {return null;}
+            default -> {return name;}
         }
     }
 }

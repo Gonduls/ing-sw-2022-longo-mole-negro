@@ -16,15 +16,20 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -36,6 +41,11 @@ public class GameBoardController implements Initializable {
 
         return instance;
     }
+
+    Parent root;
+    Stage stage;
+    Scene scene;
+
     @FXML
     private AnchorPane BOARD;
 
@@ -88,6 +98,7 @@ public class GameBoardController implements Initializable {
     private ArrayList<Image> deck;
     private int ACindex;
     private int totalStudentsNumber = 0;
+    private static int choosenCCindex  = 0;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -119,20 +130,6 @@ public class GameBoardController implements Initializable {
             CHARACTERCARDS.setDisable(true);
         }
 
-
-        //enables and links adversaries school boards depending on the number of players
-        switch (numberOfPlayers) {
-            case (2) -> {
-                //player.left & right .setVisible(false)
-                //devo mappare il player 2 alla scuola centrale
-            }
-            case (3) -> {
-                //player.centrale .setVisible(false)
-            }
-            case (4) -> {
-                //default
-            }
-        }
 
         initializeDeck();
         //parses through every element of the board
@@ -704,4 +701,34 @@ public class GameBoardController implements Initializable {
             }
         });
     }
+
+    //Picking a CC shows a new scene with that card's info
+    @FXML
+    public void chooseCC(MouseEvent event) throws IOException {
+        String CCurl = ((ImageView)event.getSource()).getImage().getUrl();
+        String CCnumber = RedirectResources.fromURLtoElement(CCurl);
+        choosenCCindex = Integer.parseInt(CCnumber.replaceAll("\\D", ""));
+
+        root = FXMLLoader.load(getClass().getResource("/fxml/CharacterCards.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene((root));
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+    public int getChoosenCC() {
+        return choosenCCindex;
+    }
+
+    @FXML
+    public void openSchools(MouseEvent event) throws IOException{
+        root = FXMLLoader.load(getClass().getResource("/fxml/AdversarySchools.fxml"));
+        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene((root));
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
 }
