@@ -539,8 +539,18 @@ public class GameBoardController implements Initializable {
     }
 
     @FXML
-    private void destinationIsland(MouseEvent event) {
+    private void chooseIsland(MouseEvent event) {
+        String id = ((AnchorPane)event.getSource()).getId();
+        int islandIdx = Integer.parseInt((id.replaceAll("\\D", "")));
+        GameEvent gameEvent = new ChooseIslandEvent(islandIdx, cc.getPlayingPlayer());
 
+        if (gameEvent != null) {
+            Message answer = cc.performEvent(gameEvent);
+            if (answer.getMessageType() == MessageType.NACK) {
+                MESSAGES.setText(((Nack) answer).errorMessage());
+                MESSAGES.setVisible(true);
+            }
+        }
     }
 
     /*First click on the source of the drag.
@@ -616,10 +626,17 @@ public class GameBoardController implements Initializable {
                 dealWithAction(action, db.getString(), Integer.toString(actualIsland));
             }
             else if (((Node)event.getGestureSource()).getId().startsWith("SCC")) {
-                String action = "Move S from CC to I";
-                String islandIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
-                int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
-                dealWithAction(action, db.getString(), Integer.toString((actualIsland)));
+                if(db.getString().equals("NOENTRY")) {
+                    String action = "Move NE from CC to I";
+                    String islandIndex = ((Node) event.getSource()).getId().replaceAll("\\D", "");
+                    int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
+                    dealWithAction(action, Integer.toString(actualIsland), null);
+                } else {
+                    String action = "Move S from CC to I";
+                    String islandIndex = ((Node) event.getSource()).getId().replaceAll("\\D", "");
+                    int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
+                    dealWithAction(action, db.getString(), Integer.toString(actualIsland));
+                }
             }
             else if (((Node)event.getGestureSource()).getParent().getId().startsWith("ISLAND")) {
                 String action = "Move MN";
@@ -713,6 +730,10 @@ public class GameBoardController implements Initializable {
                 Color x = Color.valueOf(param1);
                 Color y = Color.valueOf(param1);
                 gameEvent = new SwapStudentEntranceTableEvent(x, y, cc.getPlayingPlayer());
+            }
+            case "Move NE from CC to I" -> {
+                int idx = Integer.parseInt(param1);
+                gameEvent = new ChooseIslandEvent(idx, cc.getPlayingPlayer());
             }
             default -> gameEvent = null;
 
