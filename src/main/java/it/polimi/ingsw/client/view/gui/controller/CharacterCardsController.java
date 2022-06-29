@@ -69,6 +69,7 @@ public class CharacterCardsController implements Initializable{
                 MESSAGES.setText(((Nack) answer).errorMessage());
                 MESSAGES.setVisible(true);
             } else {
+                //todo riattiva solo carta da usare
                 root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
                 stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene((root));
