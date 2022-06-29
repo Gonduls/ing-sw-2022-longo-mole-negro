@@ -3,6 +3,11 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
+import it.polimi.ingsw.messages.GameEvent;
+import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.Nack;
+import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.model.CharacterCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +39,9 @@ public class CharacterCardsController implements Initializable{
     @FXML
     private Button ACTIVATECC;
 
+    @FXML
+    private Label MESSAGES;
+
     Parent root;
     Stage stage;
     Scene scene;
@@ -51,13 +59,23 @@ public class CharacterCardsController implements Initializable{
     }
 
     public void activateCC(ActionEvent actionEvent) throws IOException {
+        int cardId = GameBoardController.getInstance().getChoosenCC();
+        GameEvent gameEvent;
+        gameEvent = new ActivateCharacterCardEvent(cardId, cc.getPlayingPlayer());
 
-        root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
-        stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.show();
-
+        if (gameEvent != null) {
+            Message answer = cc.performEvent(gameEvent);
+            if(answer.getMessageType() == MessageType.NACK){
+                MESSAGES.setText(((Nack) answer).errorMessage());
+                MESSAGES.setVisible(true);
+            } else {
+                root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
+                stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+                scene = new Scene((root));
+                stage.setScene(scene);
+                stage.show();
+            }
+        }
     }
 
     @FXML

@@ -15,7 +15,7 @@
          </image>
       </ImageView>
       <ImageView fx:id="DescCC" fitHeight="303.0" fitWidth="200.0" layoutX="223.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true" />
-      <Label fx:id="DESCRIPTIONCC" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="446.0" layoutY="233.0" prefHeight="165.0" prefWidth="710.0" text="Description">
+      <Label fx:id="DESCRIPTIONCC" alignment="TOP_CENTER" contentDisplay="TOP" layoutX="446.0" layoutY="233.0" prefHeight="165.0" prefWidth="710.0" text="Description" textAlignment="CENTER" wrapText="true">
          <font>
             <Font size="20.0" />
          </font>
@@ -26,5 +26,6 @@
             <Image url="@../images/Elements/ButtonPrev.png" />
          </image>
       </ImageView>
+      <Label fx:id="MESSAGES" alignment="CENTER" contentDisplay="CENTER" layoutX="517.0" layoutY="450.0" prefHeight="17.0" prefWidth="569.0" text="Label" />
    </children>
 </AnchorPane>

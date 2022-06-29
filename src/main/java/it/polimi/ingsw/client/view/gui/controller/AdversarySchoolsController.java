@@ -112,9 +112,9 @@ public class AdversarySchoolsController implements Initializable {
                 x.setVisible(true);
             }
             else if (x.getId().startsWith("TURN")) {
-                /*if(cc.myTurn() == true) {
+                if(cc.getPlayingPlayer() == playerIndex) {
                     x.setVisible(true);
-                }*/
+                }
             }
             else if (x.getId().startsWith("COINNUM")) {
                 int coins = cmm.getCoins(playerIndex);

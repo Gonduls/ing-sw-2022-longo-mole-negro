@@ -363,7 +363,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_0" contentDisplay="CENTER" layoutX="6.0" layoutY="202.0" text="Label" />
+            <Label fx:id="COINNUM_0" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL1" layoutX="169.0" layoutY="367.0">
@@ -712,7 +712,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_1" contentDisplay="CENTER" layoutX="6.0" layoutY="205.0" text="Label" />
+            <Label fx:id="COINNUM_1" alignment="CENTER" contentDisplay="CENTER" layoutX="6.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL2" layoutX="703.0" layoutY="95.0">
@@ -1061,7 +1061,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_2" contentDisplay="CENTER" layoutX="461.0" layoutY="202.0" text="Label" />
+            <Label fx:id="COINNUM_2" alignment="CENTER" contentDisplay="CENTER" layoutX="461.0" layoutY="202.0" text="Label" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="SCHOOL3" layoutX="703.0" layoutY="367.0">
@@ -1398,7 +1398,7 @@
                   <Image url="@../images/Elements/Coin.png" />
                </image>
             </ImageView>
-            <Label fx:id="COINNUM_3" contentDisplay="CENTER" layoutX="461.0" layoutY="205.0" text="Label" />
+            <Label fx:id="COINNUM_3" alignment="CENTER" contentDisplay="CENTER" layoutX="461.0" layoutY="205.0" text="Label" />
          </children>
       </AnchorPane>
    </children>
