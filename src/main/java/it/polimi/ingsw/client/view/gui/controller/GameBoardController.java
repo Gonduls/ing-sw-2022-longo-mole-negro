@@ -15,7 +15,6 @@ import it.polimi.ingsw.model.AssistantCard;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -90,8 +89,6 @@ public class GameBoardController implements Initializable {
 
     private int iteratorTowers = 0;
 
-    private int player;
-
 
     //getting an instance of ClientModelManager and ClientController from an instance of GUI in order to initialize the game
     private final ClientModelManager cmm = GUI.getInstance().getClientModelManager();
@@ -105,7 +102,6 @@ public class GameBoardController implements Initializable {
 
     private ArrayList<Image> deck;
     private int ACindex;
-    private int totalStudentsNumber = 0;
     private static int choosenCCindex  = 0;
     private final String[] swap = new String[2];
 
@@ -451,14 +447,18 @@ public class GameBoardController implements Initializable {
                 Map<Color,Integer> sh = cmm.getCharacterStudents(indexes[indexesIterator]);
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
-            } else if(indexesIterator == 5) {
+            } else if(indexes[indexesIterator] == 5) {
+                System.out.println("Helooooo");
                 //If the card is the fifth, swaps students with no entry tiles
                 node.setVisible(true);
                 node.setDisable(false);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
                         b -> {
-                            b.setVisible(true);
+                            System.out.println(b.getId());
+                            int number = Integer.parseInt(b.getId().substring(4));
+                            b.setVisible(number <= cmm.getNoEntries());
                             ((ImageView) b).setImage(RedirectResources.getNoEntryImage());});
+
             } else {
                 node.setDisable(true);
                 node.setVisible(false);
@@ -771,7 +771,9 @@ public class GameBoardController implements Initializable {
                 String action = "Move MN";
                 String currIndex = ((Node) event.getSource()).getId().replaceAll("\\D", "");
                 String prevIndex = ((Node) event.getGestureSource()).getId().replaceAll("\\D", "");
-                dealWithAction(action, currIndex, prevIndex);
+                int actualCurrIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(currIndex));
+                int actualPrevIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(prevIndex));
+                dealWithAction(action, Integer.toString(actualCurrIsland), Integer.toString(actualPrevIsland));
             }
         }
         else if (((Node)event.getSource()).getId().startsWith("DININGROOM")) {
@@ -833,7 +835,9 @@ public class GameBoardController implements Initializable {
             case "Move MN" -> {
                 int currIndex = Integer.parseInt(param1);
                 int prevIndex = Integer.parseInt(param2);
-                gameEvent = new MoveMotherNatureEvent(currIndex-prevIndex, cc.getPlayingPlayer());
+                int amount = currIndex-prevIndex;
+                amount = amount > 0 ? amount : amount + cmm.getIslands().size();
+                gameEvent = new MoveMotherNatureEvent(amount, cc.getPlayingPlayer());
             }
             case "Choose cloud" -> {
                 int cloudIndex = Integer.parseInt(param1);
@@ -893,7 +897,7 @@ public class GameBoardController implements Initializable {
         String CCnumber = RedirectResources.fromURLtoElement(CCurl);
         choosenCCindex = Integer.parseInt(CCnumber.replaceAll("\\D", ""));
 
-        root = FXMLLoader.load(getClass().getResource("/fxml/CharacterCards.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CharacterCards.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
@@ -912,7 +916,7 @@ public class GameBoardController implements Initializable {
 
     @FXML
     public void openSchools(MouseEvent event) throws IOException{
-        root = FXMLLoader.load(getClass().getResource("/fxml/AdversarySchools.fxml"));
+        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AdversarySchools.fxml")));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
@@ -925,7 +929,7 @@ public class GameBoardController implements Initializable {
     }
 
     @FXML
-    public void endAction(ActionEvent event) {
+    public void endAction() {
         GameEvent gameEvent= new EndSelection(cc.getPlayingPlayer());
 
         Message answer = cc.performEvent(gameEvent);
