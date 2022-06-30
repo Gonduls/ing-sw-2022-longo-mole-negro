@@ -20,8 +20,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 
 public class GUI extends Application implements UI{
     ClientController cc;
@@ -29,11 +29,10 @@ public class GUI extends Application implements UI{
     static boolean inARoom = false;
     private static Stage primaryStage;
     private String username;
-    private String[] winners;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     static GUI instance;
     private final boolean[] merged = new boolean[12];
-    private boolean setScene = false; //todo: when exiting game, set back to false
+    private boolean setScene = false;
 
     public static GUI getInstance(){
         if(instance == null) {
@@ -46,7 +45,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Connection.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Connection.fxml")));
         Scene scene = new Scene(root);
         stage.setTitle("Eriantys");
         stage.setScene(scene);
@@ -54,6 +53,13 @@ public class GUI extends Application implements UI{
         stage.getIcons().add(new Image(String.valueOf(getClass().getResource("/images/Elements/Logo2.png"))));
         stage.show();
         primaryStage = stage;
+    }
+
+    @Override
+    public void stop(){
+        Log.logger.info("Application stopping");
+        Platform.exit();
+        System.exit(0);
     }
 
     @Override
@@ -81,7 +87,7 @@ public class GUI extends Application implements UI{
                 try {
                     Parent root;
                     Scene scene;
-                    root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
+                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UpdatedGameBoard.fxml")));
                     scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
                     primaryStage.setFullScreen(true);
@@ -107,14 +113,13 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showMessage(Message message) {
-        String resource = null;
         if(message.getMessageType() == MessageType.END_GAME) {
             EndGameController.setEndgame((EndGame) message);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/EndGame.fxml"));
+                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/EndGame.fxml")));
                         Scene scene = new Scene(root, 1366, 768);
                         primaryStage.setScene(scene);
                         primaryStage.setFullScreen(true);
@@ -135,7 +140,7 @@ public class GUI extends Application implements UI{
                 @Override
                 public void run() {
                     try{
-                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Disconnected.fxml"));
+                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Disconnected.fxml")));
                         Scene scene = new Scene(root, 1366, 768);
                         primaryStage.setScene(scene);
                         primaryStage.setFullScreen(true);
@@ -150,11 +155,6 @@ public class GUI extends Application implements UI{
                 }
             });
         }
-
-        if(resource == null)
-            return;
-
-
     }
 
     @Override
@@ -182,8 +182,8 @@ public class GUI extends Application implements UI{
 
     public ClientModelManager getClientModelManager() { return cmm; }
 
-    public void setInARoom(boolean value) {
-        this.inARoom = value;
+    public static void setInARoom(boolean value) {
+        inARoom = value;
     }
 
     public Stage getStage() {
@@ -229,5 +229,9 @@ public class GUI extends Application implements UI{
                 result --;
         }
         return result;
+    }
+
+    public void setSetScene(boolean value){
+        instance.setScene = value;
     }
 }
