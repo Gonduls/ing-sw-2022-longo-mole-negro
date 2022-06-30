@@ -50,27 +50,15 @@ public class AdversarySchoolsController implements Initializable {
     private AnchorPane ADVERSARYBOARD;
 
     @FXML
-    private AnchorPane SCHOOL2;
-
-    @FXML
-    private AnchorPane SCHOOL3;
+    private ImageView bg;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
-        //enables and links adversaries school boards depending on the number of players
-        /*switch (numberOfPlayers) {
-            case (2) -> {
-                SCHOOL2.setVisible(false);
-                SCHOOL2.setDisable(true);
-                SCHOOL3.setVisible(false);
-                SCHOOL3.setDisable(true);
-            }
-            case (3) -> {
-                SCHOOL3.setVisible(false);
-                SCHOOL3.setDisable(true);
-            }
-        }*/
+        if(numberOfPlayers == 4) {
+            Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/BoardTeams.png")));
+            bg.setImage(image);
+        }
 
         ADVERSARYBOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool);
 
