@@ -6,13 +6,13 @@ import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
+import it.polimi.ingsw.messages.EndGame;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -29,6 +29,7 @@ public class GUI extends Application implements UI{
     static boolean inARoom = false, kill;
     private static Stage primaryStage;
     private String username;
+    private String[] winners;
     private final AtomicBoolean gameRunning = new AtomicBoolean((false));
     static GUI instance;
     private final boolean[] merged = new boolean[12];
@@ -106,6 +107,7 @@ public class GUI extends Application implements UI{
     public void showMessage(Message message) {
         if(message.getMessageType() == MessageType.END_GAME) {
             try {
+                winners = ((EndGame)message).winners();
                 Parent root;
                 Scene scene;
                 root = FXMLLoader.load(getClass().getResource("/fxml/EndGame.fxml"));
@@ -232,5 +234,9 @@ public class GUI extends Application implements UI{
                 result --;
         }
         return result;
+    }
+
+    public String[] getWinners() {
+        return winners;
     }
 }
