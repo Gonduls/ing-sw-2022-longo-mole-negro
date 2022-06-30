@@ -209,8 +209,8 @@ public class GameBoardController implements Initializable {
     }
 
     /**
-     * Sets the
-     * @param node
+     * Sets up island. It checks if the island should be printed, then, for every child, it calls boardSwitch
+     * @param node The island anchorPane
      */
     private void setIslands(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
@@ -278,7 +278,6 @@ public class GameBoardController implements Initializable {
         }
         OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
         OWNEDCOINS.setVisible(true);
-
     }
 
     /**
@@ -502,7 +501,7 @@ public class GameBoardController implements Initializable {
     private void initializeDeck() {
         List<AssistantCard> assistantCards = cmm.getDeck();
 
-        deck  =new ArrayList<>();
+        deck = new ArrayList<>();
         for (AssistantCard ac : assistantCards) {
             deck.add(RedirectResources.ACImages(ac.getValue()));
         }
@@ -620,7 +619,7 @@ public class GameBoardController implements Initializable {
      */
     @FXML
     private void prevAssistantCard(MouseEvent event) {
-        if(ACindex == 0) {
+        if(ACindex <= 0) {
             ACindex = deck.size();
         }
         ACindex--;
@@ -634,6 +633,11 @@ public class GameBoardController implements Initializable {
      */
     @FXML
     private void selectAssistantCard(MouseEvent event) {
+        if(ACindex >= deck.size() || ACindex < 0) {
+            ACindex = 0;
+            showAssistantCard();
+            NACKLABEL.setText("Please select card again");
+        }
         String action = "Play AC";
         String url = deck.get(ACindex).getUrl();
         String index = url.substring(url.length() - 5, url.length() - 4);
@@ -645,8 +649,9 @@ public class GameBoardController implements Initializable {
     }
 
     /**
-     *
-     * @param event
+     * Every time a student is clicked (active on cards and school) it checks if cards 2 or 3 are active.
+     * If either is active, it calls putSwap and sets the swap
+     * @param event A student clicked
      */
     @FXML
     private void studentSelected(MouseEvent event) {
@@ -931,7 +936,7 @@ public class GameBoardController implements Initializable {
     @FXML
     public void endAction() {
         GameEvent gameEvent= new EndSelection(cc.getPlayingPlayer());
-
+        clearSwap();
         Message answer = cc.performEvent(gameEvent);
         if (answer.getMessageType() == MessageType.NACK) {
             NACKLABEL.setText(((Nack) answer).errorMessage());
@@ -940,6 +945,12 @@ public class GameBoardController implements Initializable {
             reprint();
     }
 
+    /**
+     * If either 2 or 3 character card is active: set swap depending on passed id.
+     * If swap is full: call dealWithAction, then empty swap
+     * @param color The color of the student
+     * @param id The id of the student
+     */
     private void putSwap(String color, String id){
         switch (cc.getActiveCharacterCard()){
             case 2 -> {
@@ -963,6 +974,9 @@ public class GameBoardController implements Initializable {
         }
     }
 
+    /**
+     * Empties swap (sets it to [null, null])
+     */
     public void clearSwap(){
         instance.swap[0] = null;
         instance.swap[1] = null;

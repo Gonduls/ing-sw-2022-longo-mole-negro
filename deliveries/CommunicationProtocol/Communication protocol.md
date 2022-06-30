@@ -311,20 +311,8 @@ This message has no responses.
 
 
 
-### 1.24 PayPrice
-This message is sent from the server to all clients a player pays the price for a card.
-#### Arguments
-- amount: the number of coins paid
-- player: the id of the player
 
-#### Possible responses
-
-This message has no responses.
-
-
-
-
-### 1.25. ChangePhase 
+### 1.24. ChangePhase 
 
 This message is sent from the server to all clients in a room when the phase changes.
 
@@ -337,13 +325,27 @@ This message is sent from the server to all clients in a room when the phase cha
 This message has no responses.
 
 
-### 1.26. ChangeTurn
+### 1.25. ChangeTurn
 
 This message is sent from the server to all clients in a room when the turn changes.
 
 #### Arguments
 
  - player: the username of the player that is now to play
+
+#### Possible responses
+
+This message has no responses.
+
+
+
+### 1.26. EndGame 
+
+This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
+
+#### Arguments
+
+ - winners: a list of the game winners
 
 #### Possible responses
 
@@ -363,7 +365,7 @@ This is a message sent from the client ot the server specifying the game action 
     1. MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND //actionPhase
     1. MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE  //actionPhase
     1. MOVE_MOTHER_NATURE //actionPhase
-    1. CHOOSE_CLOUD_TILE //actionPhase
+    1. CHOOSE_CLOUD //actionPhase
     1. ACTIVATE_CHARACTER_CARD //actionPhase  
     1. MOVE_STUDENT_FROM_CARD_TO_ISLAND //CardRelated
     1. CHOOSE_COLOR //CardRelated
@@ -384,19 +386,9 @@ This is a message sent from the client ot the server specifying the game action 
  - Messages from 1.11 to 1.26 represent the type of message that will be received by all clients if the event was successful
  - Ack: if the event was legal and the model updates triggered by the move are ended.
 
-### 1.28. EndGame 
 
-This message is sent from the server to all clients in a room when the game ends, communicating the winners of the game. No ties exist, there can be multiple winners instead.
 
-#### Arguments
-
- - winners: a list of the game winners
-
-#### Possible responses
-
-This message has no responses.
-
-### 1.29. LeaveRoom 
+### 1.28. LeaveRoom 
 
 This message is sent from the client to the server, after the game ends, in order to exit the room.
 
@@ -461,7 +453,7 @@ For the sake of clearness in this diagram is omitted the possibility of activati
 ### 2.5 Action Phase 3
 
 In this phase the player chooses a cloud.
-The action is represented by the event: CHOOSE_CLOUD_TILE.
+The action is represented by the event: CHOOSE_CLOUDf.
 
 If the action wanted by the player is, for some reason, illegal, a nack is sent by the controller.
 For the sake of clearness in this diagram is omitted the possibility of activating a character card.
