@@ -38,6 +38,9 @@ public class GameCreationController implements Initializable {
     private Button continueButton;
 
     @FXML
+    private Button backButton;
+
+    @FXML
     private Label errorAccessRoom;
 
     private static Integer roomID;
@@ -60,6 +63,8 @@ public class GameCreationController implements Initializable {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);
         } else {
+            backButton.setVisible(false);
+            backButton.setDisable(true);
             continueButton.setVisible(false);
             continueButton.setDisable(true);
             errorAccessRoom.setText("Room ID: " + roomID + " Waiting for players...");

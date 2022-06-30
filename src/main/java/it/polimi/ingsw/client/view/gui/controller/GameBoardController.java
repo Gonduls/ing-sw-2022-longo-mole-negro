@@ -72,6 +72,9 @@ public class GameBoardController implements Initializable {
     private Label MESSAGES;
 
     @FXML
+    private Label NACKLABEL;
+
+    @FXML
     private Button ENDACTION;
 
     //used to change images of students
@@ -115,6 +118,7 @@ public class GameBoardController implements Initializable {
         instance.ASSISTANTCARD = this.ASSISTANTCARD;
         instance.ASSISTANTCARDDECK = this.ASSISTANTCARDDECK;
         instance.CHARACTERCARDS = this.CHARACTERCARDS;
+        instance.NACKLABEL = this.NACKLABEL;
         instance.MESSAGES = this.MESSAGES;
         instance.ENDACTION = this.ENDACTION;
 
@@ -549,8 +553,8 @@ public class GameBoardController implements Initializable {
 
         Message answer = cc.performEvent(gameEvent);
         if (answer.getMessageType() == MessageType.NACK) {
-            MESSAGES.setText(((Nack) answer).errorMessage());
-            MESSAGES.setVisible(true);
+            NACKLABEL.setText(((Nack) answer).errorMessage());
+            NACKLABEL.setVisible(true);
         }
     }
 
@@ -740,10 +744,10 @@ public class GameBoardController implements Initializable {
             Message answer = cc.performEvent(gameEvent);
             reprint();
             if(answer.getMessageType() == MessageType.NACK){
-                MESSAGES.setText(((Nack) answer).errorMessage());
-                MESSAGES.setVisible(true);
+                NACKLABEL.setText(((Nack) answer).errorMessage());
+                NACKLABEL.setVisible(true);
             } else {
-                MESSAGES.setVisible(false);
+                NACKLABEL.setVisible(false);
             }
         }
     }
@@ -794,8 +798,8 @@ public class GameBoardController implements Initializable {
 
         Message answer = cc.performEvent(gameEvent);
         if (answer.getMessageType() == MessageType.NACK) {
-            MESSAGES.setText(((Nack) answer).errorMessage());
-            MESSAGES.setVisible(true);
+            NACKLABEL.setText(((Nack) answer).errorMessage());
+            NACKLABEL.setVisible(true);
         } else
             reprint();
     }

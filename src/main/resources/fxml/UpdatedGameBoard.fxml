@@ -1666,10 +1666,15 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="MESSAGES" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="270.0" prefHeight="120.0" prefWidth="218.0" text="MEX" textAlignment="CENTER" visible="false" wrapText="true">
+      <Label fx:id="MESSAGES" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="270.0" prefHeight="62.0" prefWidth="218.0" text="MEX" textAlignment="CENTER" visible="false" wrapText="true">
          <font>
             <Font name="Serif Regular" size="18.0" />
          </font></Label>
+      <Label fx:id="NACKLABEL" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="359.0" prefHeight="62.0" prefWidth="218.0" text="MEX" textAlignment="CENTER" textFill="#d00000" visible="false" wrapText="true">
+         <font>
+            <Font name="Serif Italic" size="13.0" />
+         </font>
+      </Label>
       <ImageView fx:id="PLAYERS" fitHeight="80.0" fitWidth="80.0" layoutX="63.0" layoutY="442.0" onMouseClicked="#openSchools" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/Elements/AdversaryPlayers.png" />
