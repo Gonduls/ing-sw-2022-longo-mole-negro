@@ -236,7 +236,11 @@ public class ModelObserver {
     public void moveStudentFromCloudToPlayer(int cloudIndex, int player, Color color){
         room.sendBroadcast(new MoveStudent("CLOUD:"+ cloudIndex, "ENTRANCE:"+player, color));
     }
-
+    /**
+     * Creates and sends a MoveStudent message
+     * @param player The index of the player
+     * @param color The target color
+     */
     public void moveStudentFromTableToEntrance(int player, Color color){
         room.sendBroadcast(new MoveStudent("DININGROOM:"+player, "ENTRANCE:" + player, color));
 

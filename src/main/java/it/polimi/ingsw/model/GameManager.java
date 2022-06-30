@@ -51,7 +51,6 @@ public class GameManager {
             int randomInt;
             Random randomGen = new Random();
             boolean skip;
-
             while (activeCards.size() < 3) {
                 randomInt = randomGen.nextInt(12);
                 skip = false;
@@ -86,7 +85,7 @@ public class GameManager {
         }
 
 
-            // initialize entrances and tables for each player, observers for view needed?
+            // initialize entrances and tables for each player
             for (Player player : players) {
                 School school = player.getSchool();
                 school.initializeEntrances(bag, players.length == 3);
@@ -230,7 +229,6 @@ public class GameManager {
     /**
      * It moves Mother Nature of "amount" steps, then performs the influence count
      * and places a tower if needed, checking for islands' merges.
-     * It will change behaviour depending on the active cards (todo)
      *
      * @param amount: the steps that Mother Nature has to take
      * @throws IllegalArgumentException if the amount given is less than 1
@@ -263,6 +261,9 @@ public class GameManager {
         } else {
             newTC = board.calculateInfluence(position, professors);
         }
+
+        // if broken remove this line
+        newTC = board.calculateInfluenceSmart(position, professors, findCardById(usedCard));
 
         //when points are tied newTC is null
         if(newTC == null || (previousTC != null && previousTC == newTC)){
@@ -314,7 +315,9 @@ public class GameManager {
     }
 
     /**
-     * This method is called by  character card eight(8)
+     * This method is called by  character card eight(8).
+     * It calculates the influence on an island, without the need for mother nature to be on that
+     * island.
      *
      * @param islandIndex
      */
@@ -345,8 +348,14 @@ public class GameManager {
 
         }
 
+        int numberOfIslandOld = board.getNumberOfIslands();
         board.mergeIsland(islandIndex, modelObserver);
-        //sometimes it crashes because
+
+        if (numberOfIslandOld > board.getNumberOfIslands() && board.getMotherNaturePosition() >= islandIndex){
+            int offset = numberOfIslandOld - board.getNumberOfIslands();
+            board.setMotherNaturePosition(((board.getMotherNaturePosition()-offset)+board.getNumberOfIslands()) % board.getNumberOfIslands());
+            modelObserver.moveMotherNature(board.getMotherNaturePosition());
+        }
 
         if (parseWinResult(checkEndConditions(islandIndex)).length >0 ){
             modelObserver.sendEndGame(parseWinResult(checkEndConditions(islandIndex)));
@@ -392,10 +401,16 @@ public class GameManager {
 
         Player[] winner = new Player[3];
         Island currentIsland = board.getIslands().get(position);
-        TowerColor currentTC = currentIsland.getTower();
-        Player newP = players[currentTC.ordinal()];
 
-        if(newP.getTowersLeft() <= 0){ // when a player has 0 towers remaining
+        TowerColor currentTC = currentIsland.getTower();
+
+        Player newP  = null;
+        if (currentTC !=null) {
+            newP = players[currentTC.ordinal()];
+        }
+
+
+        if( newP != null && newP.getTowersLeft() <= 0){ // when a player has 0 towers remaining
             winner[0] = newP;
             winner[1] = null;
             winner[2] = null;
