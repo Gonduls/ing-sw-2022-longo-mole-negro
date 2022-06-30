@@ -43,11 +43,7 @@ public class ConnectionController {
     private Button continueButton;
 
     public void switchToLoginScene(ActionEvent event) throws IOException {
-        //Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/Eriantys.png")));
-
         try{
-            //myImageView.setImage(image);
-
             GUI.getInstance().createClientController(textServerIP.getText(), Integer.parseInt(textServerPort.getText()));
         }catch (IOException e){
             return;

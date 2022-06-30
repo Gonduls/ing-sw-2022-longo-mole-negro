@@ -79,7 +79,6 @@ public final class RedirectResources {
     }
 
     public static Image ACImages(int acIndex) {
-        //System.out.println("Sono in redirector CC");
         switch (acIndex) {
             case 1 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente1.png")));}
             case 2 -> {return new Image(String.valueOf(RedirectResources.class.getResource("/images/Elements/Assistente2.png")));}
