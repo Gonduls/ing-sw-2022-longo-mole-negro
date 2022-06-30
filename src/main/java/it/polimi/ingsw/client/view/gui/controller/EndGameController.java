@@ -3,7 +3,6 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
-import it.polimi.ingsw.messages.EndGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
@@ -20,6 +18,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * Handles the initialization of EndGame.FXML.
+ * It shows either a "win", "lose" or "tie" background depending on the current player status.
+ * From this scene, the user can decide to go back to the lobby or to logout from the game.
+ */
 public class EndGameController implements Initializable {
     private Parent root;
     private Stage stage;
@@ -32,6 +35,11 @@ public class EndGameController implements Initializable {
     ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
 
+    /**
+     * Initializes the scene by setting the correct background.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String[] winners = GUI.getInstance().getWinners();
@@ -50,6 +58,11 @@ public class EndGameController implements Initializable {
         }
     }
 
+    /**
+     * Switches to the StartMEnu scene in order to create or join a new game.
+     * @param event button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void returnToLobby(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
@@ -59,6 +72,11 @@ public class EndGameController implements Initializable {
 
     }
 
+    /**
+     * Logs out of the game.
+     * @param event button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void logout(ActionEvent event) throws IOException {
         GUI.getInstance().getClientController().logout();
         root = FXMLLoader.load(getClass().getResource("/fxml/Connection.fxml"));

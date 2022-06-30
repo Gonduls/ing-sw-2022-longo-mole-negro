@@ -26,7 +26,8 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
- * Handles
+ * Handles the initialization of AdversarySchools.FXML.
+ * It shows the schools of all the players, their coins and last played Assistant card.
  */
 public class AdversarySchoolsController implements Initializable {
     Parent root;
@@ -57,6 +58,9 @@ public class AdversarySchoolsController implements Initializable {
     @FXML
     private ImageView bg;
 
+    /**
+     * Initializes the entire scene.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
@@ -77,13 +81,19 @@ public class AdversarySchoolsController implements Initializable {
         );
     }
 
+    /**
+     * Sets every field of the school passed as a parameter
+     * @param node The school node
+     */
     private void setSchool(Node node) {
 
+        //shows only as many schools as players
         if(playerIndex >= cmm.getPlayers().length) {
             node.setVisible(false);
             return;
         }
 
+        //initializes element by element the school
         ((AnchorPane)node).getChildren().stream().filter(Objects::nonNull).forEach(x -> {
             if (x.getId().startsWith("DR")) {
                 ((AnchorPane)x).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
@@ -136,6 +146,10 @@ public class AdversarySchoolsController implements Initializable {
 
     }
 
+    /**
+     * Chooses the correct color and show the correct number of towers given the player's index.
+     * @param node the ImageView of the tower for the given school
+     */
     private void setTowers(Node node) {
         switch (playerIndex) {
             case 0 -> {
@@ -170,6 +184,10 @@ public class AdversarySchoolsController implements Initializable {
         }
     }
 
+    /**
+     * Shows the correct number and color of each student for the Entrance
+     * @param node the ImageView corresponding to the given student
+     */
     private void setStudents(Node node) {
         node.setVisible(true);
         if (numberOfReds > 0) {
@@ -197,6 +215,10 @@ public class AdversarySchoolsController implements Initializable {
         }
     }
 
+    /**
+     * Sets the number of students for each color in the student holder given as parameter
+     * @param entrance the Map<Color, Integer> of the current school Entrance
+     */
     private void setNumberOfStudents(Map<Color, Integer> entrance) {
         numberOfReds = entrance.get(Color.RED);
         numberOfBlues = entrance.get(Color.BLUE);
@@ -205,12 +227,20 @@ public class AdversarySchoolsController implements Initializable {
         numberOfPinks = entrance.get(Color.PINK);
     }
 
+    /**
+     * Shows the currently owned Professors by the given player
+     * @param node the ImageView of the corresponding professor
+     */
     private void setProfessors(Node node) {
         String[] s = node.getId().split("_");
         if (cmm.getProfessors().get(Color.valueOf(s[0])) == playerIndex)
             node.setVisible(true);
     }
 
+    /**
+     * Shows the students currently in the Dining Room
+     * @param node the ImageView corresponding to the single student at each Table
+     */
     private void setDiningRoom(Node node) {
         if (iteratorDR < currentDRColor) {
             node.setVisible(true);
@@ -223,6 +253,11 @@ public class AdversarySchoolsController implements Initializable {
         }
     }
 
+    /**
+     * Switches back to the GameBoard scene
+     * @param event the mouse click on the return button
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     @FXML
     private void returnToGame(MouseEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));

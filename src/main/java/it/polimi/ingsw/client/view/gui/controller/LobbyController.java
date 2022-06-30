@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ * Handles the initialization of Lobby.FXML.
+ * It shows a list of currently available games from which the user can choose which one to enter.
+ */
 public class LobbyController implements Initializable {
     private Parent root;
     private Stage stage;
@@ -39,20 +43,26 @@ public class LobbyController implements Initializable {
     private ListView<String> roomInfoListView;
 
     @FXML
-    private Label myRoom;
-
-    @FXML
     private Button enterGame;
 
     private static List<RoomInfo> roomInfoList = new ArrayList<>();
 
     private static Integer roomIDChosen;
 
+    /**
+     * Sets the local var that holds the PublicRoomsList
+     * @param rooms
+     */
     public void setPublicRooms(List<RoomInfo> rooms) {
         roomInfoList = rooms;
-
     }
 
+    /**
+     * Initializes the scene.
+     * It shows all the information for each available Room.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         for(RoomInfo info : roomInfoList){
@@ -69,15 +79,27 @@ public class LobbyController implements Initializable {
         });
     }
 
+    /**
+     * It tries to access the chosen room.
+     * It prints an error in case it wasn't possible to access the Room, else it waits for the other players to join.
+     * @param actionEvent button click
+     */
     public void enterGame(ActionEvent actionEvent) {
         if(GUI.getInstance().getClientController().accessRoom(roomIDChosen)) {
             GUI.getInstance().setInARoom(true);
             GUI.getInstance().refresh();
+            enterGame.setVisible(false);
+            enterGame.setDisable(true);
         }
         else
             System.out.println("error entering room");
     }
 
+    /**
+     * Switches back to the previous scene
+     * @param event button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/FilterSearch.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

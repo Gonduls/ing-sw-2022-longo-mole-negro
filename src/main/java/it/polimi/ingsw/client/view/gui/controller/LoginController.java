@@ -14,6 +14,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Handles the Login.FXML.
+ * It allows the user to choose a unique username.
+ */
 public class LoginController {
     private Parent root;
     private Stage stage;
@@ -25,6 +29,13 @@ public class LoginController {
     @FXML
     private Label unableToLoginId;
 
+    /**
+     * Checks if the username wasn't already taken.
+     * If not, it switches to the next scene, else it shows an error messages and waits for the user to
+     * chose another username.
+     * @param event button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void switchToStartMenuScene(ActionEvent event) throws IOException {
         try {
             boolean verifiedUsername = GUI.getInstance().getClientController().login(textUsername.getText());
@@ -40,7 +51,7 @@ public class LoginController {
                 unableToLoginId.setVisible(true);
 
         }catch (UnexpectedMessageException e) {
-            //TODO exception
+            //todo handle exeption
         }
 
     }

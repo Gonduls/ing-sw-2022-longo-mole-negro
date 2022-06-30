@@ -7,41 +7,31 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * Handles the Connection scene.
+ * It asks the user for the ServerID and port in order to establish a connection with the Server.
+ */
 public class ConnectionController {
     private Parent root;
     private Scene scene;
     private Stage stage;
 
     @FXML
-    private ImageView myImageView;
-
-    @FXML
-    private AnchorPane anchorTextButton;
-
-    @FXML
-    private Label labelServerIP;
-
-    @FXML
     private TextField textServerIP;
-
-    @FXML
-    private Label labelServerPort;
 
     @FXML
     private TextField textServerPort;
 
-    @FXML
-    private Button continueButton;
-
+    /**
+     * If it manages to establish a connection, it switches to the next scene.
+     * @param event the button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void switchToLoginScene(ActionEvent event) throws IOException {
         try{
             GUI.getInstance().createClientController(textServerIP.getText(), Integer.parseInt(textServerPort.getText()));
@@ -56,8 +46,5 @@ public class ConnectionController {
         stage.setScene(scene);
         stage.show();
     }
-
-
-
 
 }
