@@ -7,10 +7,12 @@ import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.Message;
+import it.polimi.ingsw.messages.MessageType;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
@@ -102,6 +104,25 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showMessage(Message message) {
+        if(message.getMessageType() == MessageType.END_GAME) {
+            try {
+                Parent root;
+                Scene scene;
+                root = FXMLLoader.load(getClass().getResource("/fxml/EndGame.fxml"));
+                scene = new Scene(root, 1366, 768);
+                primaryStage.setScene(scene);
+                primaryStage.setFullScreen(false);
+                primaryStage.setResizable(false);
+                primaryStage.setHeight(768);
+                primaryStage.setWidth(1366);
+                primaryStage.show();
+
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+            }
+
+        }
 
     }
 
