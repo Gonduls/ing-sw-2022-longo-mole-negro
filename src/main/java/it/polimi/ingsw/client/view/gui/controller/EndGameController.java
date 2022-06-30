@@ -28,11 +28,7 @@ public class EndGameController implements Initializable {
     @FXML
     private ImageView BG;
 
-    @FXML
-    private Label WINNERS;
-
     ClientController cc = GUI.getInstance().getClientController();
-    ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -42,7 +38,7 @@ public class EndGameController implements Initializable {
             Image image;
             if(cc.getPlayers()[cc.getPlayingPlayer()] == GUI.getInstance().getUsername() && winners.length == 1)
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneWin.png")));
-            else if (cc.getPlayers()[cc.getPlayingPlayer()] == GUI.getInstance().getUsername() && winners.length != 1)
+            else if (winners.length == cc.getPlayers().length)
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneTie.png")));
             else
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneLoss.png")));

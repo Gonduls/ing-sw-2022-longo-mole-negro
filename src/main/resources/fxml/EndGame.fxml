@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="768.0" prefWidth="1366.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.client.view.gui.controller.EndGameController">
    <children>
@@ -14,12 +12,7 @@
             <Image url="@../images/Elements/EndGameBg.png" />
          </image>
       </ImageView>
-      <Label fx:id="WINNERS" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="353.0" layoutY="376.0" prefHeight="163.0" prefWidth="651.0" text="Label" textAlignment="CENTER" wrapText="true">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <Button layoutX="529.0" layoutY="572.0" mnemonicParsing="false" onAction="#returnToLobby" text="Return to lobby" />
-      <Button layoutX="735.0" layoutY="572.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="99.0" text="Logout" />
+      <Button layoutX="531.0" layoutY="410.0" mnemonicParsing="false" onAction="#returnToLobby" text="Return to lobby" />
+      <Button layoutX="737.0" layoutY="410.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="99.0" text="Logout" />
    </children>
 </AnchorPane>
