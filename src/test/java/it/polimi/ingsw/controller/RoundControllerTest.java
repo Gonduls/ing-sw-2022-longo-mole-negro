@@ -30,6 +30,7 @@ class RoundControllerTest {
         try {
             controller.handleEvent(new PlayAssistantCardEvent(AssistantCard.FOUR,controller.getCurrentPlayer().getPlayerNumber()));
         } catch (Exception e) {
+            assert false;
             System.out.println(controller.getCurrentPlayer().getUsername());
             System.out.println(e.getMessage());
             e.printStackTrace();
@@ -40,6 +41,7 @@ class RoundControllerTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+
 
     }
 
