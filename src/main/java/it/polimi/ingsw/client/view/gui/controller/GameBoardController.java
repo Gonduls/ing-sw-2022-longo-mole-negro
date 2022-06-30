@@ -16,11 +16,8 @@ import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BlendMode;
@@ -28,7 +25,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -45,11 +41,6 @@ public class GameBoardController implements Initializable {
 
         return instance;
     }
-
-    Parent root;
-    Stage stage;
-    Scene scene;
-
     @FXML
     private AnchorPane BOARD;
     @FXML
@@ -447,13 +438,11 @@ public class GameBoardController implements Initializable {
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
             } else if(indexes[indexesIterator] == 5) {
-                System.out.println("Helooooo");
                 //If the card is the fifth, swaps students with no entry tiles
                 node.setVisible(true);
                 node.setDisable(false);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
                         b -> {
-                            System.out.println(b.getId());
                             int number = Integer.parseInt(b.getId().substring(4));
                             b.setVisible(number <= cmm.getNoEntries());
                             ((ImageView) b).setImage(RedirectResources.getNoEntryImage());});
@@ -902,17 +891,7 @@ public class GameBoardController implements Initializable {
         String CCnumber = RedirectResources.fromURLtoElement(CCurl);
         choosenCCindex = Integer.parseInt(CCnumber.replaceAll("\\D", ""));
 
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/CharacterCards.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setFullScreenExitHint("");
-        stage.setHeight(768);
-        stage.setWidth(1366);
-        stage.show();
-
+        GUI.getInstance().changeScene("/fxml/CharacterCards.fxml", 790, 1366);
     }
 
     public int getChoosenCC() {
@@ -921,16 +900,7 @@ public class GameBoardController implements Initializable {
 
     @FXML
     public void openSchools(MouseEvent event) throws IOException{
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/AdversarySchools.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.setFullScreen(true);
-        stage.setResizable(false);
-        stage.setFullScreenExitHint("");
-        stage.setHeight(768);
-        stage.setWidth(1366);
-        stage.show();
+        GUI.getInstance().changeScene("/fxml/AdversarySchools.fxml", 790, 1366);
     }
 
     @FXML

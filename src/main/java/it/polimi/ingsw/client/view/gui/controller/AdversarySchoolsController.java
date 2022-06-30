@@ -7,17 +7,13 @@ import it.polimi.ingsw.client.view.gui.RedirectResources;
 import it.polimi.ingsw.model.Color;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -30,9 +26,6 @@ import java.util.ResourceBundle;
  * It shows the schools of all the players, their coins and last played Assistant card.
  */
 public class AdversarySchoolsController implements Initializable {
-    Parent root;
-    Stage stage;
-    Scene scene;
     ClientModelManager cmm = GUI.getInstance().getClientModelManager();
     ClientController cc = GUI.getInstance().getClientController();
     int numberOfPlayers = cmm.getPlayers().length;
@@ -260,16 +253,7 @@ public class AdversarySchoolsController implements Initializable {
      */
     @FXML
     private void returnToGame(MouseEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setFullScreen(true);
-        stage.setFullScreenExitHint("");
-        stage.setResizable(false);
-        stage.setHeight(768);
-        stage.setWidth(1366);
-        stage.setScene(scene);
-        stage.show();
-
+        GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+        event.consume();
     }
 }

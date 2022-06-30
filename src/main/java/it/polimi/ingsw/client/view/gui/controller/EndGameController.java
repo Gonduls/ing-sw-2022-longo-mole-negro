@@ -6,14 +6,9 @@ import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.messages.EndGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -26,9 +21,6 @@ import java.util.ResourceBundle;
  * From this scene, the user can decide to go back to the lobby or to logout from the game.
  */
 public class EndGameController implements Initializable {
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
 
     @FXML
     private ImageView BG;
@@ -72,12 +64,10 @@ public class EndGameController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToLobby(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/StartMenu.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 477.0, 477.0);
-        stage.setScene(scene);
-        stage.show();
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
         GUI.getInstance().setSetScene(false);
+        GUI.getInstance().getClientController().startOver();
+        event.consume();
     }
 
     /**
@@ -87,12 +77,11 @@ public class EndGameController implements Initializable {
      */
     public void logout(ActionEvent event) throws IOException {
         GUI.getInstance().getClientController().logout();
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Connection.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 477.0, 477.0);
-        stage.setScene(scene);
-        stage.show();
+        GUI.getInstance().changeScene("/fxml/Connection.fxml", 500, 477);
         GUI.getInstance().setSetScene(false);
+        GUI.getInstance().getClientController().logout();
+        GUI.getInstance().getClientController().startOver();
+        event.consume();
     }
 
     /**
