@@ -176,8 +176,6 @@ public class GameBoardController implements Initializable {
                             ENDACTION.setVisible(true);
 
                     });
-                    TURN.setVisible(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()));
-                    PHASE.setText(cc.getPhase().toString());
                     BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
                     showAssistantCard();
                 }
@@ -187,6 +185,9 @@ public class GameBoardController implements Initializable {
 
     // Calls all the methods that initialize or update the board depending on which part of the board we're considering
     private void setBoard(Node node) {
+        TURN.setVisible(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()));
+        PHASE.setText(cc.getPhase().toString());
+
         if(node.getId().startsWith("ISLANDS"))
             ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(x -> setIslands((AnchorPane) x));
         else if(node.getId().startsWith("CLOUDS")) {
@@ -789,7 +790,10 @@ public class GameBoardController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
-        scene.getWindow().setHeight(768 - 0.001);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setHeight(768);
+        stage.setWidth(1366);
         stage.show();
 
     }
@@ -804,7 +808,10 @@ public class GameBoardController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
-        scene.getWindow().setHeight(768 - 0.001);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setHeight(768);
+        stage.setWidth(1366);
         stage.show();
     }
 
