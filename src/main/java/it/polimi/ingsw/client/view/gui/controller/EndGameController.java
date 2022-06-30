@@ -3,6 +3,7 @@ package it.polimi.ingsw.client.view.gui.controller;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
+import it.polimi.ingsw.messages.EndGame;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,6 +32,7 @@ public class EndGameController implements Initializable {
     @FXML
     private ImageView BG;
 
+    private static EndGame message;
 
 
     /**
@@ -40,7 +42,12 @@ public class EndGameController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        String[] winners = GUI.getInstance().getWinners();
+        String[] winners;
+        if(message == null) {
+            winners = new String[1];
+        } else {
+            winners = message.winners();
+        }
         ClientController cc = GUI.getInstance().getClientController();
         ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
@@ -86,5 +93,11 @@ public class EndGameController implements Initializable {
         stage.show();
     }
 
-
+    /**
+     * Set static value message with endGame message
+     * @param message The endGame message
+     */
+    public static void setEndgame(EndGame message){
+        EndGameController.message = message;
+    }
 }

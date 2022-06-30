@@ -4,10 +4,7 @@ import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
-import it.polimi.ingsw.client.view.gui.controller.AdversarySchoolsController;
-import it.polimi.ingsw.client.view.gui.controller.DisconnectedController;
-import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
-import it.polimi.ingsw.client.view.gui.controller.LobbyController;
+import it.polimi.ingsw.client.view.gui.controller.*;
 import it.polimi.ingsw.messages.EndGame;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
@@ -112,7 +109,7 @@ public class GUI extends Application implements UI{
     public void showMessage(Message message) {
         String resource = null;
         if(message.getMessageType() == MessageType.END_GAME) {
-            winners = ((EndGame)message).winners();
+            EndGameController.setEndgame((EndGame) message);
             Platform.runLater(new Runnable() {
                 @Override
                 public void run() {
@@ -232,9 +229,5 @@ public class GUI extends Application implements UI{
                 result --;
         }
         return result;
-    }
-
-    public String[] getWinners() {
-        return winners;
     }
 }
