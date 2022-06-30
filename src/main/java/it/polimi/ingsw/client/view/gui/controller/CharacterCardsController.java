@@ -93,12 +93,14 @@ public class CharacterCardsController implements Initializable{
                     }
                 }
 
-                //todo riattiva solo carta da usare
                 root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
                 stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
                 scene = new Scene((root));
                 stage.setScene(scene);
-                scene.getWindow().setHeight(768);
+                stage.setFullScreen(true);
+                stage.setResizable(false);
+                stage.setHeight(768);
+                stage.setWidth(1366);
                 stage.show();
             }
         }
@@ -111,7 +113,10 @@ public class CharacterCardsController implements Initializable{
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene((root));
         stage.setScene(scene);
-        scene.getWindow().setHeight(768);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setHeight(768);
+        stage.setWidth(1366);
         stage.show();
 
     }

@@ -215,8 +215,11 @@ public class AdversarySchoolsController implements Initializable {
         root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
+        stage.setFullScreen(true);
+        stage.setResizable(false);
+        stage.setHeight(768);
+        stage.setWidth(1366);
         stage.setScene(scene);
-        scene.getWindow().setHeight(768);
         stage.show();
 
     }
