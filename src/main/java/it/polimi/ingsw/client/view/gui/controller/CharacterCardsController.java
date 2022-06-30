@@ -102,6 +102,7 @@ public class CharacterCardsController implements Initializable{
                 scene = new Scene((root));
                 stage.setScene(scene);
                 stage.setFullScreen(true);
+                stage.setFullScreenExitHint(null);
                 stage.setResizable(false);
                 stage.setHeight(768);
                 stage.setWidth(1366);
@@ -118,6 +119,7 @@ public class CharacterCardsController implements Initializable{
         scene = new Scene((root));
         stage.setScene(scene);
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint(null);
         stage.setResizable(false);
         stage.setHeight(768);
         stage.setWidth(1366);

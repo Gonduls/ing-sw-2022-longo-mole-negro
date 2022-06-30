@@ -84,6 +84,7 @@ public class GUI extends Application implements UI{
                     scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
                     primaryStage.setFullScreen(true);
+                    primaryStage.setFullScreenExitHint(null);
                     primaryStage.setResizable(false);
                     primaryStage.setHeight(768);
                     primaryStage.setWidth(1366);
@@ -114,6 +115,7 @@ public class GUI extends Application implements UI{
                 scene = new Scene(root, 1366, 768);
                 primaryStage.setScene(scene);
                 primaryStage.setFullScreen(true);
+                primaryStage.setFullScreenExitHint(null);
                 primaryStage.setResizable(false);
                 primaryStage.setHeight(768);
                 primaryStage.setWidth(1366);

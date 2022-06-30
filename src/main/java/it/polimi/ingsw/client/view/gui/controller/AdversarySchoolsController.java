@@ -24,6 +24,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Handles
+ */
 public class AdversarySchoolsController implements Initializable {
     Parent root;
     Stage stage;
@@ -216,6 +219,7 @@ public class AdversarySchoolsController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setFullScreen(true);
+        stage.setFullScreenExitHint(null);
         stage.setResizable(false);
         stage.setHeight(768);
         stage.setWidth(1366);
