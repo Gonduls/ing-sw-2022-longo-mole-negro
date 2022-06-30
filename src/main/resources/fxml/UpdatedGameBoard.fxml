@@ -1686,7 +1686,7 @@
             <Image url="@../images/Elements/Username.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="TURN" fitHeight="50.0" fitWidth="50.0" layoutX="135.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
+      <ImageView fx:id="TURN" fitHeight="50.0" fitWidth="50.0" layoutX="118.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
          <image>
             <Image url="@../images/Elements/TurnCrown.png" />
          </image>

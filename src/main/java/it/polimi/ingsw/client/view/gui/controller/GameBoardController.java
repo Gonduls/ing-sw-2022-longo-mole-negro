@@ -35,6 +35,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
+/**
+ * Initializes the entire GameBoard and handles all the actions taken within it.
+ */
 public class GameBoardController implements Initializable {
     private static GameBoardController instance;
     public static GameBoardController getInstance(){
@@ -106,6 +109,11 @@ public class GameBoardController implements Initializable {
     private static int choosenCCindex  = 0;
     private final String[] swap = new String[2];
 
+    /**
+     * Initializes the Board
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         instance = new GameBoardController();
@@ -145,6 +153,10 @@ public class GameBoardController implements Initializable {
         instance.reprint();
     }
 
+    /**
+     * Reprints the entire board
+     * It is called everytime there is an update of the model
+     */
     public void reprint() {
         // Avoid throwing IllegalStateException by running from a non-JavaFX thread.
         initializeDeck();
@@ -178,7 +190,10 @@ public class GameBoardController implements Initializable {
         );
     }
 
-    // Calls all the methods that initialize or update the board depending on which part of the board we're considering
+    /**
+     * Calls all the methods that initialize or update the board depending on which part of the board we're considering
+     * @param node the AnchorPane corresponding to a specific part of the Board
+     */
     private void setBoard(Node node) {
         if(node.getId().startsWith("ISLANDS"))
             ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(x -> setIslands((AnchorPane) x));
@@ -197,6 +212,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
+    /**
+     * Sets the
+     * @param node
+     */
     private void setIslands(AnchorPane node) {
         int islandIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
 
@@ -210,6 +229,13 @@ public class GameBoardController implements Initializable {
         node.getChildren().stream().filter(Objects::nonNull).forEach(b -> boardSwitch(b, modelIndex, noEntriesNum));
     }
 
+    /**
+     * Sets all the elements that are on the islands.
+     * It shows the number of student per color, the towers, noEntry tiles and MotherNature when it is in the specified island.
+     * @param node the AnchorPane of the given island
+     * @param islandIndex the index of the given island
+     * @param noEntriesNum the number of noEntry tiles on the given island
+     */
     public void boardSwitch(Node node, int islandIndex, int noEntriesNum) {
         switch (node.getId().replaceAll("[^A-Za-z]+", "")) {
             case("R") -> setStudentPieceInIsland(node, Color.RED, islandIndex);
@@ -259,13 +285,24 @@ public class GameBoardController implements Initializable {
 
     }
 
-    // if no students of that color are present => don't show student piece
+    /**
+     * It shows the image of the student on the island only if the number of students of that given color on
+     * the specified island is greater than 0
+     * @param node the student ImageView
+     * @param color the color of the given student
+     * @param islandIndex the index of the given island
+     */
     public void setStudentPieceInIsland(Node node, Color color, int islandIndex){
         int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
         node.setVisible(num != 0);
     }
 
-    // if non number is needed for that color => don't show number, else set number
+    /**
+     * It shows the number of the students for a given color, on the given island, only if it is greater than 0
+     * @param node the Label with the number of the students of the given color
+     * @param color the color of the student considered
+     * @param islandIndex the index of the given island
+     */
     public void setStudentNumberInIsland(Node node, Color color, int islandIndex){
         int num = cmm.getIslands().get(islandIndex).getStudents().get(color);
         if(num < 2) {
@@ -276,8 +313,10 @@ public class GameBoardController implements Initializable {
         ((Label) node).setText(Integer.toString(num));
     }
 
-
-    //Sets the correct number of clouds per number of players
+    /**
+     * Sets the correct number of clouds and of students per cloud
+     * @param node the island node
+     */
     private void setClouds(Node node) {
         int cloudIndex = Integer.parseInt(node.getId().replaceAll("\\D", ""));
 
@@ -300,7 +339,10 @@ public class GameBoardController implements Initializable {
         });
     }
 
-    //Sets all the elements of the Players' schools
+    /**
+     * Calls all the methods that set different parts of the player's school given their fxid
+     * @param node the AnchorPane of the player's school
+     */
     private void setSchool(Node node) {
         if (node.getId().startsWith("DININGROOM")) {
             ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
@@ -329,6 +371,12 @@ public class GameBoardController implements Initializable {
     }
 
     //Shows the towers still present in the player's school
+
+    /**
+     * Sets the correct tower color and shows the towers
+     * still present in the player's school
+     * @param node the tower ImageView
+     */
     private void setTowers(Node node) {
         switch (getThisPlayerIndex()) {
             case 0 -> {
@@ -362,12 +410,18 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Checks and shows the professors a Player has
+    /**
+     * Checks and shows the professors the player currently has
+     * @param node the professor ImageView
+     */
     private void setProfessors(Node node) {
         node.setVisible(cmm.getProfessors().get(Color.valueOf(node.getId())) == getThisPlayerIndex());
     }
 
-    //Shows the state of the DiningRoom
+    /**
+     * Shows the state of the DiningRoom
+     * @param node the single students ImageView
+     */
     private void setDiningRoom(Node node) {
         node.setVisible(iteratorDR < currentDRColor);
 
@@ -378,7 +432,11 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Sets the chosen character cards with their respective images and SHs
+    /**
+     * Sets the chosen character cards with their respective images and Student Holders, or noEntry holder
+     * for the fifth card
+     * @param node the CharacterCard AnchorPane
+     */
     private void setCharacterCards(Node node) {
         if(indexes == null)
             indexes = cmm.getCharactersIndexes().toArray(Integer[]::new);
@@ -413,7 +471,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Sets the deck's back and currently shown card
+    /**
+     * Sets the deck's back
+     * @param node the deck's AnchorPane
+     */
     private void setDeck(Node node) {
         if (node.getId().startsWith("ASSISTANTCARDDECK")){
             switch(getThisPlayerIndex()) {
@@ -435,7 +496,9 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Creates an ArrayList with Assistant Cards' images
+    /**
+     * Creates an ArrayList with Assistant Cards' images
+     */
     private void initializeDeck() {
         List<AssistantCard> assistantCards = cmm.getDeck();
 
@@ -445,13 +508,18 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Shows the currently selected Assistant Card
+    /**
+     * Shows the currently selected Assistant Card
+     */
     private void showAssistantCard() {
         if(deck.isEmpty()) return;
         ASSISTANTCARD.setImage(deck.get((ACindex) % deck.size()));
     }
 
-
+    /**
+     * Disables noentries for games that are not in expert mode
+     * @param node the noentries ImageViews
+     */
     public void notExpert(Node node) {
         if (node.getId().startsWith("NOENTRY")) {
             node.setVisible(false);
@@ -459,7 +527,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Sets the correct image for the Students when they're chosen randomly
+    /**
+     * Sets the correct image for the Students when they're chosen randomly
+     * @param node the student ImageView
+     */
     public void setStudents(Node node) {
         node.setVisible(true);
         if (numberOfReds > 0) {
@@ -487,7 +558,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Initializes numbers of students per color from the given sh
+    /**
+     * Initializes numbers of students per color from the given Student Holder
+     * @param sh the Student Holder given
+     */
     private void setNumberOfStudents(Map<Color,Integer> sh) {
         numberOfReds = sh.get(Color.RED);
         numberOfBlues = sh.get(Color.BLUE);
@@ -496,7 +570,10 @@ public class GameBoardController implements Initializable {
         numberOfPinks = sh.get(Color.PINK);
     }
 
-    //Returns the current board's player
+    /**
+     * Returns the current board's player
+     * @return the index of this player
+     */
     private int getThisPlayerIndex() {
         String[] players = cc.getPlayers();
         for (int i = 0; i < players.length; i++) {
@@ -506,7 +583,11 @@ public class GameBoardController implements Initializable {
         return -1;
     }
 
-    // Returns a more user-friendly phase name
+    /**
+     * Returns a more user-friendly phase name
+     * @param phase the given GamePhase
+     * @return a string with the current GamePhase
+     */
     private String changePhaseName(GamePhase phase){
         return switch (phase){
             case PLANNING_PHASE -> "Planning";
@@ -519,18 +600,24 @@ public class GameBoardController implements Initializable {
 
     //All functions called to manage player's actions
 
-    //Shows the next Assistant Card
+    /**
+     * Shows the next Assistant Card
+     * @param event mouse click
+     */
     @FXML
-    private void nextAssistantCard(MouseEvent e) {
+    private void nextAssistantCard(MouseEvent event) {
         if(ACindex == deck.size() -1) {
             ACindex = -1;
         }
         ACindex++;
         showAssistantCard();
-        e.consume();
+        event.consume();
     }
 
-    //Shows previous Assistant Card
+    /**
+     * Shows previous Assistant Card
+     * @param event mouse click
+     */
     @FXML
     private void prevAssistantCard(MouseEvent event) {
         if(ACindex == 0) {
@@ -541,6 +628,10 @@ public class GameBoardController implements Initializable {
         event.consume();
     }
 
+    /**
+     * Picks the Assistant Card clicked
+     * @param event mouse click
+     */
     @FXML
     private void selectAssistantCard(MouseEvent event) {
         String action = "Play AC";
@@ -553,6 +644,10 @@ public class GameBoardController implements Initializable {
         showAssistantCard();
     }
 
+    /**
+     *
+     * @param event
+     */
     @FXML
     private void studentSelected(MouseEvent event) {
         String url = ((ImageView)event.getSource()).getImage().getUrl();
@@ -561,6 +656,11 @@ public class GameBoardController implements Initializable {
             instance.putSwap(RedirectResources.fromURLtoElement(url), ((ImageView) event.getSource()).getId());
     }
 
+    /**
+     * Extracts the clicked island's index to invoke ChooseIslandEvent
+     * If the event can't be performed it shows a NACK message
+     * @param event mouse click
+     */
     @FXML
     private void chooseIsland(MouseEvent event) {
         String id = ((AnchorPane)event.getSource()).getId();
@@ -575,8 +675,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    /*First click on the source of the drag.
-     *It saves in the dragboard the Id of the node that is being moved (Source).
+    /**
+     * First click on the source of the drag.
+     * It saves in the dragboard the Id of the node that is being moved (Source).
+     * @param event first click of mouse to drag
      */
     @FXML
     private void startDrag(MouseEvent event) {
@@ -592,7 +694,10 @@ public class GameBoardController implements Initializable {
         event.consume();
     }
 
-    /*Target node knows what to accept depending on the TransferMode*/
+    /**
+     * Target node knows what to accept depending on the TransferMode
+     * @param event the dragOver event
+     */
     @FXML
     private void dragOver(DragEvent event) {
         if (event.getGestureSource() != event.getSource() &&
@@ -604,13 +709,15 @@ public class GameBoardController implements Initializable {
         event.consume();
     }
 
-    /*Graphic feedback of the accessible destination
-     * for the element that's being moved
-     * */
+    /**
+    * Graphic feedback of the accessible destination
+    * for the element that's being moved
+    * @param event the hover event
+    */
     @FXML
     private void hover(DragEvent event) {
-        /* the drag-and-drop gesture entered the target */
-        /* show to the user that it is an actual gesture target */
+        // the drag-and-drop gesture entered the target
+        //show to the user that it is an actual gesture target
         if (event.getGestureSource() != event.getSource() &&
                 event.getDragboard().hasString()) {
             ((Node)event.getSource()).setBlendMode(BlendMode.SOFT_LIGHT);
@@ -619,20 +726,24 @@ public class GameBoardController implements Initializable {
         event.consume();
     }
 
-    /*Graphic feedback of when the mouse leaves the possible destination*/
+    /**
+    * Graphic feedback of when the mouse leaves the possible destination
+    * @param event the exitHover dragEvent
+    */
     @FXML
     private void exitHover(DragEvent event) {
-        /* mouse moved away, remove the graphical cues */
+        // mouse moved away, remove the graphical cues
         ((Node)event.getSource()).setBlendMode(BlendMode.SRC_OVER);
-
         event.consume();
-
     }
 
+    /**
+     *
+     */
     @FXML
     private void dragDrop(DragEvent event) {
-        /* data dropped */
-        /* if there is a string data on dragboard, read it and use it */
+        // data dropped
+        // if there is a string data on dragboard, read it and use it
         Dragboard db = event.getDragboard();
         boolean success = false;
         if(((Node)event.getSource()).getId().startsWith("ISLAND")) {
@@ -675,13 +786,10 @@ public class GameBoardController implements Initializable {
 
         }
         if (db.hasString()) {
-            //event.getGestureSource();
-            //deve chiamare la funzione che faccia quello che deve fare -> cambiare numero studenti etc
-            //((Node)event.getSource());
             success = true;
         }
-        /* let the source know whether the string was successfully
-         * transferred and used */
+        //let the source know whether the string was successfully
+        //transferred and used
         event.setDropCompleted(success);
 
         event.consume();
