@@ -31,8 +31,6 @@ public class EndGameController implements Initializable {
     @FXML
     private ImageView BG;
 
-    ClientController cc = GUI.getInstance().getClientController();
-    ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
 
     /**
@@ -43,6 +41,8 @@ public class EndGameController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         String[] winners = GUI.getInstance().getWinners();
+        ClientController cc = GUI.getInstance().getClientController();
+        ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
         for (int i = 0; i < winners.length; i++) {
             Image image;
@@ -66,7 +66,7 @@ public class EndGameController implements Initializable {
     public void returnToLobby(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
+        scene = new Scene(root, 477.0, 477.0);
         stage.setScene(scene);
         stage.show();
 
@@ -81,7 +81,7 @@ public class EndGameController implements Initializable {
         GUI.getInstance().getClientController().logout();
         root = FXMLLoader.load(getClass().getResource("/fxml/Connection.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
+        scene = new Scene(root, 477.0, 477.0);
         stage.setScene(scene);
         stage.show();
     }

@@ -5,11 +5,13 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
 import it.polimi.ingsw.client.view.gui.controller.AdversarySchoolsController;
+import it.polimi.ingsw.client.view.gui.controller.DisconnectedController;
 import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.EndGame;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
+import it.polimi.ingsw.messages.PlayerDisconnect;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -27,7 +29,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class GUI extends Application implements UI{
     ClientController cc;
     ClientModelManager cmm;
-    static boolean inARoom = false, kill;
+    static boolean inARoom = false;
     private static Stage primaryStage;
     private String username;
     private String[] winners;
@@ -108,27 +110,53 @@ public class GUI extends Application implements UI{
 
     @Override
     public void showMessage(Message message) {
+        String resource = null;
         if(message.getMessageType() == MessageType.END_GAME) {
-            try {
-                winners = ((EndGame)message).winners();
-                Parent root;
-                Scene scene;
-                root = FXMLLoader.load(getClass().getResource("/fxml/EndGame.fxml"));
-                scene = new Scene(root, 1366, 768);
-                primaryStage.setScene(scene);
-                primaryStage.setFullScreen(true);
-                primaryStage.setFullScreenExitHint("");
-                primaryStage.setResizable(false);
-                primaryStage.setHeight(768);
-                primaryStage.setWidth(1366);
-                primaryStage.show();
-
-            } catch (IOException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
-            }
-
+            winners = ((EndGame)message).winners();
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/EndGame.fxml"));
+                        Scene scene = new Scene(root, 1366, 768);
+                        primaryStage.setScene(scene);
+                        primaryStage.setFullScreen(true);
+                        primaryStage.setFullScreenExitHint("");
+                        primaryStage.setResizable(false);
+                        primaryStage.setHeight(768);
+                        primaryStage.setWidth(1366);
+                        primaryStage.show();
+                    } catch (IOException e) {
+                        Log.logger.severe(e.getMessage());
+                    }
+                }
+            });
         }
+        if(message.getMessageType() == MessageType.PLAYER_DISCONNECT) {
+            DisconnectedController.setDisconnectMessage(((PlayerDisconnect) message));
+            Platform.runLater(new Runnable() {
+                @Override
+                public void run() {
+                    try{
+                        Parent root = FXMLLoader.load(getClass().getResource("/fxml/Disconnected.fxml"));
+                        Scene scene = new Scene(root, 1366, 768);
+                        primaryStage.setScene(scene);
+                        primaryStage.setFullScreen(true);
+                        primaryStage.setFullScreenExitHint("");
+                        primaryStage.setResizable(false);
+                        primaryStage.setHeight(768);
+                        primaryStage.setWidth(1366);
+                        primaryStage.show();
+                    }catch (IOException e){
+                        Log.logger.severe(e.getMessage());
+                    }
+                }
+            });
+        }
+
+        if(resource == null)
+            return;
+
 
     }
 
@@ -156,40 +184,6 @@ public class GUI extends Application implements UI{
     }
 
     public ClientModelManager getClientModelManager() { return cmm; }
-
-    public void gamePhase() {
-        Thread game;
-        if(!inARoom)
-            return;
-
-        kill = false;
-        game = new Thread(this::game);
-        synchronized (gameRunning) {
-            if (!gameRunning.get()) {
-                try {
-                    gameRunning.wait();
-                } catch (InterruptedException e) {
-                    //todo pop-up errore?
-                    Thread.currentThread().interrupt();
-                    return;
-                }
-            }
-        }
-
-        game.start();
-        try {
-            game.join();
-        } catch (InterruptedException e) {
-            //todo pop up thread closing
-            Thread.currentThread().interrupt();
-        } finally {
-            inARoom = false;
-        }
-    }
-
-    private void game() {
-    }
-
 
     public void setInARoom(boolean value) {
         this.inARoom = value;
