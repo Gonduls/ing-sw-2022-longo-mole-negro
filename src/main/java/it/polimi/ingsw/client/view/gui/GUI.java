@@ -80,27 +80,14 @@ public class GUI extends Application implements UI{
             return;
         }
 
-        Platform.runLater(new Runnable() {
-            @Override
-            public void run() {
+        Platform.runLater(() -> {
 
-                try {
-                    Parent root;
-                    Scene scene;
-                    root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/UpdatedGameBoard.fxml")));
-                    scene = new Scene(root, 1366, 768);
-                    primaryStage.setScene(scene);
-                    primaryStage.setFullScreen(true);
-                    primaryStage.setFullScreenExitHint("");
-                    primaryStage.setResizable(false);
-                    primaryStage.setHeight(768);
-                    primaryStage.setWidth(1366);
-                    primaryStage.show();
-                    setScene = true;
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
-                    e.printStackTrace();
-                }
+            try {
+                changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+                setScene = true;
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
             }
         });
     }
@@ -115,43 +102,21 @@ public class GUI extends Application implements UI{
     public void showMessage(Message message) {
         if(message.getMessageType() == MessageType.END_GAME) {
             EndGameController.setEndgame((EndGame) message);
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/EndGame.fxml")));
-                        Scene scene = new Scene(root, 1366, 768);
-                        primaryStage.setScene(scene);
-                        primaryStage.setFullScreen(true);
-                        primaryStage.setFullScreenExitHint("");
-                        primaryStage.setResizable(false);
-                        primaryStage.setHeight(768);
-                        primaryStage.setWidth(1366);
-                        primaryStage.show();
-                    } catch (IOException e) {
-                        Log.logger.severe(e.getMessage());
-                    }
+            Platform.runLater(() -> {
+                try {
+                    changeScene("/fxml/EndGame.fxml", 790, 1366);
+                } catch (IOException e) {
+                    Log.logger.severe(e.getMessage());
                 }
             });
         }
         if(message.getMessageType() == MessageType.PLAYER_DISCONNECT) {
             DisconnectedController.setDisconnectMessage(((PlayerDisconnect) message));
-            Platform.runLater(new Runnable() {
-                @Override
-                public void run() {
-                    try{
-                        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Disconnected.fxml")));
-                        Scene scene = new Scene(root, 1366, 768);
-                        primaryStage.setScene(scene);
-                        primaryStage.setFullScreen(true);
-                        primaryStage.setFullScreenExitHint("");
-                        primaryStage.setResizable(false);
-                        primaryStage.setHeight(768);
-                        primaryStage.setWidth(1366);
-                        primaryStage.show();
-                    }catch (IOException e){
-                        Log.logger.severe(e.getMessage());
-                    }
+            Platform.runLater(() -> {
+                try{
+                    changeScene("/fxml/Disconnected.fxml", 768, 1366);
+                }catch (IOException e){
+                    Log.logger.severe(e.getMessage());
                 }
             });
         }
@@ -159,6 +124,7 @@ public class GUI extends Application implements UI{
 
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
+        System.out.println("Here");
         this.cmm = cmm;
 
         for(int i = 0; i< 12; i ++)
@@ -233,5 +199,24 @@ public class GUI extends Application implements UI{
 
     public void setSetScene(boolean value){
         instance.setScene = value;
+    }
+
+    /**
+     * Changes scene, must be run inside Application thread
+     * @param resource The file containing the fxml
+     * @param height The height of the scene
+     * @param width The width of the scene
+     * @throws IOException If FXMLLoader does
+     */
+    public void changeScene(String resource, int height, int width) throws IOException{
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
+        Scene scene = new Scene(root, height, width);
+        primaryStage.setScene(scene);
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
+        primaryStage.setResizable(false);
+        primaryStage.setFullScreen(true);
+        primaryStage.setFullScreenExitHint("");
+        primaryStage.show();
     }
 }

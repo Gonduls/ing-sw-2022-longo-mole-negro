@@ -4,13 +4,8 @@ import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.messages.CreateRoom;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -22,9 +17,6 @@ import java.util.ResourceBundle;
  * and private mode.
  */
 public class GameCreationController implements Initializable {
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
 
     @FXML
     private Spinner<Integer> mySpinner;
@@ -43,8 +35,6 @@ public class GameCreationController implements Initializable {
 
     @FXML
     private Label errorAccessRoom;
-
-    private static Integer roomID;
 
     /**
      * Initializes the scene.
@@ -69,7 +59,7 @@ public class GameCreationController implements Initializable {
         boolean expertGame = checkExpert.isSelected();
         boolean privateGame = checkPrivate.isSelected();
         CreateRoom createRoom = new CreateRoom(mySpinner.getValue(), expertGame, privateGame);
-        roomID  = (GUI.getInstance().getClientController().createRoom(createRoom));
+        Integer roomID = (GUI.getInstance().getClientController().createRoom(createRoom));
         if(roomID < 0) {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);
@@ -80,7 +70,7 @@ public class GameCreationController implements Initializable {
             continueButton.setDisable(true);
             errorAccessRoom.setText("Room ID: " + roomID + " Waiting for players...");
             errorAccessRoom.setVisible(true);
-            GUI.getInstance().setInARoom(true);
+            GUI.setInARoom(true);
             GUI.getInstance().refresh();
         }
     }
@@ -91,12 +81,7 @@ public class GameCreationController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.show();
-
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
     }
 
 }

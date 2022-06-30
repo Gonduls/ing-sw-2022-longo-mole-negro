@@ -2,19 +2,11 @@ package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.server.RoomInfo;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -27,9 +19,6 @@ import java.util.ResourceBundle;
  * It shows a list of currently available games from which the user can choose which one to enter.
  */
 public class LobbyController implements Initializable {
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
 
     static LobbyController instance;
     public static LobbyController getInstance(){
@@ -70,13 +59,7 @@ public class LobbyController implements Initializable {
                     "   Expert: " + info.getExpert());
         }
 
-        roomInfoListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-                roomIDChosen = Integer.parseInt(roomInfoListView.getSelectionModel().getSelectedItem().substring(4,8));
-            }
-        });
+        roomInfoListView.getSelectionModel().selectedItemProperty().addListener((observableValue, s, t1) -> roomIDChosen = Integer.parseInt(roomInfoListView.getSelectionModel().getSelectedItem().substring(4,8)));
     }
 
     /**
@@ -86,7 +69,7 @@ public class LobbyController implements Initializable {
      */
     public void enterGame(ActionEvent actionEvent) {
         if(GUI.getInstance().getClientController().accessRoom(roomIDChosen)) {
-            GUI.getInstance().setInARoom(true);
+            GUI.setInARoom(true);
             GUI.getInstance().refresh();
             enterGame.setVisible(false);
             enterGame.setDisable(true);
@@ -101,11 +84,6 @@ public class LobbyController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(getClass().getResource("/fxml/FilterSearch.fxml"));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene((root));
-        stage.setScene(scene);
-        stage.show();
-
+        GUI.getInstance().changeScene("/fxml/FilterSearch.fxml", 500, 477);
     }
 }

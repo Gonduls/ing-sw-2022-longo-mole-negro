@@ -4,23 +4,14 @@ package it.polimi.ingsw.client.view.gui.controller;
         import it.polimi.ingsw.messages.PlayerDisconnect;
         import javafx.event.ActionEvent;
         import javafx.fxml.FXML;
-        import javafx.fxml.FXMLLoader;
         import javafx.fxml.Initializable;
-        import javafx.scene.Node;
-        import javafx.scene.Parent;
-        import javafx.scene.Scene;
         import javafx.scene.control.Label;
-        import javafx.stage.Stage;
 
         import java.io.IOException;
         import java.net.URL;
-        import java.util.Objects;
         import java.util.ResourceBundle;
 
 public class DisconnectedController implements Initializable {
-    private Parent root;
-    private Stage stage;
-    private Scene scene;
     private static PlayerDisconnect message;
 
     @FXML
@@ -33,22 +24,16 @@ public class DisconnectedController implements Initializable {
     }
 
     public void returnToLobby(ActionEvent event) throws IOException {
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/StartMenu.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 477.0, 477.0);
-        stage.setScene(scene);
-        stage.show();
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
         GUI.getInstance().setSetScene(false);
+        GUI.getInstance().getClientController().startOver();
     }
 
-    public void logout(ActionEvent event) throws IOException {
-        GUI.getInstance().getClientController().logout();
-        root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Connection.fxml")));
-        stage = (Stage)((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root, 477.0, 477.0);
-        stage.setScene(scene);
-        stage.show();
+    public void logout(ActionEvent event) throws IOException{
+        GUI.getInstance().changeScene("/fxml/Connection.fxml", 500, 477);
         GUI.getInstance().setSetScene(false);
+        GUI.getInstance().getClientController().logout();
+        GUI.getInstance().getClientController().startOver();
     }
 
     public static void setDisconnectMessage(PlayerDisconnect message){
