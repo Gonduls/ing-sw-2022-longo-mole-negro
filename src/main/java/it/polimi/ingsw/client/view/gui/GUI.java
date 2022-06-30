@@ -83,7 +83,7 @@ public class GUI extends Application implements UI{
                     root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
                     scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
-                    primaryStage.setFullScreen(false);
+                    primaryStage.setFullScreen(true);
                     primaryStage.setResizable(false);
                     primaryStage.setHeight(768);
                     primaryStage.setWidth(1366);
