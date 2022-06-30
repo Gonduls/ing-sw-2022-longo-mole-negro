@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -53,7 +54,7 @@ public class EndGameController implements Initializable {
 
         for (int i = 0; i < winners.length; i++) {
             Image image;
-            if(cc.getPlayers()[cc.getPlayingPlayer()] == GUI.getInstance().getUsername() && winners.length == 1)
+            if(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()) && winners.length == 1)
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneWin.png")));
             else if (winners.length == cmm.getPlayers().length)
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneTie.png")));
@@ -66,7 +67,7 @@ public class EndGameController implements Initializable {
     }
 
     /**
-     * Switches to the StartMEnu scene in order to create or join a new game.
+     * Switches to the StartMenu scene in order to create or join a new game.
      * @param event button click
      * @throws IOException handles FXMLLoader's possible exception
      */

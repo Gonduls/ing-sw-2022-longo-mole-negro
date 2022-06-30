@@ -10,20 +10,21 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ *Handles the Game Creation.
+ * It allows the user to create a new Game with the specified information about number of players, expert mode
+ * and private mode.
+ */
 public class GameCreationController implements Initializable {
     private Parent root;
     private Stage stage;
     private Scene scene;
-
-    @FXML
-    private AnchorPane anchorText;
 
     @FXML
     private Spinner<Integer> mySpinner;
@@ -45,7 +46,11 @@ public class GameCreationController implements Initializable {
 
     private static Integer roomID;
 
-
+    /**
+     * Initializes the scene.
+     * @param url
+     * @param resourceBundle
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(2,4);
@@ -53,6 +58,12 @@ public class GameCreationController implements Initializable {
 
     }
 
+    /**
+     * Creates a new room with the chosen information.
+     * If successful, returns the newly created roomID and waits for other players to join.
+     * Else, it shows an error message.
+     * @param event button click
+     */
     public void generateRoomID(ActionEvent event) {
 
         boolean expertGame = checkExpert.isSelected();
@@ -74,6 +85,11 @@ public class GameCreationController implements Initializable {
         }
     }
 
+    /**
+     * Switches back to previous scene.
+     * @param event button click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
         root = FXMLLoader.load(getClass().getResource("/fxml/StartMenu.fxml"));
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();

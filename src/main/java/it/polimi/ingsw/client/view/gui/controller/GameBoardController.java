@@ -459,7 +459,7 @@ public class GameBoardController implements Initializable {
         }
     }
 
-    //Sets the correct image for the Students when they're choosen randomly
+    //Sets the correct image for the Students when they're chosen randomly
     public void setStudents(Node node) {
         node.setVisible(true);
         if (numberOfReds > 0) {
