@@ -69,7 +69,6 @@ public class GUI extends Application implements UI{
 
     @Override
     public void refresh() {
-        //GameBoardController.getInstance.
         if(cc.getPlayingPlayer() == -1)
             return;
 
