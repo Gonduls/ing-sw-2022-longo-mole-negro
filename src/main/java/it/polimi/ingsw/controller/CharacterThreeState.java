@@ -48,7 +48,7 @@ public class CharacterThreeState extends CharacterState{
 
             try{
                 player.getSchool().getStudentsAtEntrance().moveStudentTo(eventCast.getStudentFromEntrance(), player.getSchool().getStudentsAtTables());
-                player.getSchool().getStudentsAtTables().moveStudentTo(eventCast.getStudentFromEntrance(), player.getSchool().getStudentsAtEntrance());
+                player.getSchool().getStudentsAtTables().moveStudentTo(eventCast.getStudentFromTable(), player.getSchool().getStudentsAtEntrance());
                 context.gameManager.getModelObserver().moveFromEntranceToTable(player.getPlayerNumber(), eventCast.getStudentFromEntrance());
                 context.gameManager.getModelObserver().moveStudentFromTableToEntrance(player.getPlayerNumber(), eventCast.getStudentFromTable());
                 numberOfEvents--;
