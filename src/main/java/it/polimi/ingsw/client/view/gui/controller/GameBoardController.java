@@ -356,8 +356,6 @@ public class GameBoardController implements Initializable {
 
     }
 
-    //Shows the towers still present in the player's school
-
     /**
      * Sets the correct tower color and shows the towers
      * still present in the player's school
@@ -696,7 +694,7 @@ public class GameBoardController implements Initializable {
     private void dragOver(DragEvent event) {
         if (event.getGestureSource() != event.getSource() &&
                 event.getDragboard().hasString()) {
-            /* allow for both copying and moving, whatever user chooses */
+            // allow for both copying and moving, whatever user chooses
             event.acceptTransferModes(TransferMode.MOVE);
         }
 
@@ -732,7 +730,10 @@ public class GameBoardController implements Initializable {
     }
 
     /**
-     *
+     * Dropping the node on the target node triggers this method.
+     * Depending on both the source node and the target source node ids, it creates an action string
+     * for the dealWithAction method.
+     * @param event the dragDrop event
      */
     @FXML
     private void dragDrop(DragEvent event) {
@@ -791,10 +792,14 @@ public class GameBoardController implements Initializable {
         event.consume();
     }
 
+    /**
+     * It terminates the drag event also for the source node, and sets its property Visible on false
+     * @param event the dragdone event
+     */
     @FXML
     private void dragDone(DragEvent event) {
-        /* the drag and drop gesture ended */
-        /* if the data was successfully moved, clear it */
+        // the drag and drop gesture ended
+        // if the data was successfully moved, clear it
         if (event.getTransferMode() == TransferMode.MOVE) {
             ((Node)event.getSource()).setVisible(false);
         }
@@ -802,6 +807,10 @@ public class GameBoardController implements Initializable {
         reprint();
     }
 
+    /**
+     * Chose the cloud by clicking on it to get its students
+     * @param event mouse click
+     */
     @FXML
     private void chooseCloud(MouseEvent event) {
         String action = "Choose cloud";
@@ -809,6 +818,13 @@ public class GameBoardController implements Initializable {
         dealWithAction(action, cloudIndex, null);
     }
 
+    /**
+     * Generates and performs all possible events given a string "action" that specifies which event
+     * needs to be created and two generic parameters that store any other information needed to call the event
+     * @param action the action string
+     * @param param1 a generic parameter
+     * @param param2 a second generic parameter
+     */
     private void dealWithAction(String action, String param1, String param2) {
         GameEvent gameEvent;
 
@@ -875,6 +891,10 @@ public class GameBoardController implements Initializable {
         }
     }
 
+    /**
+     * Handles the merge of two islands
+     * @param secondIsland the index of the second of the two merged islands
+     */
     public void merge(int secondIsland) {
         ISLANDS.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(b -> {
             int currentIsland = Integer.parseInt(b.getId().replaceAll("\\D", ""));
@@ -885,7 +905,11 @@ public class GameBoardController implements Initializable {
         });
     }
 
-    //Picking a CC shows a new scene with that card's info
+    /**
+     * Clicking on a Character Card shows a new scene with that card's info
+     * @param event mouse click
+     * @throws IOException handles FXMLLoader's possible exeption
+     */
     public void chooseCC(MouseEvent event) throws IOException {
         String CCurl = ((ImageView)event.getSource()).getImage().getUrl();
         String CCnumber = RedirectResources.fromURLtoElement(CCurl);
@@ -894,15 +918,27 @@ public class GameBoardController implements Initializable {
         GUI.getInstance().changeScene("/fxml/CharacterCards.fxml", 790, 1366);
     }
 
+    /**
+     * Returns the id of the chosen Character Card
+     * @return chosen Character Card's id
+     */
     public int getChoosenCC() {
         return choosenCCindex;
     }
 
+    /**
+     * Clicking on the players icon switches to the AdversarySchools scene
+     * @param event mouse click
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     @FXML
     public void openSchools(MouseEvent event) throws IOException{
         GUI.getInstance().changeScene("/fxml/AdversarySchools.fxml", 790, 1366);
     }
 
+    /**
+     * Handles the endAction of certain Character Cards
+     */
     @FXML
     public void endAction() {
         GameEvent gameEvent= new EndSelection(cc.getPlayingPlayer());
