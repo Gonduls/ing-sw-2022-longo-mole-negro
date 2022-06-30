@@ -77,6 +77,15 @@ public class GameBoardController implements Initializable {
     @FXML
     private Button ENDACTION;
 
+    @FXML
+    private Label USERNAME;
+
+    @FXML
+    private Label PHASE;
+
+    @FXML
+    private ImageView TURN;
+
     //used to change images of students
     private int numberOfReds = 0;
     private int numberOfBlues = 0;
@@ -149,6 +158,9 @@ public class GameBoardController implements Initializable {
                 ENDACTION.setVisible(true);
 
         });
+
+        USERNAME.setText(GUI.getInstance().getUsername());
+
         //parses through every element of the board
         BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
 
@@ -164,6 +176,8 @@ public class GameBoardController implements Initializable {
                             ENDACTION.setVisible(true);
 
                     });
+                    TURN.setVisible(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()));
+                    PHASE.setText(cc.getPhase().toString());
                     BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
                     showAssistantCard();
                 }
@@ -381,7 +395,6 @@ public class GameBoardController implements Initializable {
 
         if (node.getId().startsWith("CC")) {
             //Changes the image of the card
-
             Image image = RedirectResources.characterCardsImages(indexes[indexesIterator]);
             ((ImageView) node).setImage(image);
         } else if (node.getId().startsWith("STUDENTS")) {
@@ -391,6 +404,9 @@ public class GameBoardController implements Initializable {
                 setNumberOfStudents(sh);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(this::setStudents);
             } else if(indexesIterator == 5) {
+                //If the card is the fifth, swaps students with no entry tiles
+                node.setVisible(true);
+                node.setDisable(false);
                 ((AnchorPane) node).getChildren().stream().filter(ImageView.class::isInstance).forEach(
                         b -> {
                             b.setVisible(true);

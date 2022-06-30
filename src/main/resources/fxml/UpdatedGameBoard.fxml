@@ -1666,9 +1666,9 @@
             </AnchorPane>
          </children>
       </AnchorPane>
-      <Label fx:id="MESSAGES" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="270.0" prefHeight="62.0" prefWidth="218.0" text="MEX" textAlignment="CENTER" visible="false" wrapText="true">
+      <Label fx:id="MESSAGES" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="60.0" layoutY="163.0" prefHeight="62.0" prefWidth="200.0" text="MEX" textAlignment="CENTER" textFill="WHITE" visible="false" wrapText="true">
          <font>
-            <Font name="Serif Regular" size="18.0" />
+            <Font name="Segoe UI Italic" size="14.0" />
          </font></Label>
       <Label fx:id="NACKLABEL" alignment="TOP_CENTER" contentDisplay="CENTER" layoutX="46.0" layoutY="359.0" prefHeight="62.0" prefWidth="218.0" text="MEX" textAlignment="CENTER" textFill="#d00000" visible="false" wrapText="true">
          <font>
@@ -1681,5 +1681,25 @@
          </image>
       </ImageView>
       <Button fx:id="ENDACTION" layoutX="185.0" layoutY="470.0" mnemonicParsing="false" onAction="#endAction" text="End Selection" />
+      <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="67.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Elements/Username.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="TURN" fitHeight="50.0" fitWidth="50.0" layoutX="135.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../images/Elements/TurnCrown.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="USERNAME" alignment="TOP_CENTER" blendMode="COLOR_BURN" contentDisplay="CENTER" layoutX="75.0" layoutY="77.0" prefHeight="30.0" prefWidth="170.0" text="Label" textAlignment="CENTER" textFill="#bf6600" wrapText="true">
+         <font>
+            <Font name="Segoe UI Black" size="18.0" />
+         </font>
+      </Label>
+      <Label fx:id="PHASE" alignment="TOP_CENTER" layoutX="68.0" layoutY="133.0" prefHeight="30.0" prefWidth="184.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="Segoe UI Black" size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
