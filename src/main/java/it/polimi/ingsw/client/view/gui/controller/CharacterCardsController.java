@@ -1,6 +1,7 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ClientController;
+import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
 import it.polimi.ingsw.messages.GameEvent;
@@ -32,6 +33,7 @@ import java.util.ResourceBundle;
 
 public class CharacterCardsController implements Initializable{
     private ClientController cc = GUI.getInstance().getClientController();
+    private ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
     @FXML
     private ImageView DescCC;
@@ -70,6 +72,8 @@ public class CharacterCardsController implements Initializable{
             COLORS.setVisible(true);
             COLORS.setDisable(false);
         }
+        if(cmm.wasActivated(choosenCCIndex))
+            MESSAGES.setText("This card now costs +1 coin");
 
     }
 
