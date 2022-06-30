@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
 import it.polimi.ingsw.model.Color;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -51,6 +52,7 @@ public class AdversarySchoolsController implements Initializable {
 
     @FXML
     private AnchorPane ADVERSARYBOARD;
+    private static AnchorPane AB;
 
     @FXML
     private ImageView bg;
@@ -64,7 +66,15 @@ public class AdversarySchoolsController implements Initializable {
         }
 
         ADVERSARYBOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool);
+        AB = ADVERSARYBOARD;
+    }
 
+    public void reprint(){
+        if(AB == null)
+            return;
+        Platform.runLater( () ->
+                AB.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setSchool)
+        );
     }
 
     private void setSchool(Node node) {
@@ -219,7 +229,7 @@ public class AdversarySchoolsController implements Initializable {
         stage = (Stage)((Node)event.getSource()).getScene().getWindow();
         scene = new Scene(root);
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint(null);
+        stage.setFullScreenExitHint("");
         stage.setResizable(false);
         stage.setHeight(768);
         stage.setWidth(1366);

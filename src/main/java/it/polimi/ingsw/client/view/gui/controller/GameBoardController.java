@@ -5,6 +5,7 @@ import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.client.view.gui.RedirectResources;
+import it.polimi.ingsw.controller.GamePhase;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.messages.Message;
 import it.polimi.ingsw.messages.MessageType;
@@ -49,40 +50,28 @@ public class GameBoardController implements Initializable {
 
     @FXML
     private AnchorPane BOARD;
-
     @FXML
     private AnchorPane ISLANDS;
-
     @FXML
     private ImageView COIN;
-
     @FXML
     private ImageView ASSISTANTCARD;
-
     @FXML
     private ImageView ASSISTANTCARDDECK;
-
     @FXML
     private Label OWNEDCOINS;
-
     @FXML
     private AnchorPane CHARACTERCARDS;
-
     @FXML
     private Label MESSAGES;
-
     @FXML
     private Label NACKLABEL;
-
     @FXML
     private Button ENDACTION;
-
     @FXML
     private Label USERNAME;
-
     @FXML
     private Label PHASE;
-
     @FXML
     private ImageView TURN;
 
@@ -130,6 +119,9 @@ public class GameBoardController implements Initializable {
         instance.NACKLABEL = this.NACKLABEL;
         instance.MESSAGES = this.MESSAGES;
         instance.ENDACTION = this.ENDACTION;
+        instance.PHASE = this.PHASE;
+        instance.TURN = this.TURN;
+        instance.USERNAME = this.USERNAME;
 
         //setting board for game start
         if (!expert) {
@@ -149,21 +141,8 @@ public class GameBoardController implements Initializable {
             CHARACTERCARDS.setDisable(true);
         }
 
-
         initializeDeck();
-        ENDACTION.setVisible(false);
-        ENDACTION.setVisible(false);
-        cc.getActions().forEach(string -> {
-            if(string.endsWith("End selections"))
-                ENDACTION.setVisible(true);
-
-        });
-
-        USERNAME.setText(GUI.getInstance().getUsername());
-
-        //parses through every element of the board
-        BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
-
+        instance.reprint();
     }
 
     public void reprint() {
@@ -171,23 +150,36 @@ public class GameBoardController implements Initializable {
         initializeDeck();
         Platform.runLater( () -> {
                     ENDACTION.setVisible(false);
+                    USERNAME.setText(GUI.getInstance().getUsername());
                     cc.getActions().forEach(string -> {
                         if(string.endsWith("End selections"))
                             ENDACTION.setVisible(true);
 
                     });
+                    TURN.setVisible(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()));
+                    PHASE.setText(changePhaseName(cc.getPhase()));
                     BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
                     showAssistantCard();
+                    if(cc.getCardActions() > 0){
+                        MESSAGES.setVisible(true);
+                        switch (cc.getActiveCharacterCard()){
+                            case 0 -> MESSAGES.setText("Move a student from the activated card to any island");
+                            case 2 -> MESSAGES.setText("Click a student in the activated card and in the entrance of your school to swap them, click end selection to stop using this card effect");
+                            case 3 -> MESSAGES.setText("Click a student in your dining room and in the entrance of your school to swap them, click end selection to stop using this card effect");
+                            case 5 -> MESSAGES.setText("Click on any island to place a no entry");
+                            case 7 -> MESSAGES.setText("Move a student from the activated card to your dining room");
+                            case 8 -> MESSAGES.setText("Click on any island to calculate influence");
+                            default -> MESSAGES.setVisible(false);
+                        }
+                    } else {
+                        MESSAGES.setVisible(false);
+                    }
                 }
         );
     }
 
-
     // Calls all the methods that initialize or update the board depending on which part of the board we're considering
     private void setBoard(Node node) {
-        TURN.setVisible(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()));
-        PHASE.setText(cc.getPhase().toString());
-
         if(node.getId().startsWith("ISLANDS"))
             ((AnchorPane)node).getChildren().stream().filter(AnchorPane.class::isInstance).forEach(x -> setIslands((AnchorPane) x));
         else if(node.getId().startsWith("CLOUDS")) {
@@ -372,15 +364,12 @@ public class GameBoardController implements Initializable {
 
     //Checks and shows the professors a Player has
     private void setProfessors(Node node) {
-        if (cmm.getProfessors().get(Color.valueOf(node.getId())) == getThisPlayerIndex())
-            node.setVisible(true);
+        node.setVisible(cmm.getProfessors().get(Color.valueOf(node.getId())) == getThisPlayerIndex());
     }
 
     //Shows the state of the DiningRoom
     private void setDiningRoom(Node node) {
-        if (iteratorDR < currentDRColor) {
-            node.setVisible(true);
-        }
+        node.setVisible(iteratorDR < currentDRColor);
 
         iteratorDR++;
 
@@ -468,7 +457,6 @@ public class GameBoardController implements Initializable {
             node.setVisible(false);
             node.setDisable(true);
         }
-
     }
 
     //Sets the correct image for the Students when they're choosen randomly
@@ -518,6 +506,17 @@ public class GameBoardController implements Initializable {
         return -1;
     }
 
+    // Returns a more user-friendly phase name
+    private String changePhaseName(GamePhase phase){
+        return switch (phase){
+            case PLANNING_PHASE -> "Planning";
+            case ACTION_PHASE_ONE -> "Move Students";
+            case ACTION_PHASE_TWO -> "Move Mother Nature";
+            case ACTION_PHASE_THREE -> "Choose Cloud";
+        };
+    }
+
+
     //All functions called to manage player's actions
 
     //Shows the next Assistant Card
@@ -566,7 +565,8 @@ public class GameBoardController implements Initializable {
     private void chooseIsland(MouseEvent event) {
         String id = ((AnchorPane)event.getSource()).getId();
         int islandIdx = Integer.parseInt((id.replaceAll("\\D", "")));
-        GameEvent gameEvent = new ChooseIslandEvent(islandIdx, cc.getPlayingPlayer());
+        int actualIsland = GUI.getInstance().getIslandModelIndex(islandIdx);
+        GameEvent gameEvent = new ChooseIslandEvent(actualIsland, cc.getPlayingPlayer());
 
         Message answer = cc.performEvent(gameEvent);
         if (answer.getMessageType() == MessageType.NACK) {
@@ -780,7 +780,6 @@ public class GameBoardController implements Initializable {
     }
 
     //Picking a CC shows a new scene with that card's info
-    @FXML
     public void chooseCC(MouseEvent event) throws IOException {
         String CCurl = ((ImageView)event.getSource()).getImage().getUrl();
         String CCnumber = RedirectResources.fromURLtoElement(CCurl);
@@ -792,6 +791,7 @@ public class GameBoardController implements Initializable {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setFullScreenExitHint("");
         stage.setHeight(768);
         stage.setWidth(1366);
         stage.show();
@@ -810,6 +810,7 @@ public class GameBoardController implements Initializable {
         stage.setScene(scene);
         stage.setFullScreen(true);
         stage.setResizable(false);
+        stage.setFullScreenExitHint("");
         stage.setHeight(768);
         stage.setWidth(1366);
         stage.show();

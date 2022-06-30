@@ -4,6 +4,7 @@ import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.UI;
+import it.polimi.ingsw.client.view.gui.controller.AdversarySchoolsController;
 import it.polimi.ingsw.client.view.gui.controller.GameBoardController;
 import it.polimi.ingsw.client.view.gui.controller.LobbyController;
 import it.polimi.ingsw.messages.EndGame;
@@ -70,6 +71,7 @@ public class GUI extends Application implements UI{
 
         if(setScene){
             GameBoardController.getInstance().reprint();
+            (new AdversarySchoolsController()).reprint();
             return;
         }
 
@@ -84,7 +86,7 @@ public class GUI extends Application implements UI{
                     scene = new Scene(root, 1366, 768);
                     primaryStage.setScene(scene);
                     primaryStage.setFullScreen(true);
-                    primaryStage.setFullScreenExitHint(null);
+                    primaryStage.setFullScreenExitHint("");
                     primaryStage.setResizable(false);
                     primaryStage.setHeight(768);
                     primaryStage.setWidth(1366);
@@ -115,7 +117,7 @@ public class GUI extends Application implements UI{
                 scene = new Scene(root, 1366, 768);
                 primaryStage.setScene(scene);
                 primaryStage.setFullScreen(true);
-                primaryStage.setFullScreenExitHint(null);
+                primaryStage.setFullScreenExitHint("");
                 primaryStage.setResizable(false);
                 primaryStage.setHeight(768);
                 primaryStage.setWidth(1366);

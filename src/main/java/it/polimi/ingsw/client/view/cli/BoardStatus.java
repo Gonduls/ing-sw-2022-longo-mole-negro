@@ -299,13 +299,12 @@ public class BoardStatus {
         }
         ansi.cursor(4, 18).a(player);
         String phaseS = null;
-        if(phase != null)
-            switch (phase){
-                case PLANNING_PHASE -> phaseS = "Planning";
-                case ACTION_PHASE_ONE -> phaseS = "Move Students";
-                case ACTION_PHASE_TWO -> phaseS = "Move Mother Nature";
-                case ACTION_PHASE_THREE -> phaseS = "Choose Cloud";
-            }
+        switch (phase){
+            case PLANNING_PHASE -> phaseS = "Planning";
+            case ACTION_PHASE_ONE -> phaseS = "Move Students";
+            case ACTION_PHASE_TWO -> phaseS = "Move Mother Nature";
+            case ACTION_PHASE_THREE -> phaseS = "Choose Cloud";
+        }
 
         ansi.cursor(6, 20).a(phaseS);
 

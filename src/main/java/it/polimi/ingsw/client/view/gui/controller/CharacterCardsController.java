@@ -82,32 +82,30 @@ public class CharacterCardsController implements Initializable{
         GameEvent gameEvent;
         gameEvent = new ActivateCharacterCardEvent(cardId, cc.getPlayingPlayer());
 
-        if (gameEvent != null) {
-            Message answer = cc.performEvent(gameEvent);
-            if(answer.getMessageType() == MessageType.NACK){
-                MESSAGES.setText(((Nack) answer).errorMessage());
-                MESSAGES.setVisible(true);
-            } else {
-                if((choosenCCIndex == 10 || choosenCCIndex == 11) && choosenColor != null) {
-                    gameEvent = new ChooseColorEvent(choosenColor,cc.getPlayingPlayer());
-                    answer = cc.performEvent(gameEvent);
-                    if(answer.getMessageType() == MessageType.NACK){
-                        MESSAGES.setText(((Nack) answer).errorMessage());
-                        MESSAGES.setVisible(true);
-                    }
+        Message answer = cc.performEvent(gameEvent);
+        if(answer.getMessageType() == MessageType.NACK){
+            MESSAGES.setText(((Nack) answer).errorMessage());
+            MESSAGES.setVisible(true);
+        } else {
+            if((choosenCCIndex == 10 || choosenCCIndex == 11) && choosenColor != null) {
+                gameEvent = new ChooseColorEvent(choosenColor,cc.getPlayingPlayer());
+                answer = cc.performEvent(gameEvent);
+                if(answer.getMessageType() == MessageType.NACK){
+                    MESSAGES.setText(((Nack) answer).errorMessage());
+                    MESSAGES.setVisible(true);
                 }
-
-                root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
-                stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
-                scene = new Scene((root));
-                stage.setScene(scene);
-                stage.setFullScreen(true);
-                stage.setFullScreenExitHint(null);
-                stage.setResizable(false);
-                stage.setHeight(768);
-                stage.setWidth(1366);
-                stage.show();
             }
+
+            root = FXMLLoader.load(getClass().getResource("/fxml/UpdatedGameBoard.fxml"));
+            stage = (Stage)((Node)actionEvent.getSource()).getScene().getWindow();
+            scene = new Scene((root));
+            stage.setScene(scene);
+            stage.setFullScreen(true);
+            stage.setFullScreenExitHint("");
+            stage.setResizable(false);
+            stage.setHeight(768);
+            stage.setWidth(1366);
+            stage.show();
         }
     }
 
@@ -119,7 +117,7 @@ public class CharacterCardsController implements Initializable{
         scene = new Scene((root));
         stage.setScene(scene);
         stage.setFullScreen(true);
-        stage.setFullScreenExitHint(null);
+        stage.setFullScreenExitHint("");
         stage.setResizable(false);
         stage.setHeight(768);
         stage.setWidth(1366);

@@ -32,7 +32,6 @@ public class ClientController {
     private boolean expert;
     private int cardActions;
 
-
     /**
      * Sets ui, creates and starts NetworkHandler thread
      * @param ui The UI previously created
@@ -368,6 +367,13 @@ public class ClientController {
      */
     public int getActiveCharacterCard() {
         return activeCharacterCard;
+    }
+
+    /**
+     * @return The number of actions still needed to complete the activation of a card
+     */
+    public int getCardActions(){
+        return cardActions;
     }
 
     /**

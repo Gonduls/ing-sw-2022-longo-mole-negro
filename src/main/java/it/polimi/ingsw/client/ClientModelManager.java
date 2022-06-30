@@ -69,7 +69,7 @@ public class ClientModelManager {
             characterStudents = new HashMap<>();
 
         } else {
-            coins = new int[]{0, 0, 0};
+            coins = new int[]{0, 0, 0, 0};
             prices = null;
             characterStudents = null;
             activated = null;
