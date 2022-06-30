@@ -21,9 +21,9 @@
          </font>
       </Label>
       <Button fx:id="ACTIVATECC" layoutX="771.0" layoutY="530.0" mnemonicParsing="false" onAction="#activateCC" prefHeight="25.0" prefWidth="61.0" text="Button" />
-      <ImageView fx:id="RETURN" fitHeight="30.0" fitWidth="30.0" layoutX="52.0" layoutY="40.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="RETURN" fitHeight="50.0" fitWidth="50.0" layoutX="1261.0" layoutY="37.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Elements/ButtonPrev.png" />
+            <Image url="@../images/Elements/ExitButton.png" />
          </image>
       </ImageView>
       <Label fx:id="MESSAGES" alignment="CENTER" contentDisplay="CENTER" layoutX="475.0" layoutY="473.0" prefHeight="30.0" prefWidth="653.0" textAlignment="CENTER" wrapText="true">

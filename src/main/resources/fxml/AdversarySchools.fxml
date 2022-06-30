@@ -12,9 +12,9 @@
             <Image url="@../images/Elements/AdversarySchools.png" />
          </image>
       </ImageView>
-      <ImageView fx:id="BACKBUTTON" fitHeight="30.0" fitWidth="30.0" layoutX="70.0" layoutY="29.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="BACKBUTTON" fitHeight="60.0" fitWidth="60.0" layoutX="1259.0" layoutY="35.0" onMouseClicked="#returnToGame" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../images/Elements/ButtonPrev.png" />
+            <Image url="@../images/Elements/ExitButton.png" />
          </image>
       </ImageView>
       <AnchorPane fx:id="SCHOOL0" layoutX="123.0" layoutY="95.0">
