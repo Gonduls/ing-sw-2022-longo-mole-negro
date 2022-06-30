@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 
-import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.ClientController;
 import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
@@ -139,6 +138,13 @@ public class GameBoardController implements Initializable {
 
 
         initializeDeck();
+        ENDACTION.setVisible(false);
+        ENDACTION.setVisible(false);
+        cc.getActions().forEach(string -> {
+            if(string.endsWith("End selections"))
+                ENDACTION.setVisible(true);
+
+        });
         //parses through every element of the board
         BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
 
@@ -150,12 +156,12 @@ public class GameBoardController implements Initializable {
         Platform.runLater( () -> {
                     ENDACTION.setVisible(false);
                     cc.getActions().forEach(string -> {
-                        if(string.endsWith("End selections")) {
+                        if(string.endsWith("End selections"))
                             ENDACTION.setVisible(true);
-                        }
-                        System.out.println(string);
+
                     });
                     BOARD.getChildren().stream().filter(AnchorPane.class::isInstance).forEach(this::setBoard);
+                    showAssistantCard();
                 }
         );
     }
@@ -235,7 +241,6 @@ public class GameBoardController implements Initializable {
             case ("NOENTRIESNUM") -> ((Label) node).setText(String.valueOf(noEntriesNum));
             case ("NOENTRY") -> node.setVisible(noEntriesNum > 0);
             case ("MOTHERNATURE") -> node.setVisible(cmm.getMotherNature() == islandIndex);
-            default -> Log.logger.info("Unexpected node id: " + node.getId().replaceAll("[^A-Za-z]+", ""));
 
         }
         OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
@@ -302,9 +307,6 @@ public class GameBoardController implements Initializable {
                     return;
                 studentNumber++;
                 setStudents(x);
-                /*
-                x.setVisible(true);
-                x.setDisable(false);*/
             });
             studentNumber = 0;
         }
@@ -435,6 +437,7 @@ public class GameBoardController implements Initializable {
 
     //Shows the currently selected Assistant Card
     private void showAssistantCard() {
+        if(deck.isEmpty()) return;
         ASSISTANTCARD.setImage(deck.get((ACindex) % deck.size()));
     }
 
@@ -544,12 +547,10 @@ public class GameBoardController implements Initializable {
         int islandIdx = Integer.parseInt((id.replaceAll("\\D", "")));
         GameEvent gameEvent = new ChooseIslandEvent(islandIdx, cc.getPlayingPlayer());
 
-        if (gameEvent != null) {
-            Message answer = cc.performEvent(gameEvent);
-            if (answer.getMessageType() == MessageType.NACK) {
-                MESSAGES.setText(((Nack) answer).errorMessage());
-                MESSAGES.setVisible(true);
-            }
+        Message answer = cc.performEvent(gameEvent);
+        if (answer.getMessageType() == MessageType.NACK) {
+            MESSAGES.setText(((Nack) answer).errorMessage());
+            MESSAGES.setVisible(true);
         }
     }
 
@@ -618,10 +619,6 @@ public class GameBoardController implements Initializable {
                 String action = "Move S from E to I";
                 String islandIndex = ((Node)event.getSource()).getId().replaceAll("\\D", "");
                 int actualIsland = GUI.getInstance().getIslandModelIndex(Integer.parseInt(islandIndex));
-                if(actualIsland == -1) {
-                    System.out.println("Selected a nonvalid island");
-                    return;
-                }
 
                 dealWithAction(action, db.getString(), Integer.toString(actualIsland));
             }
@@ -723,12 +720,12 @@ public class GameBoardController implements Initializable {
             }
             case ("Swap X from CC with Y from E") -> {
                 Color x = Color.valueOf(param1);
-                Color y = Color.valueOf(param1);
+                Color y = Color.valueOf(param2);
                 gameEvent = new SwapStudentCardEntranceEvent(x, y, cc.getPlayingPlayer());
             }
             case ("Swap X from E with Y from DR") -> {
                 Color x = Color.valueOf(param1);
-                Color y = Color.valueOf(param1);
+                Color y = Color.valueOf(param2);
                 gameEvent = new SwapStudentEntranceTableEvent(x, y, cc.getPlayingPlayer());
             }
             case "Move NE from CC to I" -> {
@@ -799,7 +796,8 @@ public class GameBoardController implements Initializable {
         if (answer.getMessageType() == MessageType.NACK) {
             MESSAGES.setText(((Nack) answer).errorMessage());
             MESSAGES.setVisible(true);
-        }
+        } else
+            reprint();
     }
 
     private void putSwap(String color, String id){
