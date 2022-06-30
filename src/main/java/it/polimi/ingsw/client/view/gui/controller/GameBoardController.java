@@ -92,7 +92,7 @@ public class GameBoardController implements Initializable {
     private int indexesIterator = 0;
 
     private ArrayList<Image> deck;
-    private int ACindex;
+    private static int ACindex;
     private static int choosenCCindex  = 0;
     private final String[] swap = new String[2];
 
@@ -489,7 +489,7 @@ public class GameBoardController implements Initializable {
      */
     private void initializeDeck() {
         List<AssistantCard> assistantCards = cmm.getDeck();
-
+        ACindex = 0;
         deck = new ArrayList<>();
         for (AssistantCard ac : assistantCards) {
             deck.add(RedirectResources.ACImages(ac.getValue()));
