@@ -294,8 +294,6 @@ public class GUI extends Application implements UI{
         primaryStage.setMaxWidth(width);
         primaryStage.setMinWidth(width);
 
-        primaryStage.setFullScreen(!fullscreen);
-        primaryStage.setFullScreen(fullscreen);
         scene.setOnKeyPressed(event -> {
             if(event.getCode() == KeyCode.F11) {
                 fullscreen = !fullscreen;
