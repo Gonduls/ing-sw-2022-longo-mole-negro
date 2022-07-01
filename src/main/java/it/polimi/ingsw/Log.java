@@ -6,12 +6,19 @@ import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Defines a local Log class, for debugging
+ */
 public class Log {
     public static final Logger logger = Logger.getLogger("test");
     private FileHandler fh;
     private static boolean debug;
 
-    public Log(String fileName) throws SecurityException {
+    /**
+     * Adds a file to the logger, every file added will share all the log information from that point forward
+     * @param fileName The name of the file to add
+     */
+    public Log(String fileName) {
         File f = new File(fileName);
         logger.setUseParentHandlers(false);
 
@@ -19,8 +26,8 @@ public class Log {
             return;
 
         try{
-            if(!f.exists()) {
-                f.createNewFile();
+            if(!f.exists() && !f.createNewFile()) {
+                System.out.println("Could not create file");
             }
             fh = new FileHandler(fileName, true);
         } catch (IOException e){
@@ -33,6 +40,11 @@ public class Log {
         fh.setFormatter(formatter);
     }
 
+    /**
+     * To activate log activities, debug must be true.
+     * If setDebug is not called, no logging is carried out.
+     * @param value The value to set debug to
+     */
     public static void setDebug(boolean value){
         debug = value;
     }

@@ -59,7 +59,7 @@ public class GameCreationController implements Initializable {
         boolean expertGame = checkExpert.isSelected();
         boolean privateGame = checkPrivate.isSelected();
         CreateRoom createRoom = new CreateRoom(mySpinner.getValue(), expertGame, privateGame);
-        Integer roomID = (GUI.getInstance().getClientController().createRoom(createRoom));
+        int roomID = (GUI.getInstance().getClientController().createRoom(createRoom));
         if(roomID < 0) {
             errorAccessRoom.setText("Could not access Room. Try Again.");
             errorAccessRoom.setVisible(true);

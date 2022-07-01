@@ -149,14 +149,13 @@ public class GUI extends Application implements UI{
     }
 
     /**
-     *
+     * Sets game starting parameters
      * @param numberOfPlayers Either 2, 3, or 4
      * @param expert True if game is expert mode, false otherwise
      * @param cmm The ClientModelManager connected to the starting game
      */
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
-        System.out.println("Here");
         this.cmm = cmm;
 
         for(int i = 0; i< 12; i ++)
@@ -216,14 +215,19 @@ public class GUI extends Application implements UI{
     }
 
     /**
-     *
-     * @param island12Index
-     * @return
+     * @param island12Index The index of the target island (from 0 to 12)
+     * @return False if the island is supposed to be printed, true otherwise
      */
     public boolean wasMerged(int island12Index){
         return merged[island12Index];
     }
 
+    /**
+     * Given the index of an island (from 0 to # of islands in model), it returns the corresponding
+     * index if no islands were merged
+     * @param islandModelIndex The index of an island (from 0 to # of islands in model)
+     * @return The corresponding index from the start of the game
+     */
     public int getIsland12Index(int islandModelIndex){
         int i = 0;
         while(i < 12){
@@ -237,6 +241,12 @@ public class GUI extends Application implements UI{
         return -1;
     }
 
+    /**
+     * Given the index of an island (from 0 to 12), it returns the corresponding
+     * index with merged islands, -1 if the island itself was merged
+     * @param island12Index The index of an island (from 0 to 12)
+     * @return The corresponding index with islands merged, -1 if the island itself was merged
+     */
     public int getIslandModelIndex(int island12Index){
         if(merged[island12Index])
             return -1;
@@ -249,6 +259,10 @@ public class GUI extends Application implements UI{
         return result;
     }
 
+    /**
+     * Changes setScene to "value": false is needed when joining a new game
+     * @param value The value to set setScene to
+     */
     public void setSetScene(boolean value){
         instance.setScene = value;
     }
@@ -264,10 +278,10 @@ public class GUI extends Application implements UI{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         Scene scene = new Scene(root, height, width);
         primaryStage.setScene(scene);
-        primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
         primaryStage.setResizable(false);
         primaryStage.setFullScreen(true);
+        primaryStage.setWidth(width);
+        primaryStage.setHeight(height);
         primaryStage.setFullScreenExitHint("");
         primaryStage.show();
     }
