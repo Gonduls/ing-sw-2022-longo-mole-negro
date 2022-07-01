@@ -37,22 +37,22 @@
                   <Image url="@../images/Elements/RoundRed.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="PINK" fitHeight="40.0" fitWidth="40.0" layoutX="76.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="PINK" fitHeight="40.0" fitWidth="40.0" layoutX="76.0" onMouseClicked="#chooseColor" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/RoundPink.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="YELLOW" fitHeight="40.0" fitWidth="40.0" layoutX="154.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="YELLOW" fitHeight="40.0" fitWidth="40.0" layoutX="154.0" onMouseClicked="#chooseColor" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/RoundYellow.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="GREEN" fitHeight="40.0" fitWidth="40.0" layoutX="234.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="GREEN" fitHeight="40.0" fitWidth="40.0" layoutX="234.0" onMouseClicked="#chooseColor" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/RoundGreen.png" />
                </image>
             </ImageView>
-            <ImageView fx:id="BLUE" fitHeight="40.0" fitWidth="40.0" layoutX="308.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="BLUE" fitHeight="40.0" fitWidth="40.0" layoutX="308.0" onMouseClicked="#chooseColor" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/Elements/RoundBlue.png" />
                </image>
