@@ -334,6 +334,9 @@ public class ClientModelManager {
      * @return The students needed
      */
     private EnumMap<Color, Integer> parsePosition(String position) {
+        if(!position.contains(":"))
+            return null;
+
         String[] splitPos = position.split(":");
         int index = Integer.parseInt(splitPos[1]);
 

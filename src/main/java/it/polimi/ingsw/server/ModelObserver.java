@@ -247,9 +247,13 @@ public class ModelObserver {
 
     }
 
-    public void moveStudentFromEntranceToBag(int player, Color color){
-        room.sendBroadcast(new MoveStudent("ENTRANCE:"+player, "BAG", color));
-
+    /**
+     * Creates and sends a MoveStudent message
+     * @param player The index of the player
+     * @param color The target color
+     */
+    public void moveStudentFromTAbleToBag(int player, Color color){
+        room.sendBroadcast(new MoveStudent("DININGROOM:"+player, "BAG", color));
     }
 
     /**
