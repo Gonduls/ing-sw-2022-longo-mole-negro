@@ -248,19 +248,6 @@ public class GameManager {
         TowerColor newTC;
         TowerColor previousTC = currentIsland.getTower();
 
-        if (usedCard == 6){
-            CharacterCardSix cc6 = (CharacterCardSix) findCardById(6);
-            newTC = board.calculateInfluence(position, professors,cc6.getTowerColor());
-
-        } else if (usedCard == 9) {
-            newTC = board.calculateInfluenceNoTowers(position, professors);
-
-        } else if (usedCard == 10){
-            CharacterCardTen cc10 = (CharacterCardTen) findCardById(10);
-            newTC = board.calculateInfluenceNoColor(position, professors, cc10.getColor());
-        } else {
-            newTC = board.calculateInfluence(position, professors);
-        }
 
         // if broken remove this line
         newTC = board.calculateInfluenceSmart(position, professors, findCardById(usedCard));
@@ -324,7 +311,7 @@ public class GameManager {
     public void calculateInfluenceWithoutMovement(int islandIndex){
         Island currentIsland = board.getIslands().get(islandIndex);
 
-        TowerColor newTC = board.calculateInfluence(islandIndex, professors);
+        TowerColor newTC = board.calculateInfluenceSmart(islandIndex, professors,null);
         TowerColor previousTC = currentIsland.getTower();
 
         if(newTC == null || (previousTC != null && previousTC == newTC)){

@@ -125,177 +125,19 @@ public class Board {
         return indexCurrentIsland;
     }
 
-    /**
-     * Calculates how much influence a certain TowerColor has over an island
-     *
-     * @param index: the index of the island to consider
-     * @param professors: needed to know which Player controls which professor
-     * @return the TowerColor that has the most influence over the islands, null in case of a tie
-     * @deprecated
-     */
-    TowerColor calculateInfluence(int index, Professors professors) {
-        EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
-        EnumMap<Color, Player> profOwners = professors.getOwners();
-
-        for(TowerColor towerC : TowerColor.values()){
-            points.put(towerC, 0);
-        }
-
-        if(islands.get(index).getTower() != null){
-            points.put(islands.get(index).getTower(), islands.get(index).getTowerNumber());
-        }
-
-        for(Color color : Color.values()){
-            if(profOwners.get(color) != null){
-                TowerColor ownerTC = profOwners.get(color).getTowerColor();
-                int finalAmount = points.get(ownerTC) + islands.get(index).getStudentByColor(color);
-                points.put(ownerTC, finalAmount);
-            }
-        }
-
-        int blackP = points.get(TowerColor.BLACK);
-        int whiteP = points.get(TowerColor.WHITE);
-        int greyP = points.get(TowerColor.GREY);
-
-        if(blackP > whiteP && blackP > greyP)
-            return TowerColor.BLACK;
-
-        if(whiteP > blackP && whiteP > greyP)
-            return TowerColor.WHITE;
-
-        if(greyP > blackP && greyP > whiteP)
-            return TowerColor.GREY;
-
-        return null;
-    }
 
 
     /**
-     * Modified version of CalculateInfluence called when card number 6 is active.
-     * It adds 2 influence points to the modifiedTower color
-     * @param index
-     * @param professors
-     * @param modifiedTower
-     * @return
-     * @deprecated
+     *    Calculates how much influence a certain TowerColor has over an island.
+     *    This function could be modified by the following cards:
+     *    - {@link  it.polimi.ingsw.model.CharacterCardSix};
+     *    - {@link  it.polimi.ingsw.model.CharacterCardNine};
+     *    - {@link  it.polimi.ingsw.model.CharacterCardTen};
+     * @param index the index of the island
+     * @param professors the Professor object that has the information on which player own which professor.
+     * @param card A card object that could modify the calculation of the influence
+     * @return The tower color that has "won" the influence on that the indicated island
      */
-    TowerColor calculateInfluence(int index, Professors professors, TowerColor modifiedTower) {
-        EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
-        EnumMap<Color, Player> profOwners = professors.getOwners();
-
-        for(TowerColor towerC : TowerColor.values()){
-            points.put(towerC, 0);
-        }
-
-        if(islands.get(index).getTower() != null){
-            points.put(islands.get(index).getTower(), islands.get(index).getTowerNumber());
-        }
-
-        for(Color color : Color.values()){
-            if(profOwners.get(color) != null){
-                TowerColor ownerTC = profOwners.get(color).getTowerColor();
-                int finalAmount = points.get(ownerTC) + islands.get(index).getStudentByColor(color);
-                points.put(ownerTC, finalAmount + (ownerTC==modifiedTower?2:0) ); // this is where it differs from the normal method
-            }
-        }
-
-        int blackP = points.get(TowerColor.BLACK)  ;
-        int whiteP = points.get(TowerColor.WHITE);
-        int greyP = points.get(TowerColor.GREY);
-
-        if(blackP > whiteP && blackP > greyP)
-            return TowerColor.BLACK;
-
-        if(whiteP > blackP && whiteP > greyP)
-            return TowerColor.WHITE;
-
-        if(greyP > blackP && greyP > whiteP)
-            return TowerColor.GREY;
-
-        return null;
-    }
-
-    /**
-     * Modified version of CalculateInfluence called when card number 9 is active.
-     * It doesn't count the number of towers.
-     *
-     * @param index
-     * @param professors
-     * @return
-     * @deprecated
-     */
-    TowerColor calculateInfluenceNoTowers(int index, Professors professors) {
-        EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
-        EnumMap<Color, Player> profOwners = professors.getOwners();
-
-        for(TowerColor towerC : TowerColor.values()){
-            points.put(towerC, 0);
-        }
-
-
-        for(Color color : Color.values()){
-            if(profOwners.get(color) != null){
-                TowerColor ownerTC = profOwners.get(color).getTowerColor();
-                int finalAmount = points.get(ownerTC) + islands.get(index).getStudentByColor(color);
-                points.put(ownerTC, finalAmount);
-            }
-        }
-
-        int blackP = points.get(TowerColor.BLACK);
-        int whiteP = points.get(TowerColor.WHITE);
-        int greyP = points.get(TowerColor.GREY);
-
-        if(blackP > whiteP && blackP > greyP)
-            return TowerColor.BLACK;
-
-        if(whiteP > blackP && whiteP > greyP)
-            return TowerColor.WHITE;
-
-        if(greyP > blackP && greyP > whiteP)
-            return TowerColor.GREY;
-
-        return null;
-    }
-
-
-    TowerColor calculateInfluenceNoColor(int index, Professors professors, Color colorToIgnore) {
-        EnumMap<TowerColor, Integer> points = new EnumMap<>(TowerColor.class);
-        EnumMap<Color, Player> profOwners = professors.getOwners();
-
-        for(TowerColor towerC : TowerColor.values()){
-            points.put(towerC, 0);
-        }
-
-        if(islands.get(index).getTower() != null){
-            points.put(islands.get(index).getTower(), islands.get(index).getTowerNumber());
-        }
-
-        for(Color color : Color.values()){
-            if (color == colorToIgnore) continue;
-            if(profOwners.get(color) != null){
-                TowerColor ownerTC = profOwners.get(color).getTowerColor();
-                int finalAmount = points.get(ownerTC) + islands.get(index).getStudentByColor(color);
-                points.put(ownerTC, finalAmount);
-            }
-        }
-
-        int blackP = points.get(TowerColor.BLACK);
-        int whiteP = points.get(TowerColor.WHITE);
-        int greyP = points.get(TowerColor.GREY);
-
-        if(blackP > whiteP && blackP > greyP)
-            return TowerColor.BLACK;
-
-        if(whiteP > blackP && whiteP > greyP)
-            return TowerColor.WHITE;
-
-        if(greyP > blackP && greyP > whiteP)
-            return TowerColor.GREY;
-
-        return null;
-    }
-
-
     public TowerColor calculateInfluenceSmart(int index, Professors professors, CharacterCard card){
         TowerColor modifiedTowerColor = null;
         Color modifiedStudentColor = null;
