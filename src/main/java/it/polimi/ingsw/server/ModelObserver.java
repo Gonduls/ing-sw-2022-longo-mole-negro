@@ -247,6 +247,11 @@ public class ModelObserver {
 
     }
 
+    public void moveStudentFromEntranceToBag(int player, Color color){
+        room.sendBroadcast(new MoveStudent("ENTRANCE:"+player, "BAG", color));
+
+    }
+
     /**
      * Creates and sends a EndGame message
      * @param winners The array containing the winners' names
