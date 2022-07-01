@@ -107,7 +107,13 @@ public class AcceptCloudState extends  GameState {
         for (Player p: context.gameManager.getPlayers()){
            numberOfPoints.put(p, p.getTowersLeft());
         }
-        int min = numberOfPoints.values().stream().min(Integer::min).get();
+
+        int min = Integer.MAX_VALUE;
+        for (int i : numberOfPoints.values()){
+            if (i<min) min = i;
+        }
+
+
         for (Player p: numberOfPoints.keySet()) {
             if (numberOfPoints.get(p) > min) {
                 numberOfPoints.remove(p);
@@ -118,7 +124,7 @@ public class AcceptCloudState extends  GameState {
             numberOfPoints.computeIfPresent(context.gameManager.getProfessors().getOwners().get(c), (k,v) ->v+1);
         }
 
-        int  max = numberOfPoints.values().stream().min(Integer::max).get();
+        int  max = numberOfPoints.values().stream().max(Integer::compareTo).get();
 
         for (Player p: numberOfPoints.keySet()) {
             if (numberOfPoints.get(p) != max) {
@@ -133,9 +139,13 @@ public class AcceptCloudState extends  GameState {
             if(context.getNumberOfPlayers() == 4 ){
             winnerNames.add(context.getSeatedPlayers()[(winner.getPlayerNumber()+2)%4].getUsername());
             }
+            return  winnerNames.toArray(String[]::new);
+        }
+        else {
+            return new String[0];
         }
 
-        return  winnerNames.toArray(String[]::new);
+
 
 
 
