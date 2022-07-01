@@ -119,6 +119,7 @@ public class AdversarySchoolsController implements Initializable {
                 x.setVisible(cc.getPlayingPlayer() == playerIndex);
             }
             else if (x.getId().startsWith("COINNUM")) {
+
                 int coins = cmm.getCoins(playerIndex);
                 ((Label)x).setText(String.valueOf(coins));
             }
@@ -129,6 +130,10 @@ public class AdversarySchoolsController implements Initializable {
                     ((ImageView) x).setImage(image);
                     x.setVisible(true);
                 }
+            }
+
+            if (x.getId().startsWith("COIN")){
+                x.setVisible(cmm.isExpert());
             }
 
         });

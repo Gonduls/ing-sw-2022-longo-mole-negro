@@ -37,7 +37,7 @@ public class Professors {
     /**
      * @return a copy of owners via an EnumMap
      */
-    EnumMap<Color, Player> getOwners(){
+     public EnumMap<Color, Player> getOwners(){
         return (new EnumMap<>(owners));
     }
 }
