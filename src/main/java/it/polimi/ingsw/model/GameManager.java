@@ -334,12 +334,42 @@ public class GameManager {
 
         }
 
-        int numberOfIslandOld = board.getNumberOfIslands();
+        int offset = 0;
+        int MN = getMotherNaturePosition();
+        int NOI = board.getNumberOfIslands();
+        int sx = ((islandIndex-1)+NOI)%NOI;
+        int dx = ((islandIndex+1)%NOI);
+        boolean jumpToLast = false;
+        boolean jumpToFirst = false;
+        if (MN ==0){ // MN is at the first island
+            if (board.canBeMerged(islandIndex, dx) && dx == 0){ // l'isola zero viene mangiata dall'ultima
+                //set MN to the last island
+                jumpToLast=true;
+            }
+        } else if (MN == NOI -1){ // MN is at the last island
+            if ( board.canBeMerged(sx,islandIndex) && sx == MN) { //l'ultima isola viene mangiata dalla prima
+                //set MN to the first island
+                jumpToFirst = true;
+                
+            } else {
+                if (board.canBeMerged(islandIndex, sx) && sx < MN ) offset--;
+                if (board.canBeMerged(islandIndex, dx) && dx <= MN ) offset--;
+            }
+        } else { // MN is at the middle
+            if (board.canBeMerged(islandIndex, sx) && sx < MN ) offset--;
+            if (board.canBeMerged(islandIndex, dx) && dx <= MN ) offset--;
+        }
+
+
+
+
         board.mergeIsland(islandIndex, modelObserver);
 
-        if (numberOfIslandOld > board.getNumberOfIslands() && board.getMotherNaturePosition() >= islandIndex){
-            int offset = numberOfIslandOld - board.getNumberOfIslands();
-            board.setMotherNaturePosition(((board.getMotherNaturePosition()-offset)+board.getNumberOfIslands()) % board.getNumberOfIslands());
+        if (offset<0 || jumpToFirst || jumpToLast) {
+            if (jumpToFirst) board.setMotherNaturePosition(0);
+            else if (jumpToLast) board.setMotherNaturePosition(board.getNumberOfIslands() - 1);
+            else board.setMotherNaturePosition(((board.getMotherNaturePosition() - offset) + board.getNumberOfIslands()) % board.getNumberOfIslands());
+
             modelObserver.moveMotherNature(board.getMotherNaturePosition());
         }
 
