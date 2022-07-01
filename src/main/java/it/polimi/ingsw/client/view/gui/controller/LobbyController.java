@@ -84,6 +84,6 @@ public class LobbyController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/FilterSearch.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/FilterSearch.fxml", 477, 477);
     }
 }

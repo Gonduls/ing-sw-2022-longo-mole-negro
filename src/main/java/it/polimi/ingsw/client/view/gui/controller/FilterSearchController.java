@@ -47,7 +47,7 @@ public class FilterSearchController implements Initializable {
     public void switchToLobby(ActionEvent event) throws IOException {
         GetPublicRooms publicRooms = new GetPublicRooms(mySpinner.getValue(), checkExpert.isSelected());
         GUI.getInstance().getClientController().getPublicRooms(publicRooms);
-        GUI.getInstance().changeScene("/fxml/Lobby.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/Lobby.fxml", 477, 477);
     }
 
     /**
@@ -57,7 +57,7 @@ public class FilterSearchController implements Initializable {
      */
     public void switchToLobbyNoFilters(ActionEvent event) throws IOException {
         GUI.getInstance().getClientController().getPublicRooms(new GetPublicRooms());
-        GUI.getInstance().changeScene("/fxml/Lobby.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/Lobby.fxml", 477, 477);
     }
 
     /**
@@ -66,6 +66,6 @@ public class FilterSearchController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 477, 477);
     }
 }

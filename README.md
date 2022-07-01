@@ -19,9 +19,10 @@
 ### Server
 
 ``` bash
-java -jar Main.jar -s [PORT]
+java -jar Main.jar [-d] -s [PORT]
 ```
-- il parametro port è opzionale, il default è 9999
+- il parametro PORT è opzionale, il default è 9999
+- il flag opzionale -d fa partire in modalità debug il server. In modalità debug il server logga tutti i messaggi della room e dei client handler. I file di log saranno creati nello stesso path di esecuzione del server.
 
 ### CLI
 
@@ -34,6 +35,3 @@ java -jar Main.jar -c -cli
 ``` bash
 java -jar Main.jar -c -gui
 ```
-
-
-

@@ -251,7 +251,7 @@ public class AdversarySchoolsController implements Initializable {
      */
     @FXML
     private void returnToGame(MouseEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+        GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
         event.consume();
     }
 }

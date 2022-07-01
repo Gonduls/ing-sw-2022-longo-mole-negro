@@ -105,7 +105,7 @@ public class CharacterCardsController implements Initializable{
                 MESSAGES.setText("Please choose a color");
                 MESSAGES.setVisible(true);
             } else {
-                GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+                GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
             }
         }
     }
@@ -117,7 +117,7 @@ public class CharacterCardsController implements Initializable{
      */
     @FXML
     public void returnToGame(MouseEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+        GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
         event.consume();
     }
 
@@ -138,7 +138,7 @@ public class CharacterCardsController implements Initializable{
             MESSAGES.setText(((Nack) answer).errorMessage());
             MESSAGES.setVisible(true);
         } else {
-            GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+            GUI.getInstance().changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
         }
     }
 }

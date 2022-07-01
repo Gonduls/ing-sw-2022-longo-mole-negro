@@ -17,7 +17,7 @@ public class StartMenuController {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void switchToCreateGame(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/GameCreation.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/GameCreation.fxml", 477, 477);
         event.consume();
     }
 
@@ -27,7 +27,7 @@ public class StartMenuController {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void switchToJoinGame(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/JoinGame.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/JoinGame.fxml", 477, 477);
         event.consume();
     }
 
@@ -37,7 +37,7 @@ public class StartMenuController {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void switchToFilterSearch(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/FilterSearch.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/FilterSearch.fxml", 477, 477);
         event.consume();
     }
 
@@ -48,7 +48,7 @@ public class StartMenuController {
      */
     public void switchToConnection(ActionEvent event) throws IOException {
         GUI.getInstance().getClientController().logout();
-        GUI.getInstance().changeScene("/fxml/Connection.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/Connection.fxml", 477, 477);
         event.consume();
     }
 }
