@@ -23,6 +23,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Application class that implements UI in order to handle the user actions if the mode selected is GUI
+ */
 public class GUI extends Application implements UI{
     ClientController cc;
     ClientModelManager cmm;
@@ -43,6 +46,12 @@ public class GUI extends Application implements UI{
         return instance;
     }
 
+    /**
+     * It starts the application given the stage.
+     * It opens the window, sets the stage and shows the first scene
+     * @param stage
+     * @throws IOException handles FXMLLoader's possible exception
+     */
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxml/Connection.fxml")));
@@ -55,6 +64,9 @@ public class GUI extends Application implements UI{
         primaryStage = stage;
     }
 
+    /**
+     * Stops the application from running when the user exits the window
+     */
     @Override
     public void stop(){
         Log.logger.info("Application stopping");
@@ -62,11 +74,18 @@ public class GUI extends Application implements UI{
         System.exit(0);
     }
 
+    /**
+     * Handles the merge of islands
+     * @param secondIsland The index of the island that was removed in the model
+     */
     @Override
     public void merge(int secondIsland) {
         merged[getIsland12Index(secondIsland)] = true;
     }
 
+    /**
+     * Refreshes the Game Board scene in order to show updates of the model
+     */
     @Override
     public void refresh() {
         if(cc.getPlayingPlayer() == -1)
@@ -91,12 +110,20 @@ public class GUI extends Application implements UI{
         });
     }
 
+    /**
+     * Sets the list of public rooms in Lobby
+     * @param rooms The room info relative to the public rooms
+     */
     @Override
     public void showPublicRooms(List<RoomInfo> rooms) {
         LobbyController.getInstance().setPublicRooms(rooms);
 
     }
 
+    /**
+     * Changes the scene to handle EndGame and Player Disconnect messages
+     * @param message the message to be printed
+     */
     @Override
     public void showMessage(Message message) {
         if(message.getMessageType() == MessageType.END_GAME) {
@@ -121,6 +148,12 @@ public class GUI extends Application implements UI{
         }
     }
 
+    /**
+     *
+     * @param numberOfPlayers Either 2, 3, or 4
+     * @param expert True if game is expert mode, false otherwise
+     * @param cmm The ClientModelManager connected to the starting game
+     */
     @Override
     public void createGame(int numberOfPlayers, boolean expert, ClientModelManager cmm) {
         System.out.println("Here");
@@ -137,36 +170,56 @@ public class GUI extends Application implements UI{
 
     }
 
+    /**
+     * Creates a new Client Controller linked to this UI, Server Ip and port
+     * @param ip the Server IP
+     * @param port the Server port
+     * @throws IOException
+     */
     public void createClientController(String ip, int port) throws IOException{
         cc = new ClientController(this, ip, port);
     }
 
+    /**
+     * @return the created Client Controller
+     */
     public ClientController getClientController() {
         return cc;
     }
 
+    /**
+     * @return the Client Model Manager
+     */
     public ClientModelManager getClientModelManager() { return cmm; }
 
+    /**
+     * Sets true if the user is in the room
+     * @param value a boolean that determines if the user is in a room or not
+     */
     public static void setInARoom(boolean value) {
         inARoom = value;
     }
 
-    public Stage getStage() {
-        return primaryStage;
-    }
-
-    public void setStage(Stage stage) {
-        primaryStage = stage;
-    }
-
+    /**
+     * Sets the username to the one given as parameter
+     * @param username the string containing the username
+     */
     public void setUsername(String username) {
         this.username = username;
     }
 
+    /**
+     * @return the username given
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     *
+     * @param island12Index
+     * @return
+     */
     public boolean wasMerged(int island12Index){
         return merged[island12Index];
     }
