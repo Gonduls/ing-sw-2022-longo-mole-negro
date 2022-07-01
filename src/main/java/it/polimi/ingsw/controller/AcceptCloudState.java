@@ -1,12 +1,18 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.exceptions.GameException;
+import it.polimi.ingsw.messages.EndGame;
 import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.ChooseCloudEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCard;
+import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Third step in Action Phase.
@@ -52,12 +58,20 @@ public class AcceptCloudState extends  GameState {
 
                 if (context.getPlayingOrderIndex() == context.getNumberOfPlayers() - 1) {
                     //new round
+
+                    if( context.getCurrentPlayer().getCardsLeft().isEmpty()) {
+                        context.room.sendBroadcast(new EndGame(endConditionAssistantOrBag()) );
+                    }
+
+                    if (context.gameManager.getBag().getAllStudents().values().stream().reduce(0, Integer::sum) == 0){
+                        context.room.sendBroadcast(new EndGame(endConditionAssistantOrBag()) );
+
+                    }
+
+
                     context.setPlayingOrderIndex(0);
-
                     context.gameManager.getModelObserver().changeTurn(context.getCurrentPlayer().getPlayerNumber());
-
                     context.changeState(new AcceptAssistantCardState(context, context.getNumberOfPlayers()));
-
                     context.gameManager.getModelObserver().changePhase(GamePhase.PLANNING_PHASE);
 
 
@@ -83,5 +97,47 @@ public class AcceptCloudState extends  GameState {
 
             context.handleCard(this, cardId);
         }
+    }
+
+    String[] endConditionAssistantOrBag(){
+
+        List<String> winnerNames = new ArrayList<>();
+        Player winner = null;
+        HashMap <Player, Integer> numberOfPoints= new HashMap<>();
+        for (Player p: context.gameManager.getPlayers()){
+           numberOfPoints.put(p, p.getTowersLeft());
+        }
+        int min = numberOfPoints.values().stream().min(Integer::min).get();
+        for (Player p: numberOfPoints.keySet()) {
+            if (numberOfPoints.get(p) > min) {
+                numberOfPoints.remove(p);
+            }
+        }
+
+        for(Color c: context.gameManager.getProfessors().getOwners().keySet()){
+            numberOfPoints.computeIfPresent(context.gameManager.getProfessors().getOwners().get(c), (k,v) ->v+1);
+        }
+
+        int  max = numberOfPoints.values().stream().min(Integer::max).get();
+
+        for (Player p: numberOfPoints.keySet()) {
+            if (numberOfPoints.get(p) != max) {
+                numberOfPoints.remove(p);
+            }
+        }
+
+         winner = numberOfPoints.keySet().stream().findFirst().get();
+
+        if (winner != null)  {
+            winnerNames.add(winner.getUsername());
+            if(context.getNumberOfPlayers() == 4 ){
+            winnerNames.add(context.getSeatedPlayers()[(winner.getPlayerNumber()+2)%4].getUsername());
+            }
+        }
+
+        return  winnerNames.toArray(String[]::new);
+
+
+
     }
 }
