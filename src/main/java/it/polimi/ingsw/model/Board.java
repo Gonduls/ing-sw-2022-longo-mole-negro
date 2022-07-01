@@ -158,7 +158,9 @@ public class Board {
         if(card != null) {
             switch (card.getId()) {
                 case 6 -> modifiedTowerColor = ((CharacterCardSix) card).getTowerColor();
-                case 9 -> points.put(islands.get(index).getTower(), 0);
+                case 9 -> {
+                    if (islands.get(index).getTower() != null) points.put(islands.get(index).getTower(), 0);
+                }
                 case 10 -> modifiedStudentColor = ((CharacterCardTen) card).getColor();
                 default -> {
                     // no action to be taken, normal course of action
