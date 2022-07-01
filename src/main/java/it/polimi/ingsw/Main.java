@@ -8,9 +8,16 @@ import javafx.application.Application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+/**
+ * Starts server or client
+ */
 public class Main {
     static final String ERROR_VALID = "\nERROR: please insert a valid integer.\n";
 
+    /**
+     * Main function, starts server or calls client
+     * @param args The parameters passed from command line
+     */
     public static void main(String[] args) {
         boolean server = false;
         Lobby lobby = null;
@@ -110,6 +117,11 @@ public class Main {
         }
     }
 
+    /**
+     * Reads a "1" or a "2" from input, or loops until it does
+     * @param input The Scanner where numbers are read, usually open on System.in
+     * @return 1 or 2
+     */
     private static int getRole(Scanner input) {
         boolean continueInput = true;
         int role = 0;
