@@ -847,7 +847,6 @@ public class GameBoardController implements Initializable {
             case "Move MN" -> {
                 int currIndex = Integer.parseInt(param1);
                 int prevIndex = Integer.parseInt(param2);
-                System.out.println(currIndex +" <- curr prev-> " + prevIndex);
                 int amount = currIndex-prevIndex;
                 amount = amount > 0 ? amount : amount + cmm.getIslands().size();
                 gameEvent = new MoveMotherNatureEvent(amount, cc.getPlayingPlayer());
@@ -966,7 +965,6 @@ public class GameBoardController implements Initializable {
                 swap[0] = id.startsWith("SCC") ? color : swap[0];
                 swap[1] = id.startsWith("E_STUDENT_") ? color : swap[1];
                 if(swap[0] != null && swap[1] != null){
-                    System.out.println(Arrays.toString(swap));
                     dealWithAction("Swap X from CC with Y from E", swap[0], swap[1]);
                     clearSwap();
                 }

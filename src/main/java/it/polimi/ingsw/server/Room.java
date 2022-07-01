@@ -79,7 +79,7 @@ public class Room {
         Log.logger.info(message.toString());
 
         if(message.getMessageType() == MessageType.END_GAME) {
-            System.out.println("Eliminating room");
+            Log.logger.info("Eliminating room " + id);
             Lobby.getInstance().eliminateRoom(id);
             for(ClientHandler h : handlers){
                 if(h!= null)

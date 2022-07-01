@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 
@@ -21,7 +22,7 @@ public class Bag extends StudentHolder {
                 for(int i = 0; i< 24; i++)
                     addStudent(color);
             }catch (NoSpaceForStudentException e){
-                System.out.println("Errors in the making of bag");
+                Log.logger.severe("Errors in the making of bag");
             }
         }
         r = new Random();
@@ -38,7 +39,7 @@ public class Bag extends StudentHolder {
                 for (int i = 0; i < studentsNumber; i++)
                     addStudent(color);
             } catch (NoSpaceForStudentException e) {
-                System.out.println("Errors in the making of bag");
+                Log.logger.severe("Errors in the making of bag");
             }
         }
     }
@@ -62,7 +63,7 @@ public class Bag extends StudentHolder {
                     removeStudent(c);
                 }
                 catch (NoSuchStudentException e){
-                    System.out.println("Bag code is bugged. Either that or random doesn't work");
+                    Log.logger.severe("Bag code is bugged. Either that or random doesn't work");
                 }
                 break;
             }

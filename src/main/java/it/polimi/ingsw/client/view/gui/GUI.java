@@ -106,8 +106,7 @@ public class GUI extends Application implements UI{
                 changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
                 setScene = true;
             } catch (IOException e) {
-                System.out.println(e.getMessage());
-                e.printStackTrace();
+                Log.logger.severe(e.getMessage());
             }
         });
     }

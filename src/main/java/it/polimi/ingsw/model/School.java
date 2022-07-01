@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 
@@ -24,7 +25,7 @@ public class School {
             try{
                 studentsAtEntrance.addStudent(bag.extractRandomStudent());
             } catch(NoSpaceForStudentException e){
-                System.out.println("Someone tried to initialize garden while already initialized");
+                Log.logger.severe("Someone tried to initialize garden while already initialized");
             }
         }
 
@@ -33,7 +34,7 @@ public class School {
                 studentsAtEntrance.addStudent(bag.extractRandomStudent());
                 studentsAtEntrance.addStudent(bag.extractRandomStudent());
             } catch(NoSpaceForStudentException e){
-                System.out.println("Someone tried to initialize garden while already initialized");
+                Log.logger.severe("Someone tried to initialize garden while already initialized");
             }
         }
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 
@@ -85,10 +86,10 @@ public class Island extends StudentHolder {
                 try {
                     islandToUnifyWith.moveStudentTo(color, this);
                 } catch (NoSpaceForStudentException e) {
-                    System.out.println("It would seem the island has a maximum capacity, impossible");
+                    Log.logger.severe("It would seem the island has a maximum capacity, impossible");
                 }
                 catch (NoSuchStudentException e) {
-                    System.out.println("Grabbed a non-existent student from island to be merged");
+                    Log.logger.severe("Grabbed a non-existent student from island to be merged");
                 }
             }
         }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.server.ModelObserver;
 
@@ -34,7 +35,7 @@ public class Board {
                     current.addStudent(colorTemp);
                     observer.addStudentToIsland(i, colorTemp);
                 }catch (NoSpaceForStudentException e){
-                    System.out.println("Initializing island has gone wrong");
+                    Log.logger.severe("Initializing island has gone wrong");
                 }
             }
             islands.add(current);

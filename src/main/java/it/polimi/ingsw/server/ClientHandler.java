@@ -33,7 +33,7 @@ public class ClientHandler implements Runnable{
             input = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
             if(lobby.isRunning())
-                System.out.println("could not open connection to " + client.getInetAddress());
+                Log.logger.severe("could not open connection to " + client.getInetAddress());
             return;
         }
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.server.RoomInfo;
 import javafx.event.ActionEvent;
@@ -75,7 +76,7 @@ public class LobbyController implements Initializable {
             enterGame.setDisable(true);
         }
         else
-            System.out.println("error entering room");
+            Log.logger.severe("error entering room");
     }
 
     /**

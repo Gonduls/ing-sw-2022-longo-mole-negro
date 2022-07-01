@@ -194,7 +194,7 @@ public class ClientController {
         try {
             return nh.createRoom(message);
         } catch (IOException e) {
-            System.out.println("There was an error in creating a new game!");
+            Log.logger.severe("There was an error in creating a new game!");
             return -1;
         }
     }
@@ -207,7 +207,7 @@ public class ClientController {
         try {
             return nh.logout();
         } catch (IOException | UnexpectedMessageException e) {
-            System.out.println("There was an error logging out!");
+            Log.logger.severe("There was an error logging out!");
             return false;
         }
     }
@@ -220,7 +220,7 @@ public class ClientController {
         try {
             return nh.leaveRoom();
         } catch (IOException | UnexpectedMessageException e) {
-            System.out.println("There was an error leaving room!");
+            Log.logger.severe("There was an error leaving room!");
             return false;
         }
     }
@@ -234,7 +234,7 @@ public class ClientController {
         try{
             nh.getPublicRooms(message);
         }catch (IOException e) {
-            System.out.println("There was an error getting public rooms!");
+            Log.logger.severe("There was an error getting public rooms!");
         }
     }
 

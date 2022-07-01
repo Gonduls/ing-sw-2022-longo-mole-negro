@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Log;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.server.ModelObserver;
@@ -217,7 +218,7 @@ public class GameManager {
                 }
             }
             catch (NoSpaceForStudentException e){
-                System.out.println("Someone called refill clouds without all of them being empty");
+                Log.logger.severe("Someone called refill clouds without all of them being empty");
             }
             i++; //this is dumb
         }
@@ -391,7 +392,7 @@ public class GameManager {
             modelObserver.moveFromEntranceToIsland(player.getPlayerNumber(), student, index);
         }
         catch (NoSpaceForStudentException e){
-            System.out.println("An island does not have  a limit on the number of students it can hold");
+            Log.logger.severe("An island does not have  a limit on the number of students it can hold");
         }
     }
 
