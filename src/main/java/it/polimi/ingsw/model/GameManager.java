@@ -287,10 +287,6 @@ public class GameManager {
         board.setMotherNaturePosition(positionAfterMerge);
 
         modelObserver.moveMotherNature(positionAfterMerge);
-        //used for debug, may be handy for future debug
-      /*  System.out.println("the position of mother nature after the merge is: " + positionAfterMerge +
-                ". The increment was " + amount + ", positionAfterMerge: " + positionAfterMerge + " position: " + position);
-      */
 
         if (parseWinResult(checkEndConditions()).length >0 ){
             modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
@@ -427,6 +423,7 @@ public class GameManager {
             t2 = players[2].getTowersLeft();
             p2 = countProfessors(2);
         }
+
         if(t0 <= 0){
             winner[0] = players[0];
             if(players.length == 4)
@@ -563,24 +560,9 @@ public class GameManager {
     }
 
 
-    public int[] getIdCards(){
-        int[] cardIndexes = new int[3];
-        int j=0;
-        for(int i=0; i<12;i++){
-            if(isCardActive(i)){
-                cardIndexes[j]=i;
-                j++;
-            }
-        }
-
-        return  Arrays.copyOf(cardIndexes,3);
-
-    }
-
     public String[] parseWinResult(Player[] winners){
         return  Arrays.stream(winners).sequential().filter(Objects::nonNull).map(Player::getUsername).toArray(String[]::new);
         
     }
-
 
 }

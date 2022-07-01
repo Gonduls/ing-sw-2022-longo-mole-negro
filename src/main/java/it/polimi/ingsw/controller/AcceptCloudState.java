@@ -8,6 +8,7 @@ import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
 import it.polimi.ingsw.model.CharacterCard;
 import it.polimi.ingsw.model.Color;
+import it.polimi.ingsw.model.GameManager;
 import it.polimi.ingsw.model.Player;
 
 import java.util.ArrayList;
@@ -104,56 +105,69 @@ public class AcceptCloudState extends  GameState {
      * @return an array of string containing the names of the winners.
      */
     String[] endConditionAssistantOrBag(){
+        GameManager gm = context.gameManager;
+        Player[] players = gm.getPlayers();
+        Player[] winner = new Player[2];
+        int t0 = players[0].getTowersLeft();
+        int t1 = players[1].getTowersLeft();
+        int t2 = 6;
+        int p0 = gm.countProfessors(0);
+        int p1 = gm.countProfessors(1);
+        int p2 = 0;
 
-        List<String> winnerNames = new ArrayList<>();
-        Player winner = null;
-        HashMap <Player, Integer> numberOfPoints= new HashMap<>();
-        for (Player p: context.gameManager.getPlayers()){
-           numberOfPoints.put(p, p.getTowersLeft());
+        if(players.length == 3){
+            t2 = players[2].getTowersLeft();
+            p2 = gm.countProfessors(2);
         }
 
-        int min = Integer.MAX_VALUE;
-        for (int i : numberOfPoints.values()){
-            if (i<min) min = i;
+        if(players.length == 3){
+            if(t0 < t1 && t0 < t2)
+                winner[0] = players[0];
+            else if(t1 < t0 && t1 < t2)
+                winner[0] = players[1];
+            else if(t2 < t0 && t2 < t1)
+                winner[0] = players[2];
+            else if(t0 > t1){
+                winner[0] = players[1];
+                if(p1 < p2)
+                    winner[0] = players[2];
+                else if (p1 == p2) {
+                    winner[1] = players[2];
+                }
+            } else if (t1 > t0) {
+                winner[0] = players[0];
+                if(p0 < p2)
+                    winner[0] = players[2];
+                else if (p0 == p2) {
+                    winner[1] = players[2];
+                }
+            } else if (t2 > t0){
+                winner[0] = players[0];
+                if(p0 < p1)
+                    winner[0] = players[1];
+                else if (p0 == p1) {
+                    winner[1] = players[1];
+                }
+            } else //should check again for professors but everyone wins
+                return gm.parseWinResult(players);
+
+            return gm.parseWinResult(winner);
         }
 
+        // two or four players
+        if(t0 < t1){
+            winner[0] = players[0];
+        }else if(t0 > t1){
+            winner[0] = players[1];
+        } else if(p0 > p1){
+            winner[0] = players[0];
+        } else if(p1 > p0){
+            winner[0] = players[1];
+        } else
+            return gm.parseWinResult(players);
 
-        for (Player p: numberOfPoints.keySet()) {
-            if (numberOfPoints.get(p) > min) {
-                numberOfPoints.remove(p);
-            }
-        }
-
-
-
-        for (Player p : numberOfPoints.keySet()){
-            numberOfPoints.put(p, numberOfPoints.get(p) + context.gameManager.countProfessors(p.getPlayerNumber()));
-        }
-
-        int  max = numberOfPoints.values().stream().max(Integer::compareTo).get();
-
-        for (Player p: numberOfPoints.keySet()) {
-            if (numberOfPoints.get(p) != max) {
-                numberOfPoints.remove(p);
-            }
-        }
-
-         winner = numberOfPoints.keySet().stream().findFirst().get();
-
-        if (winner != null)  {
-            winnerNames.add(winner.getUsername());
-            if(context.getNumberOfPlayers() == 4 ){
-            winnerNames.add(context.getSeatedPlayers()[(winner.getPlayerNumber()+2)%4].getUsername());
-            }
-            return  winnerNames.toArray(String[]::new);
-        }
-        else {
-            return new String[0];
-        }
-
-
-
-
-
+        if(players.length == 4)
+            winner[1] = players[winner[0].getPlayerNumber() + 2];
+        return gm.parseWinResult(winner);
     }
 }
