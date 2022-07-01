@@ -507,7 +507,7 @@ public class GameManager {
      * @param playerIndex The index of the player
      * @return the number of professors owned by the team of the player
      */
-    private int countProfessors(int playerIndex){
+    public int countProfessors(int playerIndex){
         int result = 0;
         TowerColor tc = players[playerIndex].getTowerColor();
         EnumMap<Color, Player> pr = professors.getOwners();

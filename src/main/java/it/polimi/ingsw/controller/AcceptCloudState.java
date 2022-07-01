@@ -99,6 +99,10 @@ public class AcceptCloudState extends  GameState {
         }
     }
 
+    /**
+     * It checks the end condition in the case the assistant card are finished or the bag is empty
+     * @return an array of string containing the names of the winners.
+     */
     String[] endConditionAssistantOrBag(){
 
         List<String> winnerNames = new ArrayList<>();
@@ -120,8 +124,10 @@ public class AcceptCloudState extends  GameState {
             }
         }
 
-        for(Color c: context.gameManager.getProfessors().getOwners().keySet()){
-            numberOfPoints.computeIfPresent(context.gameManager.getProfessors().getOwners().get(c), (k,v) ->v+1);
+
+
+        for (Player p : numberOfPoints.keySet()){
+            numberOfPoints.put(p, numberOfPoints.get(p) + context.gameManager.countProfessors(p.getPlayerNumber()));
         }
 
         int  max = numberOfPoints.values().stream().max(Integer::compareTo).get();
