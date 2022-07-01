@@ -267,6 +267,8 @@ public class GameBoardController implements Initializable {
             case ("MOTHERNATURE") -> node.setVisible(cmm.getMotherNature() == islandIndex);
 
         }
+        if(!cmm.isExpert())
+            return;
         OWNEDCOINS.setText(String.valueOf(cmm.getCoins(getThisPlayerIndex())));
         OWNEDCOINS.setVisible(true);
     }
@@ -702,10 +704,10 @@ public class GameBoardController implements Initializable {
     }
 
     /**
-    * Graphic feedback of the accessible destination
-    * for the element that's being moved
-    * @param event the hover event
-    */
+     * Graphic feedback of the accessible destination
+     * for the element that's being moved
+     * @param event the hover event
+     */
     @FXML
     private void hover(DragEvent event) {
         // the drag-and-drop gesture entered the target
@@ -719,9 +721,9 @@ public class GameBoardController implements Initializable {
     }
 
     /**
-    * Graphic feedback of when the mouse leaves the possible destination
-    * @param event the exitHover dragEvent
-    */
+     * Graphic feedback of when the mouse leaves the possible destination
+     * @param event the exitHover dragEvent
+     */
     @FXML
     private void exitHover(DragEvent event) {
         // mouse moved away, remove the graphical cues
