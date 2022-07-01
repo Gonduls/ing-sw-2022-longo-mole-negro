@@ -28,22 +28,30 @@ public class CharacterTwoState extends CharacterState{
         this.nextState = nextState;
     }
 
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a SWAP_STUDENT_CARD_ENTRANCE or END_SELECTION
+     */
     @Override
     public  boolean checkValidEvent(GameEvent event){
 
         return event.getEventType() == GameEventType.SWAP_STUDENT_CARD_ENTRANCE || event.getEventType() == GameEventType.END_SELECTION;
 
     }
-
+    /**
+     *  it swaps the two indicated students from the card(2) and the current player entrance.
+     *  *f the player decide to terminate the selection in advance it can send the END SELECTION event.
+     * @param event The event to process.
+     * @throws NoSuchStudentException if the player doesn't have one or both of the students indicated in the card
+     */
     @Override
-    public void executeEvent(GameEvent gameEvent) throws NoSuchStudentException{
+    public void executeEvent(GameEvent event) throws NoSuchStudentException{
 
-        if (gameEvent.getEventType() == GameEventType.END_SELECTION){
+        if (event.getEventType() == GameEventType.END_SELECTION){
             context.changeState(nextState);
-        } else if(gameEvent.getEventType() == GameEventType.SWAP_STUDENT_CARD_ENTRANCE){
+        } else if(event.getEventType() == GameEventType.SWAP_STUDENT_CARD_ENTRANCE){
 
-            SwapStudentCardEntranceEvent eventCast = (SwapStudentCardEntranceEvent) gameEvent;
+            SwapStudentCardEntranceEvent eventCast = (SwapStudentCardEntranceEvent) event;
             Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
 
             if (cc.getStudentHolder().getStudentByColor(eventCast.getStudentFromCard()) ==0)

@@ -20,13 +20,20 @@ public class CharacterTenState extends CharacterState{
         this.cc = cc;
     }
 
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a CHOOSE_COLOR
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_COLOR;
     }
 
-
+    /**
+     *  It sets the color indicated in the event in the card 10. In this turn that color will not count towards the influence.
+     * @param event The event to process.
+     */
+    @Override
     public void executeEvent(GameEvent event){
         ChooseColorEvent eventCast = (ChooseColorEvent) event;
         cc.setColor(eventCast.getColor());

@@ -24,13 +24,22 @@ public class CharacterThreeState extends CharacterState{
 
     }
 
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a SWAP_STUDENT_ENTRANCE_TABLE or END_SELECTION
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.SWAP_STUDENT_ENTRANCE_TABLE ||
                 event.getEventType()== GameEventType.END_SELECTION;
     }
-
+    /**
+     *  It swaps the two indicated students from the entrance and the table.
+     *   This can happen up to three times. If the player decide to terminate the selection in advance it can send the
+     *   END SELECTION event.
+     * @param event The event to process.
+     * @throws NoSuchStudentException if the player doesn't have one or both of the students indicated in the card
+     */
     @Override
     public void executeEvent(GameEvent event) throws NoSuchStudentException {
 

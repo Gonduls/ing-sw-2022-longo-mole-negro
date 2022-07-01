@@ -18,12 +18,23 @@ public class AcceptCloudState extends  GameState {
         super(context, numberOfEvents);
     }
 
+
+    /**
+     * @param event The event to check
+     * @return true if the event is a CHOOSE_CLOUD or ACTIVATE_CHARACTER_CARD
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.CHOOSE_CLOUD ||
                 event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD;
     }
 
+    /**
+     *  It empties the chosen cloud content to the current player.
+     *  After that it either, moves to the planning phase or to the action phase 1 (move student from entrance).
+     * @param event The event to process.
+     * @throws GameException If something went wrong in the process of emptying the cloud to the player.
+     */
     @Override
     public void executeEvent(GameEvent event) throws GameException {
         GameEventType eventType = event.getEventType();
