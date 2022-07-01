@@ -174,7 +174,7 @@ public class GUI extends Application implements UI{
      * Creates a new Client Controller linked to this UI, Server Ip and port
      * @param ip the Server IP
      * @param port the Server port
-     * @throws IOException
+     * @throws IOException handles possible exception in creating the ClientController
      */
     public void createClientController(String ip, int port) throws IOException{
         cc = new ClientController(this, ip, port);
