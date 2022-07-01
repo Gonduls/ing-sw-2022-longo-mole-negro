@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.ChooseIslandEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
@@ -25,14 +24,21 @@ public class CharacterFiveState extends  CharacterState{
         this.nextState=nextState;
     }
 
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a CHOOSE_ISLAND
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_ISLAND;
     }
 
+    /**
+     * Adds a no entry token to the island specified in the event
+     * @param event The event to process.
+     */
     @Override
-    public void executeEvent(GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event)  {
 
 
         if (cc.getNoEntryToken() > 0) {

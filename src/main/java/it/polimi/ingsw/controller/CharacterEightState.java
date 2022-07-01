@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller;
 
-import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.messages.events.ChooseIslandEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.GameEvent;
@@ -18,15 +17,21 @@ public class CharacterEightState extends CharacterState{
         super(context, numberOfEvents);
         this.nextState=nextState;
     }
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a CHOOSE_ISLAND
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType()== GameEventType.CHOOSE_ISLAND;
     }
 
-
+    /**
+     * It invokes the gameManager method to calculate the influence without movement
+     * @param event The event to process.
+     */
     @Override
-    public void executeEvent(GameEvent event) throws NoSuchStudentException {
+    public void executeEvent(GameEvent event){
         ChooseIslandEvent eventCast = (ChooseIslandEvent) event;
 
         if (eventCast.getIslandIndex() <0 || eventCast.getIslandIndex()>=context.gameManager.getIslands().size() ){

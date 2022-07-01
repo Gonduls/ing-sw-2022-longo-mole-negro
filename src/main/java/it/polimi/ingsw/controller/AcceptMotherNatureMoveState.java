@@ -17,6 +17,11 @@ public class AcceptMotherNatureMoveState extends GameState {
         super(context, numberOfEvents);
     }
 
+
+    /**
+     * @param event The event to check
+     * @return true if the event is a MOVE_MOTHER_NATURE or ACTIVATE_CHARACTER_CARD
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
 
@@ -24,7 +29,13 @@ public class AcceptMotherNatureMoveState extends GameState {
                 event.getEventType() == GameEventType.ACTIVATE_CHARACTER_CARD;
     }
 
-
+    /**
+     *
+     * It moves mother nature by the amount specified in the event.
+     * When done it moves to the "Choose Cloud" phase.
+     * @param event The event to process.
+     * @throws GameException If Mother Nature was moved in an illegal way
+     */
     @Override
     public void executeEvent(GameEvent event) throws GameException {
 

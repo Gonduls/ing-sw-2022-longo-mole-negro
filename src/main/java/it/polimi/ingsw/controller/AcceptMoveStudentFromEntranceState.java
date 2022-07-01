@@ -6,8 +6,7 @@ import it.polimi.ingsw.messages.events.ActivateCharacterCardEvent;
 import it.polimi.ingsw.messages.events.GameEventType;
 import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToIslandEvent;
 import it.polimi.ingsw.messages.events.MoveStudentFromEntranceToTableEvent;
-import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
-import it.polimi.ingsw.exceptions.NoSuchStudentException;
+
 import it.polimi.ingsw.model.Color;
 import it.polimi.ingsw.model.Player;
 
@@ -23,6 +22,11 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
         super(context, numberOfEvents);
     }
 
+
+    /**
+     * @param event The event to check
+     * @return true if the event is a MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND or MOVE_STUDENT_FROM_ENTRANCE_TO_TABLE or ACTIVATE_CHARACTER_CARD
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         if (event.getEventType() == GameEventType.MOVE_STUDENT_FROM_ENTRANCE_TO_ISLAND) {
@@ -40,7 +44,12 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
         return false;
     }
 
-
+    /**
+     *  It moves the students specified in the events, either to the entrance or the table.
+     *   When done it moves to the "Move Mother Nature" phase.
+     * @param event The event to process.
+     * @throws GameException If a problem arises in the movement of students to the entrance or the table
+     */
     public void executeEvent(GameEvent event) throws GameException {
 
         switch (event.getEventType()) {
@@ -49,10 +58,9 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 Player player = context.getSeatedPlayers()[eventCast.getPlayerNumber()];
                 Color color = eventCast.getColor();
                 int indexIsland = eventCast.getIndexIsland();
-                try {
+
                     context.gameManager.moveStudentFromEntranceToIsland(player, color, indexIsland);
                     numberOfEvents--;
-                } catch (IllegalArgumentException | NoSuchStudentException e) { /*send error*/}
 
                 break;
             }
@@ -75,10 +83,7 @@ public class AcceptMoveStudentFromEntranceState extends  GameState {
                 break;
 
             }
-
         }
-
-
         if (numberOfEvents == 0){
             context.changeState(new AcceptMotherNatureMoveState(context, 1));
             context.gameManager.getModelObserver().changePhase(GamePhase.ACTION_PHASE_TWO);

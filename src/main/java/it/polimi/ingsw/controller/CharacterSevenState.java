@@ -27,12 +27,20 @@ public class CharacterSevenState extends CharacterState{
 
     }
 
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a MOVE_STUDENT_FROM_CARD_TO_TABLE
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.MOVE_STUDENT_FROM_CARD_TO_TABLE;
     }
 
+    /**
+     * it moves the students indicated in  the card to the current player table (or dining room, both terms are equivalent)
+     * @param event The event to process.
+     * @throws NoSuchStudentException If the player doesn't have the indicated color.
+     */
     @Override
     public void executeEvent(GameEvent event) throws NoSuchStudentException {
         MoveStudentFromCardToTableEvent eventCast = (MoveStudentFromCardToTableEvent) event;
@@ -47,7 +55,7 @@ public class CharacterSevenState extends CharacterState{
 
             numberOfEvents--;
         } catch(NoSpaceForStudentException ignored){
-            //in this context this is impossible
+                //in this context this is impossible
         }
 
         if (numberOfEvents==0){

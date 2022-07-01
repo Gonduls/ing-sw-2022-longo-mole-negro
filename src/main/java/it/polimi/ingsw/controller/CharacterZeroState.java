@@ -30,11 +30,21 @@ public class CharacterZeroState extends CharacterState {
         color = null;
         islandIndex = -1;
     }
-
+    /**
+     * @param event The event to check
+     * @return true if the event is a MOVE_STUDENT_FROM_CARD_TO_ISLAND
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.MOVE_STUDENT_FROM_CARD_TO_ISLAND;
     }
+    /**
+     *  It moves the indicated student to the indicated island.
+     * Then it draws a new student from the bag and puts it into the card.
+     * @param event The event to process.
+     * @throws GameException if the island index is illegal
+     */
+
     @Override
     public void executeEvent(GameEvent event) throws GameException {
 

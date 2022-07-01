@@ -30,11 +30,23 @@ public class AcceptAssistantCardState extends GameState {
         context.resetPlayerMaxSteps();
     }
 
+    /**
+     *
+     * @param event The event to check
+     * @return true if the event was a PLAY_ASSISTANT_CARD
+     */
     @Override
     public boolean checkValidEvent(GameEvent event) {
         return event.getEventType() == GameEventType.PLAY_ASSISTANT_CARD;
     }
 
+    /**
+     *  Establishes the order of the round by accepting one assistant card at the time.
+     *  When all the cards have been played it moves the FSM to the next state.
+     *
+     * @param event The event to process.
+     * @throws GameException if the player plays an assistant card that  cannot be played.
+     */
     @Override
     public void executeEvent(GameEvent event) throws GameException {
 
@@ -67,10 +79,10 @@ public class AcceptAssistantCardState extends GameState {
     }
 
     /**
-     *
-     * @param player
-     * @param cardPlayed
-     * @throws GameException
+     * Checks the validity of the card, based on rules of the game.
+     * @param player the player that played the card
+     * @param cardPlayed the card played
+     * @throws GameException if the player plays an assistant card that  cannot be played.
      */
     void checkAssistantCard(Player player, AssistantCard cardPlayed) throws  GameException{
 
@@ -101,9 +113,9 @@ public class AcceptAssistantCardState extends GameState {
 
 
     /**
-     *
-     * @param player
-     * @param cardPlayed
+     * It adds the player to the new playing order of the round
+     * @param player the player that played the card
+     * @param cardPlayed the card played
      */
     void addPlayerToPlayingOrder(Player player, AssistantCard cardPlayed){
         boolean lastElement;
