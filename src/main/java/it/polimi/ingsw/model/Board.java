@@ -115,6 +115,7 @@ public class Board {
             numberOfIslands--;
             //the null check is useful when testing the model
             if(modelObserver!=null)  modelObserver.mergeIslands(indexCurrentIsland, indexNextIsland);
+            indexCurrentIsland = indexNextIsland < indexCurrentIsland ? indexCurrentIsland-1 :indexCurrentIsland;
         }
 
              for (int i = 0; i < noEntryToAdd; i++) {
