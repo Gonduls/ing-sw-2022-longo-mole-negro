@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class GUI extends Application implements UI{
     static GUI instance;
     private final boolean[] merged = new boolean[12];
     private boolean setScene = false;
+    private boolean fullscreen = false;
 
     public static GUI getInstance(){
         if(instance == null) {
@@ -277,15 +279,33 @@ public class GUI extends Application implements UI{
     public void changeScene(String resource, int height, int width) throws IOException{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         Scene scene = new Scene(root, height, width);
+
         primaryStage.setScene(scene);
         primaryStage.setResizable(true);
-        primaryStage.setFullScreen(false);
-        primaryStage.setHeight(height + 30.0);
         primaryStage.setMaxHeight(height + 30.0);
+        primaryStage.setHeight(height + 30.0);
+        if(fullscreen){
+            primaryStage.setMaxHeight(height);
+            primaryStage.setHeight(height);
+        }
+
         primaryStage.setMinHeight(height);
         primaryStage.setWidth(width);
         primaryStage.setMaxWidth(width);
         primaryStage.setMinWidth(width);
+
+        primaryStage.setFullScreen(!fullscreen);
+        primaryStage.setFullScreen(fullscreen);
+        scene.setOnKeyPressed(event -> {
+            if(event.getCode() == KeyCode.F11) {
+                fullscreen = !fullscreen;
+                primaryStage.setHeight(height);
+                primaryStage.setFullScreen(!fullscreen);
+                primaryStage.setFullScreen(fullscreen);
+                event.consume();
+            }
+        });
+
         primaryStage.setFullScreenExitHint("");
         primaryStage.show();
     }
