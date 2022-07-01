@@ -915,7 +915,7 @@ public class GameBoardController implements Initializable {
         String CCnumber = RedirectResources.fromURLtoElement(CCurl);
         choosenCCindex = Integer.parseInt(CCnumber.replaceAll("\\D", ""));
 
-        GUI.getInstance().changeScene("/fxml/CharacterCards.fxml", 790, 1366);
+        GUI.getInstance().changeScene("/fxml/CharacterCards.fxml", 768, 1366);
     }
 
     /**
@@ -933,7 +933,7 @@ public class GameBoardController implements Initializable {
      */
     @FXML
     public void openSchools(MouseEvent event) throws IOException{
-        GUI.getInstance().changeScene("/fxml/AdversarySchools.fxml", 790, 1366);
+        GUI.getInstance().changeScene("/fxml/AdversarySchools.fxml", 768, 1366);
     }
 
     /**

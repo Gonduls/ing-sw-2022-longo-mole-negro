@@ -30,6 +30,6 @@ public class ConnectionController {
             return;
         }
 
-        GUI.getInstance().changeScene("/fxml/Login.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/Login.fxml", 477, 477);
     }
 }

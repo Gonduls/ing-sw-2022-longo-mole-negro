@@ -37,7 +37,7 @@ public class DisconnectedController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToLobby(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 477, 477);
         GUI.getInstance().setSetScene(false);
         GUI.getInstance().getClientController().startOver();
     }
@@ -48,7 +48,7 @@ public class DisconnectedController implements Initializable {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void logout(ActionEvent event) throws IOException{
-        GUI.getInstance().changeScene("/fxml/Connection.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/Connection.fxml", 477, 477);
         GUI.getInstance().setSetScene(false);
         GUI.getInstance().getClientController().logout();
         GUI.getInstance().getClientController().startOver();

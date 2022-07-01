@@ -53,7 +53,7 @@ public class JoinGameController {
      * @throws IOException handles FXMLLoader's possible exception
      */
     public void returnToPreviousScene(ActionEvent event) throws IOException {
-        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
+        GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 477, 477);
 
 
     }

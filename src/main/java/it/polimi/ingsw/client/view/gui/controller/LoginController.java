@@ -34,7 +34,7 @@ public class LoginController {
             boolean verifiedUsername = GUI.getInstance().getClientController().login(textUsername.getText());
             if(verifiedUsername) {
                 GUI.getInstance().setUsername(textUsername.getText());
-                GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 500, 477);
+                GUI.getInstance().changeScene("/fxml/StartMenu.fxml", 477, 477);
             }
             else
                 unableToLoginId.setVisible(true);

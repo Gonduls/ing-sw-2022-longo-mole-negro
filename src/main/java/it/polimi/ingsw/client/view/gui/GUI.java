@@ -101,7 +101,7 @@ public class GUI extends Application implements UI{
         Platform.runLater(() -> {
 
             try {
-                changeScene("/fxml/UpdatedGameBoard.fxml", 790, 1366);
+                changeScene("/fxml/UpdatedGameBoard.fxml", 768, 1366);
                 setScene = true;
             } catch (IOException e) {
                 System.out.println(e.getMessage());
@@ -130,7 +130,7 @@ public class GUI extends Application implements UI{
             EndGameController.setEndgame((EndGame) message);
             Platform.runLater(() -> {
                 try {
-                    changeScene("/fxml/EndGame.fxml", 790, 1366);
+                    changeScene("/fxml/EndGame.fxml", 768, 1366);
                 } catch (IOException e) {
                     Log.logger.severe(e.getMessage());
                 }
@@ -278,10 +278,14 @@ public class GUI extends Application implements UI{
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource(resource)));
         Scene scene = new Scene(root, height, width);
         primaryStage.setScene(scene);
-        primaryStage.setResizable(false);
-        primaryStage.setFullScreen(true);
+        primaryStage.setResizable(true);
+        primaryStage.setFullScreen(false);
+        primaryStage.setHeight(height + 30.0);
+        primaryStage.setMaxHeight(height + 30.0);
+        primaryStage.setMinHeight(height);
         primaryStage.setWidth(width);
-        primaryStage.setHeight(height);
+        primaryStage.setMaxWidth(width);
+        primaryStage.setMinWidth(width);
         primaryStage.setFullScreenExitHint("");
         primaryStage.show();
     }
