@@ -49,7 +49,7 @@ public class GUI extends Application implements UI{
     /**
      * It starts the application given the stage.
      * It opens the window, sets the stage and shows the first scene
-     * @param stage
+     * @param stage the initial stage
      * @throws IOException handles FXMLLoader's possible exception
      */
     @Override

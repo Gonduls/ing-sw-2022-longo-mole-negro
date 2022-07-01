@@ -29,9 +29,10 @@ public class EndGameController implements Initializable {
 
 
     /**
-     * Initializes the scene by setting the correct background.
-     * @param url
-     * @param resourceBundle
+     * Called to initialize a controller after its root element has been completely processed.
+     * Initializes the scene by setting the correct background
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {

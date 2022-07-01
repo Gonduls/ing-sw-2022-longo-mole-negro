@@ -39,18 +39,18 @@ public class LobbyController implements Initializable {
     private static Integer roomIDChosen;
 
     /**
-     * Sets the local var that holds the PublicRoomsList
-     * @param rooms
+     * Sets the local var that holds the PublicRoomsList to the given list of rooms
+     * @param rooms the list of rooms
      */
     public void setPublicRooms(List<RoomInfo> rooms) {
         roomInfoList = rooms;
     }
 
     /**
-     * Initializes the scene.
+     * Called to initialize a controller after its root element has been completely processed.
      * It shows all the information for each available Room.
-     * @param url
-     * @param resourceBundle
+     * @param url The location used to resolve relative paths for the root object, or null if the location is not known.
+     * @param resourceBundle The resources used to localize the root object, or null if the root object was not localized.
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
