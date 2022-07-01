@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.exceptions.GameException;
 import it.polimi.ingsw.exceptions.NoSpaceForStudentException;
 import it.polimi.ingsw.exceptions.NoSuchStudentException;
 import it.polimi.ingsw.server.ModelObserver;
@@ -293,8 +292,8 @@ public class GameManager {
                 ". The increment was " + amount + ", positionAfterMerge: " + positionAfterMerge + " position: " + position);
       */
 
-        if (parseWinResult(checkEndConditions(positionAfterMerge)).length >0 ){
-            modelObserver.sendEndGame(parseWinResult(checkEndConditions(positionAfterMerge)));
+        if (parseWinResult(checkEndConditions()).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
         }
 
 
@@ -344,8 +343,8 @@ public class GameManager {
             modelObserver.moveMotherNature(board.getMotherNaturePosition());
         }
 
-        if (parseWinResult(checkEndConditions(islandIndex)).length >0 ){
-            modelObserver.sendEndGame(parseWinResult(checkEndConditions(islandIndex)));
+        if (parseWinResult(checkEndConditions()).length >0 ){
+            modelObserver.sendEndGame(parseWinResult(checkEndConditions()));
         }
 
     }
@@ -384,69 +383,109 @@ public class GameManager {
 
     }
 
-    public Player[] checkEndConditions(int position) {
+    public Player[] checkEndConditions() {
 
-        Player[] winner = new Player[3];
-        Island currentIsland = board.getIslands().get(position);
+        Player[] winner = new Player[2];
+        int t0 = players[0].getTowersLeft();
+        int t1 = players[1].getTowersLeft();
+        int t2 = 6;
+        int p0 = countProfessors(0);
+        int p1 = countProfessors(1);
+        int p2 = 0;
 
-        TowerColor currentTC = currentIsland.getTower();
-
-        Player newP  = null;
-        if (currentTC !=null) {
-            newP = players[currentTC.ordinal()];
+        if(players.length == 3){
+            t2 = players[2].getTowersLeft();
+            p2 = countProfessors(2);
+        }
+        if(t0 <= 0){
+            winner[0] = players[0];
+            if(players.length == 4)
+                winner[1] = players[2];
+            return winner;
         }
 
-
-        if( newP != null && newP.getTowersLeft() <= 0){ // when a player has 0 towers remaining
-            winner[0] = newP;
-            winner[1] = null;
-            winner[2] = null;
+        if(t1 <= 0){
+            winner[0] = players[1];
             if(players.length == 4)
-                winner[1] = players[currentTC.ordinal() + 2];
-        } else if(board.getNumberOfIslands() <= 3){ // when the numbers of islands is 3 or less
-            int min = players[0].getTowersLeft();
-            winner[0] = players[0];
+                winner[1] = players[3];
+            return winner;
+        }
 
+        if(players.length == 3 && t2 <= 0){
+            winner[0] = players[2];
+            return winner;
+        }
+
+        // when the numbers of islands is 3 or less
+        if(board.getNumberOfIslands() <= 3){
             if(players.length == 3){
-                for (int i = 1; i < 3; i++) {
-                    if (players[i].getTowersLeft() < min) {
-                        min = players[i].getTowersLeft();
-                    }
-                }
-
-                int k = 0;
-
-                for (int j = 0; j < 3; j++) {
-                    if (players[j].getTowersLeft() == min) {
-                        winner[k] = players[j];
-                        k++;
-                    }
-                }
-            } else if (players.length == 4) {
-                winner[1] = players[2];
-
-                if(players[1].getTowersLeft() < min) {
-                    min = players[1].getTowersLeft();
+                if(t0 < t1 && t0 < t2)
+                    winner[0] = players[0];
+                else if(t1 < t0 && t1 < t2)
                     winner[0] = players[1];
-                    winner[1] = players[3];
-                } else if (players[1].getTowersLeft() == min) {
-                    winner[1] = players[1];
-                }
-            } else {
-                if(players[1].getTowersLeft() < min ) {
-                    min = players[1].getTowersLeft();
+                else if(t2 < t0 && t2 < t1)
+                    winner[0] = players[2];
+                else if(t0 > t1){
                     winner[0] = players[1];
-                    winner[1] = null;
-                } else if (players[1].getTowersLeft() == min) {
-                    winner[1] = players[1];
-                }
+                    if(p1 < p2)
+                        winner[0] = players[2];
+                    else if (p1 == p2) {
+                        winner[1] = players[2];
+                    }
+                } else if (t1 > t0) {
+                    winner[0] = players[0];
+                    if(p0 < p2)
+                        winner[0] = players[2];
+                    else if (p0 == p2) {
+                        winner[1] = players[2];
+                    }
+                } else if (t2 > t0){
+                    winner[0] = players[0];
+                    if(p0 < p1)
+                        winner[0] = players[1];
+                    else if (p0 == p1) {
+                        winner[1] = players[1];
+                    }
+                } else //should check again for professors but everyone wins
+                    return players;
 
+                return winner;
             }
 
+            // two or four players
+            if(t0 < t1){
+                winner[0] = players[0];
+            }else if(t0 > t1){
+                winner[0] = players[1];
+            } else if(p0 > p1){
+                winner[0] = players[0];
+            } else if(p1 > p0){
+                winner[0] = players[1];
+            } else
+                return players;
+
+            if(players.length == 4)
+                winner[1] = players[winner[0].getPlayerNumber() + 2];
+            return winner;
         }
 
-        return winner;
+        return new Player[3];
+    }
 
+    /**
+     * Given a player, counts how many professors are owned by the team of the player
+     * @param playerIndex The index of the player
+     * @return the number of professors owned by the team of the player
+     */
+    private int countProfessors(int playerIndex){
+        int result = 0;
+        TowerColor tc = players[playerIndex].getTowerColor();
+        EnumMap<Color, Player> pr = professors.getOwners();
+        for(Color color : Color.values()){
+            if(pr.get(color) != null && pr.get(color).getTowerColor() == tc)
+                result ++;
+        }
+        return result;
     }
 
     public void setUsedCard(int usedCard, int playerNumber) {

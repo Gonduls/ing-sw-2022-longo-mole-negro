@@ -847,6 +847,7 @@ public class GameBoardController implements Initializable {
             case "Move MN" -> {
                 int currIndex = Integer.parseInt(param1);
                 int prevIndex = Integer.parseInt(param2);
+                System.out.println(currIndex +" <- curr prev-> " + prevIndex);
                 int amount = currIndex-prevIndex;
                 amount = amount > 0 ? amount : amount + cmm.getIslands().size();
                 gameEvent = new MoveMotherNatureEvent(amount, cc.getPlayingPlayer());
