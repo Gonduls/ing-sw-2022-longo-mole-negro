@@ -1,7 +1,6 @@
 package it.polimi.ingsw.client.view.gui.controller;
 
 import it.polimi.ingsw.client.ClientController;
-import it.polimi.ingsw.client.ClientModelManager;
 import it.polimi.ingsw.client.view.gui.GUI;
 import it.polimi.ingsw.messages.EndGame;
 import javafx.event.ActionEvent;
@@ -12,7 +11,6 @@ import javafx.scene.image.ImageView;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 /**
@@ -43,20 +41,18 @@ public class EndGameController implements Initializable {
             winners = message.winners();
         }
         ClientController cc = GUI.getInstance().getClientController();
-        ClientModelManager cmm = GUI.getInstance().getClientModelManager();
 
-        for (int i = 0; i < winners.length; i++) {
-            Image image;
-            if(Objects.equals(cc.getPlayers()[cc.getPlayingPlayer()], GUI.getInstance().getUsername()) && winners.length == 1)
+        Image image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneLoss.png")));
+
+        for (String winner : winners) {
+            if (winner.equals(GUI.getInstance().getUsername()))
                 image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneWin.png")));
-            else if (winners.length == cmm.getPlayers().length)
-                image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneTie.png")));
-            else
-                image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneLoss.png")));
-
-            BG.setImage(image);
-
         }
+
+        if(winners.length == cc.getPlayers().length)
+            image = new Image(String.valueOf(getClass().getResource("/images/Elements/EndSceneTie.png")));
+
+        BG.setImage(image);
     }
 
     /**

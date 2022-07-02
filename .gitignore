@@ -219,3 +219,5 @@ $RECYCLE.BIN/
 
 # Ignore vscode folder
 /.vscode/
+
+!PSP3-eriantys.jar
