@@ -4,11 +4,11 @@
 30 cum laude
 
 ## Gruppo 3
- Virginia Longo
+ Virginia Longo @gingervi
  
  Marco Molè
  
- Pierluigi Negro
+ Pierluigi Negro @gonduls
  
  
  
