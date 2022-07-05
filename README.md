@@ -1,5 +1,8 @@
 # ing-sw-2022-longo-mole-negro
 
+## Grade
+30 cum laude
+
 ## Gruppo 3
  Virginia Longo
  
