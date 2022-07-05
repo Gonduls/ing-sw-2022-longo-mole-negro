@@ -4,14 +4,13 @@
 30 cum laude
 
 ## Gruppo 3
- [Virginia Longo] (https://github.com/gingervi)
+ [Virginia Longo](https://github.com/gingervi)
  
- [Marco Molè] (https://github.com/marcomole00)
+ [Marco Molè](https://github.com/marcomole00)
  
- [Pierluigi Negro] (https://github.com/Gonduls)
+ [Pierluigi Negro](https://github.com/Gonduls)
  
- 
- 
+
 ## Implemented Functionalities
 - Basic rules
 - Advanced rules
