@@ -4,11 +4,11 @@
 30 cum laude
 
 ## Gruppo 3
- Virginia Longo @gingervi
+ [Virginia Longo] (https://github.com/gingervi)
  
- Marco Molè
+ [Marco Molè] (https://github.com/marcomole00)
  
- Pierluigi Negro @gonduls
+ [Pierluigi Negro] (https://github.com/Gonduls)
  
  
  
